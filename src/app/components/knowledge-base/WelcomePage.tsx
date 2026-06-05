@@ -1,6 +1,9 @@
 import { ChevronRight, ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 import type { KBPage } from "./KnowledgeBase";
 import { useWindowWidth } from "./useWindowWidth";
+import { RevealOnScroll, RevealGroup, RevealItem } from "./RevealOnScroll";
+import { REVEAL_VARIANTS, revealTransition, prefersReducedMotion } from "./animations/motionConfig";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_JAKARTA = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -70,8 +73,13 @@ export function WelcomePage({ onNavigate }: Props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-      {/* ── Page Header + Hero (grouped, gap 24 between them per Figma) ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      {/* ── Page Header + Hero — entrance animation on mount ── */}
+      <motion.div
+        initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.4, 0, 0.2, 1] }}
+        style={{ display: "flex", flexDirection: "column", gap: 24 }}
+      >
       {/* ── Page Header ── */}
       <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
         <div
@@ -224,37 +232,27 @@ export function WelcomePage({ onNavigate }: Props) {
           </div>
         )}
       </div>
-      </div>{/* end header+hero group */}
+      </motion.div>{/* end header+hero group */}
 
       {/* ── Choose Your Path ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <p
-          style={{
-            margin: 0,
-            fontFamily: FONT,
-            fontWeight: 500,
-            fontSize: 20,
-            lineHeight: "28px",
-            color: "#0a3954",
-          }}
-        >
-          Choose Your Path
-        </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-            gap: 24,
-          }}
-        >
-          {PATH_CARDS.map((card) => (
-            <PathCard key={card.title} card={card} />
-          ))}
+      <RevealOnScroll>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+            Choose Your Path
+          </p>
+          <RevealGroup style={{ display: "grid", gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gap: 24 }}>
+            {PATH_CARDS.map((card) => (
+              <RevealItem key={card.title}>
+                <PathCard card={card} />
+              </RevealItem>
+            ))}
+          </RevealGroup>
         </div>
-      </div>
+      </RevealOnScroll>
 
       {/* ── Popular Topics ── */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <RevealOnScroll>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <p
           style={{
             margin: 0,
@@ -267,16 +265,12 @@ export function WelcomePage({ onNavigate }: Props) {
         >
           Popular Topics
         </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-            gap: 24,
-          }}
-        >
+        <RevealGroup style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
           {POPULAR_TOPICS.map((topic) => (
-            <button
+            <motion.button
               key={topic.title}
+              variants={REVEAL_VARIANTS}
+              transition={revealTransition()}
               style={{
                 background: "#FFFFFF",
                 border: "0.5px solid #e2e8f1",
@@ -326,12 +320,14 @@ export function WelcomePage({ onNavigate }: Props) {
                 </p>
               </div>
               <ChevronRight size={24} color="#7e93b2" style={{ flexShrink: 0, marginTop: 2 }} />
-            </button>
+            </motion.button>
           ))}
+        </RevealGroup>
         </div>
-      </div>
+      </RevealOnScroll>
 
       {/* ── Latest Updates ── */}
+      <RevealOnScroll delay={0.05}>
       <div
         style={{
           background: "#eff5ff",
@@ -451,6 +447,7 @@ export function WelcomePage({ onNavigate }: Props) {
           <ArrowRight size={20} color="#0a3954" />
         </button>
       </div>
+      </RevealOnScroll>
     </div>
   );
 }

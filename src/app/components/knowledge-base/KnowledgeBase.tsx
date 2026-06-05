@@ -6,11 +6,14 @@ import {
   Package, Headphones, HelpCircle, ShieldAlert, Lightbulb,
   ExternalLink, Sparkles, Menu, X, ChevronDown,
 } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
 import { ReleaseNotesPage } from "./ReleaseNotesPage";
 import { LocationsPage } from "./LocationsPage";
 import { ComingSoonPage } from "./ComingSoonPage";
+import { ProgressBar } from "./ProgressBar";
 import { useWindowWidth } from "./useWindowWidth";
+import { prefersReducedMotion } from "./animations/motionConfig";
 
 export type KBPage = string; // "welcome" | "release-notes" | any other id → ComingSoon
 
@@ -154,6 +157,7 @@ export function KnowledgeBase() {
   const [activePage, setActivePage] = useState<KBPage>("welcome");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const width = useWindowWidth();
   const isMobile = width < 768;
 
@@ -167,8 +171,11 @@ export function KnowledgeBase() {
   };
 
   const navigate = (id: string) => {
+    if (id === activePage) return;
+    setIsNavigating(true);
     setActivePage(id);
     if (isMobile) setSidebarOpen(false);
+    setTimeout(() => setIsNavigating(false), 550);
   };
 
   const isActiveOrChild = (item: NavItem): boolean => {
@@ -230,25 +237,33 @@ export function KnowledgeBase() {
                     }
                   }}
                 />
-                {/* Sub-items */}
-                {hasChildren && isOpen && (
-                  <div style={{ paddingLeft: 0 }}>
-                    {item.children!.map((child) => {
-                      const isChildActive = child.id === activePage;
-                      return (
-                        <NavButton
-                          key={child.id}
-                          icon={null}
-                          label={child.label}
-                          isActive={isChildActive}
-                          isParentActive={false}
-                          indent
-                          onClick={() => navigate(child.id)}
-                        />
-                      );
-                    })}
-                  </div>
-                )}
+                {/* Sub-items — animated expand/collapse */}
+                <AnimatePresence initial={false}>
+                  {hasChildren && isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: prefersReducedMotion ? 0 : 0.18, ease: [0.4, 0, 0.2, 1] }}
+                      style={{ overflow: "hidden" }}
+                    >
+                      {item.children!.map((child) => {
+                        const isChildActive = child.id === activePage;
+                        return (
+                          <NavButton
+                            key={child.id}
+                            icon={null}
+                            label={child.label}
+                            isActive={isChildActive}
+                            isParentActive={false}
+                            indent
+                            onClick={() => navigate(child.id)}
+                          />
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
@@ -288,6 +303,7 @@ export function KnowledgeBase() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f8fafc", fontFamily: FONT }}>
+      <ProgressBar active={isNavigating} />
       {/* Mobile top bar */}
       {isMobile && (
         <div style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
@@ -348,22 +364,33 @@ export function KnowledgeBase() {
                 flexDirection: "column",
               }}
             >
-              {activePage === "welcome" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
-                  <WelcomePage onNavigate={(p) => navigate(p)} />
-                </div>
-              )}
-              {activePage === "release-notes" && <ReleaseNotesPage />}
-              {activePage === "locations" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
-                  <LocationsPage />
-                </div>
-              )}
-              {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
-                  <ComingSoonPage pageTitle={getPageLabel(activePage)} />
-                </div>
-              )}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activePage}
+                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.4, 0, 0.2, 1] }}
+                  style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}
+                >
+                  {activePage === "welcome" && (
+                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                      <WelcomePage onNavigate={(p) => navigate(p)} />
+                    </div>
+                  )}
+                  {activePage === "release-notes" && <ReleaseNotesPage />}
+                  {activePage === "locations" && (
+                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                      <LocationsPage />
+                    </div>
+                  )}
+                  {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
+                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                      <ComingSoonPage pageTitle={getPageLabel(activePage)} />
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
@@ -392,10 +419,12 @@ function NavButton({ icon, label, isActive, isParentActive, badge, external, has
   const textColor = isActive || isParentActive || hovered ? "#1c808d" : "#0a3954";
 
   return (
-    <button
+    <motion.button
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      whileTap={prefersReducedMotion ? {} : { scale: 0.975 }}
+      transition={{ duration: 0.12 }}
       style={{
         width: "100%",
         display: "flex",
@@ -408,9 +437,9 @@ function NavButton({ icon, label, isActive, isParentActive, badge, external, has
         fontSize: 14,
         fontWeight: isActive ? 700 : 500,
         color: textColor,
-        background: isActive ? "#FFFFFF" : "transparent",
+        background: isActive ? "#FFFFFF" : hovered && !isActive ? "rgba(28,128,141,0.04)" : "transparent",
         border: "none",
-        borderRadius: isActive ? "0 16px 16px 0" : 0,
+        borderRadius: isActive ? "0 16px 16px 0" : "0 8px 8px 0",
         boxShadow: isActive
           ? "0px 1px 1px rgba(0,0,0,0.03), 0px 1px 3px rgba(0,0,0,0.02), 0px 2px 2px rgba(0,0,0,0.02)"
           : "none",
@@ -419,7 +448,7 @@ function NavButton({ icon, label, isActive, isParentActive, badge, external, has
         fontFamily: FONT,
         lineHeight: "20px",
         marginRight: 8,
-        transition: "color 0.1s",
+        transition: "color 0.12s, background 0.12s",
       }}
     >
       {icon && <span style={{ flexShrink: 0, display: "flex" }}>{icon}</span>}
@@ -432,13 +461,15 @@ function NavButton({ icon, label, isActive, isParentActive, badge, external, has
       )}
       {external && <ExternalLink size={14} color="#7e93b2" style={{ flexShrink: 0 }} />}
       {hasChildren && (
-        <ChevronDown
-          size={18}
-          color="#7e93b2"
-          style={{ flexShrink: 0, transform: isOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
-        />
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.2, ease: [0.4, 0, 0.2, 1] }}
+          style={{ flexShrink: 0, display: "flex" }}
+        >
+          <ChevronDown size={18} color="#7e93b2" />
+        </motion.span>
       )}
-    </button>
+    </motion.button>
   );
 }
 

@@ -1,5 +1,8 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Search, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { DCTableSkeleton } from "./Skeleton";
+import { prefersReducedMotion } from "./animations/motionConfig";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
@@ -378,12 +381,28 @@ const PAGE_SIZES = [10, 20, 50];
 
 export function LocationsPage() {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [orgFilter, setOrgFilter] = useState<Set<string>>(new Set());
   const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [pageSizeOpen, setPageSizeOpen] = useState(false);
   const psRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleSearch = useCallback((val: string) => {
+    setSearch(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (val !== debouncedSearch) {
+      setIsSearching(true);
+      debounceRef.current = setTimeout(() => {
+        setDebouncedSearch(val);
+        setPage(1);
+        setIsSearching(false);
+      }, 200);
+    }
+  }, [debouncedSearch]);
 
   useEffect(() => {
     const h = (e: MouseEvent) => { if (psRef.current && !psRef.current.contains(e.target as Node)) setPageSizeOpen(false); };
@@ -395,14 +414,14 @@ export function LocationsPage() {
   const allCountries = useMemo(() => [...new Set(DATA.map(d => d.country))].sort(), []);
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
+    const q = debouncedSearch.toLowerCase();
     return DATA.filter(d => {
       const matchSearch = !q || [d.name, d.org, d.city, d.country, d.address].some(v => v.toLowerCase().includes(q));
       const matchOrg = orgFilter.size === 0 || orgFilter.has(d.org);
       const matchCountry = countryFilter.size === 0 || countryFilter.has(d.country);
       return matchSearch && matchOrg && matchCountry;
     });
-  }, [search, orgFilter, countryFilter]);
+  }, [debouncedSearch, orgFilter, countryFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -449,11 +468,17 @@ export function LocationsPage() {
             <input
               placeholder="Search by organization, data center name or address..."
               value={search}
-              onChange={e => { setSearch(e.target.value); resetPage(); }}
+              onChange={e => handleSearch(e.target.value)}
               style={{ flex: 1, border: "none", outline: "none", fontFamily: FONT, fontSize: 14, color: "#0a3954", background: "transparent", lineHeight: "24px" }}
             />
-            {search ? (
-              <button onClick={() => { setSearch(""); resetPage(); }} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 2 }}>
+            {isSearching ? (
+              <motion.div
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+                style={{ width: 18, height: 18, borderRadius: "50%", border: "2px solid #1c808d", borderTopColor: "transparent", flexShrink: 0, animation: undefined }}
+              />
+            ) : search ? (
+              <button onClick={() => { handleSearch(""); }} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 2 }}>
                 <X size={18} color="#90a2b9" />
               </button>
             ) : (
@@ -512,18 +537,23 @@ export function LocationsPage() {
               </tr>
             </thead>
             <tbody>
-              {rows.length === 0 ? (
+              {isSearching ? (
+                <DCTableSkeleton rows={pageSize > 10 ? 8 : pageSize} />
+              ) : rows.length === 0 ? (
                 <tr>
                   <td colSpan={4} style={{ padding: "48px 24px", textAlign: "center", fontFamily: FONT, fontSize: 14, color: "#90a2b9" }}>
                     No data centers match your search.
                   </td>
                 </tr>
               ) : rows.map((dc, i) => (
-                <tr
+                <motion.tr
                   key={dc.id}
+                  initial={prefersReducedMotion ? {} : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.18, delay: prefersReducedMotion ? 0 : i * 0.025 }}
                   style={{ borderBottom: i < rows.length - 1 ? "1px solid #e2e8f1" : "none" }}
-                  onMouseEnter={e => (e.currentTarget.style.background = "#fafbfc")}
-                  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                  onMouseEnter={e => ((e.currentTarget as HTMLTableRowElement).style.background = "#fafbfc")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLTableRowElement).style.background = "transparent")}
                 >
                   {/* Organization cell */}
                   <td style={{ padding: "14px 8px 14px 16px", verticalAlign: "middle" }}>
@@ -559,7 +589,7 @@ export function LocationsPage() {
                       {dc.address}
                     </span>
                   </td>
-                </tr>
+                </motion.tr>
               ))}
             </tbody>
           </table>
