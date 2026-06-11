@@ -12,6 +12,10 @@ import { ReleaseNotesPage } from "./ReleaseNotesPage";
 import { LocationsPage } from "./LocationsPage";
 import { ComingSoonPage } from "./ComingSoonPage";
 import { ProgressBar } from "./ProgressBar";
+import { CreateAccountPage } from "./articles/CreateAccountPage";
+import { CompleteProfilePage } from "./articles/CompleteProfilePage";
+import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
+import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { useWindowWidth } from "./useWindowWidth";
 import { prefersReducedMotion } from "./animations/motionConfig";
 
@@ -384,7 +388,29 @@ export function KnowledgeBase() {
                       <LocationsPage />
                     </div>
                   )}
-                  {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
+                  {activePage === "create-account" && (
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                      <CreateAccountPage onNavigate={(p) => navigate(p)} />
+                    </div>
+                  )}
+                  {activePage === "complete-profile" && (
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                      <CompleteProfilePage onNavigate={(p) => navigate(p)} />
+                    </div>
+                  )}
+                  {activePage === "org-kyc" && (
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                      <KYCDocumentsPage onNavigate={(p) => navigate(p)} />
+                    </div>
+                  )}
+                  {activePage === "invite-members" && (
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                      <InviteTeamPage onNavigate={(p) => navigate(p)} />
+                    </div>
+                  )}
+                  {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" &&
+                   activePage !== "create-account" && activePage !== "complete-profile" &&
+                   activePage !== "org-kyc" && activePage !== "invite-members" && (
                     <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
                       <ComingSoonPage pageTitle={getPageLabel(activePage)} />
                     </div>
