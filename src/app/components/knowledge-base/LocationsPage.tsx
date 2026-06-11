@@ -1,7 +1,6 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback, type CSSProperties } from "react";
 import { Search, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { DCTableSkeleton } from "./Skeleton";
+import { motion } from "motion/react";
 import { prefersReducedMotion } from "./animations/motionConfig";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -209,67 +208,64 @@ function initials(org: string) {
   return w.length === 1 ? org.slice(0, 2).toUpperCase() : (w[0][0] + w[1][0]).toUpperCase();
 }
 
-// ── Product badges (compact row display) ─────────────────────────────────────
+// ── Product cell chips ────────────────────────────────────────────────────────
 
-const PROD_DEFS = [
-  { key: "port", label: "L2/L3 Port", color: "#1a65fd", emptyLabel: "No Port" },
-  { key: "wave", label: "DCI Wave",   color: "#1c808d", emptyLabel: "No Wave" },
-  { key: "vc",   label: "Virtual Con.", color: "#00a854", emptyLabel: "No VC" },
-] as const;
-
-function ProductBadges({ dc }: { dc: DC }) {
-  const rows = [
-    { ...PROD_DEFS[0], vals: dc.portProducts, display: dc.portProducts.join(" · ") },
-    { ...PROD_DEFS[1], vals: dc.waveProducts, display: dc.waveProducts.join(" · ") },
-    { ...PROD_DEFS[2], vals: dc.vcProducts,   display: dc.vcProducts.length > 0 ? `${dc.vcProducts.length} option${dc.vcProducts.length > 1 ? "s" : ""}` : "" },
-  ];
+function ProductCell({ values, color, maxShow = 3 }: { values: string[]; color: string; maxShow?: number }) {
+  if (values.length === 0) return <span style={{ fontFamily: FONT, fontSize: 12, color: "#d1d5db" }}>—</span>;
+  const shown = values.slice(0, maxShow);
+  const rest = values.length - maxShow;
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-      {rows.map(r => (
-        <div key={r.key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontFamily: FONT, fontSize: 11, fontWeight: 600, color: "#94a3b8", width: 66, flexShrink: 0 }}>{r.label}</span>
-          {r.vals.length > 0 ? (
-            <span style={{ fontSize: 11, fontWeight: 700, background: `${r.color}15`, color: r.color, border: `1px solid ${r.color}30`, padding: "2px 8px", borderRadius: 20, whiteSpace: "nowrap" }}>
-              {r.display}
-            </span>
-          ) : (
-            <span style={{ fontSize: 11, color: "#d1d5db", fontFamily: FONT }}>—</span>
-          )}
-        </div>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+      {shown.map((v, i) => (
+        <span key={i} style={{ fontSize: 11, fontWeight: 700, background: `${color}14`, color, border: `1px solid ${color}28`, padding: "3px 9px", borderRadius: 20, fontFamily: FONT, whiteSpace: "nowrap" }}>{v}</span>
       ))}
+      {rest > 0 && (
+        <span style={{ fontSize: 11, fontWeight: 700, background: "#f1f5f9", color: "#64748b", border: "1px solid #e2e8f1", padding: "3px 9px", borderRadius: 20, fontFamily: FONT }}>+{rest}</span>
+      )}
     </div>
   );
 }
 
-// ── Expanded product details ──────────────────────────────────────────────────
+// ── Inline 6-col skeleton ─────────────────────────────────────────────────────
 
-function ExpandedRow({ dc }: { dc: DC }) {
-  const panels = [
-    { label: "L2/L3 Port Products", color: "#1a65fd", bg: "#eff4ff", items: dc.portProducts, empty: "Not available at this location" },
-    { label: "DCI Wave Products",   color: "#1c808d", bg: "#effcfd", items: dc.waveProducts, empty: "Not available at this location" },
-    { label: "Virtual Connection",  color: "#00a854", bg: "#f0fdf4", items: dc.vcProducts,   empty: "Not available at this location" },
-  ];
+function Skeleton6({ rows = 8 }: { rows?: number }) {
   return (
-    <td colSpan={5} style={{ padding: 0, background: "#f8fafc", borderBottom: "1px solid #e2e8f1" }}>
-      <div style={{ padding: "16px 24px 20px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-        {panels.map(p => (
-          <div key={p.label} style={{ background: "#fff", border: `1.5px solid ${p.color}25`, borderRadius: 10, overflow: "hidden" }}>
-            <div style={{ background: p.bg, padding: "8px 14px", borderBottom: `1px solid ${p.color}20` }}>
-              <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 12, fontWeight: 700, color: p.color }}>{p.label}</span>
+    <>
+      {Array.from({ length: rows }).map((_, i) => (
+        <tr key={i} style={{ borderBottom: "1px solid #f1f5f9" }}>
+          <td style={{ padding: "14px 8px 14px 16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div className="pk-skeleton" style={{ width: 32, height: 32, borderRadius: 8, flexShrink: 0 }} />
+              <div className="pk-skeleton" style={{ width: 56, height: 13, borderRadius: 6 }} />
             </div>
-            <div style={{ padding: "10px 14px", display: "flex", flexWrap: "wrap", gap: 6 }}>
-              {p.items.length === 0 ? (
-                <span style={{ fontFamily: FONT, fontSize: 12, color: "#94a3b8" }}>{p.empty}</span>
-              ) : p.items.map((v, i) => (
-                <span key={i} style={{ fontSize: 12, fontWeight: 600, background: `${p.color}12`, color: p.color, border: `1px solid ${p.color}25`, padding: "3px 10px", borderRadius: 20, fontFamily: FONT }}>
-                  {v}
-                </span>
-              ))}
+          </td>
+          <td style={{ padding: "14px 8px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              <div className="pk-skeleton" style={{ width: "80%", height: 13, borderRadius: 6 }} />
+              <div className="pk-skeleton" style={{ width: "40%", height: 11, borderRadius: 6 }} />
             </div>
-          </div>
-        ))}
-      </div>
-    </td>
+          </td>
+          <td style={{ padding: "14px 8px" }}>
+            <div className="pk-skeleton" style={{ width: "70%", height: 13, borderRadius: 6 }} />
+          </td>
+          <td style={{ padding: "14px 8px" }}>
+            <div style={{ display: "flex", gap: 4 }}>
+              <div className="pk-skeleton" style={{ width: 38, height: 22, borderRadius: 20 }} />
+              <div className="pk-skeleton" style={{ width: 38, height: 22, borderRadius: 20 }} />
+            </div>
+          </td>
+          <td style={{ padding: "14px 8px" }}>
+            <div className="pk-skeleton" style={{ width: 44, height: 22, borderRadius: 20 }} />
+          </td>
+          <td style={{ padding: "14px 8px" }}>
+            <div style={{ display: "flex", gap: 4 }}>
+              <div className="pk-skeleton" style={{ width: 64, height: 22, borderRadius: 20 }} />
+              <div className="pk-skeleton" style={{ width: 44, height: 22, borderRadius: 20 }} />
+            </div>
+          </td>
+        </tr>
+      ))}
+    </>
   );
 }
 
@@ -385,6 +381,20 @@ function ProductFilter({ selected, onToggle, onClear }: {
   );
 }
 
+// ── Shared table-header style ─────────────────────────────────────────────────
+
+const TH_STYLE: CSSProperties = {
+  background: "#f8fafc",
+  padding: "12px 8px 12px 8px",
+  textAlign: "left",
+  fontFamily: FONT,
+  fontWeight: 600,
+  fontSize: 12,
+  color: "#7e93b2",
+  borderBottom: "1px solid #e2e8f1",
+  whiteSpace: "nowrap",
+};
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 const PAGE_SIZES = [10, 20, 50];
@@ -396,7 +406,6 @@ export function LocationsPage() {
   const [orgFilter, setOrgFilter] = useState<Set<string>>(new Set());
   const [countryFilter, setCountryFilter] = useState<Set<string>>(new Set());
   const [productFilter, setProductFilter] = useState<Set<string>>(new Set());
-  const [expandedId, setExpandedId] = useState<number | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [pageSizeOpen, setPageSizeOpen] = useState(false);
@@ -519,90 +528,87 @@ export function LocationsPage() {
 
         {/* Table */}
         <div style={{ width: "100%", overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed", minWidth: 820 }}>
             <colgroup>
+              <col style={{ width: "16%" }} />
               <col style={{ width: "19%" }} />
-              <col style={{ width: "23%" }} />
+              <col style={{ width: "14%" }} />
               <col style={{ width: "17%" }} />
-              <col style={{ width: "37%" }} />
-              <col style={{ width: "4%" }} />
+              <col style={{ width: "12%" }} />
+              <col style={{ width: "22%" }} />
             </colgroup>
             <thead>
               <tr>
-                <th style={{ background: "#f8fafc", padding: "13px 8px 13px 24px", textAlign: "left", fontFamily: FONT, fontWeight: 600, fontSize: 13, color: "#7e93b2", borderBottom: "1px solid #e2e8f1" }}>
+                <th style={TH_STYLE}>
                   <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                     Organization
                     <FilterDropdown options={allOrgs} selected={orgFilter} onToggle={toggleOrg} onClear={() => { setOrgFilter(new Set()); resetPage(); }} label="Organization" />
                   </div>
                 </th>
-                <th style={{ background: "#f8fafc", padding: "13px 8px", textAlign: "left", fontFamily: FONT, fontWeight: 600, fontSize: 13, color: "#7e93b2", borderBottom: "1px solid #e2e8f1" }}>DC Name</th>
-                <th style={{ background: "#f8fafc", padding: "13px 8px", textAlign: "left", fontFamily: FONT, fontWeight: 600, fontSize: 13, color: "#7e93b2", borderBottom: "1px solid #e2e8f1" }}>
+                <th style={TH_STYLE}>DC Name</th>
+                <th style={TH_STYLE}>
                   <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                     Location
                     <FilterDropdown options={allCountries} selected={countryFilter} onToggle={toggleCountry} onClear={() => { setCountryFilter(new Set()); resetPage(); }} label="Country" />
                   </div>
                 </th>
-                <th style={{ background: "#f8fafc", padding: "13px 8px", textAlign: "left", fontFamily: FONT, fontWeight: 600, fontSize: 13, color: "#7e93b2", borderBottom: "1px solid #e2e8f1" }}>Products Available</th>
-                <th style={{ background: "#f8fafc", padding: "13px 8px", borderBottom: "1px solid #e2e8f1" }} />
+                <th style={{ ...TH_STYLE, color: "#1a65fd" }}>L2/L3 Port</th>
+                <th style={{ ...TH_STYLE, color: "#1c808d" }}>DCI Wave</th>
+                <th style={{ ...TH_STYLE, color: "#00a854" }}>Virtual Connection</th>
               </tr>
             </thead>
             <tbody>
               {isSearching ? (
-                <DCTableSkeleton rows={pageSize > 10 ? 8 : pageSize} />
+                <Skeleton6 rows={pageSize > 10 ? 8 : pageSize} />
               ) : rows.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ padding: "48px 24px", textAlign: "center", fontFamily: FONT, fontSize: 14, color: "#90a2b9" }}>
+                  <td colSpan={6} style={{ padding: "48px 24px", textAlign: "center", fontFamily: FONT, fontSize: 14, color: "#90a2b9" }}>
                     No data centers match your filters.
                   </td>
                 </tr>
-              ) : rows.map((dc, i) => {
-                const isExpanded = expandedId === dc.id;
-                return (
-                  <tbody key={dc.id}>
-                    <motion.tr
-                      initial={prefersReducedMotion ? {} : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.18, delay: prefersReducedMotion ? 0 : i * 0.02 }}
-                      onClick={() => setExpandedId(prev => prev === dc.id ? null : dc.id)}
-                      style={{ borderBottom: isExpanded ? "none" : "1px solid #e2e8f1", cursor: "pointer", background: isExpanded ? "#f8fafc" : "transparent" }}
-                      onMouseEnter={e => { if (!isExpanded) (e.currentTarget as HTMLTableRowElement).style.background = "#fafbfc"; }}
-                      onMouseLeave={e => { if (!isExpanded) (e.currentTarget as HTMLTableRowElement).style.background = "transparent"; }}
-                    >
-                      <td style={{ padding: "13px 8px 13px 16px", verticalAlign: "middle" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: 8, background: dc.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 11, color: "white" }}>{initials(dc.org)}</span>
-                          </div>
-                          <span style={{ fontFamily: FONT, fontSize: 13, color: "#324158", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{dc.org}</span>
-                        </div>
-                      </td>
-                      <td style={{ padding: "13px 8px", verticalAlign: "middle" }}>
-                        <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: "#0a3954", lineHeight: "18px" }}>{dc.name}</div>
-                        <div style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{dc.shortCode}</div>
-                      </td>
-                      <td style={{ padding: "13px 8px", verticalAlign: "middle" }}>
-                        <div style={{ fontFamily: FONT, fontSize: 13, color: "#324158" }}>{dc.city}</div>
-                        <div style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{dc.state !== dc.country ? `${dc.state}, ` : ""}{dc.country}</div>
-                      </td>
-                      <td style={{ padding: "13px 8px", verticalAlign: "middle" }}>
-                        <ProductBadges dc={dc} />
-                      </td>
-                      <td style={{ padding: "13px 8px", verticalAlign: "middle", textAlign: "center" }}>
-                        <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}>
-                          <ChevronDown size={16} color="#94a3b8" />
-                        </motion.div>
-                      </td>
-                    </motion.tr>
-                    <AnimatePresence initial={false}>
-                      {isExpanded && (
-                        <motion.tr key="exp" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
-                          <ExpandedRow dc={dc} />
-                        </motion.tr>
-                      )}
-                    </AnimatePresence>
-                  </tbody>
-                );
-              })}
+              ) : rows.map((dc, i) => (
+                <motion.tr
+                  key={dc.id}
+                  initial={prefersReducedMotion ? {} : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.18, delay: prefersReducedMotion ? 0 : i * 0.02 }}
+                  style={{ borderBottom: "1px solid #e2e8f1" }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLTableRowElement).style.background = "#fafbfc")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLTableRowElement).style.background = "transparent")}
+                >
+                  {/* Organization */}
+                  <td style={{ padding: "12px 8px 12px 16px", verticalAlign: "middle" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ width: 30, height: 30, borderRadius: 8, background: dc.color, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 10, color: "white" }}>{initials(dc.org)}</span>
+                      </div>
+                      <span style={{ fontFamily: FONT, fontSize: 13, color: "#324158", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{dc.org}</span>
+                    </div>
+                  </td>
+                  {/* DC Name + code */}
+                  <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
+                    <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: "#0a3954", lineHeight: "18px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{dc.name}</div>
+                    <div style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{dc.shortCode}</div>
+                  </td>
+                  {/* Location */}
+                  <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
+                    <div style={{ fontFamily: FONT, fontSize: 13, color: "#324158" }}>{dc.city}</div>
+                    <div style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{dc.state !== dc.country ? `${dc.state}, ` : ""}{dc.country}</div>
+                  </td>
+                  {/* L2/L3 Port */}
+                  <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
+                    <ProductCell values={dc.portProducts} color="#1a65fd" maxShow={3} />
+                  </td>
+                  {/* DCI Wave */}
+                  <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
+                    <ProductCell values={dc.waveProducts} color="#1c808d" maxShow={2} />
+                  </td>
+                  {/* Virtual Connection */}
+                  <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
+                    <ProductCell values={dc.vcProducts} color="#00a854" maxShow={4} />
+                  </td>
+                </motion.tr>
+              ))}
             </tbody>
           </table>
         </div>
