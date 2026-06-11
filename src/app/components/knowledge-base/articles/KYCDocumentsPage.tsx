@@ -1,5 +1,4 @@
 import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, KYCTable } from "../ArticlePage";
-import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -18,19 +17,9 @@ const INDIAN_ROWS = [
   { entity: "Trust / Society",          docs: "Registration Certificate" },
 ];
 
-export function KYCDocumentsPage({ onNavigate }: { onNavigate: (p: KBPage) => void }) {
+export function KYCDocumentsPage() {
   return (
-    <ArticlePage
-      toc={TOC}
-      prev={{ label: "Complete Organisation Profile", pageId: "complete-profile" }}
-      next={{ label: "Invite Team Members",           pageId: "invite-members" }}
-      related={[
-        { label: "Complete Organisation Profile", pageId: "complete-profile" },
-        { label: "Invite Team Members",           pageId: "invite-members" },
-        { label: "Create a Polarin Account",      pageId: "create-account" },
-      ]}
-      onNavigate={onNavigate}
-    >
+    <ArticlePage toc={TOC}>
       <Breadcrumb items={["Home", "Get Started", "Organisation Profile", "KYC Document Requirements"]} />
 
       <H1 id="overview">KYC Document Requirements</H1>

@@ -21,11 +21,14 @@ export interface ArticleLink {
 
 export interface ArticlePageProps {
   toc: TocEntry[];
+  children: ReactNode;
+}
+
+export interface ArticleFooterProps {
   prev?: ArticleLink;
   next?: ArticleLink;
   related?: ArticleLink[];
   onNavigate: (id: string) => void;
-  children: ReactNode;
 }
 
 // ── Callout ───────────────────────────────────────────────────────────────────
@@ -241,9 +244,8 @@ export function KYCTable({ rows }: { rows: { entity: string; docs: string }[] })
 
 // ── Main ArticlePage layout ───────────────────────────────────────────────────
 
-export function ArticlePage({ toc, prev, next, related, onNavigate, children }: ArticlePageProps) {
+export function ArticlePage({ toc, children }: ArticlePageProps) {
   const [activeId, setActiveId] = useState<string>(toc[0]?.id ?? "");
-  const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
 
   // Scroll spy — observe against viewport (works with any outer scroll container)
   useEffect(() => {
@@ -271,80 +273,8 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
     <div style={{ display: "flex" }}>
 
       {/* ── Main content — no overflow, grows naturally ── */}
-      <div style={{ flex: 1, padding: "36px 48px 56px 40px", minWidth: 0 }}>
+      <div style={{ flex: 1, padding: "36px 48px 40px 40px", minWidth: 0 }}>
         {children}
-
-        {/* Feedback */}
-        <div style={{ marginTop: 56, paddingTop: 32, borderTop: "1px solid #e5e7eb" }}>
-          <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 14px" }}>Was this article helpful?</p>
-          <div style={{ display: "flex", gap: 10 }}>
-            {(["up", "down"] as const).map((v) => {
-              const active = feedback === v;
-              return (
-                <motion.button
-                  key={v}
-                  whileTap={prefersReducedMotion ? {} : { scale: 0.93 }}
-                  onClick={() => setFeedback(active ? null : v)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 8, padding: "8px 20px",
-                    borderRadius: 8, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 600,
-                    border: `1.5px solid ${active ? (v === "up" ? "#1c808d" : "#e11d48") : "#e5e7eb"}`,
-                    background: active ? (v === "up" ? "#f0fdfa" : "#fff1f2") : "#fff",
-                    color: active ? (v === "up" ? "#1c808d" : "#e11d48") : "#6b7280",
-                    transition: "all 0.15s",
-                  }}
-                >
-                  {v === "up" ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
-                  {v === "up" ? "Yes, helpful" : "Not really"}
-                </motion.button>
-              );
-            })}
-          </div>
-          {feedback && (
-            <motion.p
-              initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-              style={{ fontFamily: FONT, fontSize: 13, color: "#6b7280", margin: "12px 0 0" }}
-            >
-              {feedback === "up" ? "Thanks for the feedback! Glad it helped." : "Thanks — we'll work on improving this article."}
-            </motion.p>
-          )}
-        </div>
-
-        {/* Prev / Next */}
-        {(prev || next) && (
-          <div style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-            {prev && <NavCard dir="prev" label={prev.label} onClick={() => onNavigate(prev.pageId)} />}
-            {next && <NavCard dir="next" label={next.label} onClick={() => onNavigate(next.pageId)} />}
-          </div>
-        )}
-
-        {/* Related Articles */}
-        {related && related.length > 0 && (
-          <div style={{ marginTop: 32 }}>
-            <p style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#6b7280", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              <BookOpen size={14} color="#1c808d" /> Related Articles
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {related.map((r) => (
-                <button
-                  key={r.pageId}
-                  onClick={() => onNavigate(r.pageId)}
-                  style={{
-                    background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8,
-                    padding: "10px 16px", textAlign: "left", cursor: "pointer",
-                    fontFamily: FONT, fontSize: 14, color: "#1c808d", fontWeight: 600,
-                    display: "flex", alignItems: "center", gap: 8, transition: "all 0.12s",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "#f0fdfa"; e.currentTarget.style.borderColor = "#99f6e4"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "#f9fafb"; e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                >
-                  <ChevronRight size={14} style={{ flexShrink: 0 }} />
-                  {r.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ── TOC sidebar — sticky within the outer scroll container ── */}
@@ -424,6 +354,89 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
             })}
           </nav>
         </aside>
+      )}
+    </div>
+  );
+}
+
+// ── Article footer (rendered outside the white card by KnowledgeBase) ─────────
+
+export function ArticleFooter({ prev, next, related, onNavigate }: ArticleFooterProps) {
+  const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
+  return (
+    <div style={{ padding: "24px 40px 32px" }}>
+      {/* Feedback */}
+      <div style={{ paddingBottom: 24 }}>
+        <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 12px" }}>
+          Was this article helpful?
+        </p>
+        <div style={{ display: "flex", gap: 10 }}>
+          {(["up", "down"] as const).map((v) => {
+            const active = feedback === v;
+            return (
+              <motion.button
+                key={v}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.93 }}
+                onClick={() => setFeedback(active ? null : v)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8, padding: "8px 20px",
+                  borderRadius: 8, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 600,
+                  border: `1.5px solid ${active ? (v === "up" ? "#1c808d" : "#e11d48") : "#e5e7eb"}`,
+                  background: active ? (v === "up" ? "#f0fdfa" : "#fff1f2") : "#fff",
+                  color: active ? (v === "up" ? "#1c808d" : "#e11d48") : "#6b7280",
+                  transition: "all 0.15s",
+                }}
+              >
+                {v === "up" ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
+                {v === "up" ? "Yes, helpful" : "Not really"}
+              </motion.button>
+            );
+          })}
+        </div>
+        {feedback && (
+          <motion.p
+            initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+            style={{ fontFamily: FONT, fontSize: 13, color: "#6b7280", margin: "10px 0 0" }}
+          >
+            {feedback === "up" ? "Thanks for the feedback! Glad it helped." : "Thanks — we'll work on improving this article."}
+          </motion.p>
+        )}
+      </div>
+
+      {/* Prev / Next */}
+      {(prev || next) && (
+        <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
+          {prev && <NavCard dir="prev" label={prev.label} onClick={() => onNavigate(prev.pageId)} />}
+          {next && <NavCard dir="next" label={next.label} onClick={() => onNavigate(next.pageId)} />}
+        </div>
+      )}
+
+      {/* Related Articles */}
+      {related && related.length > 0 && (
+        <div>
+          <p style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#6b7280", margin: "0 0 10px", display: "flex", alignItems: "center", gap: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <BookOpen size={14} color="#1c808d" /> Related Articles
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {related.map((r) => (
+              <button
+                key={r.pageId}
+                onClick={() => onNavigate(r.pageId)}
+                style={{
+                  background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8,
+                  padding: "10px 16px", textAlign: "left", cursor: "pointer",
+                  fontFamily: FONT, fontSize: 14, color: "#1c808d", fontWeight: 600,
+                  display: "flex", alignItems: "center", gap: 8, transition: "all 0.12s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#f0fdfa"; e.currentTarget.style.borderColor = "#99f6e4"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#f9fafb"; e.currentTarget.style.borderColor = "#e5e7eb"; }}
+              >
+                <ChevronRight size={14} style={{ flexShrink: 0 }} />
+                {r.label}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

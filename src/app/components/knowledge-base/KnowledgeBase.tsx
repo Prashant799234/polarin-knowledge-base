@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { ElementType } from "react";
 import {
   Home, FileText, Code, UserCircle, Building2, UserPlus,
@@ -16,6 +16,8 @@ import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
+import { ArticleFooter } from "./ArticlePage";
+import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
 import { prefersReducedMotion } from "./animations/motionConfig";
 
@@ -143,6 +145,47 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
+// Metadata for article footer (prev / next / related) — single source of truth
+const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; related?: ArticleLink[] }> = {
+  "create-account": {
+    next: { label: "Complete Organisation Profile", pageId: "complete-profile" },
+    related: [
+      { label: "Complete Organisation Profile", pageId: "complete-profile" },
+      { label: "KYC Document Requirements",     pageId: "org-kyc" },
+      { label: "Invite Team Members",           pageId: "invite-members" },
+    ],
+  },
+  "complete-profile": {
+    prev: { label: "Create a Polarin Account",  pageId: "create-account" },
+    next: { label: "KYC Document Requirements", pageId: "org-kyc" },
+    related: [
+      { label: "KYC Document Requirements", pageId: "org-kyc" },
+      { label: "Invite Team Members",       pageId: "invite-members" },
+      { label: "Create a Polarin Account",  pageId: "create-account" },
+    ],
+  },
+  "org-kyc": {
+    prev: { label: "Complete Organisation Profile", pageId: "complete-profile" },
+    next: { label: "Invite Team Members",           pageId: "invite-members" },
+    related: [
+      { label: "Complete Organisation Profile", pageId: "complete-profile" },
+      { label: "Invite Team Members",           pageId: "invite-members" },
+      { label: "Create a Polarin Account",      pageId: "create-account" },
+    ],
+  },
+  "invite-members": {
+    prev: { label: "KYC Document Requirements", pageId: "org-kyc" },
+    next: { label: "Locations",                 pageId: "locations" },
+    related: [
+      { label: "Complete Organisation Profile", pageId: "complete-profile" },
+      { label: "KYC Document Requirements",     pageId: "org-kyc" },
+      { label: "Create a Polarin Account",      pageId: "create-account" },
+    ],
+  },
+};
+
+const ARTICLE_PAGES = new Set(Object.keys(ARTICLE_META));
+
 function getPageLabel(id: string): string {
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {
@@ -162,6 +205,7 @@ export function KnowledgeBase() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const width = useWindowWidth();
   const isMobile = width < 768;
 
@@ -176,6 +220,8 @@ export function KnowledgeBase() {
 
   const navigate = (id: string) => {
     if (id === activePage) return;
+    // Reset scroll to top before rendering new page
+    if (scrollerRef.current) scrollerRef.current.scrollTop = 0;
     setIsNavigating(true);
     setActivePage(id);
     if (isMobile) setSidebarOpen(false);
@@ -355,57 +401,60 @@ export function KnowledgeBase() {
           {!isMobile && (
             <div style={{ height: 64, background: "#fff", borderBottom: "0.5px solid #e2e8f1", flexShrink: 0 }} />
           )}
-          {/* Outer scroll container — the card grows to fit content, this div scrolls */}
-          <div style={{ flex: 1, overflowY: "auto", padding: 16 }}>
-            <div
-              style={{
-                background: "#FFFFFF",
-                border: "0.5px solid rgba(0,0,0,0.06)",
-                borderRadius: 16,
-                boxShadow: "0px 0px 1px 0px rgba(40,41,61,0.04), 0px 2px 4px 0px rgba(96,97,112,0.16)",
-                minHeight: "100%",
-              }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={activePage}
-                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.4, 0, 0.2, 1] }}
-                >
-                  {activePage === "welcome" && (
-                    <div style={{ padding: 24 }}>
-                      <WelcomePage onNavigate={(p) => navigate(p)} />
-                    </div>
-                  )}
-                  {activePage === "release-notes" && <ReleaseNotesPage />}
-                  {activePage === "locations" && (
-                    <div style={{ padding: 24 }}>
-                      <LocationsPage />
-                    </div>
-                  )}
-                  {activePage === "create-account" && (
-                    <CreateAccountPage onNavigate={(p) => navigate(p)} />
-                  )}
-                  {activePage === "complete-profile" && (
-                    <CompleteProfilePage onNavigate={(p) => navigate(p)} />
-                  )}
-                  {activePage === "org-kyc" && (
-                    <KYCDocumentsPage onNavigate={(p) => navigate(p)} />
-                  )}
-                  {activePage === "invite-members" && (
-                    <InviteTeamPage onNavigate={(p) => navigate(p)} />
-                  )}
-                  {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" &&
-                   activePage !== "create-account" && activePage !== "complete-profile" &&
-                   activePage !== "org-kyc" && activePage !== "invite-members" && (
-                    <div style={{ padding: 24 }}>
-                      <ComingSoonPage pageTitle={getPageLabel(activePage)} />
-                    </div>
-                  )}
-                </motion.div>
-              </AnimatePresence>
+          {/* Outer scroll container — card + footer both live here */}
+          <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
+            {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
+            <div style={{ display: "flex", flexDirection: "column", minHeight: "100%", gap: 0 }}>
+              {/* White card */}
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  border: "0.5px solid rgba(0,0,0,0.06)",
+                  borderRadius: 16,
+                  boxShadow: "0px 0px 1px 0px rgba(40,41,61,0.04), 0px 2px 4px 0px rgba(96,97,112,0.16)",
+                  flex: ARTICLE_PAGES.has(activePage) ? "0 0 auto" : 1,
+                }}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={activePage}
+                    initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.4, 0, 0.2, 1] }}
+                  >
+                    {activePage === "welcome" && (
+                      <div style={{ padding: 24 }}>
+                        <WelcomePage onNavigate={(p) => navigate(p)} />
+                      </div>
+                    )}
+                    {activePage === "release-notes" && <ReleaseNotesPage />}
+                    {activePage === "locations" && (
+                      <div style={{ padding: 24 }}>
+                        <LocationsPage />
+                      </div>
+                    )}
+                    {activePage === "create-account" && <CreateAccountPage />}
+                    {activePage === "complete-profile" && <CompleteProfilePage />}
+                    {activePage === "org-kyc" && <KYCDocumentsPage />}
+                    {activePage === "invite-members" && <InviteTeamPage />}
+                    {!ARTICLE_PAGES.has(activePage) &&
+                     activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
+                      <div style={{ padding: 24 }}>
+                        <ComingSoonPage pageTitle={getPageLabel(activePage)} />
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Article footer — outside the white card, rendered below it */}
+              {ARTICLE_PAGES.has(activePage) && ARTICLE_META[activePage] && (
+                <ArticleFooter
+                  {...ARTICLE_META[activePage]}
+                  onNavigate={(p) => navigate(p)}
+                />
+              )}
             </div>
           </div>
         </div>

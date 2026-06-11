@@ -1,5 +1,4 @@
 import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable } from "../ArticlePage";
-import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -9,19 +8,9 @@ const TOC = [
   { id: "after-submit",  label: "After Submission" },
 ];
 
-export function CompleteProfilePage({ onNavigate }: { onNavigate: (p: KBPage) => void }) {
+export function CompleteProfilePage() {
   return (
-    <ArticlePage
-      toc={TOC}
-      prev={{ label: "Create a Polarin Account",    pageId: "create-account" }}
-      next={{ label: "KYC Document Requirements",   pageId: "org-kyc" }}
-      related={[
-        { label: "KYC Document Requirements", pageId: "org-kyc" },
-        { label: "Invite Team Members",       pageId: "invite-members" },
-        { label: "Create a Polarin Account",  pageId: "create-account" },
-      ]}
-      onNavigate={onNavigate}
-    >
+    <ArticlePage toc={TOC}>
       <Breadcrumb items={["Home", "Get Started", "Organisation Profile", "Complete Organisation Profile"]} />
 
       <H1 id="overview">Complete Organisation Profile</H1>
