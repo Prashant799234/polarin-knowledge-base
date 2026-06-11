@@ -16,6 +16,9 @@ import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
+import { CreatePortPage } from "./articles/CreatePortPage";
+import { PortStatusPage } from "./articles/PortStatusPage";
+import { CreateLAGPage } from "./articles/CreateLAGPage";
 import { ArticleFooter } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
@@ -89,8 +92,9 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "port", label: "Port", icon: Plug,
         children: [
-          { id: "port-order", label: "Order a Port" },
-          { id: "port-configure", label: "Port Configuration" },
+          { id: "port-create", label: "Create a Port" },
+          { id: "port-status", label: "Understand Port Status" },
+          { id: "port-lag",    label: "Create a Link Aggregation Group" },
         ],
       },
       {
@@ -180,6 +184,30 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
       { label: "KYC Document Requirements",     pageId: "org-kyc" },
       { label: "Create a Polarin Account",      pageId: "create-account" },
+    ],
+  },
+  "port-create": {
+    next: { label: "Understand Port Status",            pageId: "port-status" },
+    related: [
+      { label: "Understand Port Status",                pageId: "port-status" },
+      { label: "Create a Link Aggregation Group",       pageId: "port-lag" },
+      { label: "Locations",                             pageId: "locations" },
+    ],
+  },
+  "port-status": {
+    prev: { label: "Create a Port",                     pageId: "port-create" },
+    next: { label: "Create a Link Aggregation Group",   pageId: "port-lag" },
+    related: [
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "Create a Link Aggregation Group",       pageId: "port-lag" },
+    ],
+  },
+  "port-lag": {
+    prev: { label: "Understand Port Status",            pageId: "port-status" },
+    related: [
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "Understand Port Status",                pageId: "port-status" },
+      { label: "Locations",                             pageId: "locations" },
     ],
   },
 };
@@ -438,6 +466,9 @@ export function KnowledgeBase() {
                     {activePage === "complete-profile" && <CompleteProfilePage />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "invite-members" && <InviteTeamPage />}
+                    {activePage === "port-create" && <CreatePortPage />}
+                    {activePage === "port-status" && <PortStatusPage />}
+                    {activePage === "port-lag" && <CreateLAGPage />}
                     {!ARTICLE_PAGES.has(activePage) &&
                      activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
                       <div style={{ padding: 24 }}>
