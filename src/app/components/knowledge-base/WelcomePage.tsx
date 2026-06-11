@@ -15,6 +15,7 @@ const PATH_CARDS = [
     title: "New to Polarin",
     description: "Start here if you're new to the platform. Learn the basics and set up your first connection.",
     link: "Get Started",
+    pageId: "create-account",
   },
   {
     iconBg: "#00b345",
@@ -22,6 +23,7 @@ const PATH_CARDS = [
     title: "Configure Services",
     description: "Set up virtual connections, dedicated ports, and cloud integrations for your network.",
     link: "Configure Now",
+    pageId: "cloud-connect",
   },
   {
     iconBg: "#9e27fd",
@@ -29,6 +31,7 @@ const PATH_CARDS = [
     title: "Monitor & Optimize",
     description: "Use SPOG dashboard and analytics to monitor performance and optimize your network.",
     link: "View Analytics",
+    pageId: "spog",
   },
   {
     iconBg: "#fd5900",
@@ -36,6 +39,7 @@ const PATH_CARDS = [
     title: "Explore Locations",
     description: "Discover our global network of points of presence and data center locations.",
     link: "View Network",
+    pageId: "locations",
   },
   {
     iconBg: "#5549fa",
@@ -43,6 +47,7 @@ const PATH_CARDS = [
     title: "Billing & Usage",
     description: "Manage your billing, view usage reports, and optimize costs across your services.",
     link: "Manage Billing",
+    pageId: "billing",
   },
   {
     iconBg: "#f40049",
@@ -50,15 +55,16 @@ const PATH_CARDS = [
     title: "Need Help?",
     description: "Get support, access documentation, and connect with our community.",
     link: "Get Support",
+    pageId: "contact-support",
   },
 ];
 
 const POPULAR_TOPICS = [
-  { title: "Account Setup & Verification", description: "Complete your profile and verify your organization" },
-  { title: "KYC Document Requirements", description: "List of supported documents for verification" },
-  { title: "Virtual Connection Setup", description: "Create your first virtual network connection" },
-  { title: "Team Member Invitations", description: "Invite colleagues to your Polarin workspace" },
-  { title: "API Documentation", description: "Integrate with Polarin using our APIs" },
+  { title: "Account Setup & Verification", description: "Complete your profile and verify your organization", pageId: "create-account" },
+  { title: "KYC Document Requirements", description: "List of supported documents for verification", pageId: "org-kyc" },
+  { title: "Virtual Connection Setup", description: "Create your first virtual network connection", pageId: "cloud-connect" },
+  { title: "Team Member Invitations", description: "Invite colleagues to your Polarin workspace", pageId: "invite-members" },
+  { title: "API Documentation", description: "Integrate with Polarin using our APIs", pageId: "api-docs" },
 ];
 
 interface Props {
@@ -167,6 +173,7 @@ export function WelcomePage({ onNavigate }: Props) {
           </div>
           <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
             <button
+              onClick={() => onNavigate("create-account")}
               style={{
                 padding: "7px 17px",
                 height: 40,
@@ -243,7 +250,7 @@ export function WelcomePage({ onNavigate }: Props) {
           <RevealGroup style={{ display: "grid", gridTemplateColumns: `repeat(${gridCols}, 1fr)`, gap: 24 }}>
             {PATH_CARDS.map((card) => (
               <RevealItem key={card.title}>
-                <PathCard card={card} />
+                <PathCard card={card} onNavigate={onNavigate} />
               </RevealItem>
             ))}
           </RevealGroup>
@@ -271,6 +278,7 @@ export function WelcomePage({ onNavigate }: Props) {
               key={topic.title}
               variants={REVEAL_VARIANTS}
               transition={revealTransition()}
+              onClick={() => onNavigate(topic.pageId)}
               style={{
                 background: "#FFFFFF",
                 border: "0.5px solid #e2e8f1",
@@ -452,9 +460,13 @@ export function WelcomePage({ onNavigate }: Props) {
   );
 }
 
-function PathCard({ card }: { card: (typeof PATH_CARDS)[0] }) {
+function PathCard({ card, onNavigate }: { card: (typeof PATH_CARDS)[0]; onNavigate: (page: KBPage) => void }) {
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onNavigate(card.pageId)}
+      onKeyDown={(e) => e.key === "Enter" && onNavigate(card.pageId)}
       style={{
         background: "#FFFFFF",
         border: "0.5px solid #e2e8f1",

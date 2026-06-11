@@ -355,17 +355,15 @@ export function KnowledgeBase() {
           {!isMobile && (
             <div style={{ height: 64, background: "#fff", borderBottom: "0.5px solid #e2e8f1", flexShrink: 0 }} />
           )}
-          <div style={{ flex: 1, overflow: "hidden", padding: 16, display: "flex", flexDirection: "column" }}>
+          {/* Outer scroll container — the card grows to fit content, this div scrolls */}
+          <div style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             <div
               style={{
                 background: "#FFFFFF",
                 border: "0.5px solid rgba(0,0,0,0.06)",
                 borderRadius: 16,
                 boxShadow: "0px 0px 1px 0px rgba(40,41,61,0.04), 0px 2px 4px 0px rgba(96,97,112,0.16)",
-                flex: 1,
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
+                minHeight: "100%",
               }}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -375,43 +373,34 @@ export function KnowledgeBase() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.4, 0, 0.2, 1] }}
-                  style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}
                 >
                   {activePage === "welcome" && (
-                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                    <div style={{ padding: 24 }}>
                       <WelcomePage onNavigate={(p) => navigate(p)} />
                     </div>
                   )}
                   {activePage === "release-notes" && <ReleaseNotesPage />}
                   {activePage === "locations" && (
-                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                    <div style={{ padding: 24 }}>
                       <LocationsPage />
                     </div>
                   )}
                   {activePage === "create-account" && (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                      <CreateAccountPage onNavigate={(p) => navigate(p)} />
-                    </div>
+                    <CreateAccountPage onNavigate={(p) => navigate(p)} />
                   )}
                   {activePage === "complete-profile" && (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                      <CompleteProfilePage onNavigate={(p) => navigate(p)} />
-                    </div>
+                    <CompleteProfilePage onNavigate={(p) => navigate(p)} />
                   )}
                   {activePage === "org-kyc" && (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                      <KYCDocumentsPage onNavigate={(p) => navigate(p)} />
-                    </div>
+                    <KYCDocumentsPage onNavigate={(p) => navigate(p)} />
                   )}
                   {activePage === "invite-members" && (
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                      <InviteTeamPage onNavigate={(p) => navigate(p)} />
-                    </div>
+                    <InviteTeamPage onNavigate={(p) => navigate(p)} />
                   )}
                   {activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" &&
                    activePage !== "create-account" && activePage !== "complete-profile" &&
                    activePage !== "org-kyc" && activePage !== "invite-members" && (
-                    <div style={{ flex: 1, overflowY: "auto", padding: 24 }}>
+                    <div style={{ padding: 24 }}>
                       <ComingSoonPage pageTitle={getPageLabel(activePage)} />
                     </div>
                   )}

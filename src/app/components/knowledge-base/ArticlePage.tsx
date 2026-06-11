@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "motion/react";
 import { ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
 import { prefersReducedMotion } from "./animations/motionConfig";
@@ -244,38 +244,34 @@ export function KYCTable({ rows }: { rows: { entity: string; docs: string }[] })
 export function ArticlePage({ toc, prev, next, related, onNavigate, children }: ArticlePageProps) {
   const [activeId, setActiveId] = useState<string>(toc[0]?.id ?? "");
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Scroll spy — update active TOC item as user scrolls
+  // Scroll spy — observe against viewport (works with any outer scroll container)
   useEffect(() => {
-    const root = contentRef.current;
-    if (!root || toc.length === 0) return;
+    if (toc.length === 0) return;
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter(e => e.isIntersecting);
         if (visible.length > 0) setActiveId(visible[0].target.id);
       },
-      { root, rootMargin: "-8% 0px -72% 0px", threshold: 0 }
+      { rootMargin: "-8% 0px -72% 0px", threshold: 0 }
     );
     toc.forEach(({ id }) => {
-      const el = root.querySelector(`#${id}`);
+      const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
   }, [toc]);
 
   const scrollTo = (id: string) => {
-    const root = contentRef.current;
-    const el = root?.querySelector(`#${id}`) as HTMLElement | null;
-    if (!el || !root) return;
-    root.scrollTo({ top: el.offsetTop - 24, behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <div style={{ display: "flex", flex: 1, overflow: "hidden", height: "100%" }}>
+    <div style={{ display: "flex" }}>
 
-      {/* ── Main scrollable content ── */}
-      <div ref={contentRef} style={{ flex: 1, overflowY: "auto", padding: "36px 48px 56px 40px", minWidth: 0 }}>
+      {/* ── Main content — no overflow, grows naturally ── */}
+      <div style={{ flex: 1, padding: "36px 48px 56px 40px", minWidth: 0 }}>
         {children}
 
         {/* Feedback */}
@@ -351,15 +347,19 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
         )}
       </div>
 
-      {/* ── TOC sidebar ── */}
+      {/* ── TOC sidebar — sticky within the outer scroll container ── */}
       {toc.length > 1 && (
         <aside
           style={{
             width: 216,
             flexShrink: 0,
             padding: "36px 20px 36px 0",
-            overflowY: "auto",
             borderLeft: "1px solid #f1f5f9",
+            position: "sticky",
+            top: 0,
+            alignSelf: "flex-start",
+            maxHeight: "100vh",
+            overflowY: "auto",
           }}
         >
           {/* Header */}
