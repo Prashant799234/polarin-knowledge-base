@@ -3,10 +3,10 @@ import { motion } from "motion/react";
 import { ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
 import { prefersReducedMotion } from "./animations/motionConfig";
 
-const FONT = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
 
-// ── Public types ─────────────────────────────────────────────────────────────
+// ── Public types ──────────────────────────────────────────────────────────────
 
 export interface TocEntry {
   id: string;
@@ -28,23 +28,33 @@ export interface ArticlePageProps {
   children: ReactNode;
 }
 
-// ── Callout / Note components (exported for article pages) ───────────────────
+// ── Callout ───────────────────────────────────────────────────────────────────
 
 type CalloutVariant = "info" | "warning" | "tip" | "important";
 
-const CALLOUT_STYLES: Record<CalloutVariant, { bg: string; border: string; icon: string; label: string; labelColor: string }> = {
-  info:      { bg: "#f0f9ff", border: "#bae6fd", icon: "ℹ️",  label: "Note",      labelColor: "#0369a1" },
-  warning:   { bg: "#fffbeb", border: "#fde68a", icon: "⚠️",  label: "Warning",   labelColor: "#92400e" },
-  tip:       { bg: "#f0fdf4", border: "#bbf7d0", icon: "💡",  label: "Tip",       labelColor: "#166534" },
-  important: { bg: "#fdf4ff", border: "#e9d5ff", icon: "📌",  label: "Important", labelColor: "#6b21a8" },
+const CV: Record<CalloutVariant, { accent: string; bg: string; label: string; labelColor: string; iconPath: ReactNode }> = {
+  info:      { accent: "#0ea5e9", bg: "#f0f9ff", label: "Note",      labelColor: "#0369a1", iconPath: <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-13v5m0 3h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /> },
+  warning:   { accent: "#f59e0b", bg: "#fffbeb", label: "Warning",   labelColor: "#b45309", iconPath: <><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" strokeWidth="2" /><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></> },
+  tip:       { accent: "#10b981", bg: "#f0fdf4", label: "Tip",       labelColor: "#059669", iconPath: <><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></> },
+  important: { accent: "#8b5cf6", bg: "#faf5ff", label: "Important", labelColor: "#6d28d9", iconPath: <><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 8v4m0 4h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></> },
 };
 
 export function Callout({ variant = "info", children }: { variant?: CalloutVariant; children: ReactNode }) {
-  const s = CALLOUT_STYLES[variant];
+  const s = CV[variant];
   return (
-    <div style={{ background: s.bg, border: `1px solid ${s.border}`, borderRadius: 10, padding: "12px 16px", margin: "16px 0", display: "flex", gap: 12 }}>
-      <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{s.icon}</span>
-      <div style={{ fontFamily: FONT, fontSize: 14, color: "#374151", lineHeight: 1.65 }}>
+    <div style={{
+      background: s.bg,
+      borderLeft: `3.5px solid ${s.accent}`,
+      borderRadius: "0 8px 8px 0",
+      padding: "14px 18px",
+      margin: "20px 0",
+      display: "flex",
+      gap: 12,
+    }}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1, color: s.accent }}>
+        {s.iconPath}
+      </svg>
+      <div style={{ fontFamily: FONT, fontSize: 14, color: "#374151", lineHeight: 1.7 }}>
         <span style={{ fontWeight: 700, color: s.labelColor, marginRight: 6 }}>{s.label}:</span>
         {children}
       </div>
@@ -52,41 +62,42 @@ export function Callout({ variant = "info", children }: { variant?: CalloutVaria
   );
 }
 
-// ── Step component ────────────────────────────────────────────────────────────
+// ── Steps ─────────────────────────────────────────────────────────────────────
 
 export function Steps({ children }: { children: ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 0, margin: "20px 0" }}>
+    <ol style={{ listStyle: "none", padding: 0, margin: "24px 0", display: "flex", flexDirection: "column" }}>
       {children}
-    </div>
+    </ol>
   );
 }
 
 export function Step({ num, title, children }: { num: number; title?: string; children: ReactNode }) {
   return (
-    <div style={{ display: "flex", gap: 16, position: "relative" }}>
-      {/* Line */}
+    <li style={{ display: "flex", gap: 16 }}>
+      {/* Number + connector */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
         <div style={{
-          width: 32, height: 32, borderRadius: "50%",
-          background: "linear-gradient(135deg, #1c808d 0%, #0a3954 100%)",
-          color: "#fff", fontFamily: FONT_J, fontSize: 13, fontWeight: 700,
+          width: 28, height: 28, borderRadius: "50%",
+          background: "#effcfd", border: "2px solid #1c808d",
+          color: "#1c808d", fontFamily: FONT_J, fontSize: 12, fontWeight: 800,
           display: "flex", alignItems: "center", justifyContent: "center",
-          flexShrink: 0, zIndex: 1,
+          flexShrink: 0,
         }}>
           {num}
         </div>
-        <div style={{ width: 2, flex: 1, background: "#e2e8f1", minHeight: 16 }} />
+        <div style={{ width: 1.5, flex: 1, background: "#e2e8f1", marginTop: 4, marginBottom: 0, minHeight: 20 }} />
       </div>
-      <div style={{ paddingBottom: 24, flex: 1, minWidth: 0 }}>
+      {/* Content */}
+      <div style={{ paddingBottom: 28, flex: 1, minWidth: 0, paddingTop: 2 }}>
         {title && (
-          <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "6px 0 8px" }}>{title}</p>
+          <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 8px" }}>{title}</p>
         )}
-        <div style={{ fontFamily: FONT, fontSize: 14, color: "#475569", lineHeight: 1.7, marginTop: title ? 0 : 6 }}>
+        <div style={{ fontFamily: FONT, fontSize: 14, color: "#4b5563", lineHeight: 1.75 }}>
           {children}
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -94,25 +105,25 @@ export function Step({ num, title, children }: { num: number; title?: string; ch
 
 export function FieldTable({ rows }: { rows: { field: string; description: string; required?: boolean }[] }) {
   return (
-    <div style={{ border: "1px solid #e2e8f1", borderRadius: 10, overflow: "hidden", margin: "16px 0" }}>
+    <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 14 }}>
         <thead>
-          <tr style={{ background: "#f8fafc" }}>
-            <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, color: "#0a3954", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.05em", borderBottom: "1px solid #e2e8f1", width: "30%" }}>Field</th>
-            <th style={{ padding: "10px 16px", textAlign: "left", fontWeight: 600, color: "#0a3954", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.05em", borderBottom: "1px solid #e2e8f1" }}>Description</th>
-            <th style={{ padding: "10px 16px", textAlign: "center", fontWeight: 600, color: "#0a3954", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.05em", borderBottom: "1px solid #e2e8f1", width: "90px" }}>Required</th>
+          <tr style={{ background: "#f9fafb" }}>
+            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb", width: "28%" }}>Field</th>
+            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb" }}>Description</th>
+            <th style={{ padding: "11px 16px", textAlign: "center", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb", width: "96px" }}>Required</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f1f5f9" : "none", background: i % 2 === 0 ? "#fff" : "#fafbfc" }}>
-              <td style={{ padding: "12px 16px", fontWeight: 600, color: "#1c808d", verticalAlign: "top" }}>{r.field}</td>
-              <td style={{ padding: "12px 16px", color: "#475569", lineHeight: 1.6 }}>{r.description}</td>
-              <td style={{ padding: "12px 16px", textAlign: "center" }}>
+            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+              <td style={{ padding: "13px 16px", fontWeight: 600, color: "#1c808d", verticalAlign: "top", fontFamily: FONT_J, fontSize: 13 }}>{r.field}</td>
+              <td style={{ padding: "13px 16px", color: "#4b5563", lineHeight: 1.65 }}>{r.description}</td>
+              <td style={{ padding: "13px 16px", textAlign: "center" }}>
                 {r.required ? (
-                  <span style={{ background: "#fef2f2", color: "#dc2626", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 20, border: "1px solid #fecaca" }}>Required</span>
+                  <span style={{ background: "#fef2f2", color: "#dc2626", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid #fecaca" }}>Required</span>
                 ) : (
-                  <span style={{ background: "#f1f5f9", color: "#94a3b8", fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20 }}>Optional</span>
+                  <span style={{ background: "#f3f4f6", color: "#9ca3af", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>Optional</span>
                 )}
               </td>
             </tr>
@@ -127,68 +138,99 @@ export function FieldTable({ rows }: { rows: { field: string; description: strin
 
 export function DocImage({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
   return (
-    <figure style={{ margin: "20px 0", borderRadius: 10, overflow: "hidden", border: "1px solid #e2e8f1", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+    <figure style={{ margin: "24px 0", borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
       <img src={src} alt={alt} style={{ width: "100%", display: "block" }} />
       {caption && (
-        <figcaption style={{ fontFamily: FONT, fontSize: 12, color: "#94a3b8", padding: "8px 12px", background: "#f8fafc", textAlign: "center" }}>{caption}</figcaption>
+        <figcaption style={{ fontFamily: FONT, fontSize: 12, color: "#9ca3af", padding: "8px 14px", background: "#f9fafb", textAlign: "center", borderTop: "1px solid #f3f4f6" }}>{caption}</figcaption>
       )}
     </figure>
   );
 }
 
-// ── Section heading helpers ───────────────────────────────────────────────────
+// ── Typography ────────────────────────────────────────────────────────────────
 
 export function H1({ id, children }: { id?: string; children: ReactNode }) {
   return (
-    <h1 id={id} style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 800, color: "#0a3954", margin: "0 0 8px", lineHeight: 1.25 }}>{children}</h1>
+    <h1 id={id} style={{
+      fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: "#0a3954",
+      margin: "0 0 4px", lineHeight: 1.2, letterSpacing: "-0.02em",
+    }}>
+      {children}
+    </h1>
   );
 }
 
 export function H2({ id, children }: { id?: string; children: ReactNode }) {
   return (
-    <h2 id={id} style={{ fontFamily: FONT_J, fontSize: 18, fontWeight: 700, color: "#0a3954", margin: "36px 0 12px", lineHeight: 1.3, scrollMarginTop: 80 }}>{children}</h2>
+    <h2 id={id} style={{
+      fontFamily: FONT_J, fontSize: 20, fontWeight: 700, color: "#0a3954",
+      margin: "44px 0 14px", lineHeight: 1.3,
+      paddingTop: 40, borderTop: "1px solid #f1f5f9",
+      scrollMarginTop: 24,
+    }}>
+      {children}
+    </h2>
   );
 }
 
 export function H3({ id, children }: { id?: string; children: ReactNode }) {
   return (
-    <h3 id={id} style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 700, color: "#1c3d5a", margin: "24px 0 8px", lineHeight: 1.4, scrollMarginTop: 80 }}>{children}</h3>
+    <h3 id={id} style={{
+      fontFamily: FONT_J, fontSize: 16, fontWeight: 700, color: "#1c3d5a",
+      margin: "28px 0 10px", lineHeight: 1.4,
+      scrollMarginTop: 24,
+    }}>
+      {children}
+    </h3>
   );
 }
 
 export function P({ children }: { children: ReactNode }) {
-  return <p style={{ fontFamily: FONT, fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 14px" }}>{children}</p>;
+  return <p style={{ fontFamily: FONT, fontSize: 15, color: "#4b5563", lineHeight: 1.8, margin: "0 0 16px" }}>{children}</p>;
 }
 
 export function UL({ children }: { children: ReactNode }) {
-  return <ul style={{ fontFamily: FONT, fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 14px", paddingLeft: 24 }}>{children}</ul>;
+  return (
+    <ul style={{ fontFamily: FONT, fontSize: 15, color: "#4b5563", lineHeight: 1.8, margin: "0 0 16px", paddingLeft: 20, listStyle: "none" }}>
+      {children}
+    </ul>
+  );
 }
 
 export function LI({ children }: { children: ReactNode }) {
-  return <li style={{ marginBottom: 6 }}>{children}</li>;
+  return (
+    <li style={{ marginBottom: 8, paddingLeft: 16, position: "relative" }}>
+      <span style={{ position: "absolute", left: 0, top: "0.55em", width: 5, height: 5, borderRadius: "50%", background: "#1c808d", display: "block" }} />
+      {children}
+    </li>
+  );
 }
 
 export function InlineCode({ children }: { children: ReactNode }) {
-  return <code style={{ background: "#f1f5f9", border: "1px solid #e2e8f1", borderRadius: 4, padding: "1px 6px", fontSize: 13, fontFamily: "ui-monospace, monospace", color: "#0f766e" }}>{children}</code>;
+  return (
+    <code style={{ background: "#f1f5f9", border: "1px solid #e2e8f1", borderRadius: 5, padding: "2px 7px", fontSize: 13, fontFamily: "ui-monospace, 'Cascadia Code', monospace", color: "#0f766e" }}>
+      {children}
+    </code>
+  );
 }
 
-// ── KYC document table ────────────────────────────────────────────────────────
+// ── KYC table ─────────────────────────────────────────────────────────────────
 
 export function KYCTable({ rows }: { rows: { entity: string; docs: string }[] }) {
   return (
-    <div style={{ border: "1px solid #e2e8f1", borderRadius: 10, overflow: "hidden", margin: "16px 0" }}>
+    <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 14 }}>
         <thead>
-          <tr style={{ background: "linear-gradient(90deg,#0a3954,#1c808d)" }}>
-            <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: 700, color: "#fff", fontSize: 13 }}>Type of Entity</th>
-            <th style={{ padding: "12px 16px", textAlign: "left", fontWeight: 700, color: "#fff", fontSize: 13 }}>Documents Required</th>
+          <tr style={{ background: "linear-gradient(90deg, #0a3954 0%, #1c808d 100%)" }}>
+            <th style={{ padding: "13px 16px", textAlign: "left", fontWeight: 700, color: "#fff", fontSize: 13 }}>Type of Entity</th>
+            <th style={{ padding: "13px 16px", textAlign: "left", fontWeight: 700, color: "#fff", fontSize: 13 }}>Documents Required</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f1f5f9" : "none", background: i % 2 === 0 ? "#fff" : "#fafbfc" }}>
-              <td style={{ padding: "12px 16px", fontWeight: 600, color: "#0a3954", verticalAlign: "top", width: "35%" }}>{r.entity}</td>
-              <td style={{ padding: "12px 16px", color: "#475569", lineHeight: 1.6 }}>{r.docs}</td>
+            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f3f4f6" : "none", background: i % 2 === 0 ? "#fff" : "#f9fafb" }}>
+              <td style={{ padding: "13px 16px", fontWeight: 600, color: "#0a3954", verticalAlign: "top", width: "35%", fontFamily: FONT_J, fontSize: 13 }}>{r.entity}</td>
+              <td style={{ padding: "13px 16px", color: "#4b5563", lineHeight: 1.65 }}>{r.docs}</td>
             </tr>
           ))}
         </tbody>
@@ -204,62 +246,59 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Scroll spy
+  // Scroll spy — update active TOC item as user scrolls
   useEffect(() => {
     const root = contentRef.current;
     if (!root || toc.length === 0) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) setActiveId(e.target.id);
-        }
+        const visible = entries.filter(e => e.isIntersecting);
+        if (visible.length > 0) setActiveId(visible[0].target.id);
       },
-      { root, rootMargin: "-10% 0px -70% 0px", threshold: 0 }
+      { root, rootMargin: "-8% 0px -72% 0px", threshold: 0 }
     );
-
     toc.forEach(({ id }) => {
       const el = root.querySelector(`#${id}`);
       if (el) observer.observe(el);
     });
-
     return () => observer.disconnect();
   }, [toc]);
 
   const scrollTo = (id: string) => {
     const root = contentRef.current;
     const el = root?.querySelector(`#${id}`) as HTMLElement | null;
-    if (el && root) root.scrollTo({ top: el.offsetTop - 20, behavior: "smooth" });
+    if (!el || !root) return;
+    root.scrollTo({ top: el.offsetTop - 24, behavior: "smooth" });
   };
 
   return (
     <div style={{ display: "flex", flex: 1, overflow: "hidden", height: "100%" }}>
-      {/* Main scrollable content */}
-      <div ref={contentRef} style={{ flex: 1, overflowY: "auto", padding: "32px 40px 48px", minWidth: 0 }}>
+
+      {/* ── Main scrollable content ── */}
+      <div ref={contentRef} style={{ flex: 1, overflowY: "auto", padding: "36px 48px 56px 40px", minWidth: 0 }}>
         {children}
 
-        {/* ── Feedback ── */}
-        <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid #e2e8f1" }}>
-          <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 16px" }}>Was this article helpful?</p>
+        {/* Feedback */}
+        <div style={{ marginTop: 56, paddingTop: 32, borderTop: "1px solid #e5e7eb" }}>
+          <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 14px" }}>Was this article helpful?</p>
           <div style={{ display: "flex", gap: 10 }}>
             {(["up", "down"] as const).map((v) => {
               const active = feedback === v;
               return (
                 <motion.button
                   key={v}
-                  whileTap={prefersReducedMotion ? {} : { scale: 0.92 }}
+                  whileTap={prefersReducedMotion ? {} : { scale: 0.93 }}
                   onClick={() => setFeedback(active ? null : v)}
                   style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    padding: "8px 20px", borderRadius: 8, cursor: "pointer",
-                    fontFamily: FONT, fontSize: 14, fontWeight: 600,
-                    border: `1.5px solid ${active ? (v === "up" ? "#1c808d" : "#e11d48") : "#e2e8f1"}`,
+                    display: "flex", alignItems: "center", gap: 8, padding: "8px 20px",
+                    borderRadius: 8, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 600,
+                    border: `1.5px solid ${active ? (v === "up" ? "#1c808d" : "#e11d48") : "#e5e7eb"}`,
                     background: active ? (v === "up" ? "#f0fdfa" : "#fff1f2") : "#fff",
-                    color: active ? (v === "up" ? "#1c808d" : "#e11d48") : "#64748b",
+                    color: active ? (v === "up" ? "#1c808d" : "#e11d48") : "#6b7280",
                     transition: "all 0.15s",
                   }}
                 >
-                  {v === "up" ? <ThumbsUp size={16} /> : <ThumbsDown size={16} />}
+                  {v === "up" ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
                   {v === "up" ? "Yes, helpful" : "Not really"}
                 </motion.button>
               );
@@ -267,32 +306,27 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
           </div>
           {feedback && (
             <motion.p
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", margin: "12px 0 0" }}
+              initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+              style={{ fontFamily: FONT, fontSize: 13, color: "#6b7280", margin: "12px 0 0" }}
             >
               {feedback === "up" ? "Thanks for the feedback! Glad it helped." : "Thanks — we'll work on improving this article."}
             </motion.p>
           )}
         </div>
 
-        {/* ── Prev / Next ── */}
+        {/* Prev / Next */}
         {(prev || next) && (
           <div style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
-            {prev && (
-              <NavCard dir="prev" label={prev.label} onClick={() => onNavigate(prev.pageId)} />
-            )}
-            {next && (
-              <NavCard dir="next" label={next.label} onClick={() => onNavigate(next.pageId)} />
-            )}
+            {prev && <NavCard dir="prev" label={prev.label} onClick={() => onNavigate(prev.pageId)} />}
+            {next && <NavCard dir="next" label={next.label} onClick={() => onNavigate(next.pageId)} />}
           </div>
         )}
 
-        {/* ── Related ── */}
+        {/* Related Articles */}
         {related && related.length > 0 && (
           <div style={{ marginTop: 32 }}>
-            <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 8 }}>
-              <BookOpen size={16} color="#1c808d" /> Related Articles
+            <p style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#6b7280", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 8, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              <BookOpen size={14} color="#1c808d" /> Related Articles
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {related.map((r) => (
@@ -300,15 +334,16 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
                   key={r.pageId}
                   onClick={() => onNavigate(r.pageId)}
                   style={{
-                    background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 8,
+                    background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8,
                     padding: "10px 16px", textAlign: "left", cursor: "pointer",
                     fontFamily: FONT, fontSize: 14, color: "#1c808d", fontWeight: 600,
-                    transition: "background 0.12s",
+                    display: "flex", alignItems: "center", gap: 8, transition: "all 0.12s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "#f0fdfa")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "#f8fafc")}
+                  onMouseEnter={e => { e.currentTarget.style.background = "#f0fdfa"; e.currentTarget.style.borderColor = "#99f6e4"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "#f9fafb"; e.currentTarget.style.borderColor = "#e5e7eb"; }}
                 >
-                  → {r.label}
+                  <ChevronRight size={14} style={{ flexShrink: 0 }} />
+                  {r.label}
                 </button>
               ))}
             </div>
@@ -316,11 +351,35 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
         )}
       </div>
 
-      {/* ── Table of Contents sidebar ── */}
+      {/* ── TOC sidebar ── */}
       {toc.length > 1 && (
-        <aside style={{ width: 220, flexShrink: 0, padding: "32px 20px 32px 0", overflowY: "auto" }}>
-          <p style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", margin: "0 0 12px" }}>On This Page</p>
-          <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <aside
+          style={{
+            width: 216,
+            flexShrink: 0,
+            padding: "36px 20px 36px 0",
+            overflowY: "auto",
+            borderLeft: "1px solid #f1f5f9",
+          }}
+        >
+          {/* Header */}
+          <div style={{ paddingLeft: 16, marginBottom: 20 }}>
+            <span style={{
+              fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "#94a3b8",
+              textTransform: "uppercase", letterSpacing: "0.1em",
+            }}>
+              On This Page
+            </span>
+          </div>
+
+          {/* TOC track — the vertical rail lives here */}
+          <nav style={{ position: "relative", paddingLeft: 0 }}>
+            {/* Full-height gray rail */}
+            <div style={{
+              position: "absolute", left: 0, top: 0, bottom: 0,
+              width: 2, background: "#e5e7eb", borderRadius: 2,
+            }} />
+
             {toc.map(({ id, label, level }) => {
               const isActive = activeId === id;
               return (
@@ -328,16 +387,37 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
                   key={id}
                   onClick={() => scrollTo(id)}
                   style={{
-                    textAlign: "left", background: "none", border: "none", cursor: "pointer",
-                    fontFamily: FONT, fontSize: 13, lineHeight: 1.5,
-                    paddingLeft: level === 2 ? 12 : 0,
-                    paddingTop: 5, paddingBottom: 5, paddingRight: 4,
-                    borderLeft: isActive ? "2px solid #1c808d" : "2px solid transparent",
-                    color: isActive ? "#1c808d" : "#64748b",
-                    fontWeight: isActive ? 700 : 400,
-                    transition: "all 0.15s",
+                    position: "relative",
+                    display: "block",
+                    width: "100%",
+                    textAlign: "left",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontFamily: FONT,
+                    fontSize: level === 2 ? 13 : 13,
+                    lineHeight: 1.5,
+                    paddingTop: 7,
+                    paddingBottom: 7,
+                    paddingLeft: level === 2 ? 22 : 14,
+                    paddingRight: 8,
+                    color: isActive ? "#1c808d" : "#6b7280",
+                    fontWeight: isActive ? 700 : level === 1 ? 500 : 400,
+                    transition: "color 0.15s",
                   }}
                 >
+                  {/* Active indicator segment on the rail */}
+                  {isActive && (
+                    <span style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: 2,
+                      background: "#1c808d",
+                      borderRadius: 2,
+                    }} />
+                  )}
                   {label}
                 </button>
               );
@@ -349,7 +429,7 @@ export function ArticlePage({ toc, prev, next, related, onNavigate, children }: 
   );
 }
 
-// ── Prev/Next card ────────────────────────────────────────────────────────────
+// ── Prev / Next card ──────────────────────────────────────────────────────────
 
 function NavCard({ dir, label, onClick }: { dir: "prev" | "next"; label: string; onClick: () => void }) {
   const isPrev = dir === "prev";
@@ -362,23 +442,19 @@ function NavCard({ dir, label, onClick }: { dir: "prev" | "next"; label: string;
         flex: 1, minWidth: 180,
         display: "flex", flexDirection: "column", gap: 4,
         padding: "14px 18px",
-        background: "#fff", border: "1.5px solid #e2e8f1", borderRadius: 10,
+        background: "#fff", border: "1.5px solid #e5e7eb", borderRadius: 10,
         cursor: "pointer", textAlign: isPrev ? "left" : "right",
         alignItems: isPrev ? "flex-start" : "flex-end",
         boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
         transition: "border-color 0.15s, box-shadow 0.15s",
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "#1c808d";
-        e.currentTarget.style.boxShadow = "0 2px 8px rgba(28,128,141,0.12)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "#e2e8f1";
-        e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.04)";
-      }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = "#1c808d"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(28,128,141,0.12)"; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.04)"; }}
     >
-      <span style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: 4 }}>
-        {isPrev && <ChevronLeft size={12} />} {isPrev ? "Previous" : "Next"} {!isPrev && <ChevronRight size={12} />}
+      <span style={{ fontFamily: FONT, fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", display: "flex", alignItems: "center", gap: 4 }}>
+        {isPrev && <ChevronLeft size={12} />}
+        {isPrev ? "Previous" : "Next"}
+        {!isPrev && <ChevronRight size={12} />}
       </span>
       <span style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#1c808d" }}>{label}</span>
     </motion.button>
