@@ -19,6 +19,8 @@ import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
 import { PortStatusPage } from "./articles/PortStatusPage";
 import { CreateLAGPage } from "./articles/CreateLAGPage";
+import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
+import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ArticleFooter } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
@@ -100,8 +102,8 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "virtual-router", label: "Virtual Router", icon: Router,
         children: [
-          { id: "vr-create", label: "Create Virtual Router" },
-          { id: "vr-bgp", label: "BGP Configuration" },
+          { id: "vr-status", label: "Understand Virtual Router Status" },
+          { id: "vr-create", label: "Create a Virtual Router" },
         ],
       },
     ],
@@ -208,6 +210,22 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Create a Port",                         pageId: "port-create" },
       { label: "Understand Port Status",                pageId: "port-status" },
       { label: "Locations",                             pageId: "locations" },
+    ],
+  },
+  "vr-create": {
+    next: { label: "Understand Virtual Router Status",  pageId: "vr-status" },
+    related: [
+      { label: "Understand Virtual Router Status",      pageId: "vr-status" },
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "Locations",                             pageId: "locations" },
+    ],
+  },
+  "vr-status": {
+    prev: { label: "Create a Virtual Router",           pageId: "vr-create" },
+    related: [
+      { label: "Create a Virtual Router",               pageId: "vr-create" },
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "Understand Port Status",                pageId: "port-status" },
     ],
   },
 };
@@ -469,6 +487,8 @@ export function KnowledgeBase() {
                     {activePage === "port-create" && <CreatePortPage />}
                     {activePage === "port-status" && <PortStatusPage />}
                     {activePage === "port-lag" && <CreateLAGPage />}
+                    {activePage === "vr-create" && <CreateVirtualRouterPage />}
+                    {activePage === "vr-status" && <VirtualRouterStatusPage />}
                     {!ARTICLE_PAGES.has(activePage) &&
                      activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
                       <div style={{ padding: 24 }}>
