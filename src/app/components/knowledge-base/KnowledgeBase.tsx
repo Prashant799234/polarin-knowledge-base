@@ -4,7 +4,7 @@ import {
   Home, FileText, Code, UserCircle, Building2, UserPlus,
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
   Package, Headphones, HelpCircle, ShieldAlert, Lightbulb,
-  ExternalLink, Sparkles, Menu, X, ChevronDown,
+  ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -21,6 +21,7 @@ import { PortStatusPage } from "./articles/PortStatusPage";
 import { CreateLAGPage } from "./articles/CreateLAGPage";
 import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
+import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ArticleFooter } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
@@ -132,6 +133,7 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "sub-usage", label: "Usage Reports" },
         ],
       },
+      { id: "activity-logs", label: "Activity Log", icon: Activity },
     ],
   },
   {
@@ -226,6 +228,13 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Create a Virtual Router",               pageId: "vr-create" },
       { label: "Create a Port",                         pageId: "port-create" },
       { label: "Understand Port Status",                pageId: "port-status" },
+    ],
+  },
+  "activity-logs": {
+    related: [
+      { label: "Understand Port Status",                pageId: "port-status" },
+      { label: "Understand Virtual Router Status",      pageId: "vr-status" },
+      { label: "Create a Port",                         pageId: "port-create" },
     ],
   },
 };
@@ -489,6 +498,7 @@ export function KnowledgeBase() {
                     {activePage === "port-lag" && <CreateLAGPage />}
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
+                    {activePage === "activity-logs" && <ActivityLogPage />}
                     {!ARTICLE_PAGES.has(activePage) &&
                      activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
                       <div style={{ padding: 24 }}>
