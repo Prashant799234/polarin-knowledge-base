@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { KnowledgeBase } from "./components/knowledge-base/KnowledgeBase";
 import { GlobalLoader } from "./components/knowledge-base/GlobalLoader";
+import { DeveloperPortal } from "./components/developer-portal/DeveloperPortal";
 
-export default function App() {
+function KBWithLoader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Show loader for minimum 750ms — enough to see the brand, avoids flash
     const timer = setTimeout(() => setLoading(false), 750);
     return () => clearTimeout(timer);
   }, []);
@@ -16,5 +17,17 @@ export default function App() {
       <GlobalLoader show={loading} />
       <KnowledgeBase />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<KBWithLoader />} />
+        <Route path="/developer" element={<DeveloperPortal />} />
+        <Route path="/developer/*" element={<DeveloperPortal />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

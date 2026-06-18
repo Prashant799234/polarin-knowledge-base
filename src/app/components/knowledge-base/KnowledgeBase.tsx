@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import type { ElementType } from "react";
+import { SearchBar } from "./SearchBar";
 import {
   Home, FileText, Code, UserCircle, Building2, UserPlus,
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
@@ -22,6 +23,7 @@ import { CreateLAGPage } from "./articles/CreateLAGPage";
 import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
+import { ContactSupportPage } from "./ContactSupportPage";
 import { ArticleFooter } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
@@ -42,6 +44,7 @@ interface NavItem {
   icon: ElementType;
   badge?: string;
   external?: boolean;
+  href?: string;
   children?: SubItem[];
 }
 
@@ -55,7 +58,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "welcome", label: "Welcome", icon: Home },
       { id: "release-notes", label: "Release Notes", icon: FileText, badge: "New" },
-      { id: "api-docs", label: "API Documentation", icon: Code, external: true },
+      { id: "api-docs", label: "API Documentation", icon: Code, external: true, href: "/developer" },
     ],
   },
   {
@@ -260,6 +263,7 @@ export function KnowledgeBase() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [recentPageHistory, setRecentPageHistory] = useState<string[]>([]);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const width = useWindowWidth();
   const isMobile = width < 768;
@@ -275,8 +279,8 @@ export function KnowledgeBase() {
 
   const navigate = (id: string) => {
     if (id === activePage) return;
-    // Reset scroll to top before rendering new page
     if (scrollerRef.current) scrollerRef.current.scrollTop = 0;
+    setRecentPageHistory(prev => [activePage, ...prev.filter(p => p !== activePage)].slice(0, 8));
     setIsNavigating(true);
     setActivePage(id);
     if (isMobile) setSidebarOpen(false);
@@ -331,9 +335,12 @@ export function KnowledgeBase() {
                   hasChildren={hasChildren}
                   isOpen={isOpen}
                   onClick={() => {
+                    if (item.href) {
+                      window.open(item.href, "_blank", "noopener,noreferrer");
+                      return;
+                    }
                     if (hasChildren) {
                       toggleExpand(item.id);
-                      // Also navigate to first child if not already on one
                       if (!isParentActive && item.children?.[0]) {
                         navigate(item.children[0].id);
                       }
@@ -391,9 +398,9 @@ export function KnowledgeBase() {
       }}
     >
       <img
-        src="/polarin-logo.svg"
+        src="/polarin-logo.png"
         alt="Polarin Docs"
-        style={{ height: 40, width: "auto", display: "block" }}
+        style={{ height: 47, width: "auto", display: "block" }}
       />
       {showClose && (
         <button
@@ -409,13 +416,45 @@ export function KnowledgeBase() {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f8fafc", fontFamily: FONT }}>
       <ProgressBar active={isNavigating} />
-      {/* Mobile top bar */}
+
+      {/* ── Full-width desktop header (spans sidebar + content) ── */}
+      {!isMobile && (
+        <div style={{
+          height: 64, flexShrink: 0,
+          background: "#fff", borderBottom: "0.5px solid #e2e8f1",
+          display: "flex", alignItems: "center",
+          position: "relative", zIndex: 20,
+        }}>
+          {/* Logo section — exact width of sidebar */}
+          <div style={{
+            width: 240, minWidth: 240, flexShrink: 0,
+            padding: "0 16px 0 24px",
+            display: "flex", alignItems: "center",
+            height: "100%",
+            borderRight: "0.5px solid #e2e8f1",
+          }}>
+            <img src="/polarin-logo.png" alt="Polarin Docs" style={{ height: 47, width: "auto", display: "block" }} />
+          </div>
+          {/* Search — centered in the remaining space */}
+          <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", padding: "0 24px" }}>
+            <div style={{ width: 480, maxWidth: "100%" }}>
+              <SearchBar onNavigate={navigate} recentPageIds={recentPageHistory} />
+            </div>
+          </div>
+          {/* Portal CTA */}
+          <div style={{ paddingRight: 24, flexShrink: 0 }}>
+            <PortalCTA />
+          </div>
+        </div>
+      )}
+
+      {/* ── Mobile top bar ── */}
       {isMobile && (
         <div style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
           <button onClick={() => setSidebarOpen(true)} style={{ background: "none", border: "none", cursor: "pointer", color: "#0a3954", display: "flex", padding: 4, borderRadius: 6 }}>
             <Menu size={22} />
           </button>
-          <img src="/polarin-logo.svg" alt="Polarin Docs" style={{ height: 32, width: "auto" }} />
+          <img src="/polarin-logo.png" alt="Polarin Docs" style={{ height: 36, width: "auto" }} />
         </div>
       )}
 
@@ -425,7 +464,7 @@ export function KnowledgeBase() {
           <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 40 }} />
         )}
 
-        {/* Sidebar — no background, transparent over page bg */}
+        {/* Sidebar — desktop: no logo row (it's in the full-width header) */}
         <aside
           style={{
             width: 240,
@@ -445,17 +484,13 @@ export function KnowledgeBase() {
               : {}),
           }}
         >
-          {/* Desktop: show logo area in sidebar, aligned with header */}
-          {logoRow(isMobile)}
+          {/* Mobile only: show logo + close button in sidebar drawer */}
+          {isMobile && logoRow(true)}
           {sidebarContent}
         </aside>
 
-        {/* Right panel */}
+        {/* Right panel — no header here, sits directly below the full-width header */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-          {/* Desktop header right side (blank, aligns with sidebar logo) */}
-          {!isMobile && (
-            <div style={{ height: 64, background: "#fff", borderBottom: "0.5px solid #e2e8f1", flexShrink: 0 }} />
-          )}
           {/* Outer scroll container — card + footer both live here */}
           <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
@@ -499,8 +534,12 @@ export function KnowledgeBase() {
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
                     {activePage === "activity-logs" && <ActivityLogPage />}
+                    {activePage === "contact-support" && (
+                      <ContactSupportPage />
+                    )}
                     {!ARTICLE_PAGES.has(activePage) &&
-                     activePage !== "welcome" && activePage !== "release-notes" && activePage !== "locations" && (
+                     activePage !== "welcome" && activePage !== "release-notes" &&
+                     activePage !== "locations" && activePage !== "contact-support" && (
                       <div style={{ padding: 24 }}>
                         <ComingSoonPage pageTitle={getPageLabel(activePage)} />
                       </div>
@@ -521,6 +560,43 @@ export function KnowledgeBase() {
         </div>
       </div>
     </div>
+  );
+}
+
+// ── Portal CTA ──────────────────────────────────────────────────────────────
+
+function PortalCTA() {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href="https://polarin.lightstorm.net/app/login?next=/app/home"
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex", alignItems: "center", gap: 6,
+        padding: "6px 14px",
+        borderRadius: 8,
+        border: `1px solid ${hovered ? "#1c808d" : "#c8d4e0"}`,
+        background: hovered
+          ? "linear-gradient(135deg, #0a3954 0%, #1c808d 100%)"
+          : "transparent",
+        color: hovered ? "#fff" : "#4b6b8a",
+        fontSize: 13,
+        fontWeight: 600,
+        fontFamily: FONT,
+        textDecoration: "none",
+        whiteSpace: "nowrap",
+        letterSpacing: "0.01em",
+        transition: "border-color 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease",
+        boxShadow: hovered ? "0 2px 8px rgba(28,128,141,0.22)" : "none",
+        cursor: "pointer",
+      }}
+    >
+      Polarin Portal
+      <ExternalLink size={13} style={{ opacity: hovered ? 1 : 0.55, transition: "opacity 0.18s ease" }} />
+    </a>
   );
 }
 

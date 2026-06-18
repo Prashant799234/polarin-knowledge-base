@@ -58,8 +58,6 @@ const CHECKOUT_FIELDS = [
 export function CreateVirtualRouterPage() {
   return (
     <ArticlePage toc={TOC}>
-      <Breadcrumb items={["Home", "Services", "Virtual Router", "Create a Virtual Router"]} />
-
       <H1 id="overview">Create a Virtual Router</H1>
       <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
         <ReadTime minutes={5} />
@@ -177,18 +175,6 @@ export function CreateVirtualRouterPage() {
   );
 }
 
-function Breadcrumb({ items }: { items: string[] }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
-      {items.map((item, i) => (
-        <span key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          {i > 0 && <span style={{ color: "#cbd5e1", fontSize: 12 }}>›</span>}
-          <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 13, color: i === items.length - 1 ? "#0a3954" : "#94a3b8", fontWeight: i === items.length - 1 ? 600 : 400 }}>{item}</span>
-        </span>
-      ))}
-    </div>
-  );
-}
 function ReadTime({ minutes }: { minutes: number }) {
   return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
 }
