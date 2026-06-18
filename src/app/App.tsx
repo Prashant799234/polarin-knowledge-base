@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { KnowledgeBase } from "./components/knowledge-base/KnowledgeBase";
 import { GlobalLoader } from "./components/knowledge-base/GlobalLoader";
-import { DeveloperPortal } from "./components/developer-portal/DeveloperPortal";
 
 function KBWithLoader() {
   const [loading, setLoading] = useState(true);
@@ -25,8 +24,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<KBWithLoader />} />
-        <Route path="/developer" element={<DeveloperPortal />} />
-        <Route path="/developer/*" element={<DeveloperPortal />} />
+        <Route path="*" element={<KBWithLoader />} />
       </Routes>
     </BrowserRouter>
   );
