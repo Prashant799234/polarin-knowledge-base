@@ -27,7 +27,8 @@ import { ContactSupportPage } from "./ContactSupportPage";
 import { ArticleFooter } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
-import { prefersReducedMotion } from "./animations/motionConfig";
+import { prefersReducedMotion, REVEAL_VARIANTS, revealTransition } from "./animations/motionConfig";
+import { RevealOnScroll, RevealGroup, RevealItem } from "./RevealOnScroll";
 
 export type KBPage = string; // "welcome" | "release-notes" | any other id → ComingSoon
 
@@ -59,7 +60,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "welcome", label: "Welcome", icon: Home },
       { id: "release-notes", label: "Release Notes", icon: FileText, badge: "New" },
       {
-        id: "api-docs", label: "API Documentation", icon: Code,
+        id: "api-docs", label: "Polarin API", icon: Code,
         children: [
           { id: "api-overview",   label: "Overview" },
           { id: "api-onboarding", label: "Getting Access" },
@@ -616,76 +617,221 @@ function PortalCTA() {
 const C = { teal: "#1c808d", navy: "#0a3954", bg: "#f8fafc", border: "#e2e8f1", muted: "#64748b" };
 const FONT_J = "'Plus Jakarta Sans', 'Lato', -apple-system, sans-serif";
 
+const API_PATH_CARDS = [
+  {
+    iconBg: "#1a65fd",
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>,
+    title: "Get Access",
+    description: "Register, complete KYC, and receive your API credentials. Active Polarin customers only.",
+    link: "Get Started",
+    pageId: "api-onboarding",
+  },
+  {
+    iconBg: "#00b345",
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+    title: "Authenticate",
+    description: "Exchange credentials for a short-lived JWT token. Pass it as the access-token header on every call.",
+    link: "Learn How",
+    pageId: null,
+    href: "/developer",
+  },
+  {
+    iconBg: "#9e27fd",
+    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+    title: "Call the APIs",
+    description: "Use standard REST calls to provision ports, manage routers, monitor VISTA metrics, and more.",
+    link: "Explore APIs",
+    pageId: null,
+    href: "/developer",
+  },
+];
+
+const API_TOPICS = [
+  { title: "Getting Access", description: "5-step journey from sign-up to your first API call", pageId: "api-onboarding" },
+  { title: "API Pricing", description: "Free tier and VISTA usage limits explained", pageId: "api-pricing" },
+  { title: "Developer Portal", description: "Full reference docs with live request testing", pageId: null, href: "/developer" },
+  { title: "Staging Environment", description: "Test safely — no real services, no billing", pageId: null, href: "/developer" },
+];
+
 function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
+  const width = useWindowWidth();
+  const isMobile = width < 640;
+
+  const go = (pageId: string | null, href?: string) => {
+    if (pageId) { onNavigate(pageId); return; }
+    if (href) window.open(href, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <div style={{ padding: 0 }}>
-      {/* Hero */}
-      <div style={{ background: `linear-gradient(135deg, ${C.navy} 0%, #0f5272 100%)`, padding: "40px 40px 36px", position: "relative", overflow: "hidden", borderRadius: "16px 16px 0 0" }}>
-        <div style={{ position: "absolute", top: -40, right: -40, width: 200, height: 200, borderRadius: "50%", background: "rgba(28,128,141,0.18)" }} />
-        <div style={{ position: "relative" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(28,128,141,0.3)", border: "1px solid rgba(28,128,141,0.5)", borderRadius: 20, padding: "4px 14px", marginBottom: 18 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#4dd9e6" }} />
-            <span style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 600, color: "#a5f3fc", letterSpacing: "0.06em", textTransform: "uppercase" as const }}>Polarin API</span>
+    <div style={{ display: "flex", flexDirection: "column" as const, gap: 40 }}>
+
+      {/* ── Page header + hero ── */}
+      <motion.div
+        initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.4, 0, 0.2, 1] }}
+        style={{ display: "flex", flexDirection: "column" as const, gap: 24 }}
+      >
+        {/* Page header */}
+        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <div style={{ width: 56, height: 56, borderRadius: 12, background: "#effcfd", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1c808d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
           </div>
-          <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 900, color: "#fff", margin: "0 0 12px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
-            API Documentation
-          </h1>
-          <p style={{ fontFamily: FONT, fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: "0 0 28px", maxWidth: 500 }}>
-            Automate your network infrastructure — provision ports, manage virtual routers, order circuits, and monitor performance — all through simple REST calls.
-          </p>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" as const }}>
-            <button onClick={() => onNavigate("api-onboarding")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, background: C.teal, color: "#fff", border: "none", borderRadius: 8, padding: "9px 20px", cursor: "pointer" }}>
-              Get Access →
-            </button>
-            <button onClick={() => onNavigate("api-pricing")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 600, background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 8, padding: "9px 20px", cursor: "pointer" }}>
-              View Pricing
-            </button>
+          <div style={{ display: "flex", flexDirection: "column" as const, gap: 4 }}>
+            <p style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+              Polarin API
+            </p>
+            <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
+              Automate your network infrastructure through simple REST calls — no portal required.
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* How it works */}
-      <div style={{ padding: "28px 40px 0" }}>
-        <div style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: C.teal, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 14 }}>How it works</div>
-        <div style={{ display: "flex", gap: 14, marginBottom: 28, flexWrap: "wrap" as const }}>
-          {[
-            { n: "1", title: "Get Access", desc: "Be an active Polarin customer. Register, complete KYC, and your API credentials are ready when your account activates.", id: "api-onboarding" },
-            { n: "2", title: "Authenticate", desc: "Exchange your username and password for a JWT access token. Pass it as the access-token header in every request.", id: null },
-            { n: "3", title: "Call the APIs", desc: "Use standard REST calls to manage services. Full request/response examples are in the Developer Portal.", id: null },
-          ].map(step => (
-            <div key={step.n}
-              onClick={() => step.id && onNavigate(step.id)}
-              style={{ flex: "1 1 200px", background: "#fff", border: `1px solid ${C.border}`, borderRadius: 12, padding: "18px 20px", cursor: step.id ? "pointer" : "default" }}
-            >
-              <div style={{ width: 30, height: 30, borderRadius: "50%", background: `${C.teal}15`, border: `2px solid ${C.teal}40`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
-                <span style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 900, color: C.teal }}>{step.n}</span>
-              </div>
-              <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 800, color: C.navy, marginBottom: 7 }}>{step.title}</div>
-              <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, lineHeight: 1.7 }}>{step.desc}</div>
+        {/* Hero banner — same gradient as WelcomePage */}
+        <div style={{
+          borderRadius: 16,
+          background: "linear-gradient(104.41deg, rgb(12,60,87) 0.86%, rgb(50,141,168) 103.67%)",
+          padding: isMobile ? "28px 24px" : "32px",
+          display: "flex", alignItems: "flex-start", gap: 60,
+          position: "relative", overflow: "hidden",
+        }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" as const, gap: 24 }}>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
+              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 24, lineHeight: "32px", color: "white" }}>
+                Build & Automate with Polarin API
+              </p>
+              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "white" }}>
+                Programmatic access to your entire network. Provision services, monitor real-time performance, and integrate Polarin into your automation workflows — all through standard HTTP.
+              </p>
             </div>
-          ))}
+            <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" as const }}>
+              <button
+                onClick={() => onNavigate("api-onboarding")}
+                style={{ padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                Get Access
+              </button>
+              <button
+                onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
+                style={{ padding: "7px 17px", height: 40, borderRadius: 16, background: "transparent", color: "white", fontFamily: FONT, fontWeight: 400, fontSize: 16, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Explore APIs
+              </button>
+            </div>
+          </div>
+          {!isMobile && (
+            <div style={{ width: 100, height: 100, borderRadius: 8, background: "rgba(255,255,255,0.1)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <rect x="10" y="22" width="40" height="16" rx="4" fill="rgba(255,255,255,0.2)"/>
+                <rect x="10" y="26" width="14" height="2" rx="1" fill="rgba(255,255,255,0.6)"/>
+                <rect x="10" y="30" width="10" height="2" rx="1" fill="rgba(255,255,255,0.4)"/>
+                <rect x="10" y="34" width="18" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
+                <circle cx="46" cy="14" r="6" fill="rgba(255,255,255,0.3)"/>
+                <circle cx="14" cy="46" r="6" fill="rgba(255,255,255,0.3)"/>
+                <circle cx="46" cy="46" r="6" fill="rgba(255,255,255,0.3)"/>
+                <line x1="46" y1="20" x2="46" y2="22" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+                <line x1="20" y1="46" x2="22" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+                <line x1="46" y1="46" x2="46" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+              </svg>
+            </div>
+          )}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Quick links */}
-      <div style={{ padding: "0 40px 40px" }}>
-        <div style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: C.teal, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 14 }}>Explore</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          {[
-            { label: "Getting Access", sub: "Account setup & onboarding steps", id: "api-onboarding", color: "#0ea5e9", bg: "#f0f9ff" },
-            { label: "Pricing", sub: "Free APIs & VISTA usage limits", id: "api-pricing", color: "#f59e0b", bg: "#fffbeb" },
-            { label: "Developer Portal", sub: "Full API reference & live testing", id: null, href: "/developer", color: C.teal, bg: "#f0fafa" },
-          ].map(lnk => (
-            <button key={lnk.label}
-              onClick={() => lnk.id ? onNavigate(lnk.id) : lnk.href && window.open(lnk.href, "_blank")}
-              style={{ background: lnk.bg, border: `1px solid ${lnk.color}25`, borderRadius: 12, padding: "14px 16px", textAlign: "left" as const, cursor: "pointer", display: "flex", flexDirection: "column" as const, gap: 4 }}
-            >
-              <span style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: lnk.color }}>{lnk.label}{lnk.href ? " ↗" : " →"}</span>
-              <span style={{ fontFamily: FONT, fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{lnk.sub}</span>
-            </button>
-          ))}
+      {/* ── How it works (path cards) ── */}
+      <RevealOnScroll>
+        <div style={{ display: "flex", flexDirection: "column" as const, gap: 16 }}>
+          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+            How it works
+          </p>
+          <RevealGroup style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 24 }}>
+            {API_PATH_CARDS.map((card) => (
+              <RevealItem key={card.title}>
+                <div
+                  role="button" tabIndex={0}
+                  onClick={() => go(card.pageId, card.href)}
+                  onKeyDown={(e) => e.key === "Enter" && go(card.pageId, card.href)}
+                  style={{ background: "#FFFFFF", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column" as const, gap: 16, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", cursor: "pointer", transition: "box-shadow 0.15s" }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.12), 0px 4px 12px rgba(96,97,112,0.2)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; }}
+                >
+                  <div style={{ width: 40, height: 40, borderRadius: 12, background: card.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    {card.icon}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
+                    <div style={{ display: "flex", flexDirection: "column" as const, gap: 4 }}>
+                      <p style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#0a3954" }}>{card.title}</p>
+                      <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#7e93b2" }}>{card.description}</p>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 0" }}>
+                      <span style={{ fontFamily: FONT, fontWeight: 500, fontSize: 14, lineHeight: "22px", color: "#1c808d" }}>{card.link}</span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c808d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                  </div>
+                </div>
+              </RevealItem>
+            ))}
+          </RevealGroup>
         </div>
-      </div>
+      </RevealOnScroll>
+
+      {/* ── Quick topics ── */}
+      <RevealOnScroll>
+        <div style={{ display: "flex", flexDirection: "column" as const, gap: 16 }}>
+          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+            Quick Topics
+          </p>
+          <RevealGroup style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
+            {API_TOPICS.map((topic) => (
+              <motion.button
+                key={topic.title}
+                variants={REVEAL_VARIANTS}
+                transition={revealTransition()}
+                onClick={() => go(topic.pageId, topic.href)}
+                style={{ background: "#FFFFFF", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 24, display: "flex", alignItems: "flex-start", gap: 8, cursor: "pointer", textAlign: "left", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.12), 0px 2px 8px rgba(96,97,112,0.2)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; }}
+              >
+                <div style={{ flex: 1, display: "flex", flexDirection: "column" as const, gap: 4 }}>
+                  <p style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#0a3954" }}>{topic.title}</p>
+                  <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#7e93b2" }}>{topic.description}</p>
+                </div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7e93b2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="9 18 15 12 9 6"/></svg>
+              </motion.button>
+            ))}
+          </RevealGroup>
+        </div>
+      </RevealOnScroll>
+
+      {/* ── Developer Portal callout ── */}
+      <RevealOnScroll delay={0.05}>
+        <div style={{ background: "#effcfd", border: "0.5px solid rgba(28,128,141,0.2)", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column" as const, gap: 16, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: "#1c808d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#434343" }}>Developer Portal</p>
+              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#8c8c8c" }}>Full API reference with live request testing</p>
+            </div>
+          </div>
+          <p style={{ margin: 0, fontFamily: FONT, fontSize: 16, lineHeight: "24px", color: "#434343" }}>
+            <strong style={{ fontWeight: 700 }}>Explore every endpoint</strong>{" in our interactive Developer Portal — try requests live, see real response examples, and test against the staging environment without affecting production."}
+          </p>
+          <button
+            onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
+            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 8, padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", border: "1px solid #e2e8f1", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", cursor: "pointer", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}
+          >
+            Open Developer Portal
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </RevealOnScroll>
+
     </div>
   );
 }
