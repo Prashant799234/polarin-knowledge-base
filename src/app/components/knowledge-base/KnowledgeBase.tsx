@@ -545,9 +545,21 @@ export function KnowledgeBase() {
                     {activePage === "contact-support" && (
                       <ContactSupportPage />
                     )}
-                    {activePage === "api-overview" && <ApiOverviewPage onNavigate={navigate} />}
-                    {activePage === "api-onboarding" && <ApiOnboardingPage onNavigate={navigate} />}
-                    {activePage === "api-pricing" && <ApiPricingPage onNavigate={navigate} />}
+                    {activePage === "api-overview" && (
+                      <div style={{ padding: 24 }}>
+                        <ApiOverviewPage onNavigate={navigate} />
+                      </div>
+                    )}
+                    {activePage === "api-onboarding" && (
+                      <div style={{ padding: 24 }}>
+                        <ApiOnboardingPage onNavigate={navigate} />
+                      </div>
+                    )}
+                    {activePage === "api-pricing" && (
+                      <div style={{ padding: 24 }}>
+                        <ApiPricingPage onNavigate={navigate} />
+                      </div>
+                    )}
                     {!ARTICLE_PAGES.has(activePage) &&
                      activePage !== "welcome" && activePage !== "release-notes" &&
                      activePage !== "locations" && activePage !== "contact-support" &&
