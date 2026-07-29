@@ -4,7 +4,7 @@ import {
   ChevronDown, Menu, X, Code2,
   ArrowRight, Sparkles,
   Copy, Check, AlertTriangle, Play, ChevronRight,
-  Search, Clock, GitBranch,
+  Search, Clock, GitBranch, Lock, Eye, EyeOff,
 } from "lucide-react";
 import { NAV_GROUPS, ALL_NAV_ITEMS, findParentModule, type NavItem, type SubItem } from "./navData";
 import { ALL_SUB_MODULES, findSubModule, type Endpoint } from "./apiData";
@@ -945,7 +945,7 @@ function SubModulePage({ subModuleId, env }: { subModuleId: string; env: Env }) 
 
   if (!subMod) {
     return (
-      <div style={{ padding: "40px 48px" }}>
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px" }}>
         <p style={{ fontFamily: FONT, color: C.muted }}>Sub-module not found.</p>
       </div>
     );
@@ -1041,8 +1041,9 @@ function SubModulePage({ subModuleId, env }: { subModuleId: string; env: Env }) 
 // ── Static pages ─────────────────────────────────────────────────────────────
 
 function StaticPage({ title, children }: { title: string; children: React.ReactNode }) {
+  const isMobile = useWindowWidth() < 768;
   return (
-    <div style={{ padding: "40px 48px 56px" }}>
+    <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 56px" }}>
       <h1 style={{ fontFamily: FONT_J, fontSize: 28, fontWeight: 800, color: C.navy, margin: "0 0 24px", letterSpacing: "-0.4px" }}>
         {title}
       </h1>
@@ -1053,7 +1054,18 @@ function StaticPage({ title, children }: { title: string; children: React.ReactN
 
 // ── Env warning modal ────────────────────────────────────────────────────────
 
-function EnvWarningModal({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
+function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env; toEnv: Env; onCancel: () => void; onConfirm: () => void }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [error, setError] = useState("");
+  const isProd = toEnv === "production";
+
+  function submit() {
+    if (!email.trim() || !password.trim()) { setError("Enter your email and password to continue."); return; }
+    onConfirm();
+  }
+
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div onClick={onCancel} style={{ position: "absolute", inset: 0, background: "rgba(10,57,84,0.45)", backdropFilter: "blur(4px)" }} />
@@ -1070,23 +1082,47 @@ function EnvWarningModal({ onCancel, onConfirm }: { onCancel: () => void; onConf
       >
         <div style={{
           width: 48, height: 48, borderRadius: 14,
-          background: "linear-gradient(135deg,#fff7ed 0%,#fff1f2 100%)",
-          border: "1px solid #fde68a", display: "flex", alignItems: "center", justifyContent: "center",
+          background: isProd ? "linear-gradient(135deg,#fff7ed 0%,#fff1f2 100%)" : "linear-gradient(135deg,#f0fdf4 0%,#f0f9fa 100%)",
+          border: `1px solid ${isProd ? "#fde68a" : "#bbf7d0"}`, display: "flex", alignItems: "center", justifyContent: "center",
           marginBottom: 20,
         }}>
-          <AlertTriangle size={22} color="#d97706" />
+          {isProd ? <AlertTriangle size={22} color="#d97706" /> : <Lock size={20} color="#16a34a" />}
         </div>
         <h2 style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, margin: "0 0 12px" }}>
-          Switch to Production?
+          Sign in to {isProd ? "Production" : "Staging"}
         </h2>
         <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, margin: "0 0 20px", lineHeight: 1.7 }}>
-          You're about to switch to the Production environment. All API calls will affect live services.
+          API keys and access tokens are scoped to a single environment. Switching from <strong style={{ color: C.navy }}>{fromEnv === "production" ? "Production" : "Staging"}</strong> to <strong style={{ color: C.navy }}>{isProd ? "Production" : "Staging"}</strong> requires you to authenticate again for that environment.
         </p>
-        <ul style={{ fontFamily: FONT, fontSize: 14, color: "#64748b", margin: "0 0 24px", paddingLeft: 20, lineHeight: 2 }}>
-          <li>Affects live customer services</li>
-          <li>May trigger billing events</li>
-          <li>Some operations are irreversible</li>
-        </ul>
+        {isProd && (
+          <ul style={{ fontFamily: FONT, fontSize: 14, color: "#64748b", margin: "0 0 20px", paddingLeft: 20, lineHeight: 2 }}>
+            <li>Affects live customer services</li>
+            <li>May trigger billing events</li>
+            <li>Some operations are irreversible</li>
+          </ul>
+        )}
+        <div style={{ marginBottom: 14 }}>
+          <label style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Email Address</label>
+          <input
+            type="email" value={email} placeholder="Enter your email"
+            onChange={e => { setEmail(e.target.value); setError(""); }}
+            style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", border: `1px solid ${C.border}`, borderRadius: 8, fontFamily: FONT, fontSize: 13, outline: "none", color: C.navy }}
+          />
+        </div>
+        <div style={{ marginBottom: error ? 8 : 20 }}>
+          <label style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Password</label>
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPw ? "text" : "password"} value={password} placeholder="Enter your password"
+              onChange={e => { setPassword(e.target.value); setError(""); }}
+              style={{ width: "100%", boxSizing: "border-box", padding: "10px 38px 10px 12px", border: `1px solid ${C.border}`, borderRadius: 8, fontFamily: FONT, fontSize: 13, outline: "none", color: C.navy }}
+            />
+            <button onClick={() => setShowPw(v => !v)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: C.muted }}>
+              {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
+            </button>
+          </div>
+        </div>
+        {error && <div style={{ fontFamily: FONT, fontSize: 12.5, color: "#dc2626", marginBottom: 14 }}>{error}</div>}
         <div style={{ display: "flex", gap: 10 }}>
           <button
             onClick={onCancel}
@@ -1096,18 +1132,18 @@ function EnvWarningModal({ onCancel, onConfirm }: { onCancel: () => void; onConf
               borderRadius: 10, padding: "11px", cursor: "pointer",
             }}
           >
-            Stay in Staging
+            Stay in {fromEnv === "production" ? "Production" : "Staging"}
           </button>
           <button
-            onClick={onConfirm}
+            onClick={submit}
             style={{
               flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700,
-              background: "linear-gradient(135deg,#dc2626 0%,#9f1239 100%)",
+              background: isProd ? "linear-gradient(135deg,#dc2626 0%,#9f1239 100%)" : "linear-gradient(135deg,#16a34a 0%,#15803d 100%)",
               border: "none", color: "#fff",
               borderRadius: 10, padding: "11px", cursor: "pointer",
             }}
           >
-            Switch to Production
+            Sign In &amp; Switch
           </button>
         </div>
       </motion.div>
@@ -1119,12 +1155,12 @@ function EnvWarningModal({ onCancel, onConfirm }: { onCancel: () => void; onConf
 
 function EnvSwitcher({ env, onChange }: { env: Env; onChange: (e: Env) => void }) {
   const [open, setOpen] = useState(false);
-  const [pendingProd, setPendingProd] = useState(false);
+  const [pendingEnv, setPendingEnv] = useState<Env | null>(null);
 
   function handleSelect(e: Env) {
     setOpen(false);
-    if (e === "production" && env !== "production") { setPendingProd(true); return; }
-    onChange(e);
+    if (e === env) return;
+    setPendingEnv(e);
   }
 
   return (
@@ -1193,10 +1229,12 @@ function EnvSwitcher({ env, onChange }: { env: Env; onChange: (e: Env) => void }
         </AnimatePresence>
       </div>
 
-      {pendingProd && (
-        <EnvWarningModal
-          onCancel={() => setPendingProd(false)}
-          onConfirm={() => { onChange("production"); setPendingProd(false); }}
+      {pendingEnv && (
+        <EnvReauthModal
+          fromEnv={env}
+          toEnv={pendingEnv}
+          onCancel={() => setPendingEnv(null)}
+          onConfirm={() => { onChange(pendingEnv); setPendingEnv(null); }}
         />
       )}
     </>
@@ -1273,9 +1311,10 @@ function StepBadge({ n }: { n: number }) {
 
 function AuthGuide({ env }: { env: Env }) {
   const baseUrl = ENV_URLS[env];
+  const isMobile = useWindowWidth() < 768;
 
   return (
-    <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+    <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
 
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
@@ -1562,6 +1601,7 @@ interface FaqItem {
 
 function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const isMobile = useWindowWidth() < 768;
 
   function toggle(i: number) {
     setOpenIndex(prev => (prev === i ? null : i));
@@ -1791,7 +1831,7 @@ function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
   const categories = Array.from(new Set(faqs.map(f => f.category)));
 
   return (
-    <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+    <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
 
       {/* Header */}
       <div style={{ marginBottom: 40 }}>
@@ -1968,63 +2008,249 @@ export function DeveloperPortal() {
 
     // ── Introduction ─────────────────────────────────────────────────────────
     if (activeId === "quick-start") return (
-      <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
-        <h1 style={{ fontFamily: FONT_J, fontSize: 36, fontWeight: 900, color: C.navy, margin: "0 0 28px", letterSpacing: "-0.6px" }}>
-          Polarin API Documentation
-        </h1>
+      <div style={{ padding: "0" }}>
+        {/* Hero */}
+        <div style={{ background: `linear-gradient(135deg, ${C.navy} 0%, #0f5272 100%)`, padding: "48px 48px 44px", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: -40, right: -40, width: 220, height: 220, borderRadius: "50%", background: "rgba(28,128,141,0.18)" }} />
+          <div style={{ position: "absolute", bottom: -20, right: 80, width: 120, height: 120, borderRadius: "50%", background: "rgba(28,128,141,0.10)" }} />
+          <div style={{ position: "relative" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(28,128,141,0.3)", border: "1px solid rgba(28,128,141,0.5)", borderRadius: 20, padding: "4px 14px", marginBottom: 20 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#4dd9e6" }} />
+              <span style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 600, color: "#a5f3fc", letterSpacing: "0.06em", textTransform: "uppercase" }}>Polarin Developer Portal</span>
+            </div>
+            <h1 style={{ fontFamily: FONT_J, fontSize: 34, fontWeight: 900, color: "#fff", margin: "0 0 14px", letterSpacing: "-0.6px", lineHeight: 1.2 }}>
+              Welcome to the<br />Polarin API
+            </h1>
+            <p style={{ fontFamily: FONT, fontSize: 15, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: "0 0 32px", maxWidth: 540 }}>
+              Automate your entire network infrastructure — provision ports, manage virtual routers, order circuits, and monitor performance — all through simple REST calls.
+            </p>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <button onClick={() => navigateTo("onboarding")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, background: C.teal, color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", cursor: "pointer", letterSpacing: "0.01em" }}>
+                Get Access →
+              </button>
+              <button onClick={() => navigateTo("mod-authentication")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 600, background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 8, padding: "10px 22px", cursor: "pointer" }}>
+                Explore APIs
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.9, margin: "0 0 20px" }}>
-          Polarin offers a public API that gives you complete programmatic control over all the services available through the Polarin portal. You can use this API to automate service provisioning, manage network resources, integrate billing and subscriptions into your own systems, and build self-serve workflows — without manual steps in the UI.
+        {/* How it works */}
+        <div style={{ padding: "36px 48px 0" }}>
+          <div style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: C.teal, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 14 }}>How it works</div>
+          <div style={{ display: "flex", gap: 0, position: "relative", marginBottom: 36 }}>
+            {[
+              { num: "1", title: "Get Access", desc: "You need to be an active Polarin customer. Register, complete KYC, and your API credentials are ready when your account activates.", id: "onboarding" },
+              { num: "2", title: "Authenticate", desc: "Exchange your username and password for a JWT access token. Pass it as the access-token header in every API request.", id: "authentication-guide" },
+              { num: "3", title: "Call the APIs", desc: "Use standard REST calls to manage your services. Every module has detailed docs with request/response examples you can try live.", id: "mod-authentication" },
+            ].map((step, i) => (
+              <div key={step.num} style={{ flex: 1, position: "relative", paddingRight: i < 2 ? 24 : 0 }}>
+                {i < 2 && (
+                  <div style={{ position: "absolute", top: 18, right: 0, left: "50%", height: 1, background: `linear-gradient(90deg, ${C.teal}60, ${C.teal}20)`, zIndex: 0 }} />
+                )}
+                <div style={{ background: "#fff", border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px", height: "100%", boxSizing: "border-box", cursor: "pointer", transition: "border-color 0.15s" }}
+                  onClick={() => navigateTo(step.id)}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = C.teal)}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = C.border)}
+                >
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${C.teal}15`, border: `2px solid ${C.teal}40`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}>
+                    <span style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 900, color: C.teal }}>{step.num}</span>
+                  </div>
+                  <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 800, color: C.navy, marginBottom: 8 }}>{step.title}</div>
+                  <div style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{step.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick links */}
+        <div style={{ padding: "0 48px 48px" }}>
+          <div style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: C.teal, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 14 }}>Quick links</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            {[
+              { label: "Getting Access", sub: "Account registration & onboarding", id: "onboarding", color: "#0ea5e9", bg: "#f0f9ff" },
+              { label: "Authentication Guide", sub: "Tokens, refresh flow & MFA", id: "authentication-guide", color: C.teal, bg: "#f0fafa" },
+              { label: "Environments", sub: "Staging vs. Production base URLs", id: "environments", color: "#8b5cf6", bg: "#faf5ff" },
+              { label: "Pricing", sub: "What's free & VISTA usage limits", id: "api-pricing", color: "#f59e0b", bg: "#fffbeb" },
+              { label: "Responses", sub: "Status codes & response envelope", id: "responses", color: "#16a34a", bg: "#f0fdf4" },
+              { label: "FAQ", sub: "Common questions answered", id: "faq", color: "#64748b", bg: "#f8fafc" },
+            ].map(lnk => (
+              <button key={lnk.id} onClick={() => navigateTo(lnk.id)}
+                style={{ background: lnk.bg, border: `1px solid ${lnk.color}25`, borderRadius: 12, padding: "16px 18px", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, transition: "border-color 0.15s" }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = `${lnk.color}60`)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = `${lnk.color}25`)}
+              >
+                <span style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: lnk.color }}>{lnk.label} →</span>
+                <span style={{ fontFamily: FONT, fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{lnk.sub}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+
+    // ── Onboarding / Getting Access ───────────────────────────────────────────
+    if (activeId === "onboarding") return (
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 64px" }}>
+        <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Getting Access</h1>
+        <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 36px" }}>
+          The Polarin API is available to all active Polarin customers. Here's how to go from zero to your first API call — typically under 30 minutes once your account is active.
         </p>
 
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.9, margin: "0 0 20px" }}>
-          The Polarin API is built on REST principles. It has predictable, resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes to indicate the outcome of every call. All timestamps are ISO 8601 in UTC.
+        {/* Steps */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
+          {[
+            {
+              n: 1, title: "Register on Polarin",
+              desc: "Sign up at the Polarin portal. Provide your company name, primary contact, and the network services you need. This takes about 5 minutes.",
+              note: null,
+            },
+            {
+              n: 2, title: "Complete KYC",
+              desc: "Upload the required identity and company documents — business registration, director ID, and proof of address. Our team reviews submissions within 1–2 business days.",
+              note: null,
+            },
+            {
+              n: 3, title: "Account Activated",
+              desc: "Once KYC is approved, your account goes live. All ordered services are provisioned and accessible through the Polarin portal.",
+              note: null,
+            },
+            {
+              n: 4, title: "Receive Activation Email",
+              desc: "You'll receive an email with your portal login credentials and your initial staging API key. The email also includes a link directly to this Developer Portal.",
+              note: null,
+            },
+            {
+              n: 5, title: "Start with Staging",
+              desc: "Log in here and test with your staging credentials — no real services, no billing. When you're ready to go live, contact your Polarin account manager for production credentials.",
+              note: "First API call in under 30 minutes from this point.",
+            },
+          ].map((step, i, arr) => (
+            <div key={step.n} style={{ display: "flex", gap: 0 }}>
+              {/* Line + dot */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: 22, flexShrink: 0 }}>
+                <div style={{ width: 38, height: 38, borderRadius: "50%", background: `${C.teal}18`, border: `2px solid ${C.teal}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 900, color: C.teal }}>{step.n}</span>
+                </div>
+                {i < arr.length - 1 && (
+                  <div style={{ width: 2, flex: 1, background: `${C.teal}22`, minHeight: 28, margin: "6px 0" }} />
+                )}
+              </div>
+              {/* Content */}
+              <div style={{ paddingBottom: i < arr.length - 1 ? 28 : 0, paddingTop: 7 }}>
+                <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy, marginBottom: 6 }}>{step.title}</div>
+                <p style={{ fontFamily: FONT, fontSize: 14, color: "#475569", lineHeight: 1.75, margin: 0 }}>{step.desc}</p>
+                {step.note && (
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 10, background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "6px 12px" }}>
+                    <span style={{ fontSize: 12 }}>✓</span>
+                    <span style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#16a34a" }}>{step.note}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Access tiers */}
+        <div style={{ background: "#f8fafc", border: `1px solid ${C.border}`, borderRadius: 14, padding: "22px 26px", marginBottom: 24 }}>
+          <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 800, color: C.navy, marginBottom: 14 }}>API Access tiers</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {[
+              { tier: "All Customers", desc: "Access to all provisioning, management, and account APIs. No per-call charges." },
+              { tier: "VISTA Free", desc: "10,000 calls/day per circuit for VISTA Performance Monitoring. Included with any active service." },
+              { tier: "VISTA Premium", desc: "50,000 calls/day per circuit + 180-day history. Contact your account manager to upgrade." },
+            ].map(t => (
+              <div key={t.tier} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.teal, flexShrink: 0, marginTop: 5 }} />
+                <div>
+                  <span style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy }}>{t.tier} — </span>
+                  <span style={{ fontFamily: FONT, fontSize: 13, color: C.muted }}>{t.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>
+          For detailed pricing information, see the{" "}
+          <button onClick={() => navigateTo("api-pricing")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Pricing</button>{" "}
+          page. For full onboarding documentation, visit the Polarin customer portal.
+        </p>
+      </div>
+    );
+
+    // ── Pricing ───────────────────────────────────────────────────────────────
+    if (activeId === "api-pricing") return (
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 64px" }}>
+        <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>API Pricing</h1>
+        <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 32px" }}>
+          Simple rule: almost all Polarin APIs are free. The only exception is the VISTA Performance Monitoring API, which has a daily free allowance per circuit.
         </p>
 
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.9, margin: "0 0 40px" }}>
-          In addition to this reference, you can find environment setup guides, authentication walkthroughs, and response format documentation in the <strong style={{ color: C.navy }}>Get Started</strong> section of this portal.
+        {/* Free banner */}
+        <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 14, padding: "18px 24px", display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 32 }}>
+          <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <span style={{ fontSize: 18 }}>✓</span>
+          </div>
+          <div>
+            <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 800, color: "#15803d", marginBottom: 5 }}>All provisioning, management & account APIs are free</div>
+            <div style={{ fontFamily: FONT, fontSize: 13, color: "#16a34a", lineHeight: 1.7 }}>
+              Authentication, Ports, Virtual Routers, Connections, Locations, Billing, Subscriptions, Support, Track Order, Activity Logs, User Management — no usage charges.
+            </div>
+          </div>
+        </div>
+
+        {/* VISTA table */}
+        <div style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 800, color: C.navy, marginBottom: 14 }}>VISTA Performance Monitoring</div>
+        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.75, margin: "0 0 20px" }}>
+          VISTA APIs return real-time and historical performance metrics for your ports, virtual circuits, SLA data, and latency. They have a free daily allowance per circuit — calls beyond that are charged.
         </p>
 
-        {/* Environments inline */}
-        <h2 style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, margin: "0 0 16px", letterSpacing: "-0.3px" }}>Environments</h2>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 16px" }}>
-          There are two server environments you can target using different base URLs:
-        </p>
-        <ul style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 2, margin: "0 0 16px", paddingLeft: 24 }}>
-          <li>
-            <code style={{ fontFamily: "monospace", fontSize: 13, color: C.teal, background: "#f0f9fa", border: `1px solid ${C.teal}25`, borderRadius: 5, padding: "1px 7px" }}>
-              https://uat-api-polarin.lightstorm.in
-            </code>
-            {" "}— this is the <strong style={{ color: "#16a34a" }}>Staging</strong> environment. Designed for development and integration testing. No real services are provisioned and you will not be billed for any activity.
-          </li>
-          <li style={{ marginTop: 10 }}>
-            <code style={{ fontFamily: "monospace", fontSize: 13, color: "#dc2626", background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 5, padding: "1px 7px" }}>
-              https://api-polarin.lightstorm.in
-            </code>
-            {" "}— this is the <strong style={{ color: "#dc2626" }}>Production</strong> environment. All operations affect live services. You will be liable for any services ordered or modified here.
-          </li>
-        </ul>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 40px" }}>
-          Use the environment switcher in the top-right of this portal to toggle API examples and the base URL between Staging and Production. See the <button onClick={() => navigateTo("environments")} style={{ fontFamily: FONT, fontSize: 15, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Environments</button> guide for full details on what each environment supports.
-        </p>
+        <div style={{ border: `1px solid ${C.border}`, borderRadius: 14, overflow: "hidden", marginBottom: 28 }}>
+          {/* Header row */}
+          <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: C.navy }}>
+            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Feature</div>
+            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase", borderLeft: "1px solid rgba(255,255,255,0.08)" }}>Free</div>
+            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "#4dd9e6", letterSpacing: "0.08em", textTransform: "uppercase", borderLeft: "1px solid rgba(255,255,255,0.08)" }}>Premium</div>
+          </div>
+          {[
+            ["Daily call limit (per circuit)", "10,000 calls", "50,000 calls"],
+            ["Historical data retention", "31 days", "180 days"],
+            ["SLA & latency metrics", "✓ Included", "✓ Included"],
+            ["SNMP data access", "✓ Included", "✓ Included"],
+            ["Cost", "Included with service", "Contact Polarin"],
+          ].map(([feat, free, prem], i) => (
+            <div key={feat} style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: i % 2 === 0 ? "#fff" : "#f8fafc", borderTop: `1px solid ${C.border}` }}>
+              <div style={{ padding: "13px 20px", fontFamily: FONT, fontSize: 13, color: C.navy, fontWeight: 500 }}>{feat}</div>
+              <div style={{ padding: "13px 20px", fontFamily: FONT, fontSize: 13, color: "#16a34a", borderLeft: `1px solid ${C.border}` }}>{free}</div>
+              <div style={{ padding: "13px 20px", fontFamily: FONT_J, fontSize: 13, color: C.teal, fontWeight: 700, borderLeft: `1px solid ${C.border}` }}>{prem}</div>
+            </div>
+          ))}
+        </div>
 
-        {/* Format */}
-        <h2 style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, margin: "0 0 16px", letterSpacing: "-0.3px" }}>Request and response format</h2>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 16px" }}>
-          All write requests (POST, PUT, PATCH) must include a <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f8fafc", border: `1px solid ${C.border}`, borderRadius: 5, padding: "1px 6px", color: C.navy }}>Content-Type: application/json</code> header alongside the <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0f9fa", border: `1px solid ${C.teal}25`, borderRadius: 5, padding: "1px 6px", color: C.teal }}>access-token</code> authentication header.
-        </p>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 16px" }}>
-          Every response is a JSON object with a consistent envelope. A <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f8fafc", border: `1px solid ${C.border}`, borderRadius: 5, padding: "1px 6px", color: C.navy }}>success</code> boolean tells you immediately whether the call succeeded. The resource or list lives in <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0f9fa", border: `1px solid ${C.teal}25`, borderRadius: 5, padding: "1px 6px", color: C.teal }}>data</code>, and errors are described in an <code style={{ fontFamily: "monospace", fontSize: 13, background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 5, padding: "1px 6px", color: "#be123c" }}>error</code> object. See the <button onClick={() => navigateTo("responses")} style={{ fontFamily: FONT, fontSize: 15, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Responses</button> page for the full response schema and HTTP status code reference.
-        </p>
+        {/* Additional calls */}
+        <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy, marginBottom: 12 }}>Additional calls (beyond free limit)</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+          {[
+            { label: "Rate", val: "Flat rate per call above the daily limit" },
+            { label: "Tracking", val: "Usage is tracked daily, per circuit" },
+            { label: "Billing", val: "Invoiced monthly — charges appear on your next billing cycle" },
+            { label: "Carry-over", val: "No carry-over — the daily pool resets at 00:00 UTC each day" },
+            { label: "Overage alert", val: "You receive a 429 Too Many Requests response when the free limit is reached" },
+          ].map(row => (
+            <div key={row.label} style={{ display: "flex", gap: 14, padding: "11px 18px", background: "#f8fafc", borderRadius: 9, border: `1px solid ${C.border}` }}>
+              <div style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: C.navy, minWidth: 100, flexShrink: 0 }}>{row.label}</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, color: "#475569" }}>{row.val}</div>
+            </div>
+          ))}
+        </div>
 
-        {/* Authentication */}
-        <h2 style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, margin: "40px 0 16px", letterSpacing: "-0.3px" }}>Authentication</h2>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 16px" }}>
-          Polarin uses JWT-based authentication. Log in with your credentials to receive a short-lived <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0f9fa", border: `1px solid ${C.teal}25`, borderRadius: 5, padding: "1px 6px", color: C.teal }}>access-token</code> and a long-lived <code style={{ fontFamily: "monospace", fontSize: 13, background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 5, padding: "1px 6px", color: "#7c3aed" }}>refresh-token</code>. Pass the access token as a named header in every subsequent request — not in an Authorization header, but as its own <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0f9fa", border: `1px solid ${C.teal}25`, borderRadius: 5, padding: "1px 6px", color: C.teal }}>access-token</code> key.
-        </p>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: "#475569", lineHeight: 1.85, margin: "0 0 0" }}>
-          When the access token expires you'll receive a <code style={{ fontFamily: "monospace", fontSize: 13, background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 5, padding: "1px 6px", color: "#b45309" }}>401 Unauthorized</code> response. Use the refresh token to silently obtain a new access token without asking the user to log in again. See the <button onClick={() => navigateTo("authentication-guide")} style={{ fontFamily: FONT, fontSize: 15, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Authentication Guide</button> for the complete token lifecycle, MFA setup, and common errors.
-        </p>
+        <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 12, padding: "16px 20px" }}>
+          <p style={{ fontFamily: FONT, fontSize: 13, color: "#92400e", lineHeight: 1.75, margin: 0 }}>
+            <strong style={{ color: "#78350f" }}>Need VISTA Premium?</strong> Contact your Polarin account manager to upgrade your circuit tier. The upgrade is applied the same business day and immediately increases your daily allowance and data retention.
+          </p>
+        </div>
       </div>
     );
 
@@ -2032,7 +2258,7 @@ export function DeveloperPortal() {
 
     // ── Environments ─────────────────────────────────────────────────────────
     if (activeId === "environments") return (
-      <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
         <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Environments</h1>
         <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 32px" }}>
           Polarin provides two server environments accessed via different base URLs. Use the environment switcher in the portal header to toggle cURL examples between them.
@@ -2086,7 +2312,7 @@ export function DeveloperPortal() {
 
     // ── Responses ────────────────────────────────────────────────────────────
     if (activeId === "responses") return (
-      <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
         <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Responses</h1>
         <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 36px" }}>
           Every Polarin API response is a JSON object. The top-level shape is consistent across all endpoints — a <code style={{ fontFamily: "monospace", fontSize: 14, background: "#f0f9fa", color: C.teal, padding: "1px 6px", borderRadius: 4 }}>success</code> flag tells you immediately whether the call succeeded, and the payload lives in <code style={{ fontFamily: "monospace", fontSize: 14, background: "#f0f9fa", color: C.teal, padding: "1px 6px", borderRadius: 4 }}>data</code>.
@@ -2184,7 +2410,7 @@ export function DeveloperPortal() {
       ];
 
       return (
-        <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+        <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
           <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Release Notes</h1>
           <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 40px" }}>
             Tracks new APIs, version changes, deprecations, and suspensions. Breaking changes are flagged to allow timely migration planning.
@@ -2265,7 +2491,7 @@ export function DeveloperPortal() {
       };
 
       return (
-        <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+        <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 8 }}>
             <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: 0, letterSpacing: "-0.5px" }}>API Alerts</h1>
             <span style={{
@@ -2326,7 +2552,7 @@ export function DeveloperPortal() {
 
     // ── Rate Limits ──────────────────────────────────────────────────────────
     if (activeId === "rate-limits") return (
-      <div style={{ padding: "40px 48px 72px", maxWidth: 820 }}>
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
         <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Rate Limits</h1>
         <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 32px" }}>
           Polarin enforces rate limits to maintain platform stability across all integrations.

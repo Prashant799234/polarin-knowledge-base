@@ -27,6 +27,8 @@ import {
   AlertTriangle,
   Braces,
   HelpCircle,
+  UserCheck,
+  Tag,
 } from "lucide-react";
 import React from "react";
 
@@ -53,13 +55,15 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     title: "GET STARTED",
     items: [
-      { id: "quick-start",          label: "Introduction",         icon: BookOpen },
+      { id: "quick-start",          label: "Welcome",              icon: BookOpen },
+      { id: "onboarding",           label: "Getting Access",       icon: UserCheck },
       { id: "authentication-guide", label: "Authentication Guide", icon: Lock },
       { id: "environments",         label: "Environments",         icon: Globe },
       { id: "responses",            label: "Responses",            icon: Braces },
       { id: "release-notes",        label: "Release Notes",        icon: History },
       { id: "api-alerts",           label: "API Alerts",           icon: AlertTriangle, badge: "2" },
       { id: "rate-limits",          label: "Rate Limits",          icon: AlertCircle },
+      { id: "api-pricing",          label: "Pricing",              icon: Tag },
     ],
   },
   {
