@@ -1810,8 +1810,7 @@ function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
       q: "I'm getting 429 Too Many Requests — what should I do?",
       a: (
         <>
-          You've exceeded the rate limit for your request type. Back off and retry after the value in the <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f8fafc", padding: "1px 6px", borderRadius: 4, color: "#64748b" }}>Retry-After</code> response header. Use exponential back-off for automated retries. GET endpoints are limited to <strong>120 requests/min</strong>; write endpoints to <strong>30 requests/min</strong>.{" "}
-          <button onClick={() => navigateTo("rate-limits")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>See Rate Limits</button>.
+          You've exceeded the rate limit for your request type. Back off and retry after the value in the <code style={{ fontFamily: "monospace", fontSize: 13, background: "#f8fafc", padding: "1px 6px", borderRadius: 4, color: "#64748b" }}>Retry-After</code> response header. Use exponential back-off for automated retries. GET endpoints are limited to <strong>120 requests/min</strong>; write endpoints to <strong>30 requests/min</strong>.
         </>
       ),
     },
@@ -2753,48 +2752,6 @@ export function DeveloperPortal() {
         </div>
       );
     }
-
-    // ── Rate Limits ──────────────────────────────────────────────────────────
-    if (activeId === "rate-limits") return (
-      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 72px" }}>
-        <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Rate Limits</h1>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 32px" }}>
-          Polarin enforces rate limits to maintain platform stability across all integrations.
-        </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {[
-            { scope: "Login / Authentication", limit: "5 failed attempts", window: "Per account", note: "After 5 consecutive failures, the account is locked. Contact support to unlock." },
-            { scope: "Token refresh",           limit: "30 requests",       window: "Per minute",   note: "Exceeding this returns 429. Back off exponentially." },
-            { scope: "Read endpoints (GET)",    limit: "120 requests",      window: "Per minute",   note: "Applies per API key. Pagination is preferred over repeated polling." },
-            { scope: "Write endpoints (POST/PUT/PATCH/DELETE)", limit: "30 requests", window: "Per minute", note: "Service-order endpoints count separately from standard writes." },
-          ].map((row, i) => (
-            <div key={i} style={{
-              background: "#fff", border: `1px solid ${C.border}`, borderRadius: 12,
-              padding: "16px 20px", display: "grid", gridTemplateColumns: "1fr 120px 110px",
-              gap: 16, alignItems: "start",
-            }}>
-              <div>
-                <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, marginBottom: 4 }}>{row.scope}</div>
-                <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, lineHeight: 1.55 }}>{row.note}</div>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 800, color: C.teal }}>{row.limit}</div>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <span style={{
-                  fontFamily: FONT, fontSize: 12, color: "#475569",
-                  background: "#f8fafc", border: `1px solid ${C.border}`,
-                  borderRadius: 6, padding: "2px 8px",
-                }}>{row.window}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7, marginTop: 24 }}>
-          If your integration requires higher limits, contact your Polarin account manager. Enterprise agreements include custom rate limit tiers.
-        </p>
-      </div>
-    );
 
     // ── FAQ ──────────────────────────────────────────────────────────────────
     if (activeId === "faq") return <FaqPage navigateTo={navigateTo} />;
