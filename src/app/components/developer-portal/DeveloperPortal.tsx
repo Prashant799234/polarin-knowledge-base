@@ -5,7 +5,7 @@ import {
   ArrowRight, Sparkles,
   Copy, Check, AlertTriangle, Play, ChevronRight,
   Search, Clock, GitBranch, Lock, Eye, EyeOff,
-  Key, Plus, Trash2,
+  Key, Plus, Trash2, Rocket,
 } from "lucide-react";
 import { NAV_GROUPS, ALL_NAV_ITEMS, findParentModule, type NavItem, type SubItem } from "./navData";
 import { ALL_SUB_MODULES, findSubModule, type Endpoint } from "./apiData";
@@ -2353,6 +2353,43 @@ export function DeveloperPortal() {
               <div style={{ fontFamily: FONT, fontSize: 13, color: C.muted }}>Create a key above to start calling the Polarin API.</div>
             </div>
           )}
+        </div>
+
+        {/* How to get started */}
+        <div style={{ marginTop: 44 }}>
+          <div style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, marginBottom: 6 }}>How to Get Started</div>
+          <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, margin: "0 0 28px" }}>
+            Four simple steps to start calling the Polarin API
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: "28px 40px" }}>
+            {[
+              { n: 1, Icon: Key,     title: "Generate a key",       desc: "Click “Generate New Key” above, pick Sandbox or Production, and give it a name." },
+              { n: 2, Icon: Eye,     title: "Find it anytime",      desc: "Your key stays right here on this page — reveal, copy, or regenerate it whenever you need to. Nothing to save elsewhere." },
+              { n: 3, Icon: Lock,    title: "Add it to your requests", desc: "Send the key as the access-token header on every API call you make." },
+              { n: 4, Icon: Rocket,  title: "Start building",       desc: "Head to the API docs for endpoint examples you can try live, right in the browser." },
+            ].map(step => (
+              <div key={step.n} style={{ display: "flex", gap: 16 }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 10, flexShrink: 0,
+                    background: `${C.teal}14`, border: `1px solid ${C.teal}30`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <step.Icon size={18} color={C.teal} />
+                  </div>
+                  <div style={{ width: 2, flex: 1, background: C.border, marginTop: 10 }} />
+                </div>
+                <div style={{ paddingBottom: 4 }}>
+                  <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy, marginBottom: 6 }}>
+                    Step {step.n}: {step.title}
+                  </div>
+                  <p style={{ fontFamily: FONT, fontSize: 13.5, color: "#64748b", lineHeight: 1.7, margin: 0 }}>
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <AnimatePresence>
