@@ -500,10 +500,9 @@ const RESP_CODES = [
   { code: "404", label: "Not Found",    color: "#64748b", bg: "#f8fafc", border: "#e2e8f1" },
 ];
 
-function EndpointCard({ ep, env, defaultOpen = false, forceOpen = false }: { ep: Endpoint; env: Env; defaultOpen?: boolean; forceOpen?: boolean }) {
+function EndpointCard({ ep, env, open, onToggle, forceOpen = false }: { ep: Endpoint; env: Env; open: boolean; onToggle: () => void; forceOpen?: boolean }) {
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
-  const [open, setOpen]         = useState(defaultOpen || forceOpen);
   const [tryOpen, setTryOpen]   = useState(false);
   const [body, setBody]         = useState("{\n  \n}");
   const [liveResp, setLiveResp] = useState<{ status: number; data: string } | null>(null);
@@ -570,7 +569,7 @@ function EndpointCard({ ep, env, defaultOpen = false, forceOpen = false }: { ep:
 
       {/* ── Collapsed header ── */}
       <button
-        onClick={() => { if (!forceOpen) setOpen(v => !v); }}
+        onClick={() => { if (!forceOpen) onToggle(); }}
         style={{
           display: "flex", alignItems: "center", gap: 10,
           width: "100%", padding: "15px 18px",
@@ -941,8 +940,11 @@ function SubModulePage({ subModuleId, env }: { subModuleId: string; env: Env }) 
   const subMod = findSubModule(subModuleId);
   const parent = findParentModule(subModuleId);
   const [selectedVersion, setSelectedVersion] = useState("v1.0");
+  const [openEndpoint, setOpenEndpoint] = useState(0);
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
+
+  useEffect(() => { setOpenEndpoint(0); }, [subModuleId]);
 
   if (!subMod) {
     return (
@@ -1030,7 +1032,14 @@ function SubModulePage({ subModuleId, env }: { subModuleId: string; env: Env }) 
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {subMod.endpoints.map((ep, i) => (
-          <EndpointCard key={`${subModuleId}-${i}`} ep={ep} env={env} defaultOpen={i === 0} forceOpen={single} />
+          <EndpointCard
+            key={`${subModuleId}-${i}`}
+            ep={ep}
+            env={env}
+            open={single || openEndpoint === i}
+            onToggle={() => setOpenEndpoint(prev => (prev === i ? -1 : i))}
+            forceOpen={single}
+          />
         ))}
       </div>
     </div>
