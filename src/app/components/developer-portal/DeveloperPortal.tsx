@@ -279,7 +279,7 @@ function NavButton({ icon: Icon, label, isActive, isParentActive, badge, externa
           ? C.white
           : hovered ? "rgba(28,128,141,0.04)" : "transparent",
         border: "none",
-        borderRadius: isActive ? "0 16px 16px 0" : "0 8px 8px 0",
+        borderRadius: "0 16px 16px 0",
         boxShadow: isActive
           ? "0 2px 12px rgba(28,128,141,0.10), 0 1px 3px rgba(0,0,0,0.06)"
           : "none",
