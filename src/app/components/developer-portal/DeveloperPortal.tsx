@@ -1119,18 +1119,20 @@ function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env;
         <div style={{ marginBottom: 14 }}>
           <label style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Email Address</label>
           <input
+            className="input-field"
             type="email" value={email} placeholder="Enter your email"
             onChange={e => { setEmail(e.target.value); setError(""); }}
-            style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", border: `1px solid ${C.border}`, borderRadius: 8, fontFamily: FONT, fontSize: 13, outline: "none", color: C.navy }}
+            style={{ fontFamily: FONT, fontSize: 13 }}
           />
         </div>
         <div style={{ marginBottom: error ? 8 : 20 }}>
           <label style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Password</label>
           <div style={{ position: "relative" }}>
             <input
+              className="input-field"
               type={showPw ? "text" : "password"} value={password} placeholder="Enter your password"
               onChange={e => { setPassword(e.target.value); setError(""); }}
-              style={{ width: "100%", boxSizing: "border-box", padding: "10px 38px 10px 12px", border: `1px solid ${C.border}`, borderRadius: 8, fontFamily: FONT, fontSize: 13, outline: "none", color: C.navy }}
+              style={{ paddingRight: 38, fontFamily: FONT, fontSize: 13 }}
             />
             <button onClick={() => setShowPw(v => !v)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: C.muted }}>
               {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -1280,17 +1282,19 @@ function TokenPanel({ onClose, onCreate }: { onClose: () => void; onCreate: (nam
         <div style={{ padding: "24px", flex: 1, overflowY: "auto" }}>
           <label style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 8 }}>Key name</label>
           <input
+            className="input-field"
             value={name}
             onChange={e => { setName(e.target.value); setError(""); }}
             placeholder="e.g. Integration Test"
-            style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", border: `1px solid ${C.border}`, borderRadius: 9, fontFamily: FONT, fontSize: 14, outline: "none", color: C.navy, marginBottom: 20 }}
+            style={{ fontFamily: FONT, fontSize: 14, marginBottom: 20 }}
           />
 
           <label style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 8 }}>Environment</label>
           <select
+            className="input-field"
             value={tokenEnv}
             onChange={e => setTokenEnv(e.target.value as Env)}
-            style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", border: `1px solid ${C.border}`, borderRadius: 9, fontFamily: FONT, fontSize: 14, outline: "none", color: C.navy, background: "#fff", marginBottom: 12 }}
+            style={{ fontFamily: FONT, fontSize: 14, marginBottom: 12 }}
           >
             <option value="staging">Sandbox</option>
             <option value="production">Production</option>
