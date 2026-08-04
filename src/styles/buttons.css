@@ -1,0 +1,50 @@
+/* ─── Shared Polarin button system (Figma: Unified Portal — Handoff, node 1539-11206) ─── */
+
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700; font-size: 14px; line-height: 1;
+  border-radius: 999px; padding: 12px 22px;
+  cursor: pointer; border: none; outline: none;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .08s ease;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+/* Primary — solid fill, shadow only at rest, darkens + scales on interaction */
+.btn-primary {
+  color: #fff;
+  background: #3696b1;
+  box-shadow: 0 2px 8px rgba(10,57,84,0.16);
+}
+.btn-primary:hover    { background: #227a93; box-shadow: none; }
+.btn-primary:active   { background: #227a93; box-shadow: none; transform: scale(0.95); }
+.btn-primary:disabled { background: #c5d0df; color: #90a2b9; box-shadow: none; cursor: not-allowed; }
+
+/* Primary / danger — for irreversible or production-affecting actions */
+.btn-primary.danger {
+  background: linear-gradient(135deg,#dc2626 0%,#9f1239 100%);
+}
+.btn-primary.danger:hover,
+.btn-primary.danger:active { background: #b91c1c; }
+
+/* Secondary — outlined, on a light background */
+.btn-secondary {
+  color: #0a3954;
+  background: #ffffff;
+  border: 1px solid #e2e8f1;
+}
+.btn-secondary:hover    { background: #f1f5f9; }
+.btn-secondary:active   { background: #e2e8f0; transform: scale(0.95); }
+.btn-secondary:disabled { color: #90a2b9; background: #f8fafc; cursor: not-allowed; }
+
+/* Secondary / on-dark — outlined ghost button over a dark hero/section background */
+.btn-secondary.on-dark {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.btn-secondary.on-dark:hover  { background: rgba(255,255,255,0.18); }
+.btn-secondary.on-dark:active { background: rgba(255,255,255,0.24); transform: scale(0.95); }
+
+.btn-sm { padding: 9px 16px; font-size: 13px; }

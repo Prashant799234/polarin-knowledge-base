@@ -91,15 +91,17 @@
 }
 
 .login-submit {
-  width: 100%; border: none; border-radius: 10px; padding: 13px;
-  background: #B9C7DB; color: #fff; cursor: pointer;
+  width: 100%; border: none; border-radius: 999px; padding: 13px;
+  background: #C5D0DF; color: #90A2B9; cursor: not-allowed;
   font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14.5px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: background .15s;
+  transition: background-color .15s, transform .08s;
   margin-bottom: 24px;
+  box-shadow: none;
 }
-.login-submit.ready { background: linear-gradient(135deg,#227A93,#0A3954); }
-.login-submit.ready:hover { background: linear-gradient(135deg,#1c657a,#082c40); }
+.login-submit.ready { background: #3696B1; color: #fff; cursor: pointer; box-shadow: 0 2px 8px rgba(10,57,84,.16); }
+.login-submit.ready:hover { background: #227A93; box-shadow: none; }
+.login-submit.ready:active { background: #227A93; box-shadow: none; transform: scale(0.98); }
 
 .login-foot {
   font-family: 'Lato', sans-serif; font-size: 12.5px; color: #475569;

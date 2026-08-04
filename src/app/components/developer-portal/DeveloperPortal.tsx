@@ -1139,25 +1139,10 @@ function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env;
         </div>
         {error && <div style={{ fontFamily: FONT, fontSize: 12.5, color: "#dc2626", marginBottom: 14 }}>{error}</div>}
         <div style={{ display: "flex", gap: 10 }}>
-          <button
-            onClick={onCancel}
-            style={{
-              flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700,
-              background: "#f8fafc", border: `1px solid ${C.border}`, color: C.navy,
-              borderRadius: 10, padding: "11px", cursor: "pointer",
-            }}
-          >
+          <button className="btn-secondary" onClick={onCancel} style={{ flex: 1 }}>
             Stay in {fromEnv === "production" ? "Production" : "Staging"}
           </button>
-          <button
-            onClick={submit}
-            style={{
-              flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700,
-              background: isProd ? "linear-gradient(135deg,#dc2626 0%,#9f1239 100%)" : "linear-gradient(135deg,#16a34a 0%,#15803d 100%)",
-              border: "none", color: "#fff",
-              borderRadius: 10, padding: "11px", cursor: "pointer",
-            }}
-          >
+          <button className={`btn-primary${isProd ? " danger" : ""}`} onClick={submit} style={{ flex: 1 }}>
             Sign In &amp; Switch
           </button>
         </div>
@@ -1321,16 +1306,10 @@ function TokenPanel({ onClose, onCreate }: { onClose: () => void; onCreate: (nam
         </div>
 
         <div style={{ display: "flex", gap: 10, padding: "18px 24px", borderTop: `1px solid ${C.border}` }}>
-          <button
-            onClick={onClose}
-            style={{ flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700, background: "#f8fafc", border: `1px solid ${C.border}`, color: C.navy, borderRadius: 10, padding: "11px", cursor: "pointer" }}
-          >
+          <button className="btn-secondary" onClick={onClose} style={{ flex: 1 }}>
             Cancel
           </button>
-          <button
-            onClick={submit}
-            style={{ flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700, background: "linear-gradient(135deg,#1c808d,#0a3954)", border: "none", color: "#fff", borderRadius: 10, padding: "11px", cursor: "pointer" }}
-          >
+          <button className="btn-primary" onClick={submit} style={{ flex: 1 }}>
             Create
           </button>
         </div>
@@ -2143,10 +2122,10 @@ export function DeveloperPortal() {
               Automate your entire network infrastructure — provision ports, manage virtual routers, order circuits, and monitor performance — all through simple REST calls.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <button onClick={() => navigateTo("onboarding")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, background: C.teal, color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", cursor: "pointer", letterSpacing: "0.01em" }}>
+              <button className="btn-primary btn-sm" onClick={() => navigateTo("onboarding")}>
                 Get Access →
               </button>
-              <button onClick={() => navigateTo("mod-authentication")} style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 600, background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 8, padding: "10px 22px", cursor: "pointer" }}>
+              <button className="btn-secondary on-dark btn-sm" onClick={() => navigateTo("mod-authentication")}>
                 Explore APIs
               </button>
             </div>
@@ -2305,15 +2284,7 @@ export function DeveloperPortal() {
               Manage your sandbox and production API keys
             </p>
           </div>
-          <button
-            onClick={() => setTokenPanelOpen(true)}
-            style={{
-              display: "flex", alignItems: "center", gap: 7, flexShrink: 0,
-              fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#fff",
-              background: "#3696B1",
-              border: "none", borderRadius: 999, padding: "12px 22px", cursor: "pointer",
-            }}
-          >
+          <button className="btn-primary" onClick={() => setTokenPanelOpen(true)} style={{ flexShrink: 0 }}>
             <Plus size={16} /> Generate New Key
           </button>
         </div>
