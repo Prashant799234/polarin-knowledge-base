@@ -269,12 +269,12 @@ function NavButton({ icon: Icon, label, isActive, isParentActive, badge, externa
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "flex", alignItems: "center",
-        width: "calc(100% - 20px)", boxSizing: "border-box",
+        width: "calc(100% - 12px)", boxSizing: "border-box",
         paddingLeft: indent ? 48 : 24,
         paddingRight: 16,
         paddingTop: indent ? 10 : 12,
         paddingBottom: indent ? 10 : 12,
-        marginRight: 20,
+        marginRight: 12,
         background: isActive
           ? C.white
           : hovered ? "rgba(28,128,141,0.04)" : "transparent",
