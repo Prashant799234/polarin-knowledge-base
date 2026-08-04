@@ -559,8 +559,10 @@ function EndpointCard({ ep, env, open, onToggle, forceOpen = false }: { ep: Endp
     setTimeout(() => setCopiedCurl(false), 2000);
   }
 
+  const cardRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div style={{
+    <div ref={cardRef} style={{
       border: `1px solid ${open ? C.teal + "40" : C.border}`,
       borderRadius: 14, overflow: "hidden", background: C.white,
       boxShadow: open ? "0 6px 28px rgba(28,128,141,0.10)" : "0 1px 3px rgba(0,0,0,0.04)",
@@ -606,6 +608,9 @@ function EndpointCard({ ep, env, open, onToggle, forceOpen = false }: { ep: Endp
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeInOut" }}
+            onAnimationComplete={() => {
+              if (open) cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
             style={{ overflow: "hidden" }}
           >
             <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "stretch", minHeight: 0 }}>
