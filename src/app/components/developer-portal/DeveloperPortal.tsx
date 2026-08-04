@@ -2299,18 +2299,18 @@ export function DeveloperPortal() {
             onClick={() => setTokenPanelOpen(true)}
             style={{
               display: "flex", alignItems: "center", gap: 7, flexShrink: 0,
-              fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#fff",
-              background: "linear-gradient(135deg,#1c808d,#0a3954)",
-              border: "none", borderRadius: 9, padding: "11px 18px", cursor: "pointer",
+              fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#fff",
+              background: "#3696B1",
+              border: "none", borderRadius: 999, padding: "12px 22px", cursor: "pointer",
             }}
           >
-            <Plus size={14} /> New Key
+            <Plus size={16} /> Generate New Key
           </button>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {tokenKeys.map(k => (
-            <div key={k.id} style={{ border: `1px solid ${C.border}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+            <div key={k.id} style={{ border: `1px solid ${C.border}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
               <div style={{ minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 6, flexWrap: "wrap" }}>
                   <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy }}>{k.name}</span>
@@ -2336,14 +2336,16 @@ export function DeveloperPortal() {
               </div>
               <button
                 onClick={() => setTokenKeys(prev => prev.filter(x => x.id !== k.id))}
+                title="Delete key"
                 style={{
-                  display: "flex", alignItems: "center", gap: 6, flexShrink: 0,
-                  fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#dc2626",
-                  background: "#fff", border: "1px solid #fecdd3", borderRadius: 8,
-                  padding: "8px 16px", cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  width: 34, height: 34,
+                  color: C.navy, background: "none", border: "none", borderRadius: 8, cursor: "pointer",
                 }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#f1f5f9")}
+                onMouseLeave={e => (e.currentTarget.style.background = "none")}
               >
-                <Trash2 size={13} /> Revoke
+                <Trash2 size={16} />
               </button>
             </div>
           ))}
