@@ -58,6 +58,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: "quick-start",          label: "Welcome",              icon: BookOpen },
       { id: "onboarding",           label: "Getting Access",       icon: UserCheck },
       { id: "authentication-guide", label: "Authentication Guide", icon: Lock },
+      { id: "access-token",         label: "Access Token",         icon: Key },
       { id: "environments",         label: "Environments",         icon: Globe },
       { id: "responses",            label: "Responses",            icon: Braces },
       { id: "release-notes",        label: "Release Notes",        icon: History },

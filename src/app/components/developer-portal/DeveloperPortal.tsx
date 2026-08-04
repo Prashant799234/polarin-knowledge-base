@@ -5,6 +5,7 @@ import {
   ArrowRight, Sparkles,
   Copy, Check, AlertTriangle, Play, ChevronRight,
   Search, Clock, GitBranch, Lock, Eye, EyeOff,
+  Key, Plus, Trash2,
 } from "lucide-react";
 import { NAV_GROUPS, ALL_NAV_ITEMS, findParentModule, type NavItem, type SubItem } from "./navData";
 import { ALL_SUB_MODULES, findSubModule, type Endpoint } from "./apiData";
@@ -1241,6 +1242,89 @@ function EnvSwitcher({ env, onChange }: { env: Env; onChange: (e: Env) => void }
   );
 }
 
+// ── Access Token side panel ────────────────────────────────────────────────────
+
+function TokenPanel({ onClose, onCreate }: { onClose: () => void; onCreate: (name: string, env: Env) => void }) {
+  const [name, setName] = useState("");
+  const [tokenEnv, setTokenEnv] = useState<Env>("staging");
+  const [error, setError] = useState("");
+
+  function submit() {
+    if (!name.trim()) { setError("Enter a name for this key."); return; }
+    onCreate(name.trim(), tokenEnv);
+  }
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        onClick={onClose}
+        style={{ position: "fixed", inset: 0, background: "rgba(10,57,84,0.45)", backdropFilter: "blur(2px)", zIndex: 300 }}
+      />
+      <motion.div
+        initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 301,
+          width: 420, maxWidth: "calc(100vw - 32px)",
+          background: "#fff", boxShadow: "-12px 0 40px rgba(10,57,84,0.18)",
+          display: "flex", flexDirection: "column",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 24px", borderBottom: `1px solid ${C.border}` }}>
+          <h2 style={{ fontFamily: FONT_J, fontSize: 18, fontWeight: 800, color: C.navy, margin: 0 }}>Create API Key</h2>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: C.muted, display: "flex" }}>
+            <X size={18} />
+          </button>
+        </div>
+
+        <div style={{ padding: "24px", flex: 1, overflowY: "auto" }}>
+          <label style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 8 }}>Key name</label>
+          <input
+            value={name}
+            onChange={e => { setName(e.target.value); setError(""); }}
+            placeholder="e.g. Integration Test"
+            style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", border: `1px solid ${C.border}`, borderRadius: 9, fontFamily: FONT, fontSize: 14, outline: "none", color: C.navy, marginBottom: 20 }}
+          />
+
+          <label style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 8 }}>Environment</label>
+          <select
+            value={tokenEnv}
+            onChange={e => setTokenEnv(e.target.value as Env)}
+            style={{ width: "100%", boxSizing: "border-box", padding: "11px 13px", border: `1px solid ${C.border}`, borderRadius: 9, fontFamily: FONT, fontSize: 14, outline: "none", color: C.navy, background: "#fff", marginBottom: 12 }}
+          >
+            <option value="staging">Sandbox</option>
+            <option value="production">Production</option>
+          </select>
+
+          {tokenEnv === "production" && (
+            <div style={{ fontFamily: FONT, fontSize: 12.5, color: "#c8780a", marginBottom: 12, lineHeight: 1.6 }}>
+              Production access has not been approved by an admin yet.
+            </div>
+          )}
+
+          {error && <div style={{ fontFamily: FONT, fontSize: 12.5, color: "#dc2626", marginBottom: 12 }}>{error}</div>}
+        </div>
+
+        <div style={{ display: "flex", gap: 10, padding: "18px 24px", borderTop: `1px solid ${C.border}` }}>
+          <button
+            onClick={onClose}
+            style={{ flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700, background: "#f8fafc", border: `1px solid ${C.border}`, color: C.navy, borderRadius: 10, padding: "11px", cursor: "pointer" }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={submit}
+            style={{ flex: 1, fontFamily: FONT_J, fontSize: 14, fontWeight: 700, background: "linear-gradient(135deg,#1c808d,#0a3954)", border: "none", color: "#fff", borderRadius: 10, padding: "11px", cursor: "pointer" }}
+          >
+            Create
+          </button>
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
 // ── Auth guide ────────────────────────────────────────────────────────────────
 
 function CodeBlock({ code, lang = "bash" }: { code: string; lang?: string }) {
@@ -1962,11 +2046,32 @@ function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
+type TokenKeyStatus = "active" | "pending";
+type TokenKey = {
+  id: string;
+  name: string;
+  env: Env;
+  key: string;
+  createdAt: string;
+  lastUsed: string;
+  status: TokenKeyStatus;
+};
+
+function makeSeedTokenKeys(): TokenKey[] {
+  return [
+    { id: "tk1", name: "Demo Sandbox Key", env: "staging",    key: "pk_sandbox_demo0000000000000000000", createdAt: "22 Jul 2026, 10:19 AM", lastUsed: "Never used", status: "active" },
+    { id: "tk2", name: "CI/CD Pipeline",   env: "staging",    key: "pk_sandbox_924c3f51e92ff8a2c9d1e034", createdAt: "22 Jul 2026, 10:22 AM", lastUsed: "Never used", status: "active" },
+    { id: "tk3", name: "CI/CD Pipeline",   env: "production", key: "pk_live_d354c9cb5b90a1fb7e2a6c8f01", createdAt: "22 Jul 2026, 10:23 AM", lastUsed: "Never used", status: "active" },
+  ];
+}
+
 export function DeveloperPortal() {
   const [activeId, setActiveId] = useState("quick-start");
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(["mod-authentication"]));
   const [env, setEnv] = useState<Env>("staging");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [tokenKeys, setTokenKeys] = useState<TokenKey[]>(makeSeedTokenKeys());
+  const [tokenPanelOpen, setTokenPanelOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
@@ -2177,6 +2282,103 @@ export function DeveloperPortal() {
           <button onClick={() => navigateTo("api-pricing")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Pricing</button>{" "}
           page. For full onboarding documentation, visit the Polarin customer portal.
         </p>
+      </div>
+    );
+
+    // ── Access Token ─────────────────────────────────────────────────────────
+    if (activeId === "access-token") return (
+      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 64px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 32, flexWrap: "wrap" }}>
+          <div>
+            <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>Access Token</h1>
+            <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: 0 }}>
+              Manage your sandbox and production API keys
+            </p>
+          </div>
+          <button
+            onClick={() => setTokenPanelOpen(true)}
+            style={{
+              display: "flex", alignItems: "center", gap: 7, flexShrink: 0,
+              fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#fff",
+              background: "linear-gradient(135deg,#1c808d,#0a3954)",
+              border: "none", borderRadius: 9, padding: "11px 18px", cursor: "pointer",
+            }}
+          >
+            <Plus size={14} /> New Key
+          </button>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          {tokenKeys.map(k => (
+            <div key={k.id} style={{ border: `1px solid ${C.border}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 6, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy }}>{k.name}</span>
+                  <span style={{
+                    fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px",
+                    color: k.env === "staging" ? "#2F6FE4" : "#15803d",
+                    background: k.env === "staging" ? "#EBF1FC" : "#dcfce7",
+                  }}>
+                    {k.env === "staging" ? "Sandbox" : "Production"}
+                  </span>
+                  {k.status === "pending" && (
+                    <span style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px", color: "#c8780a", background: "#FEF3E2" }}>
+                      Pending Approval
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontFamily: "monospace", fontSize: 13, color: "#64748b", marginBottom: 6, wordBreak: "break-all" }}>
+                  {k.key.slice(0, 20)}{"•".repeat(14)}
+                </div>
+                <div style={{ fontFamily: FONT, fontSize: 12.5, color: C.muted }}>
+                  Created {k.createdAt} · {k.lastUsed}
+                </div>
+              </div>
+              <button
+                onClick={() => setTokenKeys(prev => prev.filter(x => x.id !== k.id))}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6, flexShrink: 0,
+                  fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#dc2626",
+                  background: "#fff", border: "1px solid #fecdd3", borderRadius: 8,
+                  padding: "8px 16px", cursor: "pointer",
+                }}
+              >
+                <Trash2 size={13} /> Revoke
+              </button>
+            </div>
+          ))}
+
+          {tokenKeys.length === 0 && (
+            <div style={{ border: `1px dashed ${C.border}`, borderRadius: 14, padding: "40px 20px", textAlign: "center" }}>
+              <Key size={24} color={C.muted} style={{ marginBottom: 10 }} />
+              <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 4 }}>No keys yet</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, color: C.muted }}>Create a key above to start calling the Polarin API.</div>
+            </div>
+          )}
+        </div>
+
+        <AnimatePresence>
+          {tokenPanelOpen && (
+            <TokenPanel
+              onClose={() => setTokenPanelOpen(false)}
+              onCreate={(name, tokenEnv) => {
+                const newKey: TokenKey = {
+                  id: `tk${Math.random().toString(36).slice(2, 8)}`,
+                  name,
+                  env: tokenEnv,
+                  key: tokenEnv === "staging"
+                    ? `pk_sandbox_${Math.random().toString(36).slice(2, 10)}${Math.random().toString(36).slice(2, 10)}`
+                    : `pk_live_${Math.random().toString(36).slice(2, 10)}${Math.random().toString(36).slice(2, 10)}`,
+                  createdAt: "Just now",
+                  lastUsed: "Never used",
+                  status: tokenEnv === "production" ? "pending" : "active",
+                };
+                setTokenKeys(prev => [newKey, ...prev]);
+                setTokenPanelOpen(false);
+              }}
+            />
+          )}
+        </AnimatePresence>
       </div>
     );
 
@@ -2684,7 +2886,9 @@ export function DeveloperPortal() {
           display: "flex", alignItems: "center",
           padding: isMobile ? "0 12px 0 16px" : "0 16px 0 24px",
         }}>
-          <img src="/polarin-logo.png" alt="Polarin Developer Portal" style={{ height: 47, width: "auto", display: "block" }} />
+          <div style={{ height: 47, width: 80, minWidth: 80, maxWidth: 80, overflow: "hidden", flexShrink: 0 }}>
+            <img src="/polarin-logo.png" alt="Polarin" style={{ height: 47, width: 209.5, maxWidth: "none", display: "block" }} />
+          </div>
         </div>
 
         {/* Search — hidden on mobile */}
