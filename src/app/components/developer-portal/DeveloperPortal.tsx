@@ -2904,20 +2904,6 @@ export function DeveloperPortal() {
         {/* Right controls */}
         <div style={{ paddingRight: isMobile ? 12 : 24, flexShrink: 0, display: "flex", alignItems: "center", gap: isMobile ? 8 : 10 }}>
           <EnvSwitcher env={env} onChange={setEnv} />
-          {!isMobile && (
-            <a
-              href="/"
-              style={{
-                fontFamily: FONT_J, fontSize: 12, fontWeight: 600, color: "#4b6b8a",
-                textDecoration: "none", padding: "6px 14px",
-                border: "1px solid #c8d4e0", borderRadius: 8,
-                display: "flex", alignItems: "center", gap: 5,
-                background: "transparent", whiteSpace: "nowrap",
-              }}
-            >
-              <ArrowRight size={12} style={{ transform: "rotate(180deg)" }} /> Knowledge Base
-            </a>
-          )}
           {/* Hamburger — mobile only */}
           {isMobile && (
             <button
