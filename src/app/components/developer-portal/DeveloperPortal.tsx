@@ -2176,7 +2176,6 @@ export function DeveloperPortal() {
               { label: "Getting Access", sub: "Account registration & onboarding", id: "onboarding", color: "#0ea5e9", bg: "#f0f9ff" },
               { label: "Authentication Guide", sub: "Tokens, refresh flow & MFA", id: "authentication-guide", color: C.teal, bg: "#f0fafa" },
               { label: "Environments", sub: "Staging vs. Production base URLs", id: "environments", color: "#8b5cf6", bg: "#faf5ff" },
-              { label: "Pricing", sub: "What's free & VISTA usage limits", id: "api-pricing", color: "#f59e0b", bg: "#fffbeb" },
               { label: "Responses", sub: "Status codes & response envelope", id: "responses", color: "#16a34a", bg: "#f0fdf4" },
               { label: "FAQ", sub: "Common questions answered", id: "faq", color: "#64748b", bg: "#f8fafc" },
             ].map(lnk => (
@@ -2277,9 +2276,7 @@ export function DeveloperPortal() {
         </div>
 
         <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>
-          For detailed pricing information, see the{" "}
-          <button onClick={() => navigateTo("api-pricing")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Pricing</button>{" "}
-          page. For full onboarding documentation, visit the Polarin customer portal.
+          For full onboarding documentation, visit the Polarin customer portal.
         </p>
       </div>
     );
@@ -2380,80 +2377,6 @@ export function DeveloperPortal() {
             />
           )}
         </AnimatePresence>
-      </div>
-    );
-
-    // ── Pricing ───────────────────────────────────────────────────────────────
-    if (activeId === "api-pricing") return (
-      <div style={{ padding: isMobile ? "24px 18px 40px" : "40px 48px 64px" }}>
-        <h1 style={{ fontFamily: FONT_J, fontSize: 30, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.5px" }}>API Pricing</h1>
-        <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, lineHeight: 1.8, margin: "0 0 32px" }}>
-          Simple rule: almost all Polarin APIs are free. The only exception is the VISTA Performance Monitoring API, which has a daily free allowance per circuit.
-        </p>
-
-        {/* Free banner */}
-        <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 14, padding: "18px 24px", display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 32 }}>
-          <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <span style={{ fontSize: 18 }}>✓</span>
-          </div>
-          <div>
-            <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 800, color: "#15803d", marginBottom: 5 }}>All provisioning, management & account APIs are free</div>
-            <div style={{ fontFamily: FONT, fontSize: 13, color: "#16a34a", lineHeight: 1.7 }}>
-              Authentication, Ports, Virtual Routers, Connections, Locations, Billing, Subscriptions, Support, Track Order, Activity Logs, User Management — no usage charges.
-            </div>
-          </div>
-        </div>
-
-        {/* VISTA table */}
-        <div style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 800, color: C.navy, marginBottom: 14 }}>VISTA Performance Monitoring</div>
-        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.75, margin: "0 0 20px" }}>
-          VISTA APIs return real-time and historical performance metrics for your ports, virtual circuits, SLA data, and latency. They have a free daily allowance per circuit — calls beyond that are charged.
-        </p>
-
-        <div style={{ border: `1px solid ${C.border}`, borderRadius: 14, overflow: "hidden", marginBottom: 28 }}>
-          {/* Header row */}
-          <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: C.navy }}>
-            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Feature</div>
-            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase", borderLeft: "1px solid rgba(255,255,255,0.08)" }}>Free</div>
-            <div style={{ padding: "12px 20px", fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: "#4dd9e6", letterSpacing: "0.08em", textTransform: "uppercase", borderLeft: "1px solid rgba(255,255,255,0.08)" }}>Premium</div>
-          </div>
-          {[
-            ["Daily call limit (per circuit)", "10,000 calls", "50,000 calls"],
-            ["Historical data retention", "31 days", "180 days"],
-            ["SLA & latency metrics", "✓ Included", "✓ Included"],
-            ["SNMP data access", "✓ Included", "✓ Included"],
-            ["Cost", "Included with service", "Contact Polarin"],
-          ].map(([feat, free, prem], i) => (
-            <div key={feat} style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: i % 2 === 0 ? "#fff" : "#f8fafc", borderTop: `1px solid ${C.border}` }}>
-              <div style={{ padding: "13px 20px", fontFamily: FONT, fontSize: 13, color: C.navy, fontWeight: 500 }}>{feat}</div>
-              <div style={{ padding: "13px 20px", fontFamily: FONT, fontSize: 13, color: "#16a34a", borderLeft: `1px solid ${C.border}` }}>{free}</div>
-              <div style={{ padding: "13px 20px", fontFamily: FONT_J, fontSize: 13, color: C.teal, fontWeight: 700, borderLeft: `1px solid ${C.border}` }}>{prem}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Additional calls */}
-        <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy, marginBottom: 12 }}>Additional calls (beyond free limit)</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-          {[
-            { label: "Rate", val: "Flat rate per call above the daily limit" },
-            { label: "Tracking", val: "Usage is tracked daily, per circuit" },
-            { label: "Billing", val: "Invoiced monthly — charges appear on your next billing cycle" },
-            { label: "Carry-over", val: "No carry-over — the daily pool resets at 00:00 UTC each day" },
-            { label: "Overage alert", val: "You receive a 429 Too Many Requests response when the free limit is reached" },
-          ].map(row => (
-            <div key={row.label} style={{ display: "flex", gap: 14, padding: "11px 18px", background: "#f8fafc", borderRadius: 9, border: `1px solid ${C.border}` }}>
-              <div style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: C.navy, minWidth: 100, flexShrink: 0 }}>{row.label}</div>
-              <div style={{ fontFamily: FONT, fontSize: 13, color: "#475569" }}>{row.val}</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 12, padding: "16px 20px" }}>
-          <p style={{ fontFamily: FONT, fontSize: 13, color: "#92400e", lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: "#78350f" }}>Need VISTA Premium?</strong> Contact your Polarin account manager to upgrade your circuit tier. The upgrade is applied the same business day and immediately increases your daily allowance and data retention.
-          </p>
-        </div>
       </div>
     );
 
@@ -2889,7 +2812,6 @@ export function DeveloperPortal() {
             width: 260, minWidth: 260,
             display: "flex", flexDirection: "column",
             background: "transparent",
-            overflowY: "hidden",
             flexShrink: 0,
           }}>
             {sidebarContent}

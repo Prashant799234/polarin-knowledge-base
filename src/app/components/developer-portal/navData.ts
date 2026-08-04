@@ -27,7 +27,6 @@ import {
   Braces,
   HelpCircle,
   UserCheck,
-  Tag,
 } from "lucide-react";
 import React from "react";
 
@@ -62,7 +61,6 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: "responses",            label: "Responses",            icon: Braces },
       { id: "release-notes",        label: "Release Notes",        icon: History },
       { id: "api-alerts",           label: "API Alerts",           icon: AlertTriangle, badge: "2" },
-      { id: "api-pricing",          label: "Pricing",              icon: Tag },
     ],
   },
   {
