@@ -1120,10 +1120,10 @@ function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env;
           {isProd ? <AlertTriangle size={22} color="#d97706" /> : <Lock size={20} color="#16a34a" />}
         </div>
         <h2 style={{ fontFamily: FONT_J, fontSize: 20, fontWeight: 800, color: C.navy, margin: "0 0 12px" }}>
-          Sign in to {isProd ? "Production" : "Staging"}
+          Sign in to {isProd ? "Production" : "Sandbox"}
         </h2>
         <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, margin: "0 0 20px", lineHeight: 1.7 }}>
-          API keys and access tokens are scoped to a single environment. Switching from <strong style={{ color: C.navy }}>{fromEnv === "production" ? "Production" : "Staging"}</strong> to <strong style={{ color: C.navy }}>{isProd ? "Production" : "Staging"}</strong> requires you to authenticate again for that environment.
+          API keys and access tokens are scoped to a single environment. Switching from <strong style={{ color: C.navy }}>{fromEnv === "production" ? "Production" : "Sandbox"}</strong> to <strong style={{ color: C.navy }}>{isProd ? "Production" : "Sandbox"}</strong> requires you to authenticate again for that environment.
         </p>
         {isProd && (
           <ul style={{ fontFamily: FONT, fontSize: 14, color: "#64748b", margin: "0 0 20px", paddingLeft: 20, lineHeight: 2 }}>
@@ -1158,7 +1158,7 @@ function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env;
         {error && <div style={{ fontFamily: FONT, fontSize: 12.5, color: "#dc2626", marginBottom: 14 }}>{error}</div>}
         <div style={{ display: "flex", gap: 10 }}>
           <button className="btn-secondary" onClick={onCancel} style={{ flex: 1 }}>
-            Stay in {fromEnv === "production" ? "Production" : "Staging"}
+            Stay in {fromEnv === "production" ? "Production" : "Sandbox"}
           </button>
           <button className={`btn-primary${isProd ? " danger" : ""}`} onClick={submit} style={{ flex: 1 }}>
             Sign In &amp; Switch
@@ -1198,7 +1198,7 @@ function EnvSwitcher({ env, onChange }: { env: Env; onChange: (e: Env) => void }
           }}
         >
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "rgba(255,255,255,0.6)", flexShrink: 0 }} />
-          {env === "staging" ? "STAGING" : "PRODUCTION"}
+          {env === "staging" ? "SANDBOX" : "PRODUCTION"}
           <ChevronDown size={12} style={{ marginLeft: 2 }} />
         </button>
 
@@ -1233,7 +1233,7 @@ function EnvSwitcher({ env, onChange }: { env: Env; onChange: (e: Env) => void }
                   }} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, textTransform: "uppercase", letterSpacing: "0.04em" }}>
-                      {e}
+                      {e === "staging" ? "Sandbox" : "Production"}
                     </div>
                     <div style={{ fontFamily: FONT, fontSize: 11, color: C.muted, marginTop: 1 }}>
                       {e === "staging" ? "uat-api-polarin.lightstorm.in" : "api-polarin.lightstorm.in"}
@@ -1761,23 +1761,23 @@ function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
     // ── Environments & Testing ────────────────────────────────────────────────
     {
       category: "Environments & Testing",
-      q: "What is the difference between Staging and Production?",
+      q: "What is the difference between Sandbox and Production?",
       a: (
         <>
-          <strong>Staging</strong> (<code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0fdf4", color: "#16a34a", padding: "1px 7px", borderRadius: 4 }}>uat-api-polarin.lightstorm.in</code>) is a safe sandbox for development and testing — no real services are provisioned and you are never billed. <strong>Production</strong> (<code style={{ fontFamily: "monospace", fontSize: 13, background: "#fff1f2", color: "#dc2626", padding: "1px 7px", borderRadius: 4 }}>api-polarin.lightstorm.in</code>) operates on live services and all operations — including orders, MACD, and deletions — are real and billable. Always validate in Staging before targeting Production.{" "}
+          <strong>Sandbox</strong> (<code style={{ fontFamily: "monospace", fontSize: 13, background: "#f0fdf4", color: "#16a34a", padding: "1px 7px", borderRadius: 4 }}>uat-api-polarin.lightstorm.in</code>) is a safe environment for development and testing — no real services are provisioned and you are never billed. <strong>Production</strong> (<code style={{ fontFamily: "monospace", fontSize: 13, background: "#fff1f2", color: "#dc2626", padding: "1px 7px", borderRadius: 4 }}>api-polarin.lightstorm.in</code>) operates on live services and all operations — including orders, MACD, and deletions — are real and billable. Always validate in Sandbox before targeting Production.{" "}
           <button onClick={() => navigateTo("environments")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>See the Environments guide</button>.
         </>
       ),
     },
     {
       category: "Environments & Testing",
-      q: "Is the Staging environment reset? Will I lose my test data?",
-      a: "Yes. The Staging environment is reset every 24 hours to stay aligned with production data structures. Do not rely on test data persisting across days. Any resources or orders created in Staging are automatically cleared on reset.",
+      q: "Is the Sandbox environment reset? Will I lose my test data?",
+      a: "Yes. The Sandbox environment is reset every 24 hours to stay aligned with production data structures. Do not rely on test data persisting across days. Any resources or orders created in Sandbox are automatically cleared on reset.",
     },
     {
       category: "Environments & Testing",
       q: "How do I switch environments in this portal?",
-      a: "Use the environment pill (labelled STAGING or PRODUCTION) in the top-right corner of the portal header. Switching to Production shows a confirmation prompt reminding you that live services and billing are affected. All cURL examples and base URLs in endpoint cards update automatically.",
+      a: "Use the environment pill (labelled SANDBOX or PRODUCTION) in the top-right corner of the portal header. Switching to Production shows a confirmation prompt reminding you that live services and billing are affected. All cURL examples and base URLs in endpoint cards update automatically.",
     },
 
     // ── Errors & Troubleshooting ──────────────────────────────────────────────
@@ -1887,7 +1887,7 @@ function FaqPage({ navigateTo }: { navigateTo: (id: string) => void }) {
       q: "How do I place a port or service order via the API?",
       a: (
         <>
-          Use the <strong>Service Orders – Ports</strong> module for port ordering, LAG, BGP, LOA, cross-connect, and deletion workflows. For Virtual Router orders use <strong>Service Orders – Virtual Router</strong>, and for connections use <strong>Service Orders – Connections</strong>. Always validate the order payload in Staging before submitting to Production — service orders are irreversible once accepted.{" "}
+          Use the <strong>Service Orders – Ports</strong> module for port ordering, LAG, BGP, LOA, cross-connect, and deletion workflows. For Virtual Router orders use <strong>Service Orders – Virtual Router</strong>, and for connections use <strong>Service Orders – Connections</strong>. Always validate the order payload in Sandbox before submitting to Production — service orders are irreversible once accepted.{" "}
           <button onClick={() => navigateTo("ports-order")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Open Port Order</button>.
         </>
       ),
@@ -2188,7 +2188,7 @@ export function DeveloperPortal() {
             {[
               { label: "Getting Access", sub: "Account registration & onboarding", id: "onboarding", color: "#0ea5e9", bg: "#f0f9ff" },
               { label: "Authentication Guide", sub: "Tokens, refresh flow & MFA", id: "authentication-guide", color: C.teal, bg: "#f0fafa" },
-              { label: "Environments", sub: "Staging vs. Production base URLs", id: "environments", color: "#8b5cf6", bg: "#faf5ff" },
+              { label: "Environments", sub: "Sandbox vs. Production base URLs", id: "environments", color: "#8b5cf6", bg: "#faf5ff" },
               { label: "Responses", sub: "Status codes & response envelope", id: "responses", color: "#16a34a", bg: "#f0fdf4" },
               { label: "FAQ", sub: "Common questions answered", id: "faq", color: "#64748b", bg: "#f8fafc" },
             ].map(lnk => (
@@ -2234,12 +2234,12 @@ export function DeveloperPortal() {
             },
             {
               n: 4, title: "Receive Activation Email",
-              desc: "You'll receive an email with your portal login credentials and your initial staging API key. The email also includes a link directly to this Developer Portal.",
+              desc: "You'll receive an email with your portal login credentials and your initial sandbox API key. The email also includes a link directly to this Developer Portal.",
               note: null,
             },
             {
-              n: 5, title: "Start with Staging",
-              desc: "Log in here and test with your staging credentials — no real services, no billing. When you're ready to go live, contact your Polarin account manager for production credentials.",
+              n: 5, title: "Start with Sandbox",
+              desc: "Log in here and test with your sandbox credentials — no real services, no billing. When you're ready to go live, contact your Polarin account manager for production credentials.",
               note: "First API call in under 30 minutes from this point.",
             },
           ].map((step, i, arr) => (
@@ -2433,11 +2433,11 @@ export function DeveloperPortal() {
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 40 }}>
-          {/* Staging */}
+          {/* Sandbox */}
           <div style={{ background: "#fff", border: "1px solid #bbf7d0", borderRadius: 16, overflow: "hidden" }}>
             <div style={{ background: "#f0fdf4", borderBottom: "1px solid #bbf7d0", padding: "14px 24px", display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#16a34a" }} />
-              <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: "#166534" }}>Staging</span>
+              <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: "#166534" }}>Sandbox</span>
               <code style={{ fontFamily: "monospace", fontSize: 12, color: "#16a34a", background: "#dcfce7", border: "1px solid #bbf7d0", borderRadius: 6, padding: "2px 8px", marginLeft: 4 }}>https://uat-api-polarin.lightstorm.in</code>
             </div>
             <div style={{ padding: "20px 24px" }}>
@@ -2445,7 +2445,7 @@ export function DeveloperPortal() {
                 <li>Safe sandbox for development, integration testing, and automation trials.</li>
                 <li>No real services are provisioned and <strong style={{ color: C.navy }}>you will never be billed</strong> for activity here.</li>
                 <li>API responses mirror production but all resources are isolated to the test environment.</li>
-                <li>The staging environment is <strong style={{ color: C.navy }}>reset every 24 hours</strong> to keep it aligned with production data structures.</li>
+                <li>The sandbox environment is <strong style={{ color: C.navy }}>reset every 24 hours</strong> to keep it aligned with production data structures.</li>
                 <li>Use this environment for all pre-production work and CI/CD pipelines.</li>
               </ul>
             </div>
@@ -2463,7 +2463,7 @@ export function DeveloperPortal() {
                 <li>Live environment. All requests directly affect active network services.</li>
                 <li><strong style={{ color: "#9f1239" }}>You will be liable for any services ordered or modified in this environment.</strong></li>
                 <li>Service provisioning, MACD operations, and deletions are <strong style={{ color: C.navy }}>irreversible</strong> once submitted.</li>
-                <li>Always validate your request payload in staging before targeting production.</li>
+                <li>Always validate your request payload in the sandbox before targeting production.</li>
                 <li>Contact your Polarin account manager to obtain production credentials.</li>
               </ul>
             </div>
@@ -2472,7 +2472,7 @@ export function DeveloperPortal() {
 
         <div style={{ background: "#f8fafc", border: `1px solid ${C.border}`, borderRadius: 12, padding: "18px 22px" }}>
           <p style={{ fontFamily: FONT, fontSize: 14, color: "#475569", margin: 0, lineHeight: 1.75 }}>
-            <strong style={{ color: C.navy }}>Switching environments:</strong> Use the environment pill in the top-right of the portal header to toggle between Staging and Production. Switching to Production displays a confirmation prompt reminding you that live services and billing are affected.
+            <strong style={{ color: C.navy }}>Switching environments:</strong> Use the environment pill in the top-right of the portal header to toggle between Sandbox and Production. Switching to Production displays a confirmation prompt reminding you that live services and billing are affected.
           </p>
         </div>
       </div>

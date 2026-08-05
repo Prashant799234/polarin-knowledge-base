@@ -167,7 +167,7 @@ export function ApiIntegrationsPortal() {
             {envMenuOpen && <div onClick={() => setEnvMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 90 }} />}
             <button className={`ap-env-pill ${env}`} onClick={() => setEnvMenuOpen(v => !v)}>
               <span className="ap-env-dot" />
-              {env === "staging" ? "STAGING" : "PRODUCTION"}
+              {env === "staging" ? "SANDBOX" : "PRODUCTION"}
               <ChevronDown size={12} />
             </button>
             {envMenuOpen && (
@@ -176,7 +176,7 @@ export function ApiIntegrationsPortal() {
                   <button key={e} className={`ap-env-opt${env === e ? " current" : ""}`} onClick={() => requestEnvSwitch(e)}>
                     <span className="ap-env-opt-dot" style={{ background: e === "staging" ? "#16a34a" : "#dc2626" }} />
                     <div style={{ flex: 1 }}>
-                      <div className="ap-env-opt-name">{e}</div>
+                      <div className="ap-env-opt-name">{e === "staging" ? "Sandbox" : "Production"}</div>
                       <div className="ap-env-opt-url">{ENV_URLS[e]}</div>
                     </div>
                     {env === e && <Check size={14} color="#227A93" />}
@@ -335,7 +335,7 @@ function ApiKeyGeneratorView({
         <Info size={18} />
         <div className="ap-callout-body">
           If you need direct access to the Polarin API, you need an API key.<br/>
-          API keys are only valid in the environment they were generated in. You are currently in the <b>{env === "production" ? "Production" : "Staging"}</b> environment, so any keys created and listed here will work in <b>{env === "production" ? "Production" : "Staging"}</b>. If you need keys for the other environment, switch environments using the pill in the top-right — you'll be asked to sign in again for that environment.
+          API keys are only valid in the environment they were generated in. You are currently in the <b>{env === "production" ? "Production" : "Sandbox"}</b> environment, so any keys created and listed here will work in <b>{env === "production" ? "Production" : "Sandbox"}</b>. If you need keys for the other environment, switch environments using the pill in the top-right — you'll be asked to sign in again for that environment.
           <br/>Learn more in the <Link to="/developer">Polarin API Documentation</Link>.
         </div>
       </div>
@@ -385,7 +385,7 @@ function ApiKeyGeneratorView({
           <div className="ap-page-head-left">
             <div>
               <div className="ap-page-title" style={{ fontSize: 18 }}>Active API Keys</div>
-              <div className="ap-page-subtitle">Keys valid in the {env === "production" ? "Production" : "Staging"} environment ({ENV_URLS[env]})</div>
+              <div className="ap-page-subtitle">Keys valid in the {env === "production" ? "Production" : "Sandbox"} environment ({ENV_URLS[env]})</div>
             </div>
           </div>
         </div>
