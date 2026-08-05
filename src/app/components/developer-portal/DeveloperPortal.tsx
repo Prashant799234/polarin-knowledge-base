@@ -29,6 +29,9 @@ const C = {
   muted: "#64748b", iconIdle: "#7e93b2", sectionLabel: "#90a2b9",
 };
 
+// Shared overlay backdrop for every modal/panel (Figma: Unified Portal — Personal, node 6168-3805)
+const OVERLAY_BG = "rgba(15,18,20,0.72)";
+
 type Env = "staging" | "production";
 
 // ── How-to-use tips by HTTP method ─────────────────────────────────────────
@@ -1099,7 +1102,7 @@ function EnvReauthModal({ fromEnv, toEnv, onCancel, onConfirm }: { fromEnv: Env;
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div onClick={onCancel} style={{ position: "absolute", inset: 0, background: "rgba(10,57,84,0.45)", backdropFilter: "blur(4px)" }} />
+      <div onClick={onCancel} style={{ position: "absolute", inset: 0, background: OVERLAY_BG }} />
       <motion.div
         initial={{ scale: 0.92, opacity: 0, y: 12 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -1276,7 +1279,7 @@ function TokenPanel({ onClose, onCreate }: { onClose: () => void; onCreate: (nam
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         onClick={onClose}
-        style={{ position: "fixed", inset: 0, background: "rgba(10,57,84,0.45)", backdropFilter: "blur(2px)", zIndex: 300 }}
+        style={{ position: "fixed", inset: 0, background: OVERLAY_BG, zIndex: 300 }}
       />
       <motion.div
         initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
@@ -1331,6 +1334,82 @@ function TokenPanel({ onClose, onCreate }: { onClose: () => void; onCreate: (nam
           </button>
           <button className="btn-primary" onClick={submit} style={{ flex: 1 }}>
             Create
+          </button>
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
+// ── Delete key confirmation ─────────────────────────────────────────────────────
+
+function DeleteKeyModal({ tokenKey, onClose, onConfirm }: { tokenKey: TokenKey; onClose: () => void; onConfirm: () => void }) {
+  const [confirmText, setConfirmText] = useState("");
+  const canDelete = confirmText.trim().toUpperCase() === "DELETE";
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        onClick={onClose}
+        style={{ position: "fixed", inset: 0, background: OVERLAY_BG, zIndex: 300 }}
+      />
+      <motion.div
+        initial={{ scale: 0.94, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.94, opacity: 0, y: 10 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 301,
+          width: 480, maxWidth: "calc(100vw - 32px)", maxHeight: "calc(100vh - 32px)", overflowY: "auto",
+          background: "#fff", borderRadius: 16, boxShadow: "0 24px 64px rgba(10,57,84,0.22)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 24px 0" }}>
+          <h2 style={{ fontFamily: FONT_J, fontSize: 19, fontWeight: 800, color: C.navy, margin: 0 }}>Delete this Key</h2>
+          <button onClick={onClose} style={{ display: "flex", alignItems: "center", gap: 5, background: "none", border: "none", cursor: "pointer", color: C.muted, fontFamily: FONT_J, fontSize: 13, fontWeight: 600 }}>
+            <X size={16} /> Close
+          </button>
+        </div>
+
+        <div style={{ padding: "20px 24px" }}>
+          <div style={{ background: "#f8fafc", border: `1px solid ${C.border}`, borderRadius: 12, padding: "16px 18px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 4, flexWrap: "wrap" }}>
+              <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy }}>{tokenKey.name}</span>
+              <span style={{
+                fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px",
+                color: tokenKey.env === "staging" ? "#2F6FE4" : "#15803d",
+                background: tokenKey.env === "staging" ? "#EBF1FC" : "#dcfce7",
+              }}>
+                {tokenKey.env === "staging" ? "Sandbox" : "Production"}
+              </span>
+            </div>
+            <div style={{ fontFamily: FONT, fontSize: 12.5, color: C.muted, marginBottom: 14 }}>Created {tokenKey.createdAt}</div>
+            <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, padding: "10px 14px" }}>
+              <span style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: "#78350f" }}>
+                Once deleted, you cannot use this key to generate new tokens.
+              </span>
+            </div>
+          </div>
+
+          <label style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: C.navy, display: "block", margin: "20px 0 8px" }}>
+            To confirm, please type DELETE below
+          </label>
+          <input
+            className="input-field"
+            value={confirmText}
+            onChange={e => setConfirmText(e.target.value)}
+            placeholder="DELETE"
+            style={{ fontFamily: FONT, fontSize: 14 }}
+          />
+
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginTop: 12 }}>
+            <AlertTriangle size={14} color="#dc2626" />
+            <span style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: "#dc2626" }}>This action can't be undone.</span>
+          </div>
+        </div>
+
+        <div style={{ padding: "0 24px 24px" }}>
+          <button className="btn-primary danger" onClick={onConfirm} disabled={!canDelete} style={{ width: "100%" }}>
+            Delete Key
           </button>
         </div>
       </motion.div>
@@ -2084,6 +2163,8 @@ export function DeveloperPortal() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [tokenKeys, setTokenKeys] = useState<TokenKey[]>(makeSeedTokenKeys());
   const [tokenPanelOpen, setTokenPanelOpen] = useState(false);
+  const [justCreatedId, setJustCreatedId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<TokenKey | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < 768;
@@ -2310,46 +2391,82 @@ export function DeveloperPortal() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          {tokenKeys.map(k => (
-            <div key={k.id} style={{ border: `1px solid ${C.border}`, borderRadius: 14, padding: "18px 22px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-              <div style={{ minWidth: 0 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 6, flexWrap: "wrap" }}>
-                  <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy }}>{k.name}</span>
-                  <span style={{
-                    fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px",
-                    color: k.env === "staging" ? "#2F6FE4" : "#15803d",
-                    background: k.env === "staging" ? "#EBF1FC" : "#dcfce7",
-                  }}>
-                    {k.env === "staging" ? "Sandbox" : "Production"}
-                  </span>
-                  {k.status === "pending" && (
-                    <span style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px", color: "#c8780a", background: "#FEF3E2" }}>
-                      Pending Approval
+          {tokenKeys.map(k => {
+            const isNew = k.id === justCreatedId;
+            return (
+            <div key={k.id} style={{ border: `1px solid ${isNew ? C.teal + "60" : C.border}`, borderRadius: 14, padding: "18px 22px" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 6, flexWrap: "wrap" }}>
+                    <span style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy }}>{k.name}</span>
+                    <span style={{
+                      fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px",
+                      color: k.env === "staging" ? "#2F6FE4" : "#15803d",
+                      background: k.env === "staging" ? "#EBF1FC" : "#dcfce7",
+                    }}>
+                      {k.env === "staging" ? "Sandbox" : "Production"}
                     </span>
+                    {k.status === "pending" && (
+                      <span style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, borderRadius: 20, padding: "3px 11px", color: "#c8780a", background: "#FEF3E2" }}>
+                        Pending Approval
+                      </span>
+                    )}
+                  </div>
+                  {!isNew && (
+                    <div style={{ fontFamily: "monospace", fontSize: 13, color: "#64748b", marginBottom: 6, wordBreak: "break-all" }}>
+                      {k.key.slice(0, 20)}{"•".repeat(14)}
+                    </div>
                   )}
+                  <div style={{ fontFamily: FONT, fontSize: 12.5, color: C.muted }}>
+                    Created {k.createdAt} · {k.lastUsed}
+                  </div>
                 </div>
-                <div style={{ fontFamily: "monospace", fontSize: 13, color: "#64748b", marginBottom: 6, wordBreak: "break-all" }}>
-                  {k.key.slice(0, 20)}{"•".repeat(14)}
-                </div>
-                <div style={{ fontFamily: FONT, fontSize: 12.5, color: C.muted }}>
-                  Created {k.createdAt} · {k.lastUsed}
-                </div>
+                <button
+                  onClick={() => setDeleteTarget(k)}
+                  title="Delete key"
+                  style={{
+                    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                    width: 34, height: 34,
+                    color: C.navy, background: "none", border: "none", borderRadius: 8, cursor: "pointer",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "#f1f5f9")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "none")}
+                >
+                  <Trash2 size={16} />
+                </button>
               </div>
-              <button
-                onClick={() => setTokenKeys(prev => prev.filter(x => x.id !== k.id))}
-                title="Delete key"
-                style={{
-                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                  width: 34, height: 34,
-                  color: C.navy, background: "none", border: "none", borderRadius: 8, cursor: "pointer",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#f1f5f9")}
-                onMouseLeave={e => (e.currentTarget.style.background = "none")}
-              >
-                <Trash2 size={16} />
-              </button>
+
+              {isNew && (
+                <>
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: 10, marginTop: 14,
+                    background: "#f0f9fa", border: `1px solid ${C.teal}30`, borderRadius: 10,
+                    padding: "12px 14px",
+                  }}>
+                    <span style={{ fontFamily: FONT, fontSize: 12.5, color: C.muted, flexShrink: 0 }}>API key:</span>
+                    <code style={{ fontFamily: "monospace", fontSize: 13, color: C.navy, fontWeight: 700, flex: 1, wordBreak: "break-all" }}>{k.key}</code>
+                    <button
+                      onClick={() => { navigator.clipboard.writeText(k.key); setJustCreatedId(null); }}
+                      title="Copy and dismiss"
+                      style={{ display: "flex", alignItems: "center", flexShrink: 0, background: "none", border: "none", cursor: "pointer", color: C.teal }}
+                    >
+                      <Copy size={15} />
+                    </button>
+                  </div>
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: 8, marginTop: 10,
+                    background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, padding: "10px 14px",
+                  }}>
+                    <AlertTriangle size={14} color="#b45309" style={{ flexShrink: 0 }} />
+                    <span style={{ fontFamily: FONT_J, fontSize: 12.5, fontWeight: 700, color: "#78350f" }}>
+                      Make sure to copy the key now. You won't be able to see it again!
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
-          ))}
+            );
+          })}
 
           {tokenKeys.length === 0 && (
             <div style={{ border: `1px dashed ${C.border}`, borderRadius: 14, padding: "40px 20px", textAlign: "center" }}>
@@ -2414,7 +2531,22 @@ export function DeveloperPortal() {
                   status: tokenEnv === "production" ? "pending" : "active",
                 };
                 setTokenKeys(prev => [newKey, ...prev]);
+                setJustCreatedId(newKey.id);
                 setTokenPanelOpen(false);
+              }}
+            />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {deleteTarget && (
+            <DeleteKeyModal
+              tokenKey={deleteTarget}
+              onClose={() => setDeleteTarget(null)}
+              onConfirm={() => {
+                setTokenKeys(prev => prev.filter(x => x.id !== deleteTarget.id));
+                if (deleteTarget.id === justCreatedId) setJustCreatedId(null);
+                setDeleteTarget(null);
               }}
             />
           )}

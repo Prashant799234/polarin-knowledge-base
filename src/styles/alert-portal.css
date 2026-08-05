@@ -564,7 +564,7 @@
 
 .ap-overlay {
   position: fixed; inset: 0;
-  background: rgba(10,57,84,.42);
+  background: rgba(15,18,20,.72);
   z-index: 110;
   animation: ap-fade .2s;
 }
@@ -795,7 +795,7 @@
 
 .ap-modal-overlay {
   position: fixed; inset: 0;
-  background: rgba(10,57,84,.48); z-index: 200;
+  background: rgba(15,18,20,.72); z-index: 200;
   display: flex; align-items: flex-start; justify-content: center;
   overflow-y: auto; padding: 32px 16px;
   animation: ap-fade .2s;

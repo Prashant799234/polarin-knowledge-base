@@ -22,11 +22,11 @@
 .btn-primary:disabled { background: #c5d0df; color: #90a2b9; box-shadow: none; cursor: not-allowed; }
 
 /* Primary / danger — for irreversible or production-affecting actions */
-.btn-primary.danger {
+.btn-primary.danger:not(:disabled) {
   background: linear-gradient(135deg,#dc2626 0%,#9f1239 100%);
 }
-.btn-primary.danger:hover,
-.btn-primary.danger:active { background: #b91c1c; }
+.btn-primary.danger:not(:disabled):hover,
+.btn-primary.danger:not(:disabled):active { background: #b91c1c; }
 
 /* Secondary — outlined, on a light background */
 .btn-secondary {
