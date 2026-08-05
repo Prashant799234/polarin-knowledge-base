@@ -2608,12 +2608,12 @@ export function DeveloperPortal() {
                         borderRadius: 12, padding: "14px 18px",
                       }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+                          <div style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: C.teal }}>{e.module}</div>
                           <span style={{
                             fontFamily: FONT_J, fontSize: 10, fontWeight: 800,
                             color: t.color, background: t.bg, border: `1px solid ${t.border}`,
                             borderRadius: 6, padding: "2px 8px", letterSpacing: "0.04em", whiteSpace: "nowrap", flexShrink: 0,
                           }}>{e.tag}</span>
-                          <div style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: C.teal }}>{e.module}</div>
                         </div>
                         <p style={{ fontFamily: FONT, fontSize: 13, color: "#475569", margin: 0, lineHeight: 1.65 }}>{e.text}</p>
                       </div>
