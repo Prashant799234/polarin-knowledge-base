@@ -560,6 +560,18 @@ function EndpointCard({ ep, env, open, onToggle, forceOpen = false }: { ep: Endp
   }
 
   const cardRef = useRef<HTMLDivElement>(null);
+  const openOnMountRef = useRef(open);
+  const hasAnimatedRef = useRef(false);
+
+  function scrollCardIntoView() {
+    const el = cardRef.current;
+    const scrollParent = el?.closest("main");
+    if (!el || !scrollParent) return;
+    const elRect = el.getBoundingClientRect();
+    const parentRect = scrollParent.getBoundingClientRect();
+    const delta = elRect.top - parentRect.top - 16;
+    scrollParent.scrollBy({ top: delta, behavior: "smooth" });
+  }
 
   return (
     <div ref={cardRef} style={{
@@ -609,7 +621,11 @@ function EndpointCard({ ep, env, open, onToggle, forceOpen = false }: { ep: Endp
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeInOut" }}
             onAnimationComplete={() => {
-              if (open) cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              if (open) {
+                const isInitialAutoOpen = openOnMountRef.current && !hasAnimatedRef.current;
+                if (!isInitialAutoOpen) scrollCardIntoView();
+                hasAnimatedRef.current = true;
+              }
             }}
             style={{ overflow: "hidden" }}
           >
