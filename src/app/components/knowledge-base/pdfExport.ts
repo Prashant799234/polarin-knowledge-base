@@ -1,4 +1,5 @@
 import { jsPDF } from "jspdf";
+import { extractContentNodes } from "./extractContent";
 
 const NAVY = [10, 57, 84] as const;
 const TEAL = [28, 128, 141] as const;
@@ -9,27 +10,6 @@ const RULE = [226, 232, 241] as const;
 const PLATFORM_URL = "https://polarin.lightstorm.net/app/login?next=/app/home";
 const SUPPORT_EMAIL = "polarinsupport@lightstorm.net";
 const SUPPORT_PHONE = "+91 22 6931 5544";
-
-interface ContentNode {
-  tag: "H1" | "H2" | "H3" | "LI" | "P";
-  text: string;
-}
-
-function extractNodes(container: HTMLElement | null, fallbackTitle: string): ContentNode[] {
-  if (!container) return [{ tag: "H1", text: fallbackTitle }];
-  const els = Array.from(container.querySelectorAll("h1, h2, h3, p, li")).filter(
-    (el) => !el.closest("[data-copy-page-exclude]")
-  );
-  const hasH1 = els.some((el) => el.tagName === "H1");
-  const nodes: ContentNode[] = [];
-  if (!hasH1) nodes.push({ tag: "H1", text: fallbackTitle });
-  els.forEach((el) => {
-    const text = (el as HTMLElement).innerText.trim();
-    if (!text) return;
-    nodes.push({ tag: el.tagName as ContentNode["tag"], text });
-  });
-  return nodes;
-}
 
 function loadImageDataUrl(src: string): Promise<{ dataUrl: string; width: number; height: number } | null> {
   return new Promise((resolve) => {
@@ -104,7 +84,7 @@ export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle
   y += 28;
 
   // ── Body ──
-  const nodes = extractNodes(container, pageTitle).filter((n) => n.tag !== "H1" || n.text !== pageTitle);
+  const nodes = extractContentNodes(container, pageTitle).filter((n) => n.tag !== "H1" || n.text !== pageTitle);
   for (const node of nodes) {
     let fontSize = 10.5;
     let fontStyle: "normal" | "bold" = "normal";

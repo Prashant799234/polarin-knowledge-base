@@ -2,22 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown } from "lucide-react";
 import { downloadPageAsPdf } from "./pdfExport";
+import { extractContentNodes } from "./extractContent";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
 
 function extractPageMarkdown(container: HTMLElement | null, fallbackTitle: string): string {
-  if (!container) return `# ${fallbackTitle}`;
-  const nodes = Array.from(container.querySelectorAll("h1, h2, h3, p, li")).filter(
-    (el) => !el.closest("[data-copy-page-exclude]")
-  );
-  const hasH1 = nodes.some((n) => n.tagName === "H1");
+  const nodes = extractContentNodes(container, fallbackTitle);
   const lines: string[] = [];
-  if (!hasH1) lines.push(`# ${fallbackTitle}`, "");
-  nodes.forEach((el) => {
-    const text = (el as HTMLElement).innerText.trim();
-    if (!text) return;
-    switch (el.tagName) {
+  nodes.forEach(({ tag, text }) => {
+    switch (tag) {
       case "H1": lines.push(`# ${text}`, ""); break;
       case "H2": lines.push(`## ${text}`, ""); break;
       case "H3": lines.push(`### ${text}`, ""); break;
@@ -28,9 +22,9 @@ function extractPageMarkdown(container: HTMLElement | null, fallbackTitle: strin
   return lines.join("\n").trim();
 }
 
-function buildPrompt(markdown: string, title: string): string {
-  const snippet = markdown.slice(0, 6000);
-  return `I'm reading the Polarin Docs page "${title}". Help me understand it and answer any questions I have about it:\n\n${snippet}`;
+function buildPrompt(title: string): string {
+  const pageUrl = window.location.href;
+  return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${pageUrl}\n\n(Page: "${title}")`;
 }
 
 interface MenuAction {
@@ -60,8 +54,7 @@ export function CopyPageMenu({ contentRef, pageTitle }: Props) {
   }, [open]);
 
   const openInService = (url: (encodedPrompt: string) => string) => {
-    const markdown = extractPageMarkdown(contentRef.current, pageTitle);
-    const prompt = buildPrompt(markdown, pageTitle);
+    const prompt = buildPrompt(pageTitle);
     window.open(url(encodeURIComponent(prompt)), "_blank", "noopener,noreferrer");
     setOpen(false);
   };

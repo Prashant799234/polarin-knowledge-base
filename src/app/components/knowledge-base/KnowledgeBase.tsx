@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { ElementType } from "react";
 import { SearchBar } from "./SearchBar";
 import { CopyPageMenu } from "./CopyPageMenu";
@@ -306,7 +306,9 @@ function getPageLabel(id: string): string {
 }
 
 export function KnowledgeBase() {
-  const [activePage, setActivePage] = useState<KBPage>("welcome");
+  const [activePage, setActivePage] = useState<KBPage>(
+    () => new URLSearchParams(window.location.search).get("page") || "welcome"
+  );
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -334,6 +336,13 @@ export function KnowledgeBase() {
     if (isMobile) setSidebarOpen(false);
     setTimeout(() => setIsNavigating(false), 550);
   };
+
+  // Keep the URL in sync so every page has a real, shareable link.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", activePage);
+    window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
+  }, [activePage]);
 
   const isActiveOrChild = (item: NavItem): boolean => {
     if (item.id === activePage) return true;
@@ -543,11 +552,14 @@ export function KnowledgeBase() {
           <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100%", gap: 0 }}>
+              {/* Toolbar — sits above the card so it never overlaps page content */}
+              <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10, flexShrink: 0 }}>
+                <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
+              </div>
               {/* White card */}
               <div
                 ref={cardRef}
                 style={{
-                  position: "relative",
                   background: "#FFFFFF",
                   border: "0.5px solid rgba(0,0,0,0.06)",
                   borderRadius: 16,
@@ -555,9 +567,6 @@ export function KnowledgeBase() {
                   flex: ARTICLE_PAGES.has(activePage) ? "0 0 auto" : 1,
                 }}
               >
-                <div data-copy-page-exclude="true" style={{ position: "absolute", top: 16, right: 16, zIndex: 10 }}>
-                  <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
-                </div>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activePage}
