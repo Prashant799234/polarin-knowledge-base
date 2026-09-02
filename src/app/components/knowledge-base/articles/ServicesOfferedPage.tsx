@@ -1,5 +1,6 @@
 import { Plug, Router, Cloud, Server, MapPin, Building2 } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
+import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",   label: "Overview" },
@@ -11,7 +12,11 @@ const TOC = [
   { id: "manage",     label: "Managing What You Order",          level: 1 as const },
 ];
 
-export function ServicesOfferedPage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function ServicesOfferedPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Services Offered</H1>
@@ -23,7 +28,8 @@ export function ServicesOfferedPage() {
 
       <P>
         Everything you can provision on Polarin falls into a handful of categories. Here's what each one does
-        and when you'd reach for it.
+        and when you'd reach for it. New here? Start with <PageLink label="About Polarin" onClick={() => onNavigate("about-polarin")} /> or jump
+        straight into <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} />.
       </P>
 
       <FlowDiagram
@@ -56,35 +62,37 @@ export function ServicesOfferedPage() {
 
       <H2 id="locations">Locations</H2>
       <P>
-        Every service starts with a location — the data centre or point of presence where Polarin has a
-        physical footprint. Browse available locations to see which sites are close to your infrastructure
+        Every service starts with a location - the data centre or point of presence where Polarin has a
+        physical footprint. Browse <PageLink label="Locations" onClick={() => onNavigate("locations")} /> to see which sites are close to your infrastructure
         before ordering a port or connection there.
       </P>
 
       <H2 id="port">Port</H2>
       <P>
         A <strong>Port</strong> is your organisation's physical entry point into the Polarin network, available
-        at 1GE, 10GE, or 100GE. It's the first thing you order at a new location — everything else (virtual
-        connections, routers, cloud links) attaches to a port.
+        at 1GE, 10GE, or 100GE. It's the first thing you order at a new location - everything else (virtual
+        connections, routers, cloud links) attaches to a port. See <PageLink label="Create a Port" onClick={() => onNavigate("port-create")} /> for the full walkthrough.
       </P>
       <UL>
         <LI>Choose a speed that matches your current and near-term bandwidth needs.</LI>
-        <LI>Group multiple ports into a <strong>Link Aggregation Group (LAG)</strong> for higher throughput and failover.</LI>
+        <LI>
+          Group multiple ports into a <PageLink label="Link Aggregation Group" onClick={() => onNavigate("port-lag")} /> for higher throughput and failover.
+        </LI>
       </UL>
 
       <H2 id="vr">Virtual Router</H2>
       <P>
         A <strong>Virtual Router</strong> is your L3 gateway for routing traffic between clouds, data centres,
-        and partner networks, without deploying and maintaining physical routing hardware yourself.
+        and partner networks, without deploying and maintaining physical routing hardware yourself. See <PageLink label="Create a Virtual Router" onClick={() => onNavigate("vr-create")} /> to get started.
       </P>
       <UL>
         <LI>Useful once you're connecting more than two endpoints and need real routing logic between them.</LI>
-        <LI>Sits on top of a port — provision the port first, then attach a virtual router.</LI>
+        <LI>Sits on top of a port - provision the port first, then attach a virtual router.</LI>
       </UL>
 
       <H2 id="cloud">Cloud Connect</H2>
       <P>
-        Cloud Connect gives you a private, direct link into major cloud providers — bypassing the public
+        Cloud Connect gives you a private, direct link into major cloud providers - bypassing the public
         internet for lower latency and more predictable performance than a standard VPN.
       </P>
       <UL>
@@ -94,19 +102,19 @@ export function ServicesOfferedPage() {
 
       <H2 id="dci">Data Centre Interconnect (DCI)</H2>
       <P>
-        DCI links two or more of your data centre sites together at high bandwidth — for replication,
+        DCI links two or more of your data centre sites together at high bandwidth - for replication,
         disaster recovery, or simply treating multiple sites as one extended network.
       </P>
 
       <Callout variant="tip">
         Not sure which service you need first? Most organisations start with a <strong>Port</strong>, then add
         a <strong>Virtual Router</strong> or <strong>Cloud Connect</strong> once they know what they're
-        connecting to.
+        connecting to. <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} /> walks through the order.
       </Callout>
 
       <H2 id="manage">Managing What You Order</H2>
       <P>
-        Once a service is ordered, its progress — from design through to live — shows up on the Services page,
+        Once a service is ordered, its progress - from design through to live - shows up on the Services page,
         so you always know what's ready to use and what's still provisioning. All of it also feeds into the
         <strong> SPOG dashboard</strong> for a single view of usage and performance across every service you run.
       </P>

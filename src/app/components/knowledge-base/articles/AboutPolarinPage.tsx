@@ -1,5 +1,6 @@
 import { Plug, Router, Cloud } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
+import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -9,7 +10,11 @@ const TOC = [
   { id: "next-steps",    label: "Next Steps" },
 ];
 
-export function AboutPolarinPage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function AboutPolarinPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">About Polarin</H1>
@@ -20,8 +25,8 @@ export function AboutPolarinPage() {
       </div>
 
       <P>
-        Polarin is where you provision and manage your organisation's network connectivity — ports, virtual
-        connections, cloud interconnects, and routers — from one place, without opening a support ticket for
+        Polarin is where you provision and manage your organisation's network connectivity - ports, virtual
+        connections, cloud interconnects, and routers - from one place, without opening a support ticket for
         every change.
       </P>
       <P>
@@ -40,7 +45,7 @@ export function AboutPolarinPage() {
       </UL>
       <P>
         Every service is visible in one dashboard, so you can see what's live, what's pending, and what needs
-        attention without switching between vendor portals.
+        attention without switching between vendor portals. See <PageLink label="Services Offered" onClick={() => onNavigate("services-offered")} /> for the full breakdown.
       </P>
 
       <H2 id="why-it-helps">Why It Helps</H2>
@@ -52,15 +57,15 @@ export function AboutPolarinPage() {
       </UL>
 
       <Callout variant="tip">
-        Not sure where to start? <strong>Services Offered</strong> breaks down each service in more detail, and
-        <strong> Quick Setup</strong> walks through getting your account ready end to end.
+        Not sure where to start? <PageLink label="Services Offered" onClick={() => onNavigate("services-offered")} /> breaks down each service in more detail, and{" "}
+        <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} /> walks through getting your account ready end to end.
       </Callout>
 
       <H2 id="how-it-fits">How the Pieces Fit Together</H2>
       <P>
         A typical setup starts with a <strong>Port</strong> at the data centre where you need a presence. From
         there, you can attach a <strong>Virtual Router</strong> to route traffic between sites, or connect
-        straight into a cloud provider. Ports can also be bundled into a <strong>Link Aggregation Group</strong>
+        straight into a cloud provider. Ports can also be bundled into a <PageLink label="Link Aggregation Group" onClick={() => onNavigate("port-lag")} />
         {" "}when you need more throughput or built-in redundancy.
       </P>
 
@@ -73,15 +78,18 @@ export function AboutPolarinPage() {
         ]}
       />
       <P>
-        None of these are locked together — use just a port if that's all you need, or combine several
+        None of these are locked together - use just a port if that's all you need, or combine several
         services as your network grows.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Read <strong>Services Offered</strong> for a closer look at each service category.</LI>
-        <LI>Follow <strong>Quick Setup</strong> to get your account, profile, and first service ready.</LI>
-        <LI>Already set up? Jump straight to <strong>Create a Port</strong> or <strong>Create a Virtual Router</strong>.</LI>
+        <LI>Read <PageLink label="Services Offered" onClick={() => onNavigate("services-offered")} /> for a closer look at each service category.</LI>
+        <LI>Follow <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} /> to get your account, profile, and first service ready.</LI>
+        <LI>
+          Already set up? Jump straight to <PageLink label="Create a Port" onClick={() => onNavigate("port-create")} /> or{" "}
+          <PageLink label="Create a Virtual Router" onClick={() => onNavigate("vr-create")} />.
+        </LI>
       </UL>
     </ArticlePage>
   );

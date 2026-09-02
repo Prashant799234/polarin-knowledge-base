@@ -209,6 +209,22 @@ export function LI({ children }: { children: ReactNode }) {
   );
 }
 
+export function PageLink({ label, onClick }: { label: ReactNode; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        background: "none", border: "none", padding: 0, margin: 0,
+        font: "inherit", fontWeight: 700, color: "#1c808d",
+        textDecoration: "underline", textUnderlineOffset: 2,
+        cursor: "pointer", display: "inline",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function InlineCode({ children }: { children: ReactNode }) {
   return (
     <code style={{ background: "#f1f5f9", border: "1px solid #e2e8f1", borderRadius: 5, padding: "2px 7px", fontSize: 13, fontFamily: "ui-monospace, 'Cascadia Code', monospace", color: "#0f766e" }}>

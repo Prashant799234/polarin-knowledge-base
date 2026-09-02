@@ -16,6 +16,7 @@ import { ComingSoonPage } from "./ComingSoonPage";
 import { ProgressBar } from "./ProgressBar";
 import { AboutPolarinPage } from "./articles/AboutPolarinPage";
 import { ServicesOfferedPage } from "./articles/ServicesOfferedPage";
+import { QuickSetupPage } from "./articles/QuickSetupPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
@@ -192,6 +193,15 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "About Polarin",           pageId: "about-polarin" },
       { label: "Create a Port",           pageId: "port-create" },
       { label: "Create a Virtual Router", pageId: "vr-create" },
+    ],
+  },
+  "quick-setup": {
+    prev: { label: "Services Offered", pageId: "services-offered" },
+    next: { label: "Create a Polarin Account", pageId: "create-account" },
+    related: [
+      { label: "About Polarin",              pageId: "about-polarin" },
+      { label: "Services Offered",           pageId: "services-offered" },
+      { label: "Create a Polarin Account",   pageId: "create-account" },
     ],
   },
   "create-account": {
@@ -560,8 +570,9 @@ export function KnowledgeBase() {
                         <LocationsPage />
                       </div>
                     )}
-                    {activePage === "about-polarin" && <AboutPolarinPage />}
-                    {activePage === "services-offered" && <ServicesOfferedPage />}
+                    {activePage === "about-polarin" && <AboutPolarinPage onNavigate={navigate} />}
+                    {activePage === "services-offered" && <ServicesOfferedPage onNavigate={navigate} />}
+                    {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage />}
                     {activePage === "complete-profile" && <CompleteProfilePage />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
