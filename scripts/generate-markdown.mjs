@@ -117,13 +117,34 @@ function escapeHtml(text) {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+// A markdown pipe-table's rows, back into cell arrays (skips the "| --- |"
+// separator line). The TABLE node's `text` is that markdown, produced by
+// tableToMarkdown() above.
+function markdownTableToHtmlRows(md) {
+  const lines = md.split("\n").filter(Boolean);
+  const parseRow = (line) => line.slice(1, -1).split("|").map((c) => c.trim());
+  if (lines.length < 2) return null;
+  return { header: parseRow(lines[0]), rows: lines.slice(2).map(parseRow) };
+}
+
 // Plain, dependency-free HTML — some tools that "browse" a URL only accept
 // HTML responses and refuse plain text/markdown outright, even with a
 // text/plain Content-Type. This is the most universally readable format.
+// Real semantic tags throughout (including a real <table>, not <pre>) since
+// some readers skip <pre> content, treating it as a code block.
 function nodesToHtml(nodes, pageTitle) {
   const body = [];
   let inList = false;
   nodes.forEach(({ tag, text }) => {
+    if (tag === "TABLE") {
+      if (inList) { body.push("</ul>"); inList = false; }
+      const parsed = markdownTableToHtmlRows(text);
+      if (!parsed) { body.push(`<pre>${escapeHtml(text)}</pre>`); return; }
+      const headHtml = `<tr>${parsed.header.map((c) => `<th>${escapeHtml(c)}</th>`).join("")}</tr>`;
+      const bodyHtml = parsed.rows.map((r) => `<tr>${r.map((c) => `<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("\n");
+      body.push(`<table><thead>${headHtml}</thead><tbody>${bodyHtml}</tbody></table>`);
+      return;
+    }
     const safe = escapeHtml(text);
     if (tag === "LI") {
       if (!inList) { body.push("<ul>"); inList = true; }
@@ -135,7 +156,6 @@ function nodesToHtml(nodes, pageTitle) {
       case "H1": body.push(`<h1>${safe}</h1>`); break;
       case "H2": body.push(`<h2>${safe}</h2>`); break;
       case "H3": body.push(`<h3>${safe}</h3>`); break;
-      case "TABLE": body.push(`<pre>${safe}</pre>`); break;
       default: body.push(`<p>${safe}</p>`);
     }
   });
