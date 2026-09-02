@@ -59,16 +59,44 @@ function classifyTag(tagName, styleAttr) {
   return "P";
 }
 
+function cleanCell(text) {
+  return text.replace(/\s+/g, " ").replace(/\|/g, "/").trim();
+}
+
+function tableToMarkdown(table) {
+  const headerCells = table.querySelectorAll("thead th");
+  const bodyRows = table.querySelectorAll("tbody tr");
+  const headers = headerCells.map((th) => cleanCell(th.text));
+  if (headers.length === 0) return "";
+
+  const lines = [`| ${headers.join(" | ")} |`, `| ${headers.map(() => "---").join(" | ")} |`];
+  bodyRows.forEach((tr) => {
+    const cells = tr.querySelectorAll("td").map((td) => cleanCell(td.text));
+    if (cells.length === 0) return;
+    lines.push(`| ${cells.join(" | ")} |`);
+  });
+  return lines.length > 2 ? lines.join("\n") : "";
+}
+
 function extractClassifiedNodes(html, fallbackTitle) {
   const root = parse(html);
-  const classified = root
-    .querySelectorAll("h1, h2, h3, p, li")
-    .map((el) => ({ tag: classifyTag(el.tagName, el.getAttribute("style")), text: el.text.trim() }))
-    .filter((n) => n.text);
+  const nodes = [];
+  let hasH1 = false;
 
-  const hasH1 = classified.some((n) => n.tag === "H1");
-  if (!hasH1) classified.unshift({ tag: "H1", text: fallbackTitle });
-  return classified;
+  root.querySelectorAll("h1, h2, h3, p, li, table").forEach((el) => {
+    if (el.tagName?.toUpperCase() === "TABLE") {
+      const md = tableToMarkdown(el);
+      if (md) nodes.push({ tag: "TABLE", text: md });
+      return;
+    }
+    const tag = classifyTag(el.tagName, el.getAttribute("style"));
+    if (tag === "H1") hasH1 = true;
+    const text = el.text.trim();
+    if (text) nodes.push({ tag, text });
+  });
+
+  if (!hasH1) nodes.unshift({ tag: "H1", text: fallbackTitle });
+  return nodes;
 }
 
 function nodesToMarkdown(nodes) {
@@ -107,6 +135,7 @@ function nodesToHtml(nodes, pageTitle) {
       case "H1": body.push(`<h1>${safe}</h1>`); break;
       case "H2": body.push(`<h2>${safe}</h2>`); break;
       case "H3": body.push(`<h3>${safe}</h3>`); break;
+      case "TABLE": body.push(`<pre>${safe}</pre>`); break;
       default: body.push(`<p>${safe}</p>`);
     }
   });

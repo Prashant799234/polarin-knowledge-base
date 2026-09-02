@@ -99,13 +99,14 @@ export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle
       case "H2": fontSize = 13.5; fontStyle = "bold"; color = NAVY; spaceBefore = 18; spaceAfter = 8; break;
       case "H3": fontSize = 11.5; fontStyle = "bold"; color = TEAL; spaceBefore = 14; spaceAfter = 6; break;
       case "LI": fontSize = 10.5; color = BODY; prefix = "•  "; indent = 14; spaceBefore = 2; spaceAfter = 2; break;
+      case "TABLE": fontSize = 8.5; color = BODY; spaceBefore = 8; spaceAfter = 12; break;
       default: fontSize = 10.5; color = BODY; spaceBefore = 4; spaceAfter = 10; break;
     }
 
     ensureSpace(spaceBefore);
     y += spaceBefore;
 
-    doc.setFont("helvetica", fontStyle);
+    doc.setFont(node.tag === "TABLE" ? "courier" : "helvetica", fontStyle);
     doc.setFontSize(fontSize);
     doc.setTextColor(...color);
     const lines = doc.splitTextToSize(prefix + node.text, contentWidth - indent);
