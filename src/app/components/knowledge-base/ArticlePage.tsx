@@ -216,9 +216,11 @@ export function PageLink({ label, onClick }: { label: ReactNode; onClick: () => 
       style={{
         background: "none", border: "none", padding: 0, margin: 0,
         font: "inherit", fontWeight: 700, color: "#1c808d",
-        textDecoration: "underline", textUnderlineOffset: 2,
+        textDecoration: "none", textUnderlineOffset: 2,
         cursor: "pointer", display: "inline",
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
     >
       {label}
     </button>
