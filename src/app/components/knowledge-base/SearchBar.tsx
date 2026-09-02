@@ -14,8 +14,9 @@ interface SearchResult {
 const ALL_PAGES: SearchResult[] = [
   { id: "welcome",          label: "Welcome",                            group: "Home",                       description: "Polarin Docs home and quick start links" },
   { id: "release-notes",   label: "Release Notes",                      group: "Home",                       description: "Latest platform updates and changes" },
-  { id: "about-polarin",   label: "About Polarin",                      group: "Home",                       description: "What Polarin is and how the platform works" },
-  { id: "services-offered", label: "Services Offered",                  group: "Home",                       description: "Overview of all services available on Polarin" },
+  { id: "about-polarin",   label: "About Polarin",                      group: "Get Started",                description: "What Polarin is and how the platform works" },
+  { id: "services-offered", label: "Services Offered",                  group: "Get Started",                description: "Overview of all services available on Polarin" },
+  { id: "quick-setup",     label: "Quick Setup",                        group: "Get Started",                description: "Fast-track checklist to get your Polarin account ready" },
   { id: "create-account",  label: "Create a Polarin Account",           group: "Get Started",                description: "Sign up, verify email and set your password" },
   { id: "complete-profile", label: "Complete Organisation Profile",      group: "Get Started",                description: "Set up org details and authorised signatory" },
   { id: "org-kyc",         label: "KYC Document Requirements",          group: "Get Started",                description: "Proof of identity documents for Indian and global entities" },

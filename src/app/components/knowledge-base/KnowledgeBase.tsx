@@ -6,7 +6,7 @@ import {
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
   Package, Headphones, HelpCircle, ShieldAlert, Lightbulb,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
-  Info, LayoutGrid,
+  Info,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -59,8 +59,6 @@ const NAV_GROUPS: NavGroup[] = [
   {
     items: [
       { id: "welcome", label: "Welcome", icon: Home },
-      { id: "about-polarin", label: "About Polarin", icon: Info },
-      { id: "services-offered", label: "Services Offered", icon: LayoutGrid },
       { id: "release-notes", label: "Release Notes", icon: FileText, badge: "New" },
       {
         id: "api-docs", label: "Polarin API", icon: Code,
@@ -75,6 +73,14 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "GET STARTED",
     items: [
+      {
+        id: "gs-overview", label: "Overview", icon: Info,
+        children: [
+          { id: "about-polarin",    label: "About Polarin" },
+          { id: "services-offered", label: "Services Offered" },
+          { id: "quick-setup",      label: "Quick Setup" },
+        ],
+      },
       { id: "create-account", label: "Create a Polarin Account", icon: UserCircle },
       {
         id: "org-profile", label: "Organisation Profile", icon: Building2,
