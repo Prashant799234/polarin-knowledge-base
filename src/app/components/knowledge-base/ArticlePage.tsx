@@ -215,7 +215,7 @@ export function PageLink({ label, onClick }: { label: ReactNode; onClick: () => 
       onClick={onClick}
       style={{
         background: "none", border: "none", padding: 0, margin: 0,
-        font: "inherit", fontWeight: 700, color: "#1c808d",
+        font: "inherit", color: "#1367D6",
         textDecoration: "none", textUnderlineOffset: 2,
         cursor: "pointer", display: "inline",
       }}
