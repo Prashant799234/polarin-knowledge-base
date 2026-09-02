@@ -29,7 +29,7 @@ import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ContactSupportPage } from "./ContactSupportPage";
-import { ArticleFooter, PageToolsProvider } from "./ArticlePage";
+import { ArticleFooter, PageToolsProvider, usePageTools } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
 import { prefersReducedMotion, REVEAL_VARIANTS, revealTransition } from "./animations/motionConfig";
@@ -552,12 +552,6 @@ export function KnowledgeBase() {
           <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100%", gap: 0 }}>
-              {/* Toolbar — only for pages without their own H1 (which renders the menu inline) */}
-              {!ARTICLE_PAGES.has(activePage) && (
-                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10, flexShrink: 0 }}>
-                  <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
-                </div>
-              )}
               {/* White card */}
               <div
                 ref={cardRef}
@@ -727,6 +721,7 @@ const API_TOPICS = [
 ];
 
 function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
+  const apiTools = usePageTools();
   const width = useWindowWidth();
   const isMobile = width < 640;
 
@@ -752,10 +747,13 @@ function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
               <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
             </svg>
           </div>
-          <div style={{ display: "flex", flexDirection: "column" as const, gap: 4 }}>
-            <p style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
-              Polarin API
-            </p>
+          <div style={{ display: "flex", flexDirection: "column" as const, gap: 4, flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24 }}>
+              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+                Polarin API
+              </p>
+              {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+            </div>
             <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
               Automate your network infrastructure through simple REST calls — no portal required.
             </p>
@@ -910,9 +908,13 @@ function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
 }
 
 function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void }) {
+  const apiTools = usePageTools();
   return (
     <div style={{ padding: "32px 40px 52px" }}>
-      <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.4px" }}>Getting Access</h1>
+      <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24, marginBottom: 8 }}>
+        <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: 0, letterSpacing: "-0.4px" }}>Getting Access</h1>
+        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+      </div>
       <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.8, margin: "0 0 32px", maxWidth: 560 }}>
         The Polarin API is available to all active Polarin customers. Here's the full journey — from sign-up to your first API call.
       </p>
@@ -982,9 +984,13 @@ function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void })
 }
 
 function ApiPricingPage({ onNavigate: _onNavigate }: { onNavigate: (id: string) => void }) {
+  const apiTools = usePageTools();
   return (
     <div style={{ padding: "32px 40px 52px" }}>
-      <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: "0 0 8px", letterSpacing: "-0.4px" }}>API Pricing</h1>
+      <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24, marginBottom: 8 }}>
+        <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: 0, letterSpacing: "-0.4px" }}>API Pricing</h1>
+        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+      </div>
       <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.8, margin: "0 0 28px", maxWidth: 560 }}>
         Simple rule: almost all Polarin APIs are free. The only exception is VISTA Performance Monitoring, which has a daily free allowance per circuit.
       </p>

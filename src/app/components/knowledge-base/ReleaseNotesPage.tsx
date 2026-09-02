@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Plus, Wrench, Bug, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 import { useWindowWidth } from "./useWindowWidth";
+import { usePageTools } from "./ArticlePage";
+import { CopyPageMenu } from "./CopyPageMenu";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
@@ -405,6 +407,7 @@ function VersionCard({ release, versionKey, openSections, toggleSection }: {
 // ── Main Component ───────────────────────────────────────────────────────────
 
 export function ReleaseNotesPage() {
+  const tools = usePageTools();
   const w = useWindowWidth();
   const isMobile = w < 640;
 
@@ -548,10 +551,13 @@ export function ReleaseNotesPage() {
               <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-            <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
-              Release Notes
-            </h1>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24 }}>
+              <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+                Release Notes
+              </h1>
+              {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+            </div>
             <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
               Stay up to date with the latest features, improvements, and bug fixes.
             </p>

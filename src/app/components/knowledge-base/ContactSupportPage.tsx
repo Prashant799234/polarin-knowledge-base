@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Mail, Phone, Clock, Zap, ShieldCheck } from "lucide-react";
+import { usePageTools } from "./ArticlePage";
+import { CopyPageMenu } from "./CopyPageMenu";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
 export function ContactSupportPage() {
+  const tools = usePageTools();
   return (
     <div style={{ padding: "48px 48px 56px" }}>
 
@@ -17,14 +20,17 @@ export function ContactSupportPage() {
         border: "1px solid #d0edf3",
       }}>
         {/* Left: heading + contacts */}
-        <div style={{ flex: 1 }}>
-          <h1 style={{
-            fontFamily: FONT_J, fontSize: 36, fontWeight: 800,
-            color: "#0a3954", margin: "0 0 10px",
-            letterSpacing: "-0.5px",
-          }}>
-            Need help?
-          </h1>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginBottom: 10 }}>
+            <h1 style={{
+              fontFamily: FONT_J, fontSize: 36, fontWeight: 800,
+              color: "#0a3954", margin: 0,
+              letterSpacing: "-0.5px",
+            }}>
+              Need help?
+            </h1>
+            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+          </div>
           <p style={{
             fontFamily: FONT, fontSize: 16, color: "#4b6b8a",
             margin: "0 0 36px", lineHeight: 1.65,

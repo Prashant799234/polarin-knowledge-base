@@ -164,10 +164,14 @@ export function PageToolsProvider({ value, children }: { value: PageToolsValue; 
   return <PageToolsContext.Provider value={value}>{children}</PageToolsContext.Provider>;
 }
 
+export function usePageTools() {
+  return useContext(PageToolsContext);
+}
+
 export function H1({ id, children }: { id?: string; children: ReactNode }) {
-  const tools = useContext(PageToolsContext);
+  const tools = usePageTools();
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: 4 }}>
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginBottom: 4 }}>
       <h1 id={id} style={{
         fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: "#0a3954",
         margin: 0, minWidth: 0, lineHeight: 1.2, letterSpacing: "-0.02em",

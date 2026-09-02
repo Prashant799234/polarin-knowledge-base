@@ -4,6 +4,8 @@ import type { KBPage } from "./KnowledgeBase";
 import { useWindowWidth } from "./useWindowWidth";
 import { RevealOnScroll, RevealGroup, RevealItem } from "./RevealOnScroll";
 import { REVEAL_VARIANTS, revealTransition, prefersReducedMotion } from "./animations/motionConfig";
+import { usePageTools } from "./ArticlePage";
+import { CopyPageMenu } from "./CopyPageMenu";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_JAKARTA = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -72,6 +74,7 @@ interface Props {
 }
 
 export function WelcomePage({ onNavigate }: Props) {
+  const tools = usePageTools();
   const width = useWindowWidth();
   const isMobile = width < 640;
   const isTablet = width < 1024;
@@ -102,19 +105,22 @@ export function WelcomePage({ onNavigate }: Props) {
         >
           <HomeIcon />
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <p
-            style={{
-              margin: 0,
-              fontFamily: FONT,
-              fontWeight: 900,
-              fontSize: 20,
-              lineHeight: "28px",
-              color: "#0a3954",
-            }}
-          >
-            Welcome to Polarin Platform
-          </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24 }}>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: FONT,
+                fontWeight: 900,
+                fontSize: 20,
+                lineHeight: "28px",
+                color: "#0a3954",
+              }}
+            >
+              Welcome to Polarin Platform
+            </p>
+            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+          </div>
           <p
             style={{
               margin: 0,

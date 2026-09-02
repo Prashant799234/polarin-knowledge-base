@@ -2,6 +2,8 @@ import { useState, useMemo, useRef, useEffect, useCallback, type CSSProperties }
 import { Search, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
 import { motion } from "motion/react";
 import { prefersReducedMotion } from "./animations/motionConfig";
+import { usePageTools } from "./ArticlePage";
+import { CopyPageMenu } from "./CopyPageMenu";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
@@ -400,6 +402,7 @@ const TH_STYLE: CSSProperties = {
 const PAGE_SIZES = [10, 20, 50];
 
 export function LocationsPage() {
+  const tools = usePageTools();
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -465,8 +468,11 @@ export function LocationsPage() {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
           </svg>
         </div>
-        <div>
-          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>Data Center Locations</h1>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24 }}>
+            <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>Data Center Locations</h1>
+            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+          </div>
           <p style={{ margin: "4px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
             Browse Polarin's partner data centres. Click any row to see available port, wave and virtual connection products at that location.
           </p>
