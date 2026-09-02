@@ -276,7 +276,7 @@ export function FlowDiagram({ actor, stages }: { actor?: string; stages: FlowSta
     if (i < stages.length - 1) nodes.push(<Connector key={`c-${i}`} />);
   });
   return (
-    <div style={{ display: "flex", alignItems: "stretch", gap: 4, margin: "24px 0", overflowX: "auto", paddingBottom: 4 }}>
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 12, margin: "24px 0" }}>
       {nodes}
     </div>
   );
@@ -303,7 +303,7 @@ function Connector() {
 
 function StageCard({ stage }: { stage: FlowStage }) {
   return (
-    <div style={{ flex: 1, minWidth: 200, background: "#fff", border: "0.5px solid #e2e8f1", borderRadius: 14, padding: 16, display: "flex", flexDirection: "column", gap: 10, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
+    <div style={{ flex: "1 1 180px", minWidth: 180, maxWidth: 260, background: "#fff", border: "0.5px solid #e2e8f1", borderRadius: 14, padding: 16, display: "flex", flexDirection: "column", gap: 10, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
       <p style={{ fontFamily: FONT_J, fontWeight: 800, fontSize: 14, color: "#1c808d", margin: 0 }}>{stage.title}</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {stage.items.map((item) => (
