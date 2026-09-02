@@ -943,9 +943,19 @@ function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void })
 
       <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>
         For usage limits and billing details, see{" "}
-        <button onClick={() => onNavigate("api-pricing")} style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline" }}>Pricing</button>.
+        <button
+          onClick={() => onNavigate("api-pricing")}
+          style={{ fontFamily: FONT, fontSize: 13, color: C.teal, background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "none" }}
+          onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
+        >Pricing</button>.
         For the full API reference, visit the{" "}
-        <a href="/developer" style={{ color: C.teal, fontSize: 13 }}>Developer Portal</a>.
+        <a
+          href="/developer"
+          style={{ color: C.teal, fontSize: 13, textDecoration: "none" }}
+          onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
+        >Developer Portal</a>.
       </p>
     </div>
   );
