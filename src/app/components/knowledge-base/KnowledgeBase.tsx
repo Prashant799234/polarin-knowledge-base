@@ -14,6 +14,8 @@ import { ReleaseNotesPage } from "./ReleaseNotesPage";
 import { LocationsPage } from "./LocationsPage";
 import { ComingSoonPage } from "./ComingSoonPage";
 import { ProgressBar } from "./ProgressBar";
+import { AboutPolarinPage } from "./articles/AboutPolarinPage";
+import { ServicesOfferedPage } from "./articles/ServicesOfferedPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
@@ -175,6 +177,23 @@ const NAV_GROUPS: NavGroup[] = [
 
 // Metadata for article footer (prev / next / related) — single source of truth
 const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; related?: ArticleLink[] }> = {
+  "about-polarin": {
+    next: { label: "Services Offered", pageId: "services-offered" },
+    related: [
+      { label: "Services Offered",        pageId: "services-offered" },
+      { label: "Quick Setup",             pageId: "quick-setup" },
+      { label: "Create a Polarin Account", pageId: "create-account" },
+    ],
+  },
+  "services-offered": {
+    prev: { label: "About Polarin", pageId: "about-polarin" },
+    next: { label: "Quick Setup",   pageId: "quick-setup" },
+    related: [
+      { label: "About Polarin",           pageId: "about-polarin" },
+      { label: "Create a Port",           pageId: "port-create" },
+      { label: "Create a Virtual Router", pageId: "vr-create" },
+    ],
+  },
   "create-account": {
     next: { label: "Complete Organisation Profile", pageId: "complete-profile" },
     related: [
@@ -541,6 +560,8 @@ export function KnowledgeBase() {
                         <LocationsPage />
                       </div>
                     )}
+                    {activePage === "about-polarin" && <AboutPolarinPage />}
+                    {activePage === "services-offered" && <ServicesOfferedPage />}
                     {activePage === "create-account" && <CreateAccountPage />}
                     {activePage === "complete-profile" && <CompleteProfilePage />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
