@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import type { ElementType } from "react";
 import { SearchBar } from "./SearchBar";
+import { CopyPageMenu } from "./CopyPageMenu";
 import {
   Home, FileText, Code, UserCircle, Building2, UserPlus,
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
@@ -311,6 +312,7 @@ export function KnowledgeBase() {
   const [isNavigating, setIsNavigating] = useState(false);
   const [recentPageHistory, setRecentPageHistory] = useState<string[]>([]);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const width = useWindowWidth();
   const isMobile = width < 768;
 
@@ -543,7 +545,9 @@ export function KnowledgeBase() {
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100%", gap: 0 }}>
               {/* White card */}
               <div
+                ref={cardRef}
                 style={{
+                  position: "relative",
                   background: "#FFFFFF",
                   border: "0.5px solid rgba(0,0,0,0.06)",
                   borderRadius: 16,
@@ -551,6 +555,9 @@ export function KnowledgeBase() {
                   flex: ARTICLE_PAGES.has(activePage) ? "0 0 auto" : 1,
                 }}
               >
+                <div data-copy-page-exclude="true" style={{ position: "absolute", top: 16, right: 16, zIndex: 10 }}>
+                  <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
+                </div>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activePage}
