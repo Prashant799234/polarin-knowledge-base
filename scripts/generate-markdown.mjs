@@ -59,7 +59,7 @@ function classifyTag(tagName, styleAttr) {
   return "P";
 }
 
-function htmlToMarkdown(html, fallbackTitle) {
+function extractClassifiedNodes(html, fallbackTitle) {
   const root = parse(html);
   const classified = root
     .querySelectorAll("h1, h2, h3, p, li")
@@ -67,9 +67,13 @@ function htmlToMarkdown(html, fallbackTitle) {
     .filter((n) => n.text);
 
   const hasH1 = classified.some((n) => n.tag === "H1");
+  if (!hasH1) classified.unshift({ tag: "H1", text: fallbackTitle });
+  return classified;
+}
+
+function nodesToMarkdown(nodes) {
   const lines = [];
-  if (!hasH1) lines.push(`# ${fallbackTitle}`, "");
-  classified.forEach(({ tag, text }) => {
+  nodes.forEach(({ tag, text }) => {
     switch (tag) {
       case "H1": lines.push(`# ${text}`, ""); break;
       case "H2": lines.push(`## ${text}`, ""); break;
@@ -79,6 +83,47 @@ function htmlToMarkdown(html, fallbackTitle) {
     }
   });
   return lines.join("\n").trim();
+}
+
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Plain, dependency-free HTML — some tools that "browse" a URL only accept
+// HTML responses and refuse plain text/markdown outright, even with a
+// text/plain Content-Type. This is the most universally readable format.
+function nodesToHtml(nodes, pageTitle) {
+  const body = [];
+  let inList = false;
+  nodes.forEach(({ tag, text }) => {
+    const safe = escapeHtml(text);
+    if (tag === "LI") {
+      if (!inList) { body.push("<ul>"); inList = true; }
+      body.push(`<li>${safe}</li>`);
+      return;
+    }
+    if (inList) { body.push("</ul>"); inList = false; }
+    switch (tag) {
+      case "H1": body.push(`<h1>${safe}</h1>`); break;
+      case "H2": body.push(`<h2>${safe}</h2>`); break;
+      case "H3": body.push(`<h3>${safe}</h3>`); break;
+      default: body.push(`<p>${safe}</p>`);
+    }
+  });
+  if (inList) body.push("</ul>");
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml(pageTitle)} — Polarin Docs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+${body.join("\n")}
+</body>
+</html>
+`;
 }
 
 async function run() {
@@ -99,9 +144,11 @@ async function run() {
         console.warn(`[md] Skipping ${page.id}: export "${page.exportName}" not found in ${page.file}`);
         continue;
       }
-      const html = renderToStaticMarkup(React.createElement(Component, page.props));
-      const markdown = htmlToMarkdown(html, page.id);
-      writeFileSync(path.join(OUT_DIR, `${page.id}.md`), markdown + "\n", "utf-8");
+      const rendered = renderToStaticMarkup(React.createElement(Component, page.props));
+      const nodes = extractClassifiedNodes(rendered, page.id);
+      const pageTitle = nodes.find((n) => n.tag === "H1")?.text || page.id;
+      writeFileSync(path.join(OUT_DIR, `${page.id}.md`), nodesToMarkdown(nodes) + "\n", "utf-8");
+      writeFileSync(path.join(OUT_DIR, `${page.id}.html`), nodesToHtml(nodes, pageTitle), "utf-8");
       ok++;
     } catch (err) {
       console.warn(`[md] Skipping ${page.id}:`, err instanceof Error ? err.message : err);

@@ -23,11 +23,12 @@ function extractPageMarkdown(container: HTMLElement | null, fallbackTitle: strin
 }
 
 function buildPrompt(title: string, pageId: string): string {
-  // Points at a pre-built static .md file, not the live app — the app is
+  // Points at a pre-built static HTML page, not the live app — the app is
   // client-rendered, so a plain fetch (no JS execution) would only see an
-  // empty shell. The static file is real text any fetch can read.
-  const mdUrl = `${window.location.origin}/md/${pageId}.md`;
-  return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${mdUrl}\n\n(Page: "${title}")`;
+  // empty shell. HTML (rather than raw .md/text) is used because some
+  // browsing tools refuse to read non-HTML responses outright.
+  const pageUrl = `${window.location.origin}/md/${pageId}.html`;
+  return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${pageUrl}\n\n(Page: "${title}")`;
 }
 
 interface MenuAction {
