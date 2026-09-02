@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
-import { Copy, Check, FileText, Sparkles, Search, ChevronDown } from "lucide-react";
+import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown } from "lucide-react";
+import { downloadPageAsPdf } from "./pdfExport";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -88,6 +89,15 @@ export function CopyPageMenu({ contentRef, pageTitle }: Props) {
         const blob = new Blob([markdown], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         window.open(url, "_blank", "noopener,noreferrer");
+        setOpen(false);
+      },
+    },
+    {
+      icon: FileDown,
+      label: "Download as PDF",
+      description: "Save this page as a formatted PDF",
+      onSelect: () => {
+        downloadPageAsPdf(contentRef.current, pageTitle).catch((err) => console.error("PDF export failed", err));
         setOpen(false);
       },
     },
