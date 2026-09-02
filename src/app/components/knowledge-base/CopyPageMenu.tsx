@@ -121,7 +121,7 @@ export function CopyPageMenu({ contentRef, pageTitle }: Props) {
   ];
 
   return (
-    <div ref={wrapperRef} style={{ position: "relative" }}>
+    <div ref={wrapperRef} data-copy-page-exclude="true" style={{ position: "relative" }}>
       <button
         onClick={() => setOpen((v) => !v)}
         style={{

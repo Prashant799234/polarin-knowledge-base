@@ -20,7 +20,9 @@ function classifyNode(el: Element): ContentNode["tag"] {
 
 export function extractContentNodes(container: HTMLElement | null, fallbackTitle: string): ContentNode[] {
   if (!container) return [{ tag: "H1", text: fallbackTitle }];
-  const els = Array.from(container.querySelectorAll("h1, h2, h3, p, li"));
+  const els = Array.from(container.querySelectorAll("h1, h2, h3, p, li")).filter(
+    (el) => !el.closest("[data-copy-page-exclude]")
+  );
   const classified = els.map((el) => ({ el, tag: classifyNode(el) }));
   const hasH1 = classified.some((c) => c.tag === "H1");
   const nodes: ContentNode[] = [];

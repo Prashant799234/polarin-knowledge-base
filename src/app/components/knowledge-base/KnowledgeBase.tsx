@@ -29,7 +29,7 @@ import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ContactSupportPage } from "./ContactSupportPage";
-import { ArticleFooter } from "./ArticlePage";
+import { ArticleFooter, PageToolsProvider } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
 import { prefersReducedMotion, REVEAL_VARIANTS, revealTransition } from "./animations/motionConfig";
@@ -552,10 +552,12 @@ export function KnowledgeBase() {
           <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100%", gap: 0 }}>
-              {/* Toolbar — sits above the card so it never overlaps page content */}
-              <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10, flexShrink: 0 }}>
-                <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
-              </div>
+              {/* Toolbar — only for pages without their own H1 (which renders the menu inline) */}
+              {!ARTICLE_PAGES.has(activePage) && (
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10, flexShrink: 0 }}>
+                  <CopyPageMenu contentRef={cardRef} pageTitle={getPageLabel(activePage)} />
+                </div>
+              )}
               {/* White card */}
               <div
                 ref={cardRef}
@@ -567,6 +569,7 @@ export function KnowledgeBase() {
                   flex: ARTICLE_PAGES.has(activePage) ? "0 0 auto" : 1,
                 }}
               >
+                <PageToolsProvider value={{ pageTitle: getPageLabel(activePage), contentRef: cardRef }}>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activePage}
@@ -627,6 +630,7 @@ export function KnowledgeBase() {
                     )}
                   </motion.div>
                 </AnimatePresence>
+                </PageToolsProvider>
               </div>
 
               {/* Article footer — outside the white card, rendered below it */}

@@ -1,7 +1,8 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode, type RefObject } from "react";
 import { motion } from "motion/react";
 import { ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight, BookOpen, User, ChevronsRight } from "lucide-react";
 import { prefersReducedMotion } from "./animations/motionConfig";
+import { CopyPageMenu } from "./CopyPageMenu";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -152,14 +153,29 @@ export function DocImage({ src, alt, caption }: { src: string; alt: string; capt
 
 // ── Typography ────────────────────────────────────────────────────────────────
 
+interface PageToolsValue {
+  pageTitle: string;
+  contentRef: RefObject<HTMLElement | null>;
+}
+
+const PageToolsContext = createContext<PageToolsValue | null>(null);
+
+export function PageToolsProvider({ value, children }: { value: PageToolsValue; children: ReactNode }) {
+  return <PageToolsContext.Provider value={value}>{children}</PageToolsContext.Provider>;
+}
+
 export function H1({ id, children }: { id?: string; children: ReactNode }) {
+  const tools = useContext(PageToolsContext);
   return (
-    <h1 id={id} style={{
-      fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: "#0a3954",
-      margin: "0 0 4px", lineHeight: 1.2, letterSpacing: "-0.02em",
-    }}>
-      {children}
-    </h1>
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24, marginBottom: 4 }}>
+      <h1 id={id} style={{
+        fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: "#0a3954",
+        margin: 0, minWidth: 0, lineHeight: 1.2, letterSpacing: "-0.02em",
+      }}>
+        {children}
+      </h1>
+      {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+    </div>
   );
 }
 
