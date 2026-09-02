@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "motion/react";
-import { ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
+import { ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight, BookOpen, User, ChevronsRight } from "lucide-react";
 import { prefersReducedMotion } from "./animations/motionConfig";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -238,6 +238,68 @@ export function KYCTable({ rows }: { rows: { entity: string; docs: string }[] })
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+// ── Flow diagram ──────────────────────────────────────────────────────────────
+
+export interface FlowStage {
+  title: string;
+  items: { icon: ReactNode; label: string; caption?: string }[];
+}
+
+export function FlowDiagram({ actor, stages }: { actor?: string; stages: FlowStage[] }) {
+  const nodes: ReactNode[] = [];
+  if (actor) {
+    nodes.push(<ActorNode key="actor" label={actor} />);
+    nodes.push(<Connector key="c-actor" />);
+  }
+  stages.forEach((stage, i) => {
+    nodes.push(<StageCard key={stage.title} stage={stage} />);
+    if (i < stages.length - 1) nodes.push(<Connector key={`c-${i}`} />);
+  });
+  return (
+    <div style={{ display: "flex", alignItems: "stretch", gap: 4, margin: "24px 0", overflowX: "auto", paddingBottom: 4 }}>
+      {nodes}
+    </div>
+  );
+}
+
+function ActorNode({ label }: { label: string }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, flexShrink: 0, padding: "0 8px", minWidth: 72 }}>
+      <div style={{ width: 44, height: 44, borderRadius: "50%", border: "1.5px solid #cbd5e1", display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b", flexShrink: 0 }}>
+        <User size={20} />
+      </div>
+      <span style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: "#64748b", textAlign: "center" }}>{label}</span>
+    </div>
+  );
+}
+
+function Connector() {
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#1c808d", padding: "0 2px" }}>
+      <ChevronsRight size={18} />
+    </div>
+  );
+}
+
+function StageCard({ stage }: { stage: FlowStage }) {
+  return (
+    <div style={{ flex: 1, minWidth: 200, background: "#fff", border: "0.5px solid #e2e8f1", borderRadius: 14, padding: 16, display: "flex", flexDirection: "column", gap: 10, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
+      <p style={{ fontFamily: FONT_J, fontWeight: 800, fontSize: 14, color: "#1c808d", margin: 0 }}>{stage.title}</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {stage.items.map((item) => (
+          <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 10, background: "#f8fafc", borderRadius: 10, padding: "9px 12px" }}>
+            <span style={{ color: "#1c808d", flexShrink: 0, display: "flex" }}>{item.icon}</span>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#0a3954" }}>{item.label}</div>
+              {item.caption && <div style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8" }}>{item.caption}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

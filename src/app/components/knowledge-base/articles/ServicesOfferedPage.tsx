@@ -1,4 +1,5 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout } from "../ArticlePage";
+import { Plug, Router, Cloud, Server, MapPin, Building2 } from "lucide-react";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram } from "../ArticlePage";
 
 const TOC = [
   { id: "overview",   label: "Overview" },
@@ -24,6 +25,34 @@ export function ServicesOfferedPage() {
         Everything you can provision on Polarin falls into a handful of categories. Here's what each one does
         and when you'd reach for it.
       </P>
+
+      <FlowDiagram
+        actor="You"
+        stages={[
+          {
+            title: "Access",
+            items: [
+              { icon: <Plug size={16} />, label: "Port", caption: "1GE · 10GE · 100GE" },
+            ],
+          },
+          {
+            title: "Connectivity",
+            items: [
+              { icon: <Router size={16} />, label: "Virtual Router", caption: "L3 routing" },
+              { icon: <Cloud size={16} />, label: "Cloud Connect", caption: "Private cloud link" },
+              { icon: <Server size={16} />, label: "DCI", caption: "Site to site" },
+            ],
+          },
+          {
+            title: "Reach",
+            items: [
+              { icon: <Cloud size={16} />, label: "Cloud Providers" },
+              { icon: <Building2 size={16} />, label: "Partner Data Centres" },
+              { icon: <MapPin size={16} />, label: "Other Locations" },
+            ],
+          },
+        ]}
+      />
 
       <H2 id="locations">Locations</H2>
       <P>

@@ -1,4 +1,5 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout } from "../ArticlePage";
+import { Plug, Router, Cloud } from "lucide-react";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram } from "../ArticlePage";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -62,6 +63,15 @@ export function AboutPolarinPage() {
         straight into a cloud provider. Ports can also be bundled into a <strong>Link Aggregation Group</strong>
         {" "}when you need more throughput or built-in redundancy.
       </P>
+
+      <FlowDiagram
+        actor="You"
+        stages={[
+          { title: "Port", items: [{ icon: <Plug size={16} />, label: "Physical access", caption: "1GE · 10GE · 100GE" }] },
+          { title: "Route or Connect", items: [{ icon: <Router size={16} />, label: "Virtual Router" }, { icon: <Cloud size={16} />, label: "Cloud Connect" }] },
+          { title: "Destination", items: [{ icon: <Cloud size={16} />, label: "Cloud, sites & partners" }] },
+        ]}
+      />
       <P>
         None of these are locked together — use just a port if that's all you need, or combine several
         services as your network grows.
