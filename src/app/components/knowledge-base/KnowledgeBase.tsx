@@ -6,6 +6,7 @@ import {
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
   Package, Headphones, HelpCircle, ShieldAlert, Lightbulb,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
+  Info, LayoutGrid,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -72,6 +73,8 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "GET STARTED",
     items: [
+      { id: "about-polarin", label: "About Polarin", icon: Info },
+      { id: "services-offered", label: "Services Offered", icon: LayoutGrid },
       { id: "create-account", label: "Create a Polarin Account", icon: UserCircle },
       {
         id: "org-profile", label: "Organisation Profile", icon: Building2,
