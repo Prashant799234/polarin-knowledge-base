@@ -154,6 +154,7 @@ export function DocImage({ src, alt, caption }: { src: string; alt: string; capt
 // ── Typography ────────────────────────────────────────────────────────────────
 
 interface PageToolsValue {
+  pageId: string;
   pageTitle: string;
   contentRef: RefObject<HTMLElement | null>;
 }
@@ -178,7 +179,7 @@ export function H1({ id, children }: { id?: string; children: ReactNode }) {
       }}>
         {children}
       </h1>
-      {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+      {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} pageId={tools.pageId} />}
     </div>
   );
 }

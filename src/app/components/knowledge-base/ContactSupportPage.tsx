@@ -29,7 +29,7 @@ export function ContactSupportPage() {
             }}>
               Need help?
             </h1>
-            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} pageId={tools.pageId} />}
           </div>
           <p style={{
             fontFamily: FONT, fontSize: 16, color: "#4b6b8a",

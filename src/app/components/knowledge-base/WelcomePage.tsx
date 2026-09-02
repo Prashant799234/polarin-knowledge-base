@@ -119,7 +119,7 @@ export function WelcomePage({ onNavigate }: Props) {
             >
               Welcome to Polarin Platform
             </p>
-            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} />}
+            {tools && <CopyPageMenu contentRef={tools.contentRef} pageTitle={tools.pageTitle} pageId={tools.pageId} />}
           </div>
           <p
             style={{

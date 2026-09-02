@@ -22,9 +22,12 @@ function extractPageMarkdown(container: HTMLElement | null, fallbackTitle: strin
   return lines.join("\n").trim();
 }
 
-function buildPrompt(title: string): string {
-  const pageUrl = window.location.href;
-  return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${pageUrl}\n\n(Page: "${title}")`;
+function buildPrompt(title: string, pageId: string): string {
+  // Points at a pre-built static .md file, not the live app — the app is
+  // client-rendered, so a plain fetch (no JS execution) would only see an
+  // empty shell. The static file is real text any fetch can read.
+  const mdUrl = `${window.location.origin}/md/${pageId}.md`;
+  return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${mdUrl}\n\n(Page: "${title}")`;
 }
 
 interface MenuAction {
@@ -37,9 +40,10 @@ interface MenuAction {
 interface Props {
   contentRef: RefObject<HTMLElement | null>;
   pageTitle: string;
+  pageId: string;
 }
 
-export function CopyPageMenu({ contentRef, pageTitle }: Props) {
+export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -54,7 +58,7 @@ export function CopyPageMenu({ contentRef, pageTitle }: Props) {
   }, [open]);
 
   const openInService = (url: (encodedPrompt: string) => string) => {
-    const prompt = buildPrompt(pageTitle);
+    const prompt = buildPrompt(pageTitle, pageId);
     window.open(url(encodeURIComponent(prompt)), "_blank", "noopener,noreferrer");
     setOpen(false);
   };

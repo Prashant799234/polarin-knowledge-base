@@ -563,7 +563,7 @@ export function KnowledgeBase() {
                   flex: ARTICLE_PAGES.has(activePage) ? "0 0 auto" : 1,
                 }}
               >
-                <PageToolsProvider value={{ pageTitle: getPageLabel(activePage), contentRef: cardRef }}>
+                <PageToolsProvider value={{ pageId: activePage, pageTitle: getPageLabel(activePage), contentRef: cardRef }}>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activePage}
@@ -720,7 +720,7 @@ const API_TOPICS = [
   { title: "Staging Environment", description: "Test safely — no real services, no billing", pageId: null, href: "/developer" },
 ];
 
-function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
+export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
   const apiTools = usePageTools();
   const width = useWindowWidth();
   const isMobile = width < 640;
@@ -752,7 +752,7 @@ function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
               <p style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
                 Polarin API
               </p>
-              {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+              {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} pageId={apiTools.pageId} />}
             </div>
             <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
               Automate your network infrastructure through simple REST calls — no portal required.
@@ -907,13 +907,13 @@ function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
   );
 }
 
-function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void }) {
+export function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void }) {
   const apiTools = usePageTools();
   return (
     <div style={{ padding: "32px 40px 52px" }}>
       <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24, marginBottom: 8 }}>
         <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: 0, letterSpacing: "-0.4px" }}>Getting Access</h1>
-        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} pageId={apiTools.pageId} />}
       </div>
       <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.8, margin: "0 0 32px", maxWidth: 560 }}>
         The Polarin API is available to all active Polarin customers. Here's the full journey — from sign-up to your first API call.
@@ -983,13 +983,13 @@ function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => void })
   );
 }
 
-function ApiPricingPage({ onNavigate: _onNavigate }: { onNavigate: (id: string) => void }) {
+export function ApiPricingPage({ onNavigate: _onNavigate }: { onNavigate: (id: string) => void }) {
   const apiTools = usePageTools();
   return (
     <div style={{ padding: "32px 40px 52px" }}>
       <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24, marginBottom: 8 }}>
         <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: 0, letterSpacing: "-0.4px" }}>API Pricing</h1>
-        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} />}
+        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} pageId={apiTools.pageId} />}
       </div>
       <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.8, margin: "0 0 28px", maxWidth: 560 }}>
         Simple rule: almost all Polarin APIs are free. The only exception is VISTA Performance Monitoring, which has a daily free allowance per circuit.
