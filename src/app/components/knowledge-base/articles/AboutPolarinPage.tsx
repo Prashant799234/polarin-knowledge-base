@@ -186,7 +186,11 @@ function DiagramNode({ node }: { node: DiagramNodeData }) {
           top: `${(node.y / H) * 100}%`,
           transform: "translate(-50%, -50%)",
           width: size, height: size, borderRadius: "50%",
-          background: `${node.color}18`, border: `1.5px solid ${node.color}55`,
+          // Layered background (tint painted over solid white) so this circle
+          // is fully opaque and cleanly hides the connector line behind it —
+          // a plain translucent fill let the line bleed through.
+          background: `linear-gradient(${node.color}18, ${node.color}18), #ffffff`,
+          border: `1.5px solid ${node.color}55`,
           display: "flex", alignItems: "center", justifyContent: "center",
           color: node.color,
         }}
