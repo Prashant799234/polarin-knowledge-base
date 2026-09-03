@@ -3,11 +3,12 @@ import type { ElementType } from "react";
 import { SearchBar } from "./SearchBar";
 import { CopyPageMenu } from "./CopyPageMenu";
 import {
-  Home, FileText, Code, UserCircle, Building2, UserPlus,
-  MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
-  Package, Headphones, ShieldAlert, Lightbulb,
+  Home, FileText, Code, UserCircle, Building2,
+  MapPin, Cloud, Server, Plug, Router, CreditCard,
+  Headphones, ShieldAlert, Lightbulb,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
-  Info,
+  Info, LayoutDashboard, Bell, Waypoints, ClipboardCheck, Gauge,
+  LineChart, Users, FileBarChart, BellRing, UserCog,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -32,6 +33,14 @@ import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ActivityLogOverviewPage } from "./articles/ActivityLogOverviewPage";
+import { CloudConnectPage } from "./articles/CloudConnectPage";
+import { DCICreatePage } from "./articles/DCICreatePage";
+import { InternetExchangePage } from "./articles/InternetExchangePage";
+import { ServiceDetailPage } from "./articles/ServiceDetailPage";
+import { ServiceStatusPage } from "./articles/ServiceStatusPage";
+import { VistaOverviewPage } from "./articles/VistaOverviewPage";
+import { DashboardOverviewPage } from "./articles/DashboardOverviewPage";
+import { NotificationsPage } from "./articles/NotificationsPage";
 import { ContactSupportPage } from "./ContactSupportPage";
 import { ArticleFooter, PageToolsProvider, usePageTools } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
@@ -90,36 +99,18 @@ const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { id: "create-account", label: "Create a Polarin Account", icon: UserCircle },
-      {
-        id: "org-profile", label: "Organisation Profile", icon: Building2,
-        children: [
-          { id: "complete-profile", label: "Complete Your Profile" },
-          { id: "org-kyc", label: "KYC Document Requirements" },
-          { id: "org-settings", label: "Organisation Settings" },
-        ],
-      },
-      { id: "invite-members", label: "Invite Team Members", icon: UserPlus },
     ],
   },
   {
-    title: "SERVICES",
+    title: "GETTING AROUND",
     items: [
-      { id: "locations", label: "Locations", icon: MapPin },
-      {
-        id: "cloud-connect", label: "Cloud connect", icon: Cloud,
-        children: [
-          { id: "cloud-aws", label: "AWS Direct Connect" },
-          { id: "cloud-azure", label: "Azure ExpressRoute" },
-          { id: "cloud-gcp", label: "Google Cloud Interconnect" },
-        ],
-      },
-      {
-        id: "dci", label: "Data Center Interconnect (DCI)", icon: Server,
-        children: [
-          { id: "dci-create", label: "Create DCI Service" },
-          { id: "dci-manage", label: "Manage DCI" },
-        ],
-      },
+      { id: "dashboard-overview", label: "Dashboard", icon: LayoutDashboard },
+      { id: "notifications", label: "Notifications", icon: Bell },
+    ],
+  },
+  {
+    title: "PRODUCTS",
+    items: [
       {
         id: "port", label: "Port", icon: Plug,
         children: [
@@ -131,43 +122,59 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "virtual-router", label: "Virtual Router", icon: Router,
         children: [
-          { id: "vr-status", label: "Understand Virtual Router Status" },
           { id: "vr-create", label: "Create a Virtual Router" },
+          { id: "vr-status", label: "Understand Virtual Router Status" },
         ],
       },
+      { id: "cloud-connect", label: "Cloud Connect", icon: Cloud },
+      { id: "dci-create", label: "Data Centre Interconnect", icon: Server },
+      { id: "internet-exchange", label: "Internet Exchange", icon: Waypoints },
+      { id: "locations", label: "Locations", icon: MapPin },
     ],
   },
   {
-    title: "MANAGE SERVICES",
+    title: "SERVICE MANAGEMENT",
+    items: [
+      { id: "service-detail", label: "Understanding the Service Detail Page", icon: ClipboardCheck },
+      { id: "service-status", label: "Understanding Service Status", icon: Gauge },
+    ],
+  },
+  {
+    title: "VISTA",
+    items: [
+      { id: "vista-overview", label: "Overview", icon: LineChart },
+    ],
+  },
+  {
+    title: "SETTINGS",
     items: [
       {
-        id: "spog", label: "SPOG", icon: BarChart2,
+        id: "org-profile", label: "Organisation Details", icon: Building2,
         children: [
-          { id: "spog-dashboard", label: "Dashboard Overview" },
-          { id: "spog-analytics", label: "Analytics" },
+          { id: "complete-profile", label: "Complete Your Profile" },
+          { id: "org-kyc", label: "KYC Document Requirements" },
+          { id: "org-settings", label: "Organisation Settings" },
         ],
       },
+      { id: "invite-members", label: "User Management", icon: Users },
       {
-        id: "billing", label: "Billing", icon: CreditCard,
+        id: "billing", label: "Billing Profile", icon: CreditCard,
         children: [
           { id: "billing-invoices", label: "Invoices" },
           { id: "billing-payment", label: "Payment Methods" },
         ],
       },
       {
-        id: "subscription", label: "Subscription", icon: Package,
-        children: [
-          { id: "sub-plans", label: "Plans & Pricing" },
-          { id: "sub-usage", label: "Usage Reports" },
-        ],
-      },
-      {
-        id: "activity-logs", label: "Activity Log", icon: Activity,
+        id: "activity-logs", label: "Activity Logs", icon: Activity,
         children: [
           { id: "activity-log-overview", label: "Overview" },
           { id: "activity-log-details",  label: "Using Activity Log" },
         ],
       },
+      { id: "reports", label: "Reports", icon: FileBarChart },
+      { id: "manage-alerts", label: "Manage Alerts", icon: BellRing },
+      { id: "profile", label: "Profile", icon: UserCog },
+      { id: "developer-portal-nav", label: "Developer Portal", icon: Code, href: "/developer", external: true },
     ],
   },
   {
@@ -330,6 +337,62 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Get Support",       pageId: "ticket-overview" },
       { label: "Create a Ticket",   pageId: "create-ticket" },
       { label: "Contact Support",   pageId: "contact-support" },
+    ],
+  },
+  "dashboard-overview": {
+    next: { label: "Notifications", pageId: "notifications" },
+    related: [
+      { label: "Notifications", pageId: "notifications" },
+      { label: "Quick Setup",   pageId: "quick-setup" },
+    ],
+  },
+  "notifications": {
+    prev: { label: "Dashboard", pageId: "dashboard-overview" },
+    related: [
+      { label: "VISTA",                              pageId: "vista-overview" },
+      { label: "Understanding Service Status",       pageId: "service-status" },
+    ],
+  },
+  "cloud-connect": {
+    related: [
+      { label: "Create a Port",                        pageId: "port-create" },
+      { label: "Data Centre Interconnect",              pageId: "dci-create" },
+      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+    ],
+  },
+  "dci-create": {
+    related: [
+      { label: "Create a Port",                        pageId: "port-create" },
+      { label: "Cloud Connect",                         pageId: "cloud-connect" },
+      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+    ],
+  },
+  "internet-exchange": {
+    related: [
+      { label: "Create a Port",                        pageId: "port-create" },
+      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+    ],
+  },
+  "service-detail": {
+    next: { label: "Understanding Service Status", pageId: "service-status" },
+    related: [
+      { label: "Understanding Service Status", pageId: "service-status" },
+      { label: "Create a Port",                pageId: "port-create" },
+      { label: "Create a Ticket",              pageId: "create-ticket" },
+    ],
+  },
+  "service-status": {
+    prev: { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+    related: [
+      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+      { label: "Understand Port Status",                pageId: "port-status" },
+      { label: "Understand Virtual Router Status",      pageId: "vr-status" },
+    ],
+  },
+  "vista-overview": {
+    related: [
+      { label: "Notifications",  pageId: "notifications" },
+      { label: "Polarin API Pricing", pageId: "api-pricing" },
     ],
   },
 };
@@ -640,6 +703,14 @@ export function KnowledgeBase() {
                     {activePage === "port-lag" && <CreateLAGPage />}
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
+                    {activePage === "cloud-connect" && <CloudConnectPage onNavigate={navigate} />}
+                    {activePage === "dci-create" && <DCICreatePage onNavigate={navigate} />}
+                    {activePage === "internet-exchange" && <InternetExchangePage onNavigate={navigate} />}
+                    {activePage === "service-detail" && <ServiceDetailPage onNavigate={navigate} />}
+                    {activePage === "service-status" && <ServiceStatusPage onNavigate={navigate} />}
+                    {activePage === "vista-overview" && <VistaOverviewPage onNavigate={navigate} />}
+                    {activePage === "dashboard-overview" && <DashboardOverviewPage onNavigate={navigate} />}
+                    {activePage === "notifications" && <NotificationsPage onNavigate={navigate} />}
                     {activePage === "activity-log-overview" && <ActivityLogOverviewPage onNavigate={navigate} />}
                     {activePage === "activity-log-details" && <ActivityLogPage onNavigate={navigate} />}
                     {activePage === "ticket-overview" && <SupportOverviewPage onNavigate={navigate} />}

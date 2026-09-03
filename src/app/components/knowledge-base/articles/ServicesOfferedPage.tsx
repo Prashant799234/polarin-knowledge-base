@@ -121,7 +121,7 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
       <H2 id="cloud">Cloud Connect</H2>
       <P>
         Cloud Connect gives you a private, direct link into major cloud providers - bypassing the public
-        internet for lower latency and more predictable performance than a standard VPN.
+        internet for lower latency and more predictable performance than a standard VPN. See <PageLink label="Create a Cloud Connect Service" onClick={() => onNavigate("cloud-connect")} /> to set one up.
       </P>
       <UL>
         <LI>Point-to-point connections into your cloud provider(s) of choice.</LI>
@@ -131,7 +131,7 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
       <H2 id="dci">Data Centre Interconnect (DCI)</H2>
       <P>
         DCI links two or more of your data centre sites together at high bandwidth - for replication,
-        disaster recovery, or simply treating multiple sites as one extended network.
+        disaster recovery, or simply treating multiple sites as one extended network. See <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> to get started.
       </P>
 
       <Callout variant="tip">

@@ -31,9 +31,9 @@ const PATH_CARDS = [
     iconBg: "#9e27fd",
     iconEl: <BarChartIcon />,
     title: "Monitor & Optimize",
-    description: "Use SPOG dashboard and analytics to monitor performance and optimize your network.",
-    link: "View Analytics",
-    pageId: "spog",
+    description: "Use the Dashboard and VISTA performance monitoring to keep an eye on your network.",
+    link: "View Dashboard",
+    pageId: "dashboard-overview",
   },
   {
     iconBg: "#fd5900",
