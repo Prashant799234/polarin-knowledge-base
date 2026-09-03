@@ -5,7 +5,7 @@ import { CopyPageMenu } from "./CopyPageMenu";
 import {
   Home, FileText, Code, UserCircle, Building2, UserPlus,
   MapPin, Cloud, Server, Plug, Router, BarChart2, CreditCard,
-  Package, Headphones, HelpCircle, ShieldAlert, Lightbulb,
+  Package, Headphones, ShieldAlert, Lightbulb,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
   Info,
 } from "lucide-react";
@@ -18,6 +18,9 @@ import { ProgressBar } from "./ProgressBar";
 import { AboutPolarinPage } from "./articles/AboutPolarinPage";
 import { ServicesOfferedPage } from "./articles/ServicesOfferedPage";
 import { QuickSetupPage } from "./articles/QuickSetupPage";
+import { SupportOverviewPage } from "./articles/SupportOverviewPage";
+import { CreateTicketPage } from "./articles/CreateTicketPage";
+import { MyTicketsPage } from "./articles/MyTicketsPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
@@ -163,12 +166,13 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "HELP & SUPPORT",
     items: [
-      { id: "contact-support", label: "Contact Support", icon: Headphones },
       {
-        id: "support-tickets", label: "Support Tickets", icon: HelpCircle,
+        id: "support-tickets", label: "Get Support", icon: Headphones,
         children: [
-          { id: "my-tickets", label: "My Tickets" },
-          { id: "create-ticket", label: "Create Ticket" },
+          { id: "ticket-overview", label: "Overview" },
+          { id: "create-ticket",   label: "Create Ticket" },
+          { id: "my-tickets",      label: "My Tickets" },
+          { id: "contact-support", label: "Contact Support" },
         ],
       },
       { id: "escalation-matrix", label: "Escalation Matrix", icon: ShieldAlert },
@@ -285,6 +289,31 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Understand Port Status",                pageId: "port-status" },
       { label: "Understand Virtual Router Status",      pageId: "vr-status" },
       { label: "Create a Port",                         pageId: "port-create" },
+    ],
+  },
+  "ticket-overview": {
+    next: { label: "Create a Ticket", pageId: "create-ticket" },
+    related: [
+      { label: "Create a Ticket",   pageId: "create-ticket" },
+      { label: "My Tickets",        pageId: "my-tickets" },
+      { label: "Contact Support",   pageId: "contact-support" },
+    ],
+  },
+  "create-ticket": {
+    prev: { label: "Get Support",   pageId: "ticket-overview" },
+    next: { label: "My Tickets",    pageId: "my-tickets" },
+    related: [
+      { label: "Get Support",       pageId: "ticket-overview" },
+      { label: "My Tickets",        pageId: "my-tickets" },
+      { label: "Contact Support",   pageId: "contact-support" },
+    ],
+  },
+  "my-tickets": {
+    prev: { label: "Create a Ticket", pageId: "create-ticket" },
+    related: [
+      { label: "Get Support",       pageId: "ticket-overview" },
+      { label: "Create a Ticket",   pageId: "create-ticket" },
+      { label: "Contact Support",   pageId: "contact-support" },
     ],
   },
 };
@@ -596,8 +625,11 @@ export function KnowledgeBase() {
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
                     {activePage === "activity-logs" && <ActivityLogPage />}
+                    {activePage === "ticket-overview" && <SupportOverviewPage onNavigate={navigate} />}
+                    {activePage === "create-ticket" && <CreateTicketPage onNavigate={navigate} />}
+                    {activePage === "my-tickets" && <MyTicketsPage onNavigate={navigate} />}
                     {activePage === "contact-support" && (
-                      <ContactSupportPage />
+                      <ContactSupportPage onNavigate={navigate} />
                     )}
                     {activePage === "api-overview" && (
                       <div style={{ padding: 24 }}>

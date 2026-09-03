@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { Mail, Phone, Clock, Zap, ShieldCheck } from "lucide-react";
+import { Mail, Phone, Clock, Zap, ShieldCheck, Ticket, ListChecks } from "lucide-react";
 import { usePageTools } from "./ArticlePage";
 import { CopyPageMenu } from "./CopyPageMenu";
+import type { KBPage } from "./KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
-export function ContactSupportPage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function ContactSupportPage({ onNavigate }: Props) {
   const tools = usePageTools();
   return (
     <div style={{ padding: "48px 48px 56px" }}>
@@ -99,6 +104,12 @@ export function ContactSupportPage() {
           title="Expert Engineers"
           desc="Dedicated network engineers with deep knowledge of Polarin services handle every ticket."
         />
+      </div>
+
+      {/* ── See also ── */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 24 }}>
+        <SeeAlsoLink icon={<Ticket size={16} />} label="Create a Ticket" onClick={() => onNavigate("create-ticket")} />
+        <SeeAlsoLink icon={<ListChecks size={16} />} label="My Tickets" onClick={() => onNavigate("my-tickets")} />
       </div>
 
     </div>
@@ -203,5 +214,34 @@ function InfoCard({ icon, title, desc }: InfoCardProps) {
         {desc}
       </p>
     </div>
+  );
+}
+
+interface SeeAlsoLinkProps {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}
+
+function SeeAlsoLink({ icon, label, onClick }: SeeAlsoLinkProps) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex", alignItems: "center", gap: 8,
+        padding: "10px 16px", borderRadius: 10,
+        background: hovered ? "#f0fdfa" : "#f8fafc",
+        border: `1px solid ${hovered ? "#1c808d" : "#e2e8f1"}`,
+        color: hovered ? "#1c808d" : "#0a3954",
+        fontFamily: FONT_J, fontWeight: 700, fontSize: 13,
+        cursor: "pointer", transition: "all 0.15s ease",
+      }}
+    >
+      {icon}
+      {label}
+    </button>
   );
 }

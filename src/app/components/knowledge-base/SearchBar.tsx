@@ -40,6 +40,7 @@ const ALL_PAGES: SearchResult[] = [
   { id: "sub-plans",       label: "Plans & Pricing",                    group: "Manage Services",            description: "Subscription plans and pricing details" },
   { id: "sub-usage",       label: "Usage Reports",                      group: "Manage Services",            description: "Detailed usage analytics and reports" },
   { id: "activity-logs",   label: "Activity Log",                       group: "Manage Services",            description: "Audit trail of all platform events with severity levels" },
+  { id: "ticket-overview", label: "Get Support",                        group: "Help & Support",             description: "How support tickets work, and every way to reach the team" },
   { id: "contact-support", label: "Contact Support",                    group: "Help & Support",             description: "Reach the Polarin support team" },
   { id: "my-tickets",      label: "My Tickets",                         group: "Help & Support",             description: "View and manage your open support tickets" },
   { id: "create-ticket",   label: "Create Ticket",                      group: "Help & Support",             description: "Open a new support request" },
