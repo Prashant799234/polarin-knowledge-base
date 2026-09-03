@@ -32,7 +32,7 @@ export function ServiceDetailPage({ onNavigate }: Props) {
       </div>
 
       <P>
-        Every service you provision — a Port, a Cloud Connect link, a Virtual Router, a DCI connection — opens
+        Every service you provision — a Port, a Virtual Connection, a Virtual Router, a DCI connection — opens
         into the <strong>same kind of detail page</strong>. Once you know how to read one, you know how to read
         all of them.
       </P>
@@ -59,8 +59,8 @@ export function ServiceDetailPage({ onNavigate }: Props) {
       <P>
         On the <strong>Overview</strong> tab specifically, look for the <strong>Rate Limit</strong> banner (your
         provisioned bandwidth) and, below it, the <strong>A-End</strong> and <strong>Z-End</strong> — the two
-        points this service connects. For a Port, that's just one end; for a connection like Cloud Connect or
-        DCI, both ends are shown side by side.
+        points this service connects. For a Port, that's just one end; for a connection like a Virtual
+        Connection or DCI, both ends are shown side by side.
       </P>
 
       <Callout variant="info">

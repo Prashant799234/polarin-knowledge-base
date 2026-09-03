@@ -29,13 +29,18 @@ import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
 import { PortStatusPage } from "./articles/PortStatusPage";
 import { CreateLAGPage } from "./articles/CreateLAGPage";
+import { PortOverviewPage } from "./articles/PortOverviewPage";
 import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
+import { VirtualRouterOverviewPage } from "./articles/VirtualRouterOverviewPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ActivityLogOverviewPage } from "./articles/ActivityLogOverviewPage";
 import { CloudConnectPage } from "./articles/CloudConnectPage";
+import { VirtualConnectionOverviewPage } from "./articles/VirtualConnectionOverviewPage";
 import { DCICreatePage } from "./articles/DCICreatePage";
+import { DCIOverviewPage } from "./articles/DCIOverviewPage";
 import { InternetExchangePage } from "./articles/InternetExchangePage";
+import { InternetExchangeOverviewPage } from "./articles/InternetExchangeOverviewPage";
 import { ServiceDetailPage } from "./articles/ServiceDetailPage";
 import { ServiceStatusPage } from "./articles/ServiceStatusPage";
 import { VistaOverviewPage } from "./articles/VistaOverviewPage";
@@ -114,6 +119,7 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "port", label: "Port", icon: Plug,
         children: [
+          { id: "port-overview", label: "Overview" },
           { id: "port-create", label: "Create a Port" },
           { id: "port-status", label: "Understand Port Status" },
           { id: "port-lag",    label: "Create a Link Aggregation Group" },
@@ -122,13 +128,32 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "virtual-router", label: "Virtual Router", icon: Router,
         children: [
+          { id: "vr-overview", label: "Overview" },
           { id: "vr-create", label: "Create a Virtual Router" },
           { id: "vr-status", label: "Understand Virtual Router Status" },
         ],
       },
-      { id: "cloud-connect", label: "Cloud Connect", icon: Cloud },
-      { id: "dci-create", label: "Data Centre Interconnect", icon: Server },
-      { id: "internet-exchange", label: "Internet Exchange", icon: Waypoints },
+      {
+        id: "virtual-connection", label: "Virtual Connection", icon: Cloud,
+        children: [
+          { id: "vc-overview",   label: "Overview" },
+          { id: "cloud-connect", label: "Create a Virtual Connection" },
+        ],
+      },
+      {
+        id: "dci", label: "Data Centre Interconnect", icon: Server,
+        children: [
+          { id: "dci-overview", label: "Overview" },
+          { id: "dci-create",   label: "Create a Data Centre Interconnect" },
+        ],
+      },
+      {
+        id: "internet-exchange", label: "Internet Exchange", icon: Waypoints,
+        children: [
+          { id: "ix-overview", label: "Overview" },
+          { id: "ix-create",   label: "Set Up Internet Exchange" },
+        ],
+      },
       { id: "locations", label: "Locations", icon: MapPin },
     ],
   },
@@ -174,7 +199,6 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "reports", label: "Reports", icon: FileBarChart },
       { id: "manage-alerts", label: "Manage Alerts", icon: BellRing },
       { id: "profile", label: "Profile", icon: UserCog },
-      { id: "developer-portal-nav", label: "Developer Portal", icon: Code, href: "/developer", external: true },
     ],
   },
   {
@@ -258,7 +282,17 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Create a Polarin Account",      pageId: "create-account" },
     ],
   },
+  "port-overview": {
+    next: { label: "Create a Port", pageId: "port-create" },
+    related: [
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
+      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+      { label: "What Is Data Centre Interconnect?",     pageId: "dci-overview" },
+    ],
+  },
   "port-create": {
+    prev: { label: "What Is a Port?",                   pageId: "port-overview" },
     next: { label: "Understand Port Status",            pageId: "port-status" },
     related: [
       { label: "Understand Port Status",                pageId: "port-status" },
@@ -282,7 +316,16 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Locations",                             pageId: "locations" },
     ],
   },
+  "vr-overview": {
+    next: { label: "Create a Virtual Router", pageId: "vr-create" },
+    related: [
+      { label: "Create a Virtual Router",               pageId: "vr-create" },
+      { label: "What Is a Port?",                       pageId: "port-overview" },
+      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+    ],
+  },
   "vr-create": {
+    prev: { label: "What Is a Virtual Router?",         pageId: "vr-overview" },
     next: { label: "Understand Virtual Router Status",  pageId: "vr-status" },
     related: [
       { label: "Understand Virtual Router Status",      pageId: "vr-status" },
@@ -353,21 +396,48 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Understanding Service Status",       pageId: "service-status" },
     ],
   },
+  "vc-overview": {
+    next: { label: "Create a Virtual Connection", pageId: "cloud-connect" },
+    related: [
+      { label: "Create a Virtual Connection",           pageId: "cloud-connect" },
+      { label: "What Is a Port?",                       pageId: "port-overview" },
+      { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
+    ],
+  },
   "cloud-connect": {
+    prev: { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
     related: [
       { label: "Create a Port",                        pageId: "port-create" },
-      { label: "Data Centre Interconnect",              pageId: "dci-create" },
+      { label: "What Is Data Centre Interconnect?",     pageId: "dci-overview" },
       { label: "Understanding the Service Detail Page", pageId: "service-detail" },
+    ],
+  },
+  "dci-overview": {
+    next: { label: "Create a Data Centre Interconnect", pageId: "dci-create" },
+    related: [
+      { label: "Create a Data Centre Interconnect",     pageId: "dci-create" },
+      { label: "What Is a Port?",                       pageId: "port-overview" },
+      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
     ],
   },
   "dci-create": {
+    prev: { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
     related: [
       { label: "Create a Port",                        pageId: "port-create" },
-      { label: "Cloud Connect",                         pageId: "cloud-connect" },
+      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
       { label: "Understanding the Service Detail Page", pageId: "service-detail" },
     ],
   },
-  "internet-exchange": {
+  "ix-overview": {
+    next: { label: "Set Up Internet Exchange", pageId: "ix-create" },
+    related: [
+      { label: "Set Up Internet Exchange",              pageId: "ix-create" },
+      { label: "What Is a Port?",                       pageId: "port-overview" },
+      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+    ],
+  },
+  "ix-create": {
+    prev: { label: "What Is Internet Exchange?",        pageId: "ix-overview" },
     related: [
       { label: "Create a Port",                        pageId: "port-create" },
       { label: "Understanding the Service Detail Page", pageId: "service-detail" },
@@ -391,8 +461,10 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "vista-overview": {
     related: [
+      { label: "What Is a Port?",               pageId: "port-overview" },
+      { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
+      { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
       { label: "Notifications",  pageId: "notifications" },
-      { label: "Polarin API Pricing", pageId: "api-pricing" },
     ],
   },
 };
@@ -698,14 +770,19 @@ export function KnowledgeBase() {
                     {activePage === "complete-profile" && <CompleteProfilePage />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "invite-members" && <InviteTeamPage />}
+                    {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
                     {activePage === "port-create" && <CreatePortPage />}
                     {activePage === "port-status" && <PortStatusPage />}
                     {activePage === "port-lag" && <CreateLAGPage />}
+                    {activePage === "vr-overview" && <VirtualRouterOverviewPage onNavigate={navigate} />}
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
+                    {activePage === "vc-overview" && <VirtualConnectionOverviewPage onNavigate={navigate} />}
+                    {activePage === "dci-overview" && <DCIOverviewPage onNavigate={navigate} />}
+                    {activePage === "ix-overview" && <InternetExchangeOverviewPage onNavigate={navigate} />}
                     {activePage === "cloud-connect" && <CloudConnectPage onNavigate={navigate} />}
                     {activePage === "dci-create" && <DCICreatePage onNavigate={navigate} />}
-                    {activePage === "internet-exchange" && <InternetExchangePage onNavigate={navigate} />}
+                    {activePage === "ix-create" && <InternetExchangePage onNavigate={navigate} />}
                     {activePage === "service-detail" && <ServiceDetailPage onNavigate={navigate} />}
                     {activePage === "service-status" && <ServiceStatusPage onNavigate={navigate} />}
                     {activePage === "vista-overview" && <VistaOverviewPage onNavigate={navigate} />}

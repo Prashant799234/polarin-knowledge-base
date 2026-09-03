@@ -6,6 +6,7 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 
 const TOC = [
   { id: "overview",   label: "Overview" },
+  { id: "coverage",   label: "What VISTA Monitors", level: 2 as const },
   { id: "alerts",     label: "How Alerts Work",   level: 2 as const },
   { id: "tiers",      label: "VISTA Free vs Premium", level: 2 as const },
   { id: "next-steps", label: "Next Steps" },
@@ -32,14 +33,27 @@ export function VistaOverviewPage({ onNavigate }: Props) {
 
       <P>
         <strong>VISTA</strong> is Polarin's performance monitoring layer — it watches metrics like latency
-        across your live circuits and tells you the moment something drifts outside the range you'd expect,
-        well before it becomes an outage.
+        and utilisation on your live services and tells you the moment something drifts outside the range
+        you'd expect, well before it becomes an outage.
       </P>
 
       <Callout variant="tip">
         You don't need to set anything up to benefit from VISTA on the metrics Polarin monitors by default —
         alerts show up automatically in your <strong>Notifications</strong> panel.
       </Callout>
+
+      {/* ── Coverage ── */}
+      <H2 id="coverage">What VISTA Monitors</H2>
+      <P>VISTA applies to three products specifically:</P>
+      <UL>
+        <LI><PageLink label="Port" onClick={() => onNavigate("port-overview")} /> — physical-layer health and utilisation on the circuit itself.</LI>
+        <LI><PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> — latency and throughput across all three types: DC to DC, DC to Cloud, and Cloud to Cloud.</LI>
+        <LI><PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} /> — performance on DCI Wave circuits.</LI>
+      </UL>
+      <P>
+        A <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> or an{" "}
+        <PageLink label="Internet Exchange" onClick={() => onNavigate("ix-overview")} /> port isn't covered by VISTA today.
+      </P>
 
       {/* ── How alerts work ── */}
       <H2 id="alerts">How Alerts Work</H2>

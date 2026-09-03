@@ -39,7 +39,7 @@ export function ServiceStatusPage({ onNavigate }: Props) {
       </div>
 
       <P>
-        Every product on Polarin — Port, Virtual Router, Cloud Connect, DCI, Internet Exchange — moves through
+        Every product on Polarin — Port, Virtual Router, Virtual Connection, DCI, Internet Exchange — moves through
         the <strong>same three-stage lifecycle</strong> from order to live traffic. Knowing this one pattern
         means you can read the status of any service at a glance, regardless of which product it is.
       </P>

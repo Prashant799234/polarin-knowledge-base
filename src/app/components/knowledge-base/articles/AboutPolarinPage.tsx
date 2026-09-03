@@ -113,7 +113,7 @@ const NODES: DiagramNodeData[] = [
   { id: "you",      x: 70,  y: 150, icon: User,     color: "#64748b", label: "You" },
   { id: "port",     x: 260, y: 150, icon: Plug,     color: "#1c808d", label: "Port", caption: "1GE · 10GE · 100GE", size: 60 },
   { id: "vr",       x: 480, y: 70,  icon: Router,   color: "#9e27fd", label: "Virtual Router" },
-  { id: "cc",       x: 480, y: 150, icon: Cloud,    color: "#00b345", label: "Cloud Connect" },
+  { id: "cc",       x: 480, y: 150, icon: Cloud,    color: "#00b345", label: "Virtual Connection" },
   { id: "dci",      x: 480, y: 230, icon: Server,   color: "#fd5900", label: "DCI" },
   { id: "networks", x: 700, y: 70,  icon: Network,  color: "#94a3b8", label: "Other Networks" },
   { id: "clouds",   x: 700, y: 150, icon: Cloud,    color: "#94a3b8", label: "Cloud Providers" },
@@ -140,7 +140,7 @@ function ConnectionDiagram() {
         actor="You"
         stages={[
           { title: "Port", items: [{ icon: <Plug size={16} />, label: "Physical access", caption: "1GE · 10GE · 100GE" }] },
-          { title: "Route or Connect", items: [{ icon: <Router size={16} />, label: "Virtual Router" }, { icon: <Cloud size={16} />, label: "Cloud Connect" }, { icon: <Server size={16} />, label: "DCI" }] },
+          { title: "Route or Connect", items: [{ icon: <Router size={16} />, label: "Virtual Router" }, { icon: <Cloud size={16} />, label: "Virtual Connection" }, { icon: <Server size={16} />, label: "DCI" }] },
           { title: "Destination", items: [{ icon: <Network size={16} />, label: "Other networks, clouds & sites" }] },
         ]}
       />

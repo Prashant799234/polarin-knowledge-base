@@ -11,7 +11,7 @@ const TOC = [
 const CONNECT_FIELDS = [
   { field: "Connection Name", description: "A unique, identifiable name for this connection.", required: true },
   { field: "A-End Port",      description: "The Polarin port this connection originates from.", required: true },
-  { field: "Z-End",           description: "The cloud provider and region you're connecting to (AWS, Azure, or GCP).", required: true },
+  { field: "Z-End",           description: "The other end of the connection — a second Port for DC to DC, a cloud provider region for DC to Cloud, or another cloud for Cloud to Cloud.", required: true },
   { field: "Bandwidth",       description: "The rate limit for this connection, e.g. 50 Mbps, 100 Mbps, 1 Gbps.", required: true },
   { field: "Subscription Term", description: "How long this connection is provisioned for.", required: true },
 ];
@@ -23,7 +23,7 @@ interface Props {
 export function CloudConnectPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
-      <H1 id="overview">Create a Cloud Connect Service</H1>
+      <H1 id="overview">Create a Virtual Connection</H1>
       <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
         <ReadTime minutes={4} />
         <Dot />
@@ -31,25 +31,27 @@ export function CloudConnectPage({ onNavigate }: Props) {
       </div>
 
       <P>
-        <strong>Cloud Connect</strong> gives you a private, direct link into a cloud provider — bypassing the
-        public internet for lower latency and more predictable performance than a standard VPN.
+        A <strong>Virtual Connection</strong> gives you a private, point-to-point link — DC to DC, DC to Cloud,
+        or Cloud to Cloud — bypassing the public internet for lower latency and more predictable performance
+        than a standard VPN. Not sure which type fits your case? See{" "}
+        <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> first.
       </P>
 
       <Callout variant="important">
-        You need a <PageLink label="Port" onClick={() => onNavigate("port-create")} /> already provisioned at the location you want to connect from — Cloud Connect attaches to an existing port, it doesn't create one.
+        You need a <PageLink label="Port" onClick={() => onNavigate("port-create")} /> already provisioned at the location you want to connect from — a Virtual Connection attaches to an existing port, it doesn't create one.
       </Callout>
 
       <H2 id="before">Before You Start</H2>
       <UL>
-        <LI>Have an active <strong>Port</strong> at the data centre closest to your cloud provider's region.</LI>
-        <LI>Know which cloud provider and region you're connecting to.</LI>
+        <LI>Have an active <strong>Port</strong> at the data centre where this connection will originate.</LI>
+        <LI>Know which type you need — DC to DC, DC to Cloud, or Cloud to Cloud — and what's on the other end.</LI>
         <LI>Decide the bandwidth you need — you can typically resize later, but starting close to your real need avoids early re-provisioning.</LI>
       </UL>
 
       <H2 id="steps">Create the Connection</H2>
       <Steps>
-        <Step num={1} title="Go to Services → Cloud Connect">
-          From the left sidebar under <strong>Services</strong>, select <strong>Cloud Connect</strong>, then click <strong>Create</strong>.
+        <Step num={1} title="Go to Services → Virtual Connection">
+          From the left sidebar under <strong>Services</strong>, select <strong>Virtual Connection</strong>, then click <strong>Create</strong>.
         </Step>
         <Step num={2} title="Fill in the connection details">
           <FieldTable rows={CONNECT_FIELDS} />
