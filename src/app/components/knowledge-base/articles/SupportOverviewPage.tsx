@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Search, Ticket, Clock, CheckCircle2, Archive, Headphones } from "lucide-react";
+import { Search, Ticket, Loader, CheckCircle2, Archive, RotateCcw, Headphones, ListChecks } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -24,7 +24,7 @@ interface QuickLink {
 const QUICK_LINKS: QuickLink[] = [
   { icon: Search,     color: "#1a65fd", title: "Search the Knowledge Base", description: "Most questions are already answered here — worth a look before you raise a ticket.", pageId: "welcome" },
   { icon: Ticket,     color: "#9e27fd", title: "Create a Ticket",           description: "Something only Polarin's team can fix? Raise a ticket with the details.",           pageId: "create-ticket" },
-  { icon: Clock,      color: "#00b345", title: "My Tickets",                description: "Track every ticket you've raised, its status, and the full conversation.",         pageId: "my-tickets" },
+  { icon: ListChecks, color: "#00b345", title: "My Tickets",                description: "Track every ticket you've raised, its status, and the full conversation.",         pageId: "my-tickets" },
   { icon: Headphones, color: "#fd5900", title: "Contact Support",           description: "Prefer to talk to someone directly? Email or call the support team.",              pageId: "contact-support" },
 ];
 
@@ -48,6 +48,12 @@ export function SupportOverviewPage({ onNavigate }: Props) {
         for. This page covers how tickets work end to end, and every other way to reach the team.
       </P>
 
+      <P>
+        Everything lives under the <strong>Help</strong> tab: a landing page with your open/high-priority/closed
+        ticket counts, your dedicated Account Manager's contact details, a <strong>Knowledge Base</strong> shortcut,
+        and a <strong>Create a Ticket</strong> button — followed by the full list of every ticket you've raised.
+      </P>
+
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, margin: "24px 0" }}>
         {QUICK_LINKS.map((link) => (
           <QuickLinkCard key={link.title} link={link} onNavigate={onNavigate} />
@@ -61,20 +67,22 @@ export function SupportOverviewPage({ onNavigate }: Props) {
 
       {/* ── Lifecycle ── */}
       <H2 id="lifecycle">Ticket Lifecycle</H2>
-      <P>Every ticket moves through the same four stages, from the moment you raise it to the moment it's closed.</P>
+      <P>Every ticket's detail view tracks it through five possible stages, from the moment you raise it onward.</P>
 
       <FlowDiagram
         stages={[
-          { title: "Open",        items: [{ icon: <Ticket size={16} />, label: "Ticket raised", caption: "You submit the details" }] },
-          { title: "In Progress", items: [{ icon: <Clock size={16} />, label: "Team working on it", caption: "An engineer picks it up" }] },
-          { title: "Resolved",    items: [{ icon: <CheckCircle2 size={16} />, label: "Fix applied", caption: "Waiting on your confirmation" }] },
-          { title: "Closed",      items: [{ icon: <Archive size={16} />, label: "Confirmed done", caption: "Or reopened if it's not" }] },
+          { title: "Open",        items: [{ icon: <Ticket size={16} />, label: "Ticket raised" }] },
+          { title: "Reopen",      items: [{ icon: <RotateCcw size={16} />, label: "Only if sent back" }] },
+          { title: "In Progress", items: [{ icon: <Loader size={16} />, label: "Team working on it" }] },
+          { title: "Resolved",    items: [{ icon: <CheckCircle2 size={16} />, label: "Fix applied" }] },
+          { title: "Closed",      items: [{ icon: <Archive size={16} />, label: "Confirmed done" }] },
         ]}
       />
 
       <P>
-        Once a ticket is marked <strong>Resolved</strong>, you're asked to confirm it — either close it out, or
-        reopen it if the issue isn't actually fixed. See <PageLink label="My Tickets" onClick={() => onNavigate("my-tickets")} /> for exactly how that works.
+        Once a ticket is <strong>Closed</strong>, you're asked to rate the experience — and if it isn't actually
+        fixed, you can send it right back through <strong>Reopen</strong> rather than starting over. See{" "}
+        <PageLink label="My Tickets" onClick={() => onNavigate("my-tickets")} /> for exactly how that works.
       </P>
 
       {/* ── Channels ── */}
@@ -88,6 +96,11 @@ export function SupportOverviewPage({ onNavigate }: Props) {
       <Callout variant="info">
         Polarin support is available 24×7. Critical and high-priority tickets are acknowledged within 2 hours.
       </Callout>
+
+      <P>
+        You don't have to start from Help, either — every service's own detail page has a <strong>Raise a Ticket</strong> shortcut, useful when you're already looking at the exact Port, connection, or router having the issue. See{" "}
+        <PageLink label="Create a Ticket" onClick={() => onNavigate("create-ticket")} /> for both routes.
+      </P>
 
       {/* ── Next steps ── */}
       <H2 id="next-steps">Next Steps</H2>
