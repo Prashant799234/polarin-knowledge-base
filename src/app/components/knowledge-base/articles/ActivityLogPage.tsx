@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, Callout, PageLink, DocImage } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -28,12 +28,6 @@ const SEVERITY_LEVELS: Severity[] = [
   { code: "S5", label: "Notification", color: "#2563eb", bg: "#eff6ff" },
   { code: "S6", label: "Info",         color: "#0ea5e9", bg: "#f0f9ff" },
   { code: "S7", label: "Debugging",    color: "#6b7280", bg: "#f9fafb" },
-];
-
-const SAMPLE_ROWS = [
-  { id: "a1b2c3d4-e5f6-4a7b-8c9d…", service: "Authentication",      date: "Sep 02 2026, 04:51 PM", event: "User Login",                initiatedBy: "jane.doe@example.com", severity: SEVERITY_LEVELS[5] },
-  { id: "e5f6a7b8-c9d0-4e1f-a2b3…", service: "Virtual Connection",  date: "Sep 02 2026, 11:52 AM", event: "Create Virtual Connection", initiatedBy: "jane.doe@example.com", severity: SEVERITY_LEVELS[6] },
-  { id: "9c8d7e6f-1a2b-4c3d-9e8f…", service: "Port",                date: "Sep 02 2026, 11:46 AM", event: "Service Ready To Pair",     initiatedBy: "Sales Assist",         severity: SEVERITY_LEVELS[6] },
 ];
 
 const FILTER_OPTIONS = [
@@ -111,7 +105,9 @@ export function ActivityLogPage({ onNavigate }: Props) {
             <div style={{ paddingBottom: 24, flex: 1, minWidth: 0, paddingTop: 2 }}>
               <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 6px" }}>{step.title}</p>
               <div style={{ fontFamily: FONT, fontSize: 14, color: "#4b5563", lineHeight: 1.75 }}>{step.body}</div>
-              {step.num === 3 && <LogTablePreview />}
+              {step.num === 3 && (
+                <DocImage src="/screenshots/activity-log-main-page.png" alt="Activity Log main page" caption="Every event listed with its service, timestamp, initiator, and severity. (Names blurred for privacy.)" />
+              )}
             </div>
           </div>
         ))}
@@ -122,7 +118,7 @@ export function ActivityLogPage({ onNavigate }: Props) {
       <P>
         Click any row to open its full detail in a panel on the right — including the network and device information behind that event.
       </P>
-      <LogDetailPreview />
+      <DocImage src="/screenshots/activity-log-details.png" alt="Activity Log detail panel" caption="IP address and initiator are blurred here for privacy — yours will show real values." />
 
       {/* ── Filters ── */}
       <H2 id="filters">Filter & Search</H2>
@@ -149,6 +145,8 @@ export function ActivityLogPage({ onNavigate }: Props) {
         ))}
       </div>
 
+      <DocImage src="/screenshots/activity-log-date-filter.png" alt="Date range filter with a dual-month calendar" caption="Pick a Start Date and End Date across two months, then click Apply." />
+
       <Callout variant="tip">
         Combine the <strong>Services</strong> filter with a <strong>date range</strong> and <strong>Severity</strong> to quickly audit all errors affecting a specific service within a given period.
       </Callout>
@@ -158,6 +156,8 @@ export function ActivityLogPage({ onNavigate }: Props) {
       <P>
         Every event is assigned a severity level from <strong>S0 (Emergency)</strong> to <strong>S7 (Debugging)</strong>. Use the Severity filter to select one or more levels and focus on what matters right now.
       </P>
+
+      <DocImage src="/screenshots/activity-log-severity-filter.png" alt="Severity filter dropdown with all eight levels" caption="Select one or more severity levels directly from the column filter." />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 10, margin: "20px 0" }}>
         {SEVERITY_LEVELS.map((s) => (
@@ -178,99 +178,6 @@ export function ActivityLogPage({ onNavigate }: Props) {
         Not every severity level shows up in every organisation's log — which ones you see depends on what's actually happened on your account. <strong>S5 (Notification)</strong> and <strong>S6 (Info)</strong> are the most common day-to-day events; <strong>S0–S2</strong> flag the events that need the fastest attention.
       </Callout>
     </ArticlePage>
-  );
-}
-
-function LogTablePreview() {
-  const cols = ["Activity ID", "Services", "Date & time", "Event", "Initiated By", "Severity"];
-  return (
-    <div style={{ marginTop: 12, border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 12.5, minWidth: 640 }}>
-          <thead>
-            <tr style={{ background: "#f8fafc" }}>
-              {cols.map((c) => (
-                <th key={c} style={{ padding: "10px 12px", textAlign: "left", fontWeight: 700, color: "#475569", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.04em", borderBottom: "1px solid #e5e7eb", whiteSpace: "nowrap" }}>{c}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {SAMPLE_ROWS.map((row, i) => (
-              <tr key={row.id} style={{ borderBottom: i < SAMPLE_ROWS.length - 1 ? "1px solid #f1f5f9" : "none" }}>
-                <td style={{ padding: "10px 12px", color: "#64748b", fontFamily: "ui-monospace, monospace", fontSize: 11, whiteSpace: "nowrap" }}>{row.id}</td>
-                <td style={{ padding: "10px 12px", color: "#0a3954" }}>{row.service}</td>
-                <td style={{ padding: "10px 12px", color: "#0a3954", whiteSpace: "nowrap" }}>{row.date}</td>
-                <td style={{ padding: "10px 12px", color: "#0a3954" }}>{row.event}</td>
-                <td style={{ padding: "10px 12px", color: "#64748b" }}>{row.initiatedBy}</td>
-                <td style={{ padding: "10px 12px" }}>
-                  <SeverityBadge severity={row.severity} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div style={{ fontFamily: FONT, fontSize: 12, color: "#9ca3af", padding: "8px 14px", background: "#f9fafb", textAlign: "center", borderTop: "1px solid #f3f4f6" }}>
-        Illustrative example — your organisation's actual events and users will differ.
-      </div>
-    </div>
-  );
-}
-
-function LogDetailPreview() {
-  const fields = [
-    { label: "Services", value: "Authentication" },
-    { label: "Date & Time", value: "Sep 02 2026, 04:51 PM" },
-    { label: "Event", value: "User Login" },
-    { label: "Initiated By", value: "jane.doe@example.com" },
-  ];
-  const networkFields = [
-    { label: "IP Address", value: "192.0.2.10" },
-    { label: "Location", value: "San Francisco, US" },
-    { label: "Browser", value: "Chrome (128.0.0)" },
-    { label: "Device", value: "macOS" },
-  ];
-  return (
-    <div style={{ border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", maxWidth: 460, margin: "16px 0 24px" }}>
-      <div style={{ padding: "16px 18px", borderBottom: "1px solid #f1f5f9" }}>
-        <p style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#0a3954", margin: "0 0 8px", wordBreak: "break-all" }}>
-          a1b2c3d4-e5f6-4a7b-8c9d-example
-        </p>
-        <SeverityBadge severity={SEVERITY_LEVELS[5]} />
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "16px 18px" }}>
-        {fields.map((f) => (
-          <div key={f.label}>
-            <p style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", margin: "0 0 3px", textTransform: "uppercase", letterSpacing: "0.04em" }}>{f.label}</p>
-            <p style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 600, color: "#0a3954", margin: 0 }}>{f.value}</p>
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, padding: "16px 18px", background: "#f8fafc", borderTop: "1px solid #f1f5f9" }}>
-        {networkFields.map((f) => (
-          <div key={f.label}>
-            <p style={{ fontFamily: FONT, fontSize: 11, color: "#94a3b8", margin: "0 0 3px", textTransform: "uppercase", letterSpacing: "0.04em" }}>{f.label}</p>
-            <p style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 600, color: "#0a3954", margin: 0 }}>{f.value}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SeverityBadge({ severity }: { severity: Severity }) {
-  return (
-    <span style={{
-      display: "inline-flex", alignItems: "center", gap: 6,
-      background: severity.bg, color: severity.color,
-      border: `1px solid ${severity.color}30`,
-      borderRadius: 20, padding: "3px 12px",
-      fontSize: 11.5, fontWeight: 700,
-      fontFamily: FONT_J, whiteSpace: "nowrap",
-    }}>
-      <span style={{ fontSize: 10, opacity: 0.75 }}>{severity.code}</span>
-      {severity.label}
-    </span>
   );
 }
 
