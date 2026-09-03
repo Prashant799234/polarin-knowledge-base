@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Search, Ticket, Loader, CheckCircle2, Archive, RotateCcw, Headphones, ListChecks } from "lucide-react";
+import { Search, Ticket, Loader, CheckCircle2, Archive, RotateCcw, Headphones, ListChecks, Eye, Zap, Inbox } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -8,9 +8,24 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 
 const TOC = [
   { id: "overview",   label: "Overview" },
+  { id: "why",        label: "Why This Exists",   level: 2 as const },
   { id: "lifecycle",  label: "Ticket Lifecycle",  level: 2 as const },
   { id: "channels",   label: "Ways to Get Help",  level: 2 as const },
   { id: "next-steps", label: "Next Steps" },
+];
+
+interface ValueItem {
+  icon: ElementType;
+  color: string;
+  title: string;
+  description: string;
+}
+
+const VALUE_ITEMS: ValueItem[] = [
+  { icon: Eye,   color: "#1a65fd", title: "Transparency",       description: "Track a ticket's real status yourself, any time — no need to ask for an update." },
+  { icon: Zap,   color: "#9e27fd", title: "Faster Resolution",  description: "Structured intake — service, category, description — gets full context to the right team immediately." },
+  { icon: Inbox, color: "#00b345", title: "One Record",         description: "Every ticket and every reply lives in one place, not scattered across email threads." },
+  { icon: Headphones, color: "#fd5900", title: "A Direct Line, Too", description: "When self-serve or a ticket isn't enough, you can always reach a person directly." },
 ];
 
 interface QuickLink {
@@ -53,6 +68,16 @@ export function SupportOverviewPage({ onNavigate }: Props) {
         ticket counts, your dedicated Account Manager's contact details, a <strong>Knowledge Base</strong> shortcut,
         and a <strong>Create a Ticket</strong> button — followed by the full list of every ticket you've raised.
       </P>
+
+      {/* ── Why this exists ── */}
+      <H2 id="why">Why This Exists</H2>
+      <P>We built this so getting help never feels like a black box.</P>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, margin: "16px 0 24px" }}>
+        {VALUE_ITEMS.map((item) => (
+          <ValueCard key={item.title} item={item} />
+        ))}
+      </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, margin: "24px 0" }}>
         {QUICK_LINKS.map((link) => (
@@ -110,6 +135,28 @@ export function SupportOverviewPage({ onNavigate }: Props) {
         <LI>Need to talk to someone now? Head to <PageLink label="Contact Support" onClick={() => onNavigate("contact-support")} />.</LI>
       </UL>
     </ArticlePage>
+  );
+}
+
+function ValueCard({ item }: { item: ValueItem }) {
+  const Icon = item.icon;
+  return (
+    <div style={{
+      background: "#fff", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 20,
+      display: "flex", flexDirection: "column", gap: 12,
+      boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)",
+    }}>
+      <div style={{
+        width: 36, height: 36, borderRadius: 10, background: `${item.color}18`, color: item.color,
+        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+      }}>
+        <Icon size={18} />
+      </div>
+      <div>
+        <p style={{ fontFamily: FONT_J, fontWeight: 800, fontSize: 14, color: "#0a3954", margin: "0 0 4px" }}>{item.title}</p>
+        <p style={{ fontFamily: FONT, fontSize: 12.5, color: "#64748b", lineHeight: 1.6, margin: 0 }}>{item.description}</p>
+      </div>
+    </div>
   );
 }
 

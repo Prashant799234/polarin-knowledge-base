@@ -1,4 +1,5 @@
-import { ArticlePage, H1, H2, P, Callout } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, Callout, PageLink } from "../ArticlePage";
+import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -44,10 +45,14 @@ const FILTER_OPTIONS = [
   { label: "Sort by date & time",   icon: "↕️", description: "Click the sort icon on the Date & time column to switch between newest-first and oldest-first." },
 ];
 
-export function ActivityLogPage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function ActivityLogPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
-      <H1 id="overview">Activity Log</H1>
+      <H1 id="overview">Using Activity Log</H1>
       <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
         <ReadTime minutes={4} />
         <Dot />
@@ -56,6 +61,9 @@ export function ActivityLogPage() {
 
       <P>
         The <strong>Activity Log</strong> gives you a complete audit trail of everything that happens across your Polarin organisation — from service provisioning and billing updates to user logins and configuration changes. Every event is timestamped, attributed to a user, and tagged with a severity level so you can quickly spot issues or verify past actions.
+      </P>
+      <P>
+        New to this page? <PageLink label="Activity Log Overview" onClick={() => onNavigate("activity-log-overview")} /> covers why it exists and what it's for, before you dive into the details below.
       </P>
 
       <div style={{

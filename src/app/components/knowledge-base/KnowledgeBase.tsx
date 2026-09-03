@@ -31,6 +31,7 @@ import { CreateLAGPage } from "./articles/CreateLAGPage";
 import { CreateVirtualRouterPage } from "./articles/CreateVirtualRouterPage";
 import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
+import { ActivityLogOverviewPage } from "./articles/ActivityLogOverviewPage";
 import { ContactSupportPage } from "./ContactSupportPage";
 import { ArticleFooter, PageToolsProvider, usePageTools } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
@@ -160,7 +161,13 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "sub-usage", label: "Usage Reports" },
         ],
       },
-      { id: "activity-logs", label: "Activity Log", icon: Activity },
+      {
+        id: "activity-logs", label: "Activity Log", icon: Activity,
+        children: [
+          { id: "activity-log-overview", label: "Overview" },
+          { id: "activity-log-details",  label: "Using Activity Log" },
+        ],
+      },
     ],
   },
   {
@@ -284,8 +291,17 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Understand Port Status",                pageId: "port-status" },
     ],
   },
-  "activity-logs": {
+  "activity-log-overview": {
+    next: { label: "Using Activity Log", pageId: "activity-log-details" },
     related: [
+      { label: "Using Activity Log",     pageId: "activity-log-details" },
+      { label: "Create a Ticket",        pageId: "create-ticket" },
+    ],
+  },
+  "activity-log-details": {
+    prev: { label: "Activity Log Overview", pageId: "activity-log-overview" },
+    related: [
+      { label: "Activity Log Overview",                 pageId: "activity-log-overview" },
       { label: "Understand Port Status",                pageId: "port-status" },
       { label: "Understand Virtual Router Status",      pageId: "vr-status" },
       { label: "Create a Port",                         pageId: "port-create" },
@@ -624,7 +640,8 @@ export function KnowledgeBase() {
                     {activePage === "port-lag" && <CreateLAGPage />}
                     {activePage === "vr-create" && <CreateVirtualRouterPage />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
-                    {activePage === "activity-logs" && <ActivityLogPage />}
+                    {activePage === "activity-log-overview" && <ActivityLogOverviewPage onNavigate={navigate} />}
+                    {activePage === "activity-log-details" && <ActivityLogPage onNavigate={navigate} />}
                     {activePage === "ticket-overview" && <SupportOverviewPage onNavigate={navigate} />}
                     {activePage === "create-ticket" && <CreateTicketPage onNavigate={navigate} />}
                     {activePage === "my-tickets" && <MyTicketsPage onNavigate={navigate} />}
