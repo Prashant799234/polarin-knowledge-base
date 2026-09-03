@@ -3,6 +3,7 @@ import { Plus, Wrench, Bug, ChevronDown, ChevronUp, Calendar } from "lucide-reac
 import { useWindowWidth } from "./useWindowWidth";
 import { usePageTools } from "./ArticlePage";
 import { CopyPageMenu } from "./CopyPageMenu";
+import { ReleaseCardSkeleton } from "./Skeleton";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
@@ -336,9 +337,9 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
           {icon}
         </div>
         <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-          <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 16, lineHeight: "24px", color: "#0a3954", whiteSpace: "nowrap" }}>
+          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 16, lineHeight: "24px", color: "#0a3954", whiteSpace: "nowrap" }}>
             {label}
-          </span>
+          </p>
           <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 12, lineHeight: "20px", color: "#0a3954", background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 100, padding: "2px 8px", whiteSpace: "nowrap" }}>
             {items.length} Updates
           </span>
@@ -374,14 +375,14 @@ function VersionCard({ release, versionKey, openSections, toggleSection }: {
     <div style={{ background: "#ffffff", border: "1px solid #e2e8f1", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column", gap: 24, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
+          <h3 style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
             Version {release.version}
-          </span>
+          </h3>
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
             <Calendar size={16} color="#90a2b9" />
-            <span style={{ fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#90a2b9" }}>
+            <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#90a2b9" }}>
               Released {release.date}
-            </span>
+            </p>
           </div>
         </div>
         {release.isLatest && (
@@ -416,6 +417,11 @@ export function ReleaseNotesPage() {
   const [openSections, setOpenSections] = useState<Set<string>>(
     () => new Set(["2025-June-4.4-newFeatures", "2025-June-4.4-improvements", "2025-June-4.4-bugFixes"])
   );
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(t);
+  }, []);
 
   const suppressObserver = useRef(false);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
@@ -564,7 +570,17 @@ export function ReleaseNotesPage() {
           </div>
         </div>
 
-        {/* All years in continuous scroll */}
+        {/* All years in continuous scroll — always rendered (not gated behind
+            `loading`) so the static export used for Copy Page/PDF/AI links
+            still gets full content even though effects never run there. */}
+        <div style={{ position: "relative" }}>
+          {loading && (
+            <div style={{ position: "absolute", inset: 0, zIndex: 5, background: "#fff", display: "flex", flexDirection: "column", gap: 16 }}>
+              <ReleaseCardSkeleton />
+              <ReleaseCardSkeleton />
+              <ReleaseCardSkeleton />
+            </div>
+          )}
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
           {ALL_RELEASE_DATA.map(({ year, months }, yi) => (
             <div key={year} style={{ marginBottom: 48 }}>
@@ -611,6 +627,7 @@ export function ReleaseNotesPage() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>
