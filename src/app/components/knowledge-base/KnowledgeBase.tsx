@@ -24,6 +24,7 @@ import { CreateTicketPage } from "./articles/CreateTicketPage";
 import { MyTicketsPage } from "./articles/MyTicketsPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
+import { ProfilePage } from "./articles/ProfilePage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
@@ -285,6 +286,13 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
       { label: "KYC Document Requirements",     pageId: "org-kyc" },
       { label: "Create a Polarin Account",      pageId: "create-account" },
+    ],
+  },
+  "profile": {
+    related: [
+      { label: "User Management",               pageId: "invite-members" },
+      { label: "Organisation Details",           pageId: "org-profile" },
+      { label: "Organisation Settings",          pageId: "org-settings" },
     ],
   },
   "port-overview": {
@@ -773,6 +781,7 @@ export function KnowledgeBase() {
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage />}
                     {activePage === "complete-profile" && <CompleteProfilePage />}
+                    {activePage === "profile" && <ProfilePage onNavigate={navigate} />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "invite-members" && <InviteTeamPage />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}

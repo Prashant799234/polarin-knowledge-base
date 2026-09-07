@@ -28,6 +28,7 @@ const PAGES = [
   { id: "complete-profile", file: "/src/app/components/knowledge-base/articles/CompleteProfilePage.tsx", exportName: "CompleteProfilePage", props: {} },
   { id: "org-kyc", file: "/src/app/components/knowledge-base/articles/KYCDocumentsPage.tsx", exportName: "KYCDocumentsPage", props: {} },
   { id: "invite-members", file: "/src/app/components/knowledge-base/articles/InviteTeamPage.tsx", exportName: "InviteTeamPage", props: {} },
+  { id: "profile", file: "/src/app/components/knowledge-base/articles/ProfilePage.tsx", exportName: "ProfilePage", props: { onNavigate: noop } },
   { id: "port-overview", file: "/src/app/components/knowledge-base/articles/PortOverviewPage.tsx", exportName: "PortOverviewPage", props: { onNavigate: noop } },
   { id: "port-create", file: "/src/app/components/knowledge-base/articles/CreatePortPage.tsx", exportName: "CreatePortPage", props: {} },
   { id: "port-status", file: "/src/app/components/knowledge-base/articles/PortStatusPage.tsx", exportName: "PortStatusPage", props: {} },
