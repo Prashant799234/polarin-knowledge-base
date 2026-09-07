@@ -24,7 +24,9 @@ import { CreateTicketPage } from "./articles/CreateTicketPage";
 import { MyTicketsPage } from "./articles/MyTicketsPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
-import { ProfilePage } from "./articles/ProfilePage";
+import { PersonalInformationPage } from "./articles/PersonalInformationPage";
+import { UpdatePasswordPage } from "./articles/UpdatePasswordPage";
+import { TwoFactorAuthPage } from "./articles/TwoFactorAuthPage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
@@ -204,7 +206,14 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "MY ACCOUNT",
     items: [
-      { id: "profile", label: "Profile", icon: UserCog },
+      {
+        id: "profile", label: "Profile", icon: UserCog,
+        children: [
+          { id: "profile-personal",  label: "Personal Information" },
+          { id: "profile-password",  label: "Update Password" },
+          { id: "profile-2fa",       label: "Two-Factor Authentication" },
+        ],
+      },
     ],
   },
   {
@@ -288,11 +297,27 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Create a Polarin Account",      pageId: "create-account" },
     ],
   },
-  "profile": {
+  "profile-personal": {
+    next: { label: "Update Password", pageId: "profile-password" },
     related: [
-      { label: "User Management",               pageId: "invite-members" },
-      { label: "Organisation Details",           pageId: "org-profile" },
-      { label: "Organisation Settings",          pageId: "org-settings" },
+      { label: "Update Password",               pageId: "profile-password" },
+      { label: "Two-Factor Authentication",      pageId: "profile-2fa" },
+      { label: "User Management",                pageId: "invite-members" },
+    ],
+  },
+  "profile-password": {
+    prev: { label: "Personal Information", pageId: "profile-personal" },
+    next: { label: "Two-Factor Authentication", pageId: "profile-2fa" },
+    related: [
+      { label: "Personal Information",           pageId: "profile-personal" },
+      { label: "Two-Factor Authentication",      pageId: "profile-2fa" },
+    ],
+  },
+  "profile-2fa": {
+    prev: { label: "Update Password", pageId: "profile-password" },
+    related: [
+      { label: "Update Password",               pageId: "profile-password" },
+      { label: "Personal Information",           pageId: "profile-personal" },
     ],
   },
   "port-overview": {
@@ -788,7 +813,9 @@ export function KnowledgeBase() {
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage />}
                     {activePage === "complete-profile" && <CompleteProfilePage onNavigate={navigate} />}
-                    {activePage === "profile" && <ProfilePage onNavigate={navigate} />}
+                    {activePage === "profile-personal" && <PersonalInformationPage onNavigate={navigate} />}
+                    {activePage === "profile-password" && <UpdatePasswordPage onNavigate={navigate} />}
+                    {activePage === "profile-2fa" && <TwoFactorAuthPage onNavigate={navigate} />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "invite-members" && <InviteTeamPage />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
