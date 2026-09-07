@@ -171,7 +171,7 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    title: "SETTINGS",
+    title: "ORGANISATION",
     items: [
       {
         id: "org-profile", label: "Organisation Details", icon: Building2,
@@ -198,6 +198,11 @@ const NAV_GROUPS: NavGroup[] = [
       },
       { id: "reports", label: "Reports", icon: FileBarChart },
       { id: "manage-alerts", label: "Manage Alerts", icon: BellRing },
+    ],
+  },
+  {
+    title: "MY ACCOUNT",
+    items: [
       { id: "profile", label: "Profile", icon: UserCog },
     ],
   },
