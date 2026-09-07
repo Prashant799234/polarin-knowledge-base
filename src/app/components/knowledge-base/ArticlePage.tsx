@@ -411,52 +411,89 @@ export function ArticlePage({ toc, children }: ArticlePageProps) {
               width: 2, background: "#e5e7eb", borderRadius: 2,
             }} />
 
-            {toc.map(({ id, label, level }) => {
-              const isActive = activeId === id;
-              return (
-                <button
-                  key={id}
-                  onClick={() => scrollTo(id)}
-                  style={{
-                    position: "relative",
-                    display: "block",
-                    width: "100%",
-                    textAlign: "left",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    fontFamily: FONT,
-                    fontSize: level === 2 ? 13 : 13,
-                    lineHeight: 1.5,
-                    paddingTop: 7,
-                    paddingBottom: 7,
-                    paddingLeft: level === 2 ? 22 : 14,
-                    paddingRight: 8,
-                    color: isActive ? "#1c808d" : "#6b7280",
-                    fontWeight: isActive ? 700 : level === 1 ? 500 : 400,
-                    transition: "color 0.15s",
-                  }}
-                >
-                  {/* Active indicator segment on the rail */}
-                  {isActive && (
-                    <span style={{
-                      position: "absolute",
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: 2,
-                      background: "#1c808d",
-                      borderRadius: 2,
-                    }} />
-                  )}
-                  {label}
-                </button>
-              );
-            })}
+            {toc.map(({ id, label, level }) => (
+              <TocLink key={id} isActive={activeId === id} level={level} onClick={() => scrollTo(id)}>
+                {label}
+              </TocLink>
+            ))}
           </nav>
         </aside>
       )}
     </div>
+  );
+}
+
+// ── Feedback thumbs button (with its own hover state) ──────────────────────────
+
+function FeedbackButton({ kind, active, onClick }: { kind: "up" | "down"; active: boolean; onClick: () => void }) {
+  const [hovered, setHovered] = useState(false);
+  const accent = kind === "up" ? "#1c808d" : "#e11d48";
+  const accentBg = kind === "up" ? "#f0fdfa" : "#fff1f2";
+  return (
+    <motion.button
+      whileTap={prefersReducedMotion ? {} : { scale: 0.93 }}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex", alignItems: "center", gap: 8, padding: "8px 20px",
+        borderRadius: 8, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 600,
+        border: `1.5px solid ${active || hovered ? accent : "#e5e7eb"}`,
+        background: active ? accentBg : hovered ? accentBg : "#fff",
+        color: active || hovered ? accent : "#6b7280",
+        transition: "all 0.15s",
+      }}
+    >
+      {kind === "up" ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
+      {kind === "up" ? "Yes, helpful" : "Not really"}
+    </motion.button>
+  );
+}
+
+// ── TOC link (with its own hover state) ────────────────────────────────────────
+
+function TocLink({ isActive, level, onClick, children }: { isActive: boolean; level?: 1 | 2; onClick: () => void; children: ReactNode }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: "relative",
+        display: "block",
+        width: "100%",
+        textAlign: "left",
+        background: hovered && !isActive ? "rgba(28,128,141,0.06)" : "none",
+        border: "none",
+        borderRadius: 6,
+        cursor: "pointer",
+        fontFamily: FONT,
+        fontSize: level === 2 ? 13 : 13,
+        lineHeight: 1.5,
+        paddingTop: 7,
+        paddingBottom: 7,
+        paddingLeft: level === 2 ? 22 : 14,
+        paddingRight: 8,
+        color: isActive ? "#1c808d" : hovered ? "#0a3954" : "#6b7280",
+        fontWeight: isActive ? 700 : level === 1 ? 500 : 400,
+        transition: "color 0.15s, background 0.15s",
+      }}
+    >
+      {/* Active indicator segment on the rail */}
+      {isActive && (
+        <span style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 2,
+          background: "#1c808d",
+          borderRadius: 2,
+        }} />
+      )}
+      {children}
+    </button>
   );
 }
 
@@ -472,27 +509,9 @@ export function ArticleFooter({ prev, next, related, onNavigate }: ArticleFooter
           Was this article helpful?
         </p>
         <div style={{ display: "flex", gap: 10 }}>
-          {(["up", "down"] as const).map((v) => {
-            const active = feedback === v;
-            return (
-              <motion.button
-                key={v}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.93 }}
-                onClick={() => setFeedback(active ? null : v)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 8, padding: "8px 20px",
-                  borderRadius: 8, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 600,
-                  border: `1.5px solid ${active ? (v === "up" ? "#1c808d" : "#e11d48") : "#e5e7eb"}`,
-                  background: active ? (v === "up" ? "#f0fdfa" : "#fff1f2") : "#fff",
-                  color: active ? (v === "up" ? "#1c808d" : "#e11d48") : "#6b7280",
-                  transition: "all 0.15s",
-                }}
-              >
-                {v === "up" ? <ThumbsUp size={15} /> : <ThumbsDown size={15} />}
-                {v === "up" ? "Yes, helpful" : "Not really"}
-              </motion.button>
-            );
-          })}
+          {(["up", "down"] as const).map((v) => (
+            <FeedbackButton key={v} kind={v} active={feedback === v} onClick={() => setFeedback(feedback === v ? null : v)} />
+          ))}
         </div>
         {feedback && (
           <motion.p
