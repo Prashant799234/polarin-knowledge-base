@@ -289,7 +289,9 @@ function FilterDropdown({ options, selected, onToggle, onClear, label }: {
   return (
     <div ref={ref} style={{ position: "relative", display: "inline-flex" }}>
       <button onClick={() => setOpen(v => !v)} title={`Filter by ${label}`}
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 20, height: 22, background: "none", border: "none", cursor: "pointer", padding: 0, borderRadius: 4, position: "relative", opacity: active ? 1 : 0.5 }}>
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 20, height: 22, background: "none", border: "none", cursor: "pointer", padding: 0, borderRadius: 4, position: "relative", opacity: active ? 1 : 0.5, transition: "background 0.12s, opacity 0.12s" }}
+        onMouseEnter={e => { e.currentTarget.style.background = "rgba(28,128,141,0.1)"; e.currentTarget.style.opacity = "1"; }}
+        onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.opacity = active ? "1" : "0.5"; }}>
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
           <path d="M0.5 1.5h9M2 5h6M3.5 8.5h3" stroke={active ? "#1c808d" : "#7e93b2"} strokeWidth="1.5" strokeLinecap="round" />
         </svg>
@@ -319,7 +321,10 @@ function FilterDropdown({ options, selected, onToggle, onClear, label }: {
           </div>
           {active && (
             <div style={{ borderTop: "1px solid #f1f5f9", padding: "8px 12px" }}>
-              <button onClick={() => { onClear(); setOpen(false); }} style={{ fontFamily: FONT, fontSize: 12, color: "#e7000b", background: "none", border: "none", cursor: "pointer", padding: 0 }}>Clear filter</button>
+              <button onClick={() => { onClear(); setOpen(false); }}
+                style={{ fontFamily: FONT, fontSize: 12, color: "#e7000b", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "none" }}
+                onMouseEnter={e => { e.currentTarget.style.textDecoration = "underline"; }}
+                onMouseLeave={e => { e.currentTarget.style.textDecoration = "none"; }}>Clear filter</button>
             </div>
           )}
         </div>
@@ -345,7 +350,9 @@ function ProductFilter({ selected, onToggle, onClear }: {
   return (
     <div ref={ref} style={{ position: "relative" }}>
       <button onClick={() => setOpen(v => !v)}
-        style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", border: `1.5px solid ${active ? "#1c808d" : "#e2e8f1"}`, borderRadius: 10, background: active ? "#effcfd" : "#fff", fontFamily: FONT, fontSize: 13, fontWeight: 600, color: active ? "#1c808d" : "#64748b", cursor: "pointer", whiteSpace: "nowrap" }}>
+        style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", border: `1.5px solid ${active ? "#1c808d" : "#e2e8f1"}`, borderRadius: 10, background: active ? "#effcfd" : "#fff", fontFamily: FONT, fontSize: 13, fontWeight: 600, color: active ? "#1c808d" : "#64748b", cursor: "pointer", whiteSpace: "nowrap", transition: "border-color 0.12s, background 0.12s" }}
+        onMouseEnter={e => { if (!active) { e.currentTarget.style.borderColor = "#c8d4e0"; e.currentTarget.style.background = "#f8fafc"; } }}
+        onMouseLeave={e => { if (!active) { e.currentTarget.style.borderColor = "#e2e8f1"; e.currentTarget.style.background = "#fff"; } }}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" /><path d="M4 7h6M4 5h6M4 9h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>
         Products {active ? `(${selected.size})` : ""}
         <ChevronDown size={14} style={{ transform: open ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
@@ -374,7 +381,10 @@ function ProductFilter({ selected, onToggle, onClear }: {
           })}
           {active && (
             <div style={{ borderTop: "1px solid #f1f5f9", padding: "8px 12px" }}>
-              <button onClick={() => { onClear(); setOpen(false); }} style={{ fontFamily: FONT, fontSize: 12, color: "#e7000b", background: "none", border: "none", cursor: "pointer", padding: 0 }}>Clear filter</button>
+              <button onClick={() => { onClear(); setOpen(false); }}
+                style={{ fontFamily: FONT, fontSize: 12, color: "#e7000b", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "none" }}
+                onMouseEnter={e => { e.currentTarget.style.textDecoration = "underline"; }}
+                onMouseLeave={e => { e.currentTarget.style.textDecoration = "none"; }}>Clear filter</button>
             </div>
           )}
         </div>
@@ -510,7 +520,10 @@ export function LocationsPage() {
               <motion.div animate={{ rotate: 360 }} transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                 style={{ width: 18, height: 18, borderRadius: "50%", border: "2px solid #1c808d", borderTopColor: "transparent", flexShrink: 0 }} />
             ) : search ? (
-              <button onClick={() => handleSearch("")} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 2 }}><X size={18} color="#90a2b9" /></button>
+              <button onClick={() => handleSearch("")}
+                style={{ background: "none", border: "none", cursor: "pointer", display: "flex", padding: 2, borderRadius: 4, transition: "background 0.12s" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#f1f5f9"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "none"; }}><X size={18} color="#90a2b9" /></button>
             ) : (
               <Search size={20} color="#90a2b9" style={{ flexShrink: 0 }} />
             )}
@@ -520,7 +533,9 @@ export function LocationsPage() {
 
           {activeFilterCount > 0 && (
             <button onClick={() => { setOrgFilter(new Set()); setCountryFilter(new Set()); setProductFilter(new Set()); resetPage(); }}
-              style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 12px", background: "#fff0f0", border: "1px solid #fca5a5", borderRadius: 8, fontFamily: FONT, fontSize: 13, color: "#e7000b", cursor: "pointer" }}>
+              style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 12px", background: "#fff0f0", border: "1px solid #fca5a5", borderRadius: 8, fontFamily: FONT, fontSize: 13, color: "#e7000b", cursor: "pointer", transition: "background 0.12s, border-color 0.12s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#fee2e2"; e.currentTarget.style.borderColor = "#f87171"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#fff0f0"; e.currentTarget.style.borderColor = "#fca5a5"; }}>
               <X size={14} /> Clear {activeFilterCount} filter{activeFilterCount > 1 ? "s" : ""}
             </button>
           )}
@@ -623,7 +638,9 @@ export function LocationsPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "14px 16px", gap: 12, borderTop: "1px solid #e2e8f1", flexWrap: "wrap" }}>
           <span style={{ fontFamily: FONT, fontSize: 14, color: "#324158", marginRight: 4, whiteSpace: "nowrap" }}>Total {filtered.length} items</span>
           <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={safePage === 1}
-            style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "1px solid #bdc7d4", background: "#ecf1f8", cursor: safePage === 1 ? "not-allowed" : "pointer", opacity: safePage === 1 ? 0.5 : 1 }}>
+            style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "1px solid #bdc7d4", background: "#ecf1f8", cursor: safePage === 1 ? "not-allowed" : "pointer", opacity: safePage === 1 ? 0.5 : 1, transition: "background 0.12s, border-color 0.12s" }}
+            onMouseEnter={e => { if (safePage !== 1) { e.currentTarget.style.background = "#dde6f2"; e.currentTarget.style.borderColor = "#94a3b8"; } }}
+            onMouseLeave={e => { e.currentTarget.style.background = "#ecf1f8"; e.currentTarget.style.borderColor = "#bdc7d4"; }}>
             <ChevronLeft size={16} color="#374151" />
           </button>
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -632,20 +649,27 @@ export function LocationsPage() {
             else if (safePage <= 3) p = i + 1;
             else if (safePage >= totalPages - 2) p = totalPages - 4 + i;
             else p = safePage - 2 + i;
+            const isCurrent = p === safePage;
             return (
               <button key={p} onClick={() => setPage(p)}
-                style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, fontFamily: FONT, fontSize: 14, fontWeight: 500, cursor: "pointer", border: `1px solid ${p === safePage ? "#1c808d" : "#bdc7d4"}`, background: p === safePage ? "white" : "#ecf1f8", color: p === safePage ? "#1c808d" : "#374151" }}>
+                style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, fontFamily: FONT, fontSize: 14, fontWeight: 500, cursor: "pointer", border: `1px solid ${isCurrent ? "#1c808d" : "#bdc7d4"}`, background: isCurrent ? "white" : "#ecf1f8", color: isCurrent ? "#1c808d" : "#374151", transition: "background 0.12s, border-color 0.12s" }}
+                onMouseEnter={e => { if (!isCurrent) { e.currentTarget.style.background = "#dde6f2"; e.currentTarget.style.borderColor = "#94a3b8"; } }}
+                onMouseLeave={e => { if (!isCurrent) { e.currentTarget.style.background = "#ecf1f8"; e.currentTarget.style.borderColor = "#bdc7d4"; } }}>
                 {p}
               </button>
             );
           })}
           <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={safePage === totalPages}
-            style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "1px solid #bdc7d4", background: "#ecf1f8", cursor: safePage === totalPages ? "not-allowed" : "pointer", opacity: safePage === totalPages ? 0.5 : 1 }}>
+            style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, border: "1px solid #bdc7d4", background: "#ecf1f8", cursor: safePage === totalPages ? "not-allowed" : "pointer", opacity: safePage === totalPages ? 0.5 : 1, transition: "background 0.12s, border-color 0.12s" }}
+            onMouseEnter={e => { if (safePage !== totalPages) { e.currentTarget.style.background = "#dde6f2"; e.currentTarget.style.borderColor = "#94a3b8"; } }}
+            onMouseLeave={e => { e.currentTarget.style.background = "#ecf1f8"; e.currentTarget.style.borderColor = "#bdc7d4"; }}>
             <ChevronRight size={16} color="#374151" />
           </button>
           <div ref={psRef} style={{ position: "relative" }}>
             <button onClick={() => setPageSizeOpen(v => !v)}
-              style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 12px", border: "1px solid #e2e8f1", borderRadius: 8, background: "white", fontFamily: FONT, fontSize: 14, color: "#0a3954", cursor: "pointer" }}>
+              style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 12px", border: "1px solid #e2e8f1", borderRadius: 8, background: "white", fontFamily: FONT, fontSize: 14, color: "#0a3954", cursor: "pointer", transition: "border-color 0.12s, background 0.12s" }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#f8fafc"; e.currentTarget.style.borderColor = "#c8d4e0"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.borderColor = "#e2e8f1"; }}>
               {pageSize} / page
               <ChevronDown size={18} color="#7e93b2" style={{ transform: pageSizeOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
             </button>

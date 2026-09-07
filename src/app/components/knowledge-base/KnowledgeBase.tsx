@@ -655,7 +655,9 @@ export function KnowledgeBase() {
       {showClose && (
         <button
           onClick={() => setSidebarOpen(false)}
-          style={{ background: "none", border: "none", cursor: "pointer", color: "#7e93b2", display: "flex", padding: 4, borderRadius: 6 }}
+          style={{ background: "none", border: "none", cursor: "pointer", color: "#7e93b2", display: "flex", padding: 4, borderRadius: 6, transition: "background 0.12s, color 0.12s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(28,128,141,0.08)"; e.currentTarget.style.color = "#1c808d"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "#7e93b2"; }}
         >
           <X size={18} />
         </button>
@@ -701,7 +703,12 @@ export function KnowledgeBase() {
       {/* ── Mobile top bar ── */}
       {isMobile && (
         <div style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
-          <button onClick={() => setSidebarOpen(true)} style={{ background: "none", border: "none", cursor: "pointer", color: "#0a3954", display: "flex", padding: 4, borderRadius: 6 }}>
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "#0a3954", display: "flex", padding: 4, borderRadius: 6, transition: "background 0.12s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(28,128,141,0.08)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "none"; }}
+          >
             <Menu size={22} />
           </button>
           <img src="/polarin-logo.png" alt="Polarin Docs" style={{ height: 36, width: "auto" }} />
@@ -780,7 +787,7 @@ export function KnowledgeBase() {
                     {activePage === "services-offered" && <ServicesOfferedPage onNavigate={navigate} />}
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage />}
-                    {activePage === "complete-profile" && <CompleteProfilePage />}
+                    {activePage === "complete-profile" && <CompleteProfilePage onNavigate={navigate} />}
                     {activePage === "profile" && <ProfilePage onNavigate={navigate} />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "invite-members" && <InviteTeamPage />}
@@ -991,14 +998,18 @@ export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => vo
             <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" as const }}>
               <button
                 onClick={() => onNavigate("api-onboarding")}
-                style={{ padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}
+                style={{ padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s, transform 0.15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.28)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
                 Get Access
               </button>
               <button
                 onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
-                style={{ padding: "7px 17px", height: 40, borderRadius: 16, background: "transparent", color: "white", fontFamily: FONT, fontWeight: 400, fontSize: 16, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}
+                style={{ padding: "7px 17px", height: 40, borderRadius: 16, background: "transparent", color: "white", fontFamily: FONT, fontWeight: 400, fontSize: 16, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, transition: "background 0.15s, border-color 0.15s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 Explore APIs
@@ -1106,7 +1117,9 @@ export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => vo
           </p>
           <button
             onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
-            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 8, padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", border: "1px solid #e2e8f1", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", cursor: "pointer", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}
+            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 8, padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", border: "1px solid #e2e8f1", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", cursor: "pointer", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s, border-color 0.15s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.24)"; e.currentTarget.style.borderColor = "#c8d4e0"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
           >
             Open Developer Portal
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>

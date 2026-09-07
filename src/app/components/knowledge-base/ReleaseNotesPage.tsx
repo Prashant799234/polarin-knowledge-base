@@ -331,7 +331,10 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
         style={{
           width: "100%", display: "flex", alignItems: "center", gap: 16, padding: 24,
           background: "#ffffff", border: "none", cursor: "pointer", textAlign: "left",
+          transition: "background 0.12s",
         }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "#f8fafc"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "#ffffff"; }}
       >
         <div style={{ width: 32, height: 32, borderRadius: 12, background: iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           {icon}

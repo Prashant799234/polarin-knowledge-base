@@ -170,7 +170,10 @@ function QuickLinkCard({ link, onNavigate }: { link: QuickLink; onNavigate: (pag
         background: "#fff", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 20,
         display: "flex", flexDirection: "column", gap: 12,
         boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)",
+        transition: "box-shadow 0.15s, border-color 0.15s, transform 0.15s",
       }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.12), 0px 4px 12px rgba(96,97,112,0.2)"; e.currentTarget.style.borderColor = "#c8d4e0"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.borderColor = "#e2e8f1"; e.currentTarget.style.transform = "translateY(0)"; }}
     >
       <div style={{
         width: 36, height: 36, borderRadius: 10, background: `${link.color}18`, color: link.color,

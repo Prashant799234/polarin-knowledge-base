@@ -196,7 +196,10 @@ export function WelcomePage({ onNavigate }: Props) {
                 alignItems: "center",
                 gap: 8,
                 boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)",
+                transition: "box-shadow 0.15s, transform 0.15s",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.28)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.transform = "translateY(0)"; }}
             >
               <RocketIcon />
               Get Started
@@ -219,7 +222,10 @@ export function WelcomePage({ onNavigate }: Props) {
                 alignItems: "center",
                 gap: 8,
                 boxShadow: "0px 2px 0px rgba(0,0,0,0.02)",
+                transition: "background 0.15s, border-color 0.15s",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
             >
               <WandIcon />
               What's New
@@ -455,7 +461,10 @@ export function WelcomePage({ onNavigate }: Props) {
             lineHeight: "24px",
             cursor: "pointer",
             boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)",
+            transition: "box-shadow 0.15s, border-color 0.15s",
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.24)"; e.currentTarget.style.borderColor = "#c8d4e0"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
         >
           View Release Notes
           <ArrowRight size={20} color="#0a3954" />

@@ -1,4 +1,5 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -8,7 +9,11 @@ const TOC = [
   { id: "after-submit",  label: "After Submission" },
 ];
 
-export function CompleteProfilePage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function CompleteProfilePage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Complete Organisation Profile</H1>
@@ -47,7 +52,7 @@ export function CompleteProfilePage() {
       <DocImage src="https://docs.polarin.lightstorm.net/org_2.png" alt="Organisation Details form" caption="Fields marked with an asterisk (*) are mandatory." />
 
       <Callout variant="info">
-        For the full list of accepted identity documents by entity type, see <button onClick={() => {}} style={{ background: "none", border: "none", color: "#1c808d", fontWeight: 700, cursor: "pointer", padding: 0, fontSize: 14 }}>KYC Document Requirements</button>.
+        For the full list of accepted identity documents by entity type, see <PageLink label="KYC Document Requirements" onClick={() => onNavigate("org-kyc")} />.
       </Callout>
 
       <DocImage src="https://docs.polarin.lightstorm.net/org_3.png" alt="Proof of Identity upload" caption="After uploading, a preview of your document appears in the field." />

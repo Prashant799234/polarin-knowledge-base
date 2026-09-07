@@ -25,7 +25,7 @@ const PAGES = [
   { id: "services-offered", file: "/src/app/components/knowledge-base/articles/ServicesOfferedPage.tsx", exportName: "ServicesOfferedPage", props: { onNavigate: noop } },
   { id: "quick-setup", file: "/src/app/components/knowledge-base/articles/QuickSetupPage.tsx", exportName: "QuickSetupPage", props: { onNavigate: noop } },
   { id: "create-account", file: "/src/app/components/knowledge-base/articles/CreateAccountPage.tsx", exportName: "CreateAccountPage", props: {} },
-  { id: "complete-profile", file: "/src/app/components/knowledge-base/articles/CompleteProfilePage.tsx", exportName: "CompleteProfilePage", props: {} },
+  { id: "complete-profile", file: "/src/app/components/knowledge-base/articles/CompleteProfilePage.tsx", exportName: "CompleteProfilePage", props: { onNavigate: noop } },
   { id: "org-kyc", file: "/src/app/components/knowledge-base/articles/KYCDocumentsPage.tsx", exportName: "KYCDocumentsPage", props: {} },
   { id: "invite-members", file: "/src/app/components/knowledge-base/articles/InviteTeamPage.tsx", exportName: "InviteTeamPage", props: {} },
   { id: "profile", file: "/src/app/components/knowledge-base/articles/ProfilePage.tsx", exportName: "ProfilePage", props: { onNavigate: noop } },
