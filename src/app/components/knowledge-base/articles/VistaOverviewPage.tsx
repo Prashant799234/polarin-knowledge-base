@@ -85,7 +85,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         ))}
       </div>
       <P>
-        Full API details and rate limits live in <PageLink label="Polarin API Pricing" onClick={() => onNavigate("api-pricing")} />.
+        Full API details live in <PageLink label="Getting Access" onClick={() => onNavigate("api-onboarding")} />.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>

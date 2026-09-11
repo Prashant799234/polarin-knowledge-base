@@ -60,7 +60,6 @@ const PAGES = [
   { id: "contact-support", file: "/src/app/components/knowledge-base/ContactSupportPage.tsx", exportName: "ContactSupportPage", props: {} },
   { id: "api-overview", file: "/src/app/components/knowledge-base/KnowledgeBase.tsx", exportName: "ApiOverviewPage", props: { onNavigate: noop } },
   { id: "api-onboarding", file: "/src/app/components/knowledge-base/KnowledgeBase.tsx", exportName: "ApiOnboardingPage", props: { onNavigate: noop } },
-  { id: "api-pricing", file: "/src/app/components/knowledge-base/KnowledgeBase.tsx", exportName: "ApiPricingPage", props: { onNavigate: noop } },
 ];
 
 // Same heuristic as src/app/components/knowledge-base/extractContent.ts,

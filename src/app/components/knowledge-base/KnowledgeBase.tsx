@@ -90,7 +90,6 @@ const NAV_GROUPS: NavGroup[] = [
         children: [
           { id: "api-overview",   label: "Overview" },
           { id: "api-onboarding", label: "Getting Access" },
-          { id: "api-pricing",    label: "Pricing" },
         ],
       },
     ],
@@ -854,15 +853,10 @@ export function KnowledgeBase() {
                         <ApiOnboardingPage onNavigate={navigate} />
                       </div>
                     )}
-                    {activePage === "api-pricing" && (
-                      <div style={{ padding: 24 }}>
-                        <ApiPricingPage onNavigate={navigate} />
-                      </div>
-                    )}
                     {!ARTICLE_PAGES.has(activePage) &&
                      activePage !== "welcome" && activePage !== "release-notes" &&
                      activePage !== "locations" && activePage !== "contact-support" &&
-                     activePage !== "api-overview" && activePage !== "api-onboarding" && activePage !== "api-pricing" && (
+                     activePage !== "api-overview" && activePage !== "api-onboarding" && (
                       <div style={{ padding: 24 }}>
                         <ComingSoonPage pageTitle={getPageLabel(activePage)} />
                       </div>
@@ -960,7 +954,6 @@ const API_PATH_CARDS = [
 
 const API_TOPICS = [
   { title: "Getting Access", description: "5-step journey from sign-up to your first API call", pageId: "api-onboarding" },
-  { title: "API Pricing", description: "Free tier and VISTA usage limits explained", pageId: "api-pricing" },
   { title: "Developer Portal", description: "Full reference docs with live request testing", pageId: null, href: "/developer" },
   { title: "Staging Environment", description: "Test safely — no real services, no billing", pageId: null, href: "/developer" },
 ];
@@ -1215,13 +1208,6 @@ export function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => 
       </div>
 
       <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.7, margin: 0 }}>
-        For usage limits and billing details, see{" "}
-        <button
-          onClick={() => onNavigate("api-pricing")}
-          style={{ fontFamily: FONT, fontSize: 13, color: "#1367D6", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "none" }}
-          onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
-        >Pricing</button>.
         For the full API reference, visit the{" "}
         <a
           href="/developer"
@@ -1230,76 +1216,6 @@ export function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => 
           onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
         >Developer Portal</a>.
       </p>
-    </div>
-  );
-}
-
-export function ApiPricingPage({ onNavigate: _onNavigate }: { onNavigate: (id: string) => void }) {
-  const apiTools = usePageTools();
-  return (
-    <div style={{ padding: "32px 40px 52px" }}>
-      <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24, marginBottom: 8 }}>
-        <h1 style={{ fontFamily: FONT_J, fontSize: 26, fontWeight: 900, color: C.navy, margin: 0, letterSpacing: "-0.4px" }}>API Pricing</h1>
-        {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} pageId={apiTools.pageId} />}
-      </div>
-      <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, lineHeight: 1.8, margin: "0 0 28px", maxWidth: 560 }}>
-        Simple rule: almost all Polarin APIs are free. The only exception is VISTA Performance Monitoring, which has a daily free allowance per circuit.
-      </p>
-
-      <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 12, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 28 }}>
-        <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16 }}>✓</div>
-        <div>
-          <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 800, color: "#15803d", marginBottom: 4 }}>All provisioning, management & account APIs are free</div>
-          <div style={{ fontFamily: FONT, fontSize: 12, color: "#16a34a", lineHeight: 1.7 }}>Authentication, Ports, Virtual Routers, Connections, Locations, Billing, Subscriptions, Support, User Management — no usage charges.</div>
-        </div>
-      </div>
-
-      <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: C.navy, marginBottom: 12 }}>VISTA Performance Monitoring</div>
-      <p style={{ fontFamily: FONT, fontSize: 13, color: C.muted, lineHeight: 1.75, margin: "0 0 18px" }}>
-        VISTA APIs return real-time and historical performance metrics for your circuits. They have a free daily allowance per circuit — calls beyond that are charged.
-      </p>
-
-      <div style={{ border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 24 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: C.navy }}>
-          {["Feature", "Free", "Premium"].map((h, i) => (
-            <div key={h} style={{ padding: "10px 18px", fontFamily: FONT_J, fontSize: 10, fontWeight: 700, color: i === 2 ? "#4dd9e6" : "rgba(255,255,255,0.6)", letterSpacing: "0.08em", textTransform: "uppercase" as const, borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>{h}</div>
-          ))}
-        </div>
-        {[
-          ["Daily call limit (per circuit)", "10,000 calls", "50,000 calls"],
-          ["Historical data retention", "31 days", "180 days"],
-          ["SLA & latency metrics", "✓ Included", "✓ Included"],
-          ["Cost", "Included with service", "Contact Polarin"],
-        ].map(([feat, free, prem], i) => (
-          <div key={feat} style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", background: i % 2 === 0 ? "#fff" : C.bg, borderTop: `1px solid ${C.border}` }}>
-            <div style={{ padding: "12px 18px", fontFamily: FONT, fontSize: 12, color: C.navy, fontWeight: 500 }}>{feat}</div>
-            <div style={{ padding: "12px 18px", fontFamily: FONT, fontSize: 12, color: "#16a34a", borderLeft: `1px solid ${C.border}` }}>{free}</div>
-            <div style={{ padding: "12px 18px", fontFamily: FONT_J, fontSize: 12, color: C.teal, fontWeight: 700, borderLeft: `1px solid ${C.border}` }}>{prem}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 800, color: C.navy, marginBottom: 10 }}>Additional calls (beyond free limit)</div>
-      <div style={{ display: "flex", flexDirection: "column" as const, gap: 8, marginBottom: 24 }}>
-        {[
-          ["Rate", "Flat rate per call above the daily limit"],
-          ["Tracking", "Usage tracked daily, per circuit"],
-          ["Billing", "Invoiced monthly — charges on your next cycle"],
-          ["Carry-over", "No carry-over — pool resets at 00:00 UTC daily"],
-          ["Overage", "429 Too Many Requests when free limit is reached"],
-        ].map(([label, val]) => (
-          <div key={label} style={{ display: "flex", gap: 12, padding: "10px 16px", background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
-            <div style={{ fontFamily: FONT_J, fontSize: 11, fontWeight: 700, color: C.navy, minWidth: 90, flexShrink: 0 }}>{label}</div>
-            <div style={{ fontFamily: FONT, fontSize: 12, color: "#475569" }}>{val}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, padding: "14px 18px" }}>
-        <p style={{ fontFamily: FONT, fontSize: 13, color: "#92400e", lineHeight: 1.75, margin: 0 }}>
-          <strong style={{ color: "#78350f" }}>Need VISTA Premium?</strong> Contact your Polarin account manager to upgrade. The change is applied the same business day.
-        </p>
-      </div>
     </div>
   );
 }
