@@ -72,11 +72,6 @@ export function DashboardOverviewPage({ onNavigate }: Props) {
         Click the <strong>ⓘ</strong> icon next to the legend for a full breakdown of every marker and cluster
         style — handy the first few times you're reading the map.
       </Callout>
-      <DocImage
-        src="/screenshots/dashboard/06-legend-guide.jpg"
-        alt="Dashboard Guide legend panel explaining PoP types and clusters"
-        caption="① Polarin PoPs vs Customer PoPs — ② a cluster example (4 locations)"
-      />
 
       {/* ── Interacting with the map ── */}
       <H2 id="interacting">Interacting With the Map</H2>
@@ -91,16 +86,11 @@ export function DashboardOverviewPage({ onNavigate }: Props) {
         caption="① Hover preview — service name, parent product, both ends, and bandwidth"
       />
       <P>
-        <strong>Click a PoP marker ①</strong> to open a side panel listing every service at that location, split
-        into <strong>Ordered Services ②</strong> (what you've already provisioned there) and{" "}
+        <strong>Click a PoP marker</strong> to open a side panel listing every service at that location, split
+        into <strong>Ordered Services</strong> (what you've already provisioned there) and{" "}
         <strong>Available to Order</strong> (what you could add) — search or filter by Live/Down right from that
-        panel, and each result <strong>③</strong> shows its speed and Service ID.
+        panel, and each result shows its speed and Service ID.
       </P>
-      <DocImage
-        src="/screenshots/dashboard/04-pop-panel.jpg"
-        alt="Clicking a PoP marker opens its ordered and available services panel"
-        caption="① The clicked marker — ② Ordered Services / Available to Order tabs — ③ a service result"
-      />
       <P>
         Zoom, search, and reset using the toolbar on the right edge of the map — the search icon jumps straight
         to a named location instead of panning manually.
