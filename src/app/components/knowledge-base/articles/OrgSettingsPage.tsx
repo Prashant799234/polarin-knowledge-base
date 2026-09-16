@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FieldTable, DocImage, PageLink } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -35,7 +35,7 @@ export function OrgSettingsPage({ onNavigate }: Props) {
     <ArticlePage toc={TOC}>
       <H1 id="overview">Organisation Settings</H1>
       <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={4} />
+        <ReadTime minutes={6} />
         <Dot />
         <Tag label="Organisation" color="#0f766e" />
       </div>
@@ -45,8 +45,14 @@ export function OrgSettingsPage({ onNavigate }: Props) {
         rather than the one-time setup wizard you filled out in{" "}
         <PageLink label="Complete Your Profile" onClick={() => onNavigate("complete-profile")} />. A{" "}
         <strong>Verified</strong> badge confirms your account is fully approved and can deploy services
-        globally. The page is split into four sections.
+        globally. <strong>①</strong> below is the sidebar of four sub-sections; <strong>②</strong> is the
+        content for whichever one is selected.
       </P>
+      <DocImage
+        src="/screenshots/org-settings/01-org-details.jpg"
+        alt="Organisation Profile page with Organization Details tab selected"
+        caption="① The four sub-sections — ② Organization Details fields (values blurred here for privacy)"
+      />
 
       {/* ── Organization Details ── */}
       <H2 id="org-details">Organization Details</H2>
@@ -72,7 +78,7 @@ export function OrgSettingsPage({ onNavigate }: Props) {
       <P>
         A simple Yes/No: does your organisation issue a <strong>Purchase Order</strong> for invoicing? If yes,
         every invoice will expect a matching PO — see how that plays out during ordering in{" "}
-        <PageLink label="Track Order" onClick={() => onNavigate("service-detail")} />.
+        <PageLink label="Understanding the Service Detail Page" onClick={() => onNavigate("service-detail")} />.
       </P>
       <Callout variant="tip">
         Changing this setting only applies to <strong>new</strong> purchases — anything already ordered keeps
@@ -83,10 +89,27 @@ export function OrgSettingsPage({ onNavigate }: Props) {
       <H2 id="signatory">Authorised Signatory Details</H2>
       <P>
         The person empowered to sign contracts on your organisation's behalf. This is the same signatory
-        collected during initial setup — update it here any time their details change.
+        collected during initial setup — update it here any time their details change. <strong>①</strong>{" "}
+        below is the read-only PO Settings summary, and <strong>②</strong> the Authorised Signatory card
+        beneath it.
       </P>
+      <DocImage
+        src="/screenshots/org-settings/02-po-signatory.jpg"
+        alt="PO Settings and Authorised Signatory Details sections"
+        caption="① PO Settings — ② Authorised Signatory Details (name and email blurred here for privacy)"
+      />
+      <P>
+        Clicking <strong>Edit</strong> opens the update form: <strong>①</strong> is the contact fields — Name,
+        Email ID, Phone Number, and optional Department — and <strong>②</strong> is where you attach two
+        supporting documents.
+      </P>
+      <DocImage
+        src="/screenshots/org-settings/03-signatory-drawer.jpg"
+        alt="Update Authorised Signatory Details drawer with contact fields and document uploads"
+        caption="① Contact fields (blurred here) — ② Supporting Documents upload zones"
+      />
       <FieldTable rows={SIGNATORY_FIELDS} />
-      <P>Two supporting documents back this up:</P>
+      <P>The two supporting documents:</P>
       <UL>
         <LI><strong>Proof of Identity of Authorised Signatory</strong></LI>
         <LI><strong>Board Resolution (Power of Attorney)</strong> confirming their authority to sign</LI>
@@ -100,6 +123,11 @@ export function OrgSettingsPage({ onNavigate }: Props) {
         exactly when — down to the minute. The accepted documents themselves, the Polarin Terms &amp;
         Conditions and the Polarin Service Schedule, are both available to download from here at any time.
       </P>
+      <DocImage
+        src="/screenshots/org-settings/04-terms.jpg"
+        alt="Terms and Conditions section showing accepted status and documents"
+        caption="① Accepted status, when it was accepted, and both accepted documents"
+      />
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
