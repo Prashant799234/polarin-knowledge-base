@@ -28,6 +28,7 @@ import { PersonalInformationPage } from "./articles/PersonalInformationPage";
 import { UpdatePasswordPage } from "./articles/UpdatePasswordPage";
 import { TwoFactorAuthPage } from "./articles/TwoFactorAuthPage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
+import { OrgSettingsPage } from "./articles/OrgSettingsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
 import { PortStatusPage } from "./articles/PortStatusPage";
@@ -280,19 +281,28 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "org-kyc": {
     prev: { label: "Complete Organisation Profile", pageId: "complete-profile" },
-    next: { label: "Invite Team Members",           pageId: "invite-members" },
+    next: { label: "Organisation Settings",         pageId: "org-settings" },
     related: [
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
-      { label: "Invite Team Members",           pageId: "invite-members" },
+      { label: "Organisation Settings",         pageId: "org-settings" },
       { label: "Create a Polarin Account",      pageId: "create-account" },
     ],
   },
-  "invite-members": {
+  "org-settings": {
     prev: { label: "KYC Document Requirements", pageId: "org-kyc" },
-    next: { label: "Locations",                 pageId: "locations" },
+    next: { label: "User Management",           pageId: "invite-members" },
     related: [
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
       { label: "KYC Document Requirements",     pageId: "org-kyc" },
+      { label: "Invoices",                      pageId: "billing-invoices" },
+    ],
+  },
+  "invite-members": {
+    prev: { label: "Organisation Settings",     pageId: "org-settings" },
+    next: { label: "Locations",                 pageId: "locations" },
+    related: [
+      { label: "Complete Organisation Profile", pageId: "complete-profile" },
+      { label: "Organisation Settings",         pageId: "org-settings" },
       { label: "Create a Polarin Account",      pageId: "create-account" },
     ],
   },
@@ -816,6 +826,7 @@ export function KnowledgeBase() {
                     {activePage === "profile-password" && <UpdatePasswordPage onNavigate={navigate} />}
                     {activePage === "profile-2fa" && <TwoFactorAuthPage onNavigate={navigate} />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
+                    {activePage === "org-settings" && <OrgSettingsPage onNavigate={navigate} />}
                     {activePage === "invite-members" && <InviteTeamPage />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
                     {activePage === "port-create" && <CreatePortPage />}

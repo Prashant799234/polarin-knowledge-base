@@ -40,7 +40,7 @@ export function ServiceStatusPage({ onNavigate }: Props) {
 
       <P>
         Every product on Polarin — Port, Virtual Router, Virtual Connection, DCI, Internet Exchange — moves through
-        the <strong>same three-stage lifecycle</strong> from order to live traffic. Knowing this one pattern
+        the <strong>same broad lifecycle</strong> from order to live traffic. Knowing this one pattern
         means you can read the status of any service at a glance, regardless of which product it is.
       </P>
 
@@ -50,20 +50,21 @@ export function ServiceStatusPage({ onNavigate }: Props) {
       <FlowDiagram
         stages={[
           { title: "Design",  items: [{ icon: <FileEdit size={16} />, label: "Configured, not ordered" }] },
-          { title: "Ordered", items: [{ icon: <ClipboardCheck size={16} />, label: "Order submitted" }] },
+          { title: "Ordered", items: [{ icon: <ClipboardCheck size={16} />, label: "Deployment in Progress" }] },
           { title: "Live",    items: [{ icon: <CheckCircle2 size={16} />, label: "Active, traffic ready" }] },
         ]}
       />
 
       <UL>
-        <LI><strong>Design</strong> — you've configured the service but haven't placed the order yet. Nothing is provisioned, and nothing is billed.</LI>
-        <LI><strong>Ordered</strong> — the order is submitted and provisioning is underway. How long this takes depends on the product and location.</LI>
+        <LI><strong>Design</strong> — you've configured the service but haven't placed the order yet. Nothing is provisioned, and nothing is billed. A <strong>Setup Incomplete</strong> warning here just means the order itself hasn't been submitted — finish and submit it from the service's own detail page.</LI>
+        <LI><strong>Deployment in Progress</strong> — the order is submitted and provisioning is underway. Track exactly where it's at on the service's <PageLink label="Track Order" onClick={() => onNavigate("service-detail")} /> tab. For a Port specifically, this stage includes a <strong>Ready to Patch</strong> step while Lightstorm arranges the physical cross-connect.</LI>
+        <LI><strong>Configured</strong> — provisioning has completed on Polarin's side and the service is fully set up, but it isn't carrying traffic yet.</LI>
         <LI><strong>Live</strong> — the service is fully active. Billing starts here, not when you placed the order.</LI>
+        <LI><strong>Deleted</strong> — the service has been decommissioned and moved to Archived Services.</LI>
       </UL>
 
       <Callout variant="tip">
-        A service sitting in <strong>Design</strong> with a "Setup Incomplete" warning just means the order
-        hasn't been placed yet — finish and submit it from the service's own detail page.
+        These are exactly the statuses you can filter by from any service list's <strong>Advance Filter</strong> panel — useful when you need to find, say, every service still in Deployment in Progress across your whole account.
       </Callout>
 
       {/* ── Problem states ── */}

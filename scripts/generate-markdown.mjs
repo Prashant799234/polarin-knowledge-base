@@ -27,6 +27,7 @@ const PAGES = [
   { id: "create-account", file: "/src/app/components/knowledge-base/articles/CreateAccountPage.tsx", exportName: "CreateAccountPage", props: {} },
   { id: "complete-profile", file: "/src/app/components/knowledge-base/articles/CompleteProfilePage.tsx", exportName: "CompleteProfilePage", props: { onNavigate: noop } },
   { id: "org-kyc", file: "/src/app/components/knowledge-base/articles/KYCDocumentsPage.tsx", exportName: "KYCDocumentsPage", props: {} },
+  { id: "org-settings", file: "/src/app/components/knowledge-base/articles/OrgSettingsPage.tsx", exportName: "OrgSettingsPage", props: { onNavigate: noop } },
   { id: "invite-members", file: "/src/app/components/knowledge-base/articles/InviteTeamPage.tsx", exportName: "InviteTeamPage", props: {} },
   { id: "profile-personal", file: "/src/app/components/knowledge-base/articles/PersonalInformationPage.tsx", exportName: "PersonalInformationPage", props: { onNavigate: noop } },
   { id: "profile-password", file: "/src/app/components/knowledge-base/articles/UpdatePasswordPage.tsx", exportName: "UpdatePasswordPage", props: { onNavigate: noop } },

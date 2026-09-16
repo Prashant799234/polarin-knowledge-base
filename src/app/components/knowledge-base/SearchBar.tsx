@@ -39,7 +39,7 @@ const ALL_PAGES: SearchResult[] = [
   { id: "vista-overview",  label: "VISTA",                              group: "VISTA",                      description: "Performance monitoring and threshold alerts" },
   { id: "complete-profile", label: "Complete Organisation Profile",      group: "Organisation",               description: "Set up org details and authorised signatory" },
   { id: "org-kyc",         label: "KYC Document Requirements",          group: "Organisation",               description: "Proof of identity documents for Indian and global entities" },
-  { id: "org-settings",    label: "Organisation Settings",              group: "Organisation",               description: "Manage organisation-wide settings and preferences" },
+  { id: "org-settings",    label: "Organisation Settings",              group: "Organisation",               description: "Org profile, PO settings, authorised signatory, and accepted terms" },
   { id: "invite-members",  label: "User Management",                    group: "Organisation",               description: "Invite colleagues and manage role-based access" },
   { id: "billing-invoices", label: "Invoices",                          group: "Organisation · Billing Profile", description: "Download and manage billing invoices" },
   { id: "billing-payment", label: "Payment Methods",                    group: "Organisation · Billing Profile", description: "Manage credit cards and payment options" },
