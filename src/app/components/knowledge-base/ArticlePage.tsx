@@ -142,8 +142,8 @@ export function FieldTable({ rows }: { rows: { field: string; description: strin
 
 export function DocImage({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
   return (
-    <figure style={{ margin: "24px 0", borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-      <img src={src} alt={alt} style={{ width: "100%", display: "block" }} />
+    <figure style={{ margin: "24px auto", borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", maxWidth: "100%", width: "fit-content" }}>
+      <img src={src} alt={alt} style={{ maxWidth: "100%", width: "auto", display: "block" }} />
       {caption && (
         <figcaption style={{ fontFamily: FONT, fontSize: 12, color: "#9ca3af", padding: "8px 14px", background: "#f9fafb", textAlign: "center", borderTop: "1px solid #f3f4f6" }}>{caption}</figcaption>
       )}
