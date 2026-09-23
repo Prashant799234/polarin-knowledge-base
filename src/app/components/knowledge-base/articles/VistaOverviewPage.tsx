@@ -5,21 +5,17 @@ const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
 
 const TOC = [
-  { id: "overview",            label: "Overview" },
-  { id: "how-to-access",       label: "Accessing VISTA",            level: 2 as const },
+  { id: "overview",            label: "Overview: What Is VISTA?" },
+  { id: "value-benefits",      label: "Benefits & Value: What You Get", level: 2 as const },
+  { id: "products-covered",    label: "VISTA Across 3 Product Categories" },
+  { id: "product-port",        label: "1. Port (VISTA Premium Included Free)", level: 2 as const },
+  { id: "product-vc",          label: "2. Virtual Connection & DCI Layer 2", level: 2 as const },
+  { id: "product-wave",        label: "3. DCI Wave (Layer 1 Optical)",        level: 2 as const },
+  { id: "comparison-matrix",   label: "Metrics & Feature Comparison Matrix" },
+  { id: "how-to-access",       label: "Accessing VISTA in the Portal" },
   { id: "traffic-analytics",   label: "Interactive Traffic Analytics" },
-  { id: "graph-view",          label: "Traffic Graph View",         level: 2 as const },
-  { id: "table-view",          label: "Numeric Table View",         level: 2 as const },
   { id: "rate-limit-scaling",  label: "Effective Rate Limit & Scaling" },
-  { id: "health-kpis",         label: "Real-Time Health KPIs",      level: 2 as const },
-  { id: "circuit-topology",    label: "A-End & Z-End Topology",     level: 2 as const },
-  { id: "tiers",               label: "VISTA Free vs Premium" },
   { id: "troubleshooting",     label: "Troubleshooting 'No Data Found'" },
-];
-
-const TIERS = [
-  { name: "VISTA Free (Included)", detail: "10,000 API telemetry calls per day per circuit, 30-day historical data retention, and real-time portal monitoring included automatically with every service." },
-  { name: "VISTA Premium", detail: "50,000 API calls per day per circuit, 180-day historical telemetry retention, custom webhooks, and automated anomaly detection. Contact your account manager to activate." },
 ];
 
 interface Props {
@@ -29,187 +25,313 @@ interface Props {
 export function VistaOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
-      <H1 id="overview">VISTA</H1>
+      <H1 id="overview">VISTA Network Performance Monitoring</H1>
       <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={5} />
+        <ReadTime minutes={6} />
         <Dot />
         <Tag label="Telemetry & Performance" color="#7c3aed" />
       </div>
 
       <P>
-        <strong>VISTA</strong> is Polarin's real-time network observability and telemetry engine. Built directly into every active service, VISTA provides second-by-second visibility into bandwidth utilisation, optical health, link flaps, round-trip latency, and SLA compliance.
+        <strong>VISTA</strong> is Polarin's real-time network observability and telemetry engine. Built directly into the platform, VISTA transforms traditional black-box carrier connections into fully transparent, software-defined circuits with live telemetry, automated SLA auditing, and dynamic bandwidth elasticity.
       </P>
 
       <P>
-        Unlike legacy carrier networks where bandwidth monitoring requires third-party SNMP polling or waiting for monthly bill summaries, VISTA lets you view live ingress/egress graphs, audit raw numeric telemetry logs, and dynamically scale your effective bandwidth up or down with a single click.
+        Instead of relying on fragmented third-party SNMP monitoring or waiting for end-of-month carrier tickets, VISTA provides unified second-by-second visibility into your live traffic, optical health, link flaps, round-trip latency, jitter, and packet loss.
       </P>
 
       <Callout variant="tip">
-        VISTA monitoring is enabled automatically the moment your service becomes <strong>Live</strong> — no agents, probes, or manual sensor installations are required.
+        VISTA monitoring starts automatically the moment your circuit reaches <strong>Live</strong> status — no hardware agents, external software probes, or complex configurations are needed.
       </Callout>
+
+      {/* ── Value & Benefits ── */}
+      <H2 id="value-benefits">Benefits & Value: What You Get</H2>
+      <P>
+        VISTA equips network architects, DevOps engineers, and IT leadership with actionable network intelligence:
+      </P>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, margin: "20px 0" }}>
+        <ValueCard
+          icon="⚡"
+          title="Proactive Anomaly Detection"
+          description="Identify link micro-flaps, jitter fluctuations, and packet loss before they impact end-user cloud applications or voice/video traffic."
+        />
+        <ValueCard
+          icon="📊"
+          title="Autonomous SLA Verification"
+          description="Track uptime availability (99.99%+ SLA) and exact round-trip propagation delay (Latency RTD in ms) with tamper-proof historical telemetry."
+        />
+        <ValueCard
+          icon="🚀"
+          title="Dynamic Bandwidth Scaling"
+          description="Link live utilization insights directly to your Effective Rate Limit. Burst temporary add-on bandwidth in seconds without circuit teardown."
+        />
+        <ValueCard
+          icon="🔍"
+          title="End-to-End Fault Isolation"
+          description="Pinpoint whether latency or errors originate at your A-End port, the carrier optical core, or the Z-End cloud provider edge."
+        />
+      </div>
+
+      {/* ── Products Covered ── */}
+      <H2 id="products-covered">VISTA Across 3 Product Categories</H2>
+      <P>
+        VISTA telemetry is purpose-built for three core Polarin network infrastructure categories:
+      </P>
+
+      {/* 1. Port */}
+      <H3 id="product-port">1. Port (Physical Core Infrastructure)</H3>
+      <div style={{ background: "#f0fdf4", border: "1.5px solid #86efac", borderRadius: 12, padding: "16px 20px", margin: "16px 0" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <span style={{ fontSize: 18 }}>🔌</span>
+          <p style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 700, color: "#166534", margin: 0 }}>
+            Port: VISTA Premium Included Completely Free
+          </p>
+          <span style={{ background: "#dcfce7", color: "#15803d", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 12, border: "1px solid #bbf7d0", marginLeft: "auto" }}>
+            Included by Default
+          </span>
+        </div>
+        <p style={{ fontFamily: FONT, fontSize: 14, color: "#1e293b", margin: 0, lineHeight: 1.65 }}>
+          For every physical <strong>Port</strong> provisioned on the Polarin network (1 Gbps, 10 Gbps, 100 Gbps), <strong>VISTA Premium is provided by default at no additional charge</strong>. You receive full enterprise-tier visibility without any add-on subscription fees.
+        </p>
+      </div>
+
+      <P><strong>What you get with Port VISTA:</strong></P>
+      <UL>
+        <LI><strong>Traffic In & Out Analytics</strong>: Live interface utilization measured in Mbps and Gbps.</LI>
+        <LI><strong>Packets In & Out Analytics</strong>: Real-time Ethernet frame counts for burst and capacity profiling.</LI>
+        <LI><strong>Port-Level Optical Power Monitoring</strong>: Transmit (Tx) and Receive (Rx) optical power levels measured in dBm to identify fiber patch attenuation and dirty optical transceivers.</LI>
+        <LI><strong>Direct Case Submissions & Tracking</strong>: One-click support ticket creation pre-populated with port serial, facility, and telemetry state.</LI>
+        <LI><strong>Physical Link Stability & Errors</strong>: Port status, line protocol, and optical layer flap detection.</LI>
+      </UL>
+
+      {/* 2. Virtual Connection & DCI Layer 2 */}
+      <H3 id="product-vc">2. Virtual Connection (VC) & DCI Layer 2</H3>
+      <P>
+        VISTA applies across all Point-to-Point Layer 2/3 connections — including <strong>Data Centre to Cloud (Cloud Connect)</strong>, <strong>Cloud to Cloud</strong>, <strong>Data Centre to Data Centre (DC-to-DC)</strong>, and <strong>DCI Layer 2</strong> circuits.
+      </P>
+      <P>
+        For Virtual Connections, VISTA is available in two packages during service creation or as a post-provisioning add-on:
+      </P>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, margin: "20px 0" }}>
+        {/* Standard */}
+        <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: 12, padding: "18px 20px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+            <p style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 700, color: "#0a3954", margin: 0 }}>Standard Package</p>
+            <span style={{ background: "#e2e8f0", color: "#475569", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 12 }}>Free</span>
+          </div>
+          <p style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", margin: "0 0 12px", lineHeight: 1.5 }}>
+            Included free with every Virtual Connection for fundamental operational visibility.
+          </p>
+          <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12 }}>
+            <p style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>What's Included:</p>
+            <ul style={{ margin: 0, paddingLeft: 18, fontFamily: FONT, fontSize: 13.5, color: "#334155", lineHeight: 1.7 }}>
+              <li><strong>Access from Anywhere</strong>: Monitor performance on the go via portal and mobile</li>
+              <li><strong>Traffic In/Out Analytics</strong>: Ingress & egress throughput graphs</li>
+              <li><strong>Packet In/Out Analytics</strong>: Packet volume tracking</li>
+              <li><strong>Port-Level Power Monitoring</strong>: Baseline transceiver health</li>
+              <li><strong>Case Submissions with Tracking</strong>: Linked incident tickets</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Premium */}
+        <div style={{ background: "#faf5ff", border: "2px solid #a855f7", borderRadius: 12, padding: "18px 20px", position: "relative" }}>
+          <div style={{ position: "absolute", top: -11, right: 16, background: "linear-gradient(135deg, #9333ea 0%, #7c3aed 100%)", color: "#fff", fontSize: 10, fontWeight: 800, padding: "2px 10px", borderRadius: 10, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            ⭐ Recommended
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+            <p style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 700, color: "#581c87", margin: 0 }}>Premium Package</p>
+            <span style={{ background: "#f3e8ff", color: "#7e22ce", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 12, border: "1px solid #d8b4fe" }}>Full Analytics</span>
+          </div>
+          <p style={{ fontFamily: FONT, fontSize: 13, color: "#6b21a8", margin: "0 0 12px", lineHeight: 1.5 }}>
+            Enterprise deep-dive telemetry designed for production workloads, database replication, and strict SLA compliance.
+          </p>
+          <div style={{ borderTop: "1px solid #e9d5ff", paddingTop: 12 }}>
+            <p style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#581c87", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>Unlocks Everything in Standard Plus:</p>
+            <ul style={{ margin: 0, paddingLeft: 18, fontFamily: FONT, fontSize: 13.5, color: "#3b0764", lineHeight: 1.7 }}>
+              <li><strong>Service Availability for Last 180 Days</strong>: Extended 6-month uptime auditing</li>
+              <li><strong>Errors Report</strong>: CRC, frame errors, and interface drops analysis</li>
+              <li><strong>Packet Loss Analysis</strong>: Granular transmission integrity telemetry</li>
+              <li><strong>Jitter Monitoring</strong>: Latency variance analytics for VoIP & streaming</li>
+              <li><strong>Advanced SLA Insights</strong>: Proactive SLA breach forecasting</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. DCI Wave */}
+      <H3 id="product-wave">3. DCI Wave (Optical Layer 1 Interconnect)</H3>
+      <P>
+        For enterprise data centre interconnects running over dedicated optical wavelengths (DWDM / Wave), VISTA provides physical-layer optical telemetry:
+      </P>
+      <UL>
+        <LI><strong>Optical Availability (%)</strong>: Verifies 99.999% optical carrier SLA performance.</LI>
+        <LI><strong>Latency RTD (Round Trip Delay)</strong>: Accurate nanosecond/millisecond transit propagation delay across metropolitan and long-haul fiber paths.</LI>
+        <LI><strong>Optical Flaps Counter</strong>: Tracks optical signal interruptions, loss of signal (LOS), or automatic protection switching (APS) events.</LI>
+        <LI><strong>Mapped Maintenance & Incident Tickets</strong>: Correlates scheduled carrier maintenance windows directly against your circuit performance.</LI>
+      </UL>
+
+      {/* ── Feature Comparison Matrix ── */}
+      <H2 id="comparison-matrix">Metrics & Feature Comparison Matrix</H2>
+      <P>Overview of metrics across products and packages:</P>
+
+      <div className="kb-field-table" style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 13 }}>
+          <thead>
+            <tr style={{ background: "#f8fafc" }}>
+              <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", borderBottom: "1.5px solid #e2e8f0" }}>VISTA Capability / Metric</th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#166534", borderBottom: "1.5px solid #e2e8f0" }}>Port<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Premium Free)</span></th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#0369a1", borderBottom: "1.5px solid #e2e8f0" }}>Virtual Connection<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Standard)</span></th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#7c3aed", borderBottom: "1.5px solid #e2e8f0" }}>Virtual Connection<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Premium)</span></th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#b45309", borderBottom: "1.5px solid #e2e8f0" }}>DCI Wave<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Layer 1)</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { metric: "Traffic In & Out (Mbps)",            port: "Yes", vcStd: "Yes", vcPrem: "Yes", wave: "N/A (L1 Optical)" },
+              { metric: "Packets In & Out Analytics",        port: "Yes", vcStd: "Yes", vcPrem: "Yes", wave: "N/A (L1 Optical)" },
+              { metric: "Port Level Optical Power (dBm)",     port: "Yes", vcStd: "Yes", vcPrem: "Yes", wave: "Yes" },
+              { metric: "Case Submissions with Tracking",    port: "Yes", vcStd: "Yes", vcPrem: "Yes", wave: "Yes" },
+              { metric: "Flaps Monitoring",                  port: "Yes", vcStd: "Yes", vcPrem: "Yes", wave: "Yes" },
+              { metric: "Latency RTD (ms)",                  port: "Yes", vcStd: "Baseline", vcPrem: "Real-time", wave: "Real-time" },
+              { metric: "180-Day Historical Availability",   port: "Yes", vcStd: "No (30-day)", vcPrem: "Yes (180-day)", wave: "Yes" },
+              { metric: "Errors Report (CRC / Drops)",       port: "Yes", vcStd: "No", vcPrem: "Yes", wave: "Yes" },
+              { metric: "Packet Loss Analysis (%)",          port: "Yes", vcStd: "No", vcPrem: "Yes", wave: "N/A (L1 Bit Error)" },
+              { metric: "Jitter Variance (ms)",              port: "Yes", vcStd: "No", vcPrem: "Yes", wave: "N/A (L1)" },
+              { metric: "Dynamic Rate Limit Scaling",        port: "N/A", vcStd: "Yes", vcPrem: "Yes", wave: "N/A" },
+            ].map((row, i) => (
+              <tr key={i} style={{ borderBottom: i < 10 ? "1px solid #f1f5f9" : "none" }}>
+                <td style={{ padding: "11px 16px", fontWeight: 700, color: "#0f172a", fontFamily: FONT_J }}>{row.metric}</td>
+                <td style={{ padding: "11px 12px", textAlign: "center" }}><TableBadge val={row.port} color="#166534" /></td>
+                <td style={{ padding: "11px 12px", textAlign: "center" }}><TableBadge val={row.vcStd} color="#0369a1" /></td>
+                <td style={{ padding: "11px 12px", textAlign: "center" }}><TableBadge val={row.vcPrem} color="#7c3aed" /></td>
+                <td style={{ padding: "11px 12px", textAlign: "center" }}><TableBadge val={row.wave} color="#b45309" /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* ── How to Access ── */}
       <H2 id="how-to-access">Accessing VISTA in the Portal</H2>
       <P>
-        VISTA is integrated directly into the <strong>Service Detail</strong> view of your circuits:
+        VISTA telemetry is integrated directly into the <strong>Service Detail</strong> view:
       </P>
       <Steps>
         <Step num={1} title="Navigate to Services">
-          From the top navigation bar, click <strong>Services</strong>, then select your service category (e.g., <strong>Port</strong>, <strong>Virtual Connection</strong>, or <strong>Data Centre Interconnect</strong>).
+          From the top navigation bar, click <strong>Services</strong> and select your desired category (<strong>Port</strong>, <strong>Virtual Connection</strong>, or <strong>Data Centre Interconnect</strong>).
         </Step>
         <Step num={2} title="Select an Active Connection">
-          Click on any connection with a <em>Live</em> status tag (e.g., <code>PPOBOM...</code> or <code>PVCBLR...</code>).
+          Click on any connection with an active <em>Live</em> status tag (e.g. <code>PPOBOM...</code> or <code>PVCBLR...</code>).
         </Step>
-        <Step num={3} title="Click the Performance Tab">
-          On the service header, switch from <em>Overview</em> to the <strong>Performance</strong> tab to open the VISTA analytics dashboard.
+        <Step num={3} title="Open the Performance Tab">
+          In the service sub-navigation (alongside Overview, Connections, Subscription, Invoices & Payments), click the <strong>Performance</strong> tab to open the VISTA monitoring dashboard.
         </Step>
       </Steps>
 
       {/* ── Traffic Analytics ── */}
       <H2 id="traffic-analytics">Interactive Traffic Analytics</H2>
       <P>
-        The primary section of VISTA displays bidirectional throughput passing through your circuit. You can toggle between a graphical time-series curve and a raw numeric data table.
+        VISTA provides both visual time-series charts and granular numeric data tables:
       </P>
 
-      <H3 id="graph-view">1. Traffic Graph View</H3>
       <DocImage
         src="/screenshots/vista/01-vista-traffic-graph.jpg"
         alt="VISTA Traffic Graph View"
-        caption="VISTA Traffic Graph: (1) Service header & Performance tab, (2) Time interval filter, (3) Bidirectional throughput chart, (4) Ingress/Egress legend."
+        caption="VISTA Traffic Graph: (1) Service header & Performance tab, (2) Granular time interval selector, (3) Bidirectional throughput chart, (4) Ingress/Egress legend."
       />
 
-      <P>
-        Understanding the time-series chart:
-      </P>
       <UL>
-        <LI>
-          <strong>Badge 1 — Service Context</strong>: Shows the unique Service ID (e.g. <code>PPOBOM1302588</code>), provisioned interface speed (e.g. 1 Gbps or 10 Gbps), operating data centre location (e.g. <em>Equinix MB1</em>), and quick actions (<em>+ Add Connection</em>, <em>Raise an Issue</em>).
-        </LI>
-        <LI>
-          <strong>Badge 2 — Granular Time Windows</strong>: Filter telemetry across predefined intervals (<em>Last 24 hours</em>, <em>Last 7 days</em>, <em>Last 30 days</em>, or custom windows) with 15-minute or 4-hour aggregation buckets.
-        </LI>
-        <LI>
-          <strong>Badge 3 — Ingress vs Egress Curves</strong>: Displays throughput measured in Mbps/Gbps. Hovering over any point reveals the exact timestamp and bandwidth rate.
-        </LI>
-        <LI>
-          <strong>Badge 4 — Visual Key</strong>:
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: 6 }}>
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#a855f7", display: "inline-block" }} />
-            <strong>Purple</strong> = Traffic Out (Egress)
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: 14 }}>
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#06b6d4", display: "inline-block" }} />
-            <strong>Cyan / Blue</strong> = Traffic In (Ingress)
-          </span>
-        </LI>
+        <LI><strong>Badge 1 — Service Context</strong>: Displays Service ID (e.g. <code>PPOBOM1302588</code>), provisioned interface bandwidth (e.g. 10 Gbps), data centre location (e.g. <em>Equinix MB1</em>), and quick actions (<em>+ Add Connection</em>, <em>Raise an Issue</em>).</LI>
+        <LI><strong>Badge 2 — Time Windows</strong>: Inspect metrics across <em>Last 24 hours</em>, <em>Last 7 days</em>, <em>Last 30 days</em>, or custom intervals with 15-minute resolution.</LI>
+        <LI><strong>Badge 3 — Ingress & Egress Curves</strong>: Real-time throughput in Mbps/Gbps. Hover over data points to inspect exact instantaneous rates.</LI>
+        <LI><strong>Badge 4 — Visual Legend</strong>: <strong>Purple</strong> represents Traffic Out (Egress), while <strong>Cyan / Blue</strong> represents Traffic In (Ingress).</LI>
       </UL>
 
-      <H3 id="table-view">2. Numeric Table View</H3>
       <P>
-        Need exact numeric records for capacity audits or compliance reporting? Click the <strong>Table View</strong> toggle icon in the chart controls.
+        Click the <strong>Table View</strong> icon to switch from the graph to discrete numeric records:
       </P>
 
       <DocImage
         src="/screenshots/vista/02-vista-traffic-table.jpg"
         alt="VISTA Numeric Table View"
-        caption="VISTA Table View: (1) Granular interval with last update timestamp, (2) Time-stamped telemetry rows (Time, Traffic Out Mbps, Traffic In Mbps)."
+        caption="VISTA Table View: (1) Time interval and last update timestamp, (2) Timestamped rows with Traffic Out and Traffic In megabits per second."
       />
-
-      <P>
-        The table provides discrete timestamped records for each 15-minute interval (<strong>Badge 2</strong>), displaying exact throughput in megabits per second. This makes it effortless to audit peak traffic bursts or compare throughput against SLA commitments.
-      </P>
 
       {/* ── Rate Limit Scaling ── */}
       <H2 id="rate-limit-scaling">Effective Rate Limit & Dynamic Bandwidth Scaling</H2>
       <P>
-        One of Polarin's most powerful capabilities is on-demand bandwidth scaling without physical recabling or service downtime.
+        For Virtual Connections and DCI Layer 2 links, VISTA features direct bandwidth management on demand:
       </P>
 
       <DocImage
         src="/screenshots/vista/03-vista-telemetry-rate-limit.jpg"
         alt="VISTA Effective Rate Limit and Health KPIs"
-        caption="VISTA Telemetry & Controls: (1) Effective Rate Limit with Base + Temp Add-on, (2) Performance KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End port topology."
+        caption="VISTA Telemetry & Controls: (1) Effective Rate Limit with Base + Temp Add-on, (2) Real-time Health KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End circuit topology."
       />
 
-      <P>
-        Under the <strong>EFFECTIVE RATE LIMIT</strong> card (<strong>Badge 1</strong>), VISTA displays your connection's active throughput ceiling:
-      </P>
       <UL>
         <LI>
-          <strong>Base Rate Limit</strong>: Your contracted monthly baseline bandwidth (e.g. <code>1 Mbps @ ₹3,617.50/mo</code>). Click <strong>Upgrade</strong> to permanently adjust your baseline subscription.
+          <strong>Base Rate Limit (Badge 1)</strong>: Your contracted monthly baseline bandwidth (e.g., <code>1 Mbps @ ₹3,617.50/mo</code>). Click <strong>Upgrade</strong> to adjust your baseline tier.
         </LI>
         <LI>
-          <strong>Temp Add-on</strong>: On-demand burst bandwidth added dynamically (e.g. <code>+22 Mbps</code>). Click <strong>Edit</strong> to scale temporary capacity up or down to handle seasonal workloads, backups, or migrations.
+          <strong>Temp Add-on (Badge 1)</strong>: On-demand burst capacity (e.g., <code>+22 Mbps</code>) for seasonal spikes, migrations, or temporary workloads. Click <strong>Edit</strong> to add or remove capacity instantly.
         </LI>
         <LI>
-          <strong>Total Effective Bandwidth</strong>: The combined active rate limit enforced on the circuit (e.g. <code>23 Mbps</code>). Changes apply in seconds without tearing down BGP peering or dropping packets.
+          <strong>Total Effective Bandwidth</strong>: Combined active throughput (e.g., <code>23 Mbps</code>) enforced across the link in seconds without renegotiating BGP or re-cabling.
+        </LI>
+        <LI>
+          <strong>Health KPIs (Badge 2)</strong>: Continuous 24-hour tracking of <strong>Flaps</strong> (0 flaps = healthy link), <strong>Latency RTD</strong>, and <strong>Availability</strong> (100.00% target).
+        </LI>
+        <LI>
+          <strong>A-End & Z-End Topology (Badge 3)</strong>: Originating facility (e.g. <em>NTT Bengaluru DC3</em>) and destination facility (e.g. <em>STT GDC Chennai DC1</em>) with <em>View Details</em> to inspect physical optics.
         </LI>
       </UL>
-
-      {/* ── Health KPIs ── */}
-      <H2 id="health-kpis">Real-Time Health KPIs</H2>
-      <P>
-        Directly beneath the rate limit card, VISTA monitors critical physical and optical health indicators over the trailing 24-hour window (<strong>Badge 2</strong>):
-      </P>
-      <FieldTable rows={[
-        { field: "Flaps",                   description: "Count of physical link up/down transitions over the last 24 hours. A healthy link consistently shows 0 flaps." },
-        { field: "Latency RTD (ms)",         description: "Current round-trip propagation delay across endpoints. Sudden spikes highlight intermediate route congestion or fiber reroutes." },
-        { field: "Availability (%)",        description: "Uptime percentage of the connection evaluated against Polarin's 99.99% SLA commitment (e.g., 100.00%)." },
-        { field: "Last Update",             description: "Live timestamp showing when the telemetry collector last pulled metrics from the hardware switch." },
-      ]} />
-
-      {/* ── Circuit Topology ── */}
-      <H2 id="circuit-topology">A-End & Z-End Circuit Topology</H2>
-      <P>
-        Every point-to-point connection is anchored between two physical termination endpoints (<strong>Badge 3</strong>):
-      </P>
-      <UL>
-        <LI>
-          <strong>A-END - PORT</strong>: The originating data centre facility and physical switch interface (e.g. <em>NTT Bengaluru DC3, Bidarahalli Hobli</em>).
-        </LI>
-        <LI>
-          <strong>Z-END - PORT</strong>: The destination data centre facility and termination interface (e.g. <em>STT GDC Chennai DC1, VSB Sivananda Salai</em>).
-        </LI>
-        <LI>
-          Click <strong>View Details</strong> under either endpoint to inspect cross-connect identifiers, patch panel assignments, and port optics.
-        </LI>
-      </UL>
-
-      {/* ── Tiers ── */}
-      <H2 id="tiers">VISTA Free vs Premium</H2>
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, margin: "16px 0" }}>
-        {TIERS.map((t) => (
-          <div key={t.name} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "14px 18px" }}>
-            <div>
-              <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 4px" }}>{t.name}</p>
-              <p style={{ fontFamily: FONT, fontSize: 13.5, color: "#334155", margin: 0, lineHeight: 1.65 }}>{t.detail}</p>
-            </div>
-          </div>
-        ))}
-      </div>
 
       {/* ── Troubleshooting ── */}
       <H2 id="troubleshooting">Troubleshooting 'No Data Found'</H2>
-      <P>
-        If your VISTA performance graph displays <em>"No Data Found"</em>:
-      </P>
+      <P>If VISTA displays a <em>"No Data Found"</em> state:</P>
       <UL>
-        <LI>
-          <strong>Service Status is Not Yet Live</strong>: Telemetry collection begins once the circuit status transitions to <em>Live</em>. While in <em>Design</em> or <em>Ordered</em> stages, no metrics exist.
-        </LI>
-        <LI>
-          <strong>No Active Customer Traffic</strong>: If your customer-premises equipment (CPE) or cross-connect has not yet transmitted IP packets over the link, throughput shows zero.
-        </LI>
-        <LI>
-          <strong>Selected Time Range Has No Samples</strong>: Verify that your date range filter aligns with the period when your services were active.
-        </LI>
+        <LI><strong>Connection Not Yet Live</strong>: Telemetry collection begins only after a service transitions from <em>Design</em> or <em>Ordered</em> to <strong>Live</strong>.</LI>
+        <LI><strong>No Active IP Traffic</strong>: If connected routers or cross-connects are idle and no IP packets are being transmitted, throughput counters show zero.</LI>
+        <LI><strong>Time Filter Mismatch</strong>: Ensure your date range filter aligns with when the circuit was actively passing traffic.</LI>
       </UL>
 
       <Callout variant="info">
-        Want to receive automated alerts when latency crosses a threshold or flaps occur? Configure automated alert rules in <PageLink label="Manage Alerts" onClick={() => onNavigate?.("manage-alerts")} />.
+        To configure automated email and in-app alerts when latency spikes or flaps occur, visit <PageLink label="Manage Alerts" onClick={() => onNavigate?.("manage-alerts")} />.
       </Callout>
     </ArticlePage>
   );
+}
+
+function ValueCard({ icon, title, description }: { icon: string; title: string; description: string }) {
+  return (
+    <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 12, padding: "16px 18px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+        <span style={{ fontSize: 20 }}>{icon}</span>
+        <p style={{ fontFamily: FONT_J, fontSize: 14.5, fontWeight: 700, color: "#0a3954", margin: 0 }}>{title}</p>
+      </div>
+      <p style={{ fontFamily: FONT, fontSize: 13, color: "#475569", margin: 0, lineHeight: 1.6 }}>{description}</p>
+    </div>
+  );
+}
+
+function TableBadge({ val, color }: { val: string; color: string }) {
+  if (val === "Yes" || val === "Real-time") {
+    return <span style={{ background: "#ecfdf5", color: "#047857", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 6, border: "1px solid #a7f3d0" }}>{val}</span>;
+  }
+  if (val.startsWith("Yes")) {
+    return <span style={{ background: "#f5f3ff", color: "#6d28d9", fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 6, border: "1px solid #ddd6fe" }}>{val}</span>;
+  }
+  if (val === "Baseline") {
+    return <span style={{ background: "#eff6ff", color: "#1d4ed8", fontSize: 11, fontWeight: 600, padding: "3px 8px", borderRadius: 6, border: "1px solid #bfdbfe" }}>{val}</span>;
+  }
+  if (val.startsWith("No")) {
+    return <span style={{ background: "#fef2f2", color: "#b91c1c", fontSize: 11, fontWeight: 600, padding: "3px 8px", borderRadius: 6, border: "1px solid #fecaca" }}>{val}</span>;
+  }
+  return <span style={{ color: "#94a3b8", fontSize: 11 }}>{val}</span>;
 }
 
 function ReadTime({ minutes }: { minutes: number }) {
