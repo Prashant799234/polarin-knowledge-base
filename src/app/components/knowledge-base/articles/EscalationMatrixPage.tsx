@@ -1,26 +1,19 @@
 import { useState } from "react";
-import type { ElementType, ReactNode } from "react";
 import {
-  ShieldAlert,
-  Headphones,
   Phone,
   Mail,
   Clock,
-  AlertTriangle,
   Globe,
   Copy,
   Check,
-  CheckCircle2,
-  Ticket,
-  ChevronRight,
-  UserCheck,
-  Building,
+  Headphones,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   ArticlePage,
   H1,
   H2,
-  H3,
   P,
   UL,
   LI,
@@ -38,33 +31,29 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 
 const TOC = [
   { id: "overview", label: "Overview" },
-  { id: "matrix-view", label: "Escalation Matrices", level: 2 as const },
-  { id: "india-matrix", label: "India Escalation Matrix", level: 3 as const },
-  { id: "apac-matrix", label: "APAC Escalation Matrix", level: 3 as const },
-  { id: "toll-free", label: "Global Toll-Free Directory", level: 2 as const },
-  { id: "severity-definitions", label: "Incident Severity Classification", level: 2 as const },
-  { id: "escalation-checklist", label: "Before You Escalate", level: 2 as const },
+  { id: "escalation-matrix", label: "Escalation Matrix", level: 2 as const },
+  { id: "severity-definitions", label: "Severity Classification", level: 2 as const },
+  { id: "before-escalating", label: "Before You Escalate", level: 2 as const },
   { id: "next-steps", label: "Next Steps" },
 ];
 
-interface TollFreeContact {
+interface TollFreeItem {
   country: string;
   flag: string;
   number: string;
   telHref: string;
-  type: string;
 }
 
-const APAC_TOLL_FREE: TollFreeContact[] = [
-  { country: "India", flag: "🇮🇳", number: "+91-22 6931-5544", telHref: "tel:+912269315544", type: "Direct NOC Line" },
-  { country: "USA (F,P)", flag: "🇺🇸", number: "18334779905", telHref: "tel:18334779905", type: "Toll Free" },
-  { country: "Australia", flag: "🇦🇺", number: "1800965956", telHref: "tel:1800965956", type: "Toll Free" },
-  { country: "Hong Kong", flag: "🇭🇰", number: "800902347", telHref: "tel:800902347", type: "Toll Free" },
-  { country: "Singapore", flag: "🇸🇬", number: "8001016054", telHref: "tel:8001016054", type: "Toll Free" },
-  { country: "Japan", flag: "🇯🇵", number: "006633815379", telHref: "tel:006633815379", type: "Toll Free" },
+const APAC_TOLL_FREE: TollFreeItem[] = [
+  { country: "India", flag: "🇮🇳", number: "+91-22 6931-5544", telHref: "tel:+912269315544" },
+  { country: "USA (F,P)", flag: "🇺🇸", number: "18334779905", telHref: "tel:18334779905" },
+  { country: "Australia", flag: "🇦🇺", number: "1800965956", telHref: "tel:1800965956" },
+  { country: "Hong Kong", flag: "🇭🇰", number: "800902347", telHref: "tel:800902347" },
+  { country: "Singapore", flag: "🇸🇬", number: "8001016054", telHref: "tel:8001016054" },
+  { country: "Japan", flag: "🇯🇵", number: "006633815379", telHref: "tel:006633815379" },
 ];
 
-interface MatrixLevel {
+interface LevelInfo {
   level: number;
   levelLabel: string;
   title: string;
@@ -75,12 +64,13 @@ interface MatrixLevel {
   phone: string;
   phoneRaw: string;
   email: string;
-  accentColor: string;
   badgeBg: string;
-  scopeSummary: string;
+  badgeColor: string;
+  scope: string;
+  tollFree?: TollFreeItem[];
 }
 
-const INDIA_LEVELS: MatrixLevel[] = [
+const INDIA_LEVELS: LevelInfo[] = [
   {
     level: 1,
     levelLabel: "Level 1",
@@ -92,9 +82,9 @@ const INDIA_LEVELS: MatrixLevel[] = [
     phone: "+91-22-69315544",
     phoneRaw: "+912269315544",
     email: "GSODesk@lightstorm.net",
-    accentColor: "#0d9488",
     badgeBg: "#ccfbf1",
-    scopeSummary: "Initial incident logging, diagnostic triage, ticket dispatch, and immediate link troubleshooting.",
+    badgeColor: "#0f766e",
+    scope: "First-touch triage, incident logging, ticket creation, and initial diagnostics.",
   },
   {
     level: 2,
@@ -107,9 +97,9 @@ const INDIA_LEVELS: MatrixLevel[] = [
     phone: "+91 93211 49838",
     phoneRaw: "+919321149838",
     email: "harshal.karekar@lightstorm.in",
-    accentColor: "#2563eb",
     badgeBg: "#dbeafe",
-    scopeSummary: "Direct team coordination, escalated engineer assignment, and incident bridge management.",
+    badgeColor: "#1d4ed8",
+    scope: "Engineer dispatch, bridge management, and active team coordination.",
   },
   {
     level: 3,
@@ -122,9 +112,9 @@ const INDIA_LEVELS: MatrixLevel[] = [
     phone: "+91 88281 08212",
     phoneRaw: "+918828108212",
     email: "amol.jagtap@lightstorm.in",
-    accentColor: "#d97706",
     badgeBg: "#fef3c7",
-    scopeSummary: "Senior network engineering escalation, upstream carrier interventions, and SLA recovery tracking.",
+    badgeColor: "#b45309",
+    scope: "Senior engineering escalation, upstream provider coordination, and SLA recovery.",
   },
   {
     level: 4,
@@ -137,13 +127,13 @@ const INDIA_LEVELS: MatrixLevel[] = [
     phone: "+91 91581 08999",
     phoneRaw: "+919158108999",
     email: "suraj.thakur@lightstorm.in",
-    accentColor: "#dc2626",
     badgeBg: "#fee2e2",
-    scopeSummary: "Executive operational command, major outage governance, and comprehensive root cause analysis (RCA).",
+    badgeColor: "#b91c1c",
+    scope: "Executive incident governance, major outage escalations, and RCA delivery.",
   },
 ];
 
-const APAC_LEVELS: MatrixLevel[] = [
+const APAC_LEVELS: LevelInfo[] = [
   {
     level: 1,
     levelLabel: "Level 1",
@@ -152,12 +142,13 @@ const APAC_LEVELS: MatrixLevel[] = [
     nonServiceAffecting: "Immediate",
     contactName: "Global Service Operation Desk",
     role: "24X7 International Operations Desk",
-    phone: "+91-22 6931-5544 (Toll-Free Options Below)",
+    phone: "+91-22 6931-5544",
     phoneRaw: "+912269315544",
     email: "GSODesk@lightstorm.net",
-    accentColor: "#0d9488",
     badgeBg: "#ccfbf1",
-    scopeSummary: "24×7 multi-region intake, international toll-free routing, ticket dispatch, and immediate link troubleshooting.",
+    badgeColor: "#0f766e",
+    scope: "24×7 multi-region triage, international toll-free intake, and initial diagnostics.",
+    tollFree: APAC_TOLL_FREE,
   },
   {
     level: 2,
@@ -170,9 +161,9 @@ const APAC_LEVELS: MatrixLevel[] = [
     phone: "+91 93211 49838",
     phoneRaw: "+919321149838",
     email: "harshal.karekar@lightstorm.in",
-    accentColor: "#2563eb",
     badgeBg: "#dbeafe",
-    scopeSummary: "Cross-region incident coordination, engineer mobilization, and proactive customer communication.",
+    badgeColor: "#1d4ed8",
+    scope: "Regional incident coordination, cross-border bridge dispatch, and status updates.",
   },
   {
     level: 3,
@@ -185,9 +176,9 @@ const APAC_LEVELS: MatrixLevel[] = [
     phone: "+91 88281 08212",
     phoneRaw: "+918828108212",
     email: "amol.jagtap@lightstorm.in",
-    accentColor: "#d97706",
     badgeBg: "#fef3c7",
-    scopeSummary: "Subsea cable and regional interconnect escalations, carrier peering bridges, and SLA governance.",
+    badgeColor: "#b45309",
+    scope: "Subsea cable partner escalations, regional carrier bridges, and SLA oversight.",
   },
   {
     level: 4,
@@ -200,9 +191,9 @@ const APAC_LEVELS: MatrixLevel[] = [
     phone: "+91 91581 08999",
     phoneRaw: "+919158108999",
     email: "suraj.thakur@lightstorm.in",
-    accentColor: "#dc2626",
     badgeBg: "#fee2e2",
-    scopeSummary: "Regional operational command, infrastructure escalation, and end-to-end incident management.",
+    badgeColor: "#b91c1c",
+    scope: "Regional operational command, infrastructure escalation, and major incident resolution.",
   },
   {
     level: 5,
@@ -215,9 +206,9 @@ const APAC_LEVELS: MatrixLevel[] = [
     phone: "+65 9824 7010",
     phoneRaw: "+6598247010",
     email: "vinay.v@lightstorm.net",
-    accentColor: "#7c3aed",
     badgeBg: "#ede9fe",
-    scopeSummary: "Executive leadership escalation, critical partnership intervention, and overarching service delivery oversight.",
+    badgeColor: "#6d28d9",
+    scope: "Executive leadership escalation, critical partnership intervention, and overarching service delivery oversight.",
   },
 ];
 
@@ -226,7 +217,7 @@ interface Props {
 }
 
 export function EscalationMatrixPage({ onNavigate }: Props) {
-  const [activeTab, setActiveTab] = useState<"india" | "apac" | "all">("india");
+  const [activeTab, setActiveTab] = useState<"india" | "apac">("india");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const handleCopy = (text: string, key: string) => {
@@ -241,234 +232,154 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
     <ArticlePage toc={TOC}>
       <H1 id="overview">NOC Escalation Matrix</H1>
       <ArticleMeta>
-        <ReadTime minutes={4} />
+        <ReadTime minutes={3} />
         <Dot />
         <Tag label="Help & Support" color="#1c808d" />
         <Dot />
         <Tag label="NOC 24×7" color="#0284c7" />
-        <Dot />
-        <Tag label="India & APAC" color="#7c3aed" />
       </ArticleMeta>
 
       <P>
-        Lightstorm and Polarin operate a proactive, 24×7 Global Service Operation Desk (GSOD) and Network
-        Operations Centre (NOC) to ensure maximum availability across your hybrid cloud connections, ports,
-        and data centre interconnects. When an incident requires elevated engineering attention or exceeds
-        standard response milestones, use the <strong>NOC Escalation Matrix</strong> below to contact the
-        appropriate management tier directly.
+        Lightstorm and Polarin operate a proactive 24×7 Network Operations Centre (NOC) and Global
+        Service Operation Desk (GSOD). When an incident requires senior engineering escalation or exceeds
+        standard response milestones, use the matrix below to reach the designated leadership tier directly.
       </P>
 
-      {/* ── Key Highlights Banner ── */}
+      {/* ── Sticky Region Switcher Bar ── */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: 12,
-          margin: "20px 0 28px",
-        }}
-      >
-        {[
-          {
-            icon: <Headphones size={22} color="#0d9488" />,
-            title: "24×7 Level 1 Intake",
-            desc: "Global Operations Desk is always on-duty with zero delay for both service and non-service affecting events.",
-          },
-          {
-            icon: <Clock size={22} color="#2563eb" />,
-            title: "Strict Time-Bound Triggers",
-            desc: "Automated escalation windows based on incident duration and business impact.",
-          },
-          {
-            icon: <Globe size={22} color="#7c3aed" />,
-            title: "Dedicated Regional Paths",
-            desc: "Tailored escalation channels for India domestic operations and APAC international footprints.",
-          },
-        ].map((c) => (
-          <div
-            key={c.title}
-            style={{
-              background: "#f8fafc",
-              border: "1px solid #e2e8f0",
-              borderRadius: 12,
-              padding: "16px 18px",
-            }}
-          >
-            <div style={{ marginBottom: 10 }}>{c.icon}</div>
-            <div
-              style={{
-                fontFamily: FONT_J,
-                fontSize: 14,
-                fontWeight: 700,
-                color: "#0f172a",
-                marginBottom: 4,
-              }}
-            >
-              {c.title}
-            </div>
-            <div style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>
-              {c.desc}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ── Interactive Tab Switcher ── */}
-      <H2 id="matrix-view">Escalation Matrices</H2>
-      <P>
-        Select your operating region to view dedicated escalation hierarchy, SLA thresholds, and direct
-        management contact numbers:
-      </P>
-
-      <div
+        className="kb-matrix-sticky-header"
         data-pdf-exclude="true"
         style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 30,
+          background: "rgba(255, 255, 255, 0.96)",
+          backdropFilter: "blur(12px)",
+          padding: "12px 0",
+          margin: "16px 0 20px 0",
+          borderBottom: "1px solid #e2e8f0",
           display: "flex",
           alignItems: "center",
-          gap: 8,
-          background: "#f1f5f9",
-          padding: 6,
-          borderRadius: 12,
-          marginBottom: 24,
+          justifyContent: "space-between",
+          gap: 12,
           flexWrap: "wrap",
         }}
       >
-        <button
-          onClick={() => setActiveTab("india")}
+        {/* Clean 2-tab segmented control */}
+        <div
           style={{
-            fontFamily: FONT_J,
-            fontSize: 14,
-            fontWeight: 700,
-            padding: "8px 18px",
-            borderRadius: 8,
-            border: "none",
-            cursor: "pointer",
-            background: activeTab === "india" ? "#FFFFFF" : "transparent",
-            color: activeTab === "india" ? "#0f766e" : "#64748b",
-            boxShadow: activeTab === "india" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
-            display: "flex",
+            display: "inline-flex",
             alignItems: "center",
-            gap: 8,
-            transition: "all 0.15s ease",
+            background: "#f1f5f9",
+            padding: 4,
+            borderRadius: 10,
+            gap: 4,
           }}
         >
-          <span>🇮🇳</span>
-          <span>India Region</span>
-          <span
+          <button
+            onClick={() => setActiveTab("india")}
             style={{
-              fontSize: 11,
-              fontWeight: 600,
-              padding: "2px 7px",
-              borderRadius: 12,
-              background: activeTab === "india" ? "#ccfbf1" : "#e2e8f0",
+              fontFamily: FONT_J,
+              fontSize: 14,
+              fontWeight: 700,
+              padding: "7px 18px",
+              borderRadius: 8,
+              border: "none",
+              cursor: "pointer",
+              background: activeTab === "india" ? "#FFFFFF" : "transparent",
               color: activeTab === "india" ? "#0f766e" : "#64748b",
+              boxShadow: activeTab === "india" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "all 0.15s ease",
             }}
           >
-            4 Levels
-          </span>
-        </button>
+            <span>🇮🇳</span>
+            <span>India</span>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: "1px 6px",
+                borderRadius: 10,
+                background: activeTab === "india" ? "#ccfbf1" : "#e2e8f0",
+                color: activeTab === "india" ? "#0f766e" : "#64748b",
+              }}
+            >
+              4 Tiers
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab("apac")}
-          style={{
-            fontFamily: FONT_J,
-            fontSize: 14,
-            fontWeight: 700,
-            padding: "8px 18px",
-            borderRadius: 8,
-            border: "none",
-            cursor: "pointer",
-            background: activeTab === "apac" ? "#FFFFFF" : "transparent",
-            color: activeTab === "apac" ? "#0f766e" : "#64748b",
-            boxShadow: activeTab === "apac" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            transition: "all 0.15s ease",
-          }}
-        >
-          <span>🌏</span>
-          <span>APAC & Global</span>
-          <span
+          <button
+            onClick={() => setActiveTab("apac")}
             style={{
-              fontSize: 11,
-              fontWeight: 600,
-              padding: "2px 7px",
-              borderRadius: 12,
-              background: activeTab === "apac" ? "#ccfbf1" : "#e2e8f0",
+              fontFamily: FONT_J,
+              fontSize: 14,
+              fontWeight: 700,
+              padding: "7px 18px",
+              borderRadius: 8,
+              border: "none",
+              cursor: "pointer",
+              background: activeTab === "apac" ? "#FFFFFF" : "transparent",
               color: activeTab === "apac" ? "#0f766e" : "#64748b",
+              boxShadow: activeTab === "apac" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "all 0.15s ease",
             }}
           >
-            5 Levels
-          </span>
-        </button>
+            <span>🌏</span>
+            <span>APAC & Global</span>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: "1px 6px",
+                borderRadius: 10,
+                background: activeTab === "apac" ? "#ccfbf1" : "#e2e8f0",
+                color: activeTab === "apac" ? "#0f766e" : "#64748b",
+              }}
+            >
+              5 Tiers
+            </span>
+          </button>
+        </div>
 
-        <button
-          onClick={() => setActiveTab("all")}
+        {/* Region Subtitle Indicator */}
+        <div
           style={{
-            fontFamily: FONT_J,
-            fontSize: 14,
-            fontWeight: 700,
-            padding: "8px 18px",
-            borderRadius: 8,
-            border: "none",
-            cursor: "pointer",
-            background: activeTab === "all" ? "#FFFFFF" : "transparent",
-            color: activeTab === "all" ? "#0f766e" : "#64748b",
-            boxShadow: activeTab === "all" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+            fontFamily: FONT,
+            fontSize: 12,
+            color: "#64748b",
             display: "flex",
             alignItems: "center",
-            gap: 8,
-            transition: "all 0.15s ease",
+            gap: 6,
           }}
         >
-          <span>📋</span>
-          <span>View Both Regions</span>
-        </button>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0d9488" }} />
+          <span>
+            {activeTab === "india"
+              ? "Showing Domestic Network (Levels 1 to 4)"
+              : "Showing Cross-Border & Subsea Fabric (Levels 1 to 5)"}
+          </span>
+        </div>
       </div>
 
-      {/* ── India Region Section ── */}
+      <H2 id="escalation-matrix">
+        {activeTab === "india" ? "India Escalation Path" : "APAC & Global Escalation Path"}
+      </H2>
+
+      {/* ── India Region (rendered on web if selected, always rendered in print/PDF) ── */}
       <div
         className={`kb-matrix-region kb-region-india ${
-          activeTab !== "india" && activeTab !== "all" ? "kb-region-hidden" : ""
+          activeTab !== "india" ? "kb-region-hidden" : ""
         }`}
-        style={{ marginBottom: 36 }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 16,
-            borderBottom: "2px solid #e2e8f0",
-            paddingBottom: 8,
-          }}
-        >
-          <H3 id="india-matrix">🇮🇳 India Escalation Matrix — Lightstorm NOC Services</H3>
-          <span
-            style={{
-              fontFamily: FONT_J,
-              fontSize: 12,
-              fontWeight: 700,
-              color: "#0f766e",
-              background: "#f0fdf4",
-              border: "1px solid #bbf7d0",
-              padding: "4px 10px",
-              borderRadius: 20,
-            }}
-          >
-            Domestic Network & Interconnects
-          </span>
-        </div>
-
-        <P>
-          The India NOC escalation path covers domestic Point-of-Presence (PoP) locations, metro fiber rings,
-          national cloud interconnects, and domestic data centre cross-connects across India:
-        </P>
-
-        {/* Stepper Level Cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, margin: "20px 0 28px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, margin: "16px 0 28px" }}>
           {INDIA_LEVELS.map((tier) => (
-            <LevelCard
+            <CleanLevelCard
               key={tier.level}
               tier={tier}
               copiedKey={copiedKey}
@@ -476,58 +387,17 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
             />
           ))}
         </div>
-
-        {/* India Matrix Table View */}
-        <P style={{ fontWeight: 600, color: "#334155", marginBottom: 10 }}>
-          India Matrix Summary Table:
-        </P>
-        <MatrixTable levels={INDIA_LEVELS} />
       </div>
 
-      {/* ── APAC Region Section ── */}
+      {/* ── APAC Region (rendered on web if selected, always rendered in print/PDF) ── */}
       <div
         className={`kb-matrix-region kb-region-apac ${
-          activeTab !== "apac" && activeTab !== "all" ? "kb-region-hidden" : ""
+          activeTab !== "apac" ? "kb-region-hidden" : ""
         }`}
-        style={{ marginBottom: 36, marginTop: activeTab === "all" ? 40 : 0 }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 16,
-            borderBottom: "2px solid #e2e8f0",
-            paddingBottom: 8,
-          }}
-        >
-          <H3 id="apac-matrix">🌏 APAC & Global Escalation Matrix — Lightstorm NOC Services</H3>
-          <span
-            style={{
-              fontFamily: FONT_J,
-              fontSize: 12,
-              fontWeight: 700,
-              color: "#2563eb",
-              background: "#eff6ff",
-              border: "1px solid #bfdbfe",
-              padding: "4px 10px",
-              borderRadius: 20,
-            }}
-          >
-            Cross-Border, Subsea & Regional Fabric
-          </span>
-        </div>
-
-        <P>
-          The APAC & Global escalation path covers international data centre connections, cross-border
-          subsea routes, and multi-region cloud gateways across Singapore, Australia, Hong Kong, Japan,
-          and international points of interconnection:
-        </P>
-
-        {/* Stepper Level Cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, margin: "20px 0 28px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, margin: "16px 0 28px" }}>
           {APAC_LEVELS.map((tier) => (
-            <LevelCard
+            <CleanLevelCard
               key={tier.level}
               tier={tier}
               copiedKey={copiedKey}
@@ -535,97 +405,13 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
             />
           ))}
         </div>
-
-        {/* APAC Matrix Table View */}
-        <P style={{ fontWeight: 600, color: "#334155", marginBottom: 10 }}>
-          APAC Matrix Summary Table:
-        </P>
-        <MatrixTable levels={APAC_LEVELS} />
-      </div>
-
-      {/* ── APAC Toll-Free Directory ── */}
-      <H2 id="toll-free">Global Toll-Free Directory (Level 1 Intake)</H2>
-      <P>
-        Customers across international regions can dial Level 1 Global Service Operation Desk free of
-        charge using these dedicated country toll-free numbers:
-      </P>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: 12,
-          margin: "18px 0 28px",
-        }}
-      >
-        {APAC_TOLL_FREE.map((tf) => (
-          <div
-            key={tf.country}
-            style={{
-              background: "#FFFFFF",
-              border: "1px solid #e2e8f0",
-              borderRadius: 12,
-              padding: "14px 16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 24 }}>{tf.flag}</span>
-              <div>
-                <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0f172a" }}>
-                  {tf.country}
-                </div>
-                <div style={{ fontFamily: FONT, fontSize: 12, color: "#64748b" }}>
-                  {tf.type}
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <a
-                href={tf.telHref}
-                style={{
-                  fontFamily: FONT_J,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: "#0f766e",
-                  background: "#f0fdfa",
-                  padding: "6px 10px",
-                  borderRadius: 6,
-                  textDecoration: "none",
-                  border: "1px solid #ccfbf1",
-                }}
-              >
-                {tf.number}
-              </a>
-              <button
-                onClick={() => handleCopy(tf.number, tf.country)}
-                title="Copy phone number"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: copiedKey === tf.country ? "#16a34a" : "#94a3b8",
-                  padding: 4,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {copiedKey === tf.country ? <Check size={16} /> : <Copy size={16} />}
-              </button>
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* ── Severity Classification ── */}
       <H2 id="severity-definitions">Incident Severity Classification</H2>
       <P>
-        Escalation timers are determined by whether an event is classified as <strong>Service Affecting</strong> or{" "}
-        <strong>Non-Service Affecting</strong>:
+        Escalation countdowns are measured from initial ticket logging based on whether an incident is
+        classified as <strong>Service Affecting</strong> or <strong>Non-Service Affecting</strong>:
       </P>
 
       <div
@@ -633,119 +419,121 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: 16,
-          margin: "20px 0 28px",
+          margin: "18px 0 28px",
         }}
       >
+        {/* Service Affecting */}
         <div
           style={{
-            background: "#fff5f5",
-            border: "1.5px solid #fecaca",
-            borderRadius: 14,
-            padding: "20px 22px",
+            background: "#fff8f8",
+            border: "1px solid #fecaca",
+            borderRadius: 12,
+            padding: "18px 20px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <span
               style={{
                 background: "#dc2626",
                 color: "#FFFFFF",
-                borderRadius: 8,
-                padding: "4px 8px",
+                borderRadius: 6,
+                padding: "2px 7px",
                 fontFamily: FONT_J,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 800,
               }}
             >
               CRITICAL / P1
             </span>
-            <div style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 800, color: "#991b1b" }}>
+            <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: "#991b1b" }}>
               Service Affecting
             </div>
           </div>
-          <P style={{ fontSize: 14, color: "#7f1d1d", margin: "0 0 12px", lineHeight: 1.5 }}>
-            Direct customer traffic impairment, network outage, or hard link downtime:
+          <P style={{ fontSize: 13, color: "#7f1d1d", margin: "0 0 10px", lineHeight: 1.5 }}>
+            Direct customer traffic downtime, hard circuit failure, or active packet drop:
           </P>
           <UL>
-            <LI>Total physical port or Virtual Connection (VC) link failure</LI>
-            <LI>BGP peering session dropped with no active backup route</LI>
-            <LI>Packet loss exceeding 5% or sustained severe latency spike</LI>
-            <LI>Loss of primary redundant path creating single-point-of-failure risk</LI>
+            <LI>Total physical port or Virtual Connection link down</LI>
+            <LI>BGP peering dropped with no redundant route</LI>
+            <LI>Sustained packet loss (&gt;5%) or severe latency breach</LI>
+            <LI>Failure of primary route on a protected path</LI>
           </UL>
           <div
             style={{
-              marginTop: 14,
+              marginTop: 10,
               fontFamily: FONT_J,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 700,
               color: "#b91c1c",
               background: "#fee2e2",
-              padding: "6px 12px",
+              padding: "4px 8px",
               borderRadius: 6,
               display: "inline-block",
             }}
           >
-            India: 1h → 2h → 3h | APAC: 2h → 4h → 6h → 8h
+            Trigger intervals: 1h–3h (India) · 2h–8h (APAC)
           </div>
         </div>
 
+        {/* Non-Service Affecting */}
         <div
           style={{
-            background: "#eff6ff",
-            border: "1.5px solid #bfdbfe",
-            borderRadius: 14,
-            padding: "20px 22px",
+            background: "#f8fafc",
+            border: "1px solid #cbd5e1",
+            borderRadius: 12,
+            padding: "18px 20px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <span
               style={{
-                background: "#2563eb",
+                background: "#334155",
                 color: "#FFFFFF",
-                borderRadius: 8,
-                padding: "4px 8px",
+                borderRadius: 6,
+                padding: "2px 7px",
                 fontFamily: FONT_J,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 800,
               }}
             >
               STANDARD / P2–P4
             </span>
-            <div style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 800, color: "#1e40af" }}>
+            <div style={{ fontFamily: FONT_J, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
               Non-Service Affecting
             </div>
           </div>
-          <P style={{ fontSize: 14, color: "#1e3a8a", margin: "0 0 12px", lineHeight: 1.5 }}>
-            Operational, telemetry, administrative, or non-traffic-impacting inquiries:
+          <P style={{ fontSize: 13, color: "#334155", margin: "0 0 10px", lineHeight: 1.5 }}>
+            Operational, reporting, or non-traffic-impacting inquiries:
           </P>
           <UL>
-            <LI>Secondary redundant link flap where production traffic auto-failed over</LI>
-            <LI>Portal access, user permission, or API token provisioning</LI>
-            <LI>Bandwidth utilization reporting or VISTA metrics queries</LI>
-            <LI>General configuration change requests and routine maintenance queries</LI>
+            <LI>Secondary standby link flap (active traffic unaffected)</LI>
+            <LI>Portal account access, API tokens, or user permissions</LI>
+            <LI>Telemetry graphs, usage reports, or audit inquiries</LI>
+            <LI>Scheduled maintenance queries and configuration requests</LI>
           </UL>
           <div
             style={{
-              marginTop: 14,
+              marginTop: 10,
               fontFamily: FONT_J,
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 700,
-              color: "#1d4ed8",
-              background: "#dbeafe",
-              padding: "6px 12px",
+              color: "#334155",
+              background: "#e2e8f0",
+              padding: "4px 8px",
               borderRadius: 6,
               display: "inline-block",
             }}
           >
-            India: 2h → 4h → 6h | APAC: 4h → 8h → 12h → 16h
+            Trigger intervals: 2h–6h (India) · 4h–16h (APAC)
           </div>
         </div>
       </div>
 
-      {/* ── Before You Escalate Checklist ── */}
-      <H2 id="escalation-checklist">Before You Escalate</H2>
+      {/* ── Before You Escalate ── */}
+      <H2 id="before-escalating">Before You Escalate</H2>
       <P>
-        To allow the NOC engineering leadership to act with maximum speed, please have the following
-        key identifiers ready when placing an escalation call or sending an escalation email:
+        To ensure our engineering teams can respond immediately, please keep the following identifiers
+        ready:
       </P>
 
       <div
@@ -753,42 +541,22 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
           background: "#f8fafc",
           border: "1px solid #e2e8f0",
           borderRadius: 12,
-          padding: "20px 24px",
-          margin: "16px 0 24px",
+          padding: "16px 20px",
+          margin: "14px 0 24px",
         }}
       >
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
           {[
-            {
-              label: "1. Incident / Ticket ID",
-              desc: "Provide the active ticket reference (e.g. #INC-2026-0842) created with Level 1.",
-            },
-            {
-              label: "2. Polarin Service ID",
-              desc: "Affected Port ID (e.g. PORT-SIN-001) or Virtual Connection ID (e.g. VC-AWS-009).",
-            },
-            {
-              label: "3. Location / Facility",
-              desc: "Originating and terminating data centres or cloud regions involved in the path.",
-            },
-            {
-              label: "4. Business Impact Summary",
-              desc: "Observed telemetry (e.g. 100% loss, link down) and business customer impact.",
-            },
+            { label: "1. Incident / Ticket ID", desc: "Active ticket reference (e.g. #INC-XXXXXX) logged with Level 1." },
+            { label: "2. Polarin Service ID", desc: "Port ID (PORT-SIN-001) or Virtual Connection ID (VC-AWS-009)." },
+            { label: "3. Location Details", desc: "Originating and terminating data centres or cloud PoP regions." },
+            { label: "4. Observed Impact", desc: "Telemetry details (loss, latency, flap frequency) and affected services." },
           ].map((item) => (
             <div key={item.label}>
-              <div
-                style={{
-                  fontFamily: FONT_J,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: "#0f766e",
-                  marginBottom: 3,
-                }}
-              >
+              <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 700, color: "#0f766e", marginBottom: 2 }}>
                 {item.label}
               </div>
-              <div style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", lineHeight: 1.45 }}>
+              <div style={{ fontFamily: FONT, fontSize: 12, color: "#64748b", lineHeight: 1.45 }}>
                 {item.desc}
               </div>
             </div>
@@ -797,59 +565,59 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
       </div>
 
       <Callout variant="tip">
-        <strong>Fast-track tip:</strong> If an incident has just occurred, always log a ticket first with{" "}
-        <strong>Level 1 Global Service Operation Desk</strong> (+91-22-69315544 or{" "}
+        Always open a ticket first with <strong>Level 1 GSOD</strong> (+91-22-69315544 or{" "}
         <a href="mailto:GSODesk@lightstorm.net" style={{ color: "#0f766e", fontWeight: 700 }}>
           GSODesk@lightstorm.net
         </a>
-        ) or via <PageLink label="Create Ticket" onClick={() => onNavigate("create-ticket")} /> so that diagnostic
-        monitoring scripts and test bridges trigger immediately.
+        ) or via <PageLink label="Create Ticket" onClick={() => onNavigate("create-ticket")} /> so that diagnostic test
+        bridges and timestamped telemetry logs are initiated immediately.
       </Callout>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>
-          Log a new incident online: <PageLink label="Create a Ticket" onClick={() => onNavigate("create-ticket")} />.
+          Log a support ticket: <PageLink label="Create a Ticket" onClick={() => onNavigate("create-ticket")} />.
         </LI>
         <LI>
-          Track existing open support requests: <PageLink label="My Tickets" onClick={() => onNavigate("my-tickets")} />.
+          Track active tickets: <PageLink label="My Tickets" onClick={() => onNavigate("my-tickets")} />.
         </LI>
         <LI>
-          Contact the support team directly: <PageLink label="Contact Support" onClick={() => onNavigate("contact-support")} />.
+          Direct support options: <PageLink label="Contact Support" onClick={() => onNavigate("contact-support")} />.
         </LI>
         <LI>
-          Set up automated SLA threshold alerts: <PageLink label="Manage Alerts" onClick={() => onNavigate("manage-alerts")} />.
+          Configure proactive SLA alerts: <PageLink label="Manage Alerts" onClick={() => onNavigate("manage-alerts")} />.
         </LI>
       </UL>
     </ArticlePage>
   );
 }
 
-// ── Level Card Component ──
-function LevelCard({
+// ── Clean Level Card Component (Minimalist, Spacious, Actionable) ──
+function CleanLevelCard({
   tier,
   copiedKey,
   onCopy,
 }: {
-  tier: MatrixLevel;
+  tier: LevelInfo;
   copiedKey: string | null;
   onCopy: (text: string, key: string) => void;
 }) {
+  const [showTollFree, setShowTollFree] = useState(false);
+
   return (
     <div
       style={{
         background: "#FFFFFF",
         border: "1px solid #e2e8f0",
-        borderRadius: 14,
+        borderRadius: 12,
         padding: "18px 22px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
         display: "flex",
         flexDirection: "column",
         gap: 12,
-        transition: "border-color 0.15s ease",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
       }}
     >
-      {/* Top Header Row */}
+      {/* Top Header Row: Level + Title + SLA Badges */}
       <div
         style={{
           display: "flex",
@@ -859,34 +627,26 @@ function LevelCard({
           gap: 10,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span
             style={{
               fontFamily: FONT_J,
               fontSize: 12,
               fontWeight: 800,
-              color: tier.accentColor,
+              color: tier.badgeColor,
               background: tier.badgeBg,
-              padding: "4px 10px",
-              borderRadius: 8,
-              letterSpacing: "0.02em",
+              padding: "3px 9px",
+              borderRadius: 6,
             }}
           >
             {tier.levelLabel}
           </span>
-          <span
-            style={{
-              fontFamily: FONT_J,
-              fontSize: 16,
-              fontWeight: 800,
-              color: "#0f172a",
-            }}
-          >
+          <span style={{ fontFamily: FONT_J, fontSize: 16, fontWeight: 800, color: "#0f172a" }}>
             {tier.title}
           </span>
         </div>
 
-        {/* SLA Pills */}
+        {/* Dual SLA Badges */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           <div
             style={{
@@ -899,14 +659,12 @@ function LevelCard({
               padding: "3px 8px",
               fontFamily: FONT_J,
               fontSize: 12,
-              fontWeight: 700,
               color: "#b91c1c",
             }}
-            title="Service Affecting SLA Escalation Trigger"
           >
-            <Clock size={13} color="#dc2626" />
+            <Clock size={12} color="#dc2626" />
             <span>Service Affecting:</span>
-            <span style={{ fontWeight: 800 }}>{tier.serviceAffecting}</span>
+            <strong style={{ fontWeight: 800 }}>{tier.serviceAffecting}</strong>
           </div>
 
           <div
@@ -914,64 +672,63 @@ function LevelCard({
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
-              background: "#eff6ff",
-              border: "1px solid #bfdbfe",
+              background: "#f8fafc",
+              border: "1px solid #e2e8f0",
               borderRadius: 6,
               padding: "3px 8px",
               fontFamily: FONT_J,
               fontSize: 12,
-              fontWeight: 700,
-              color: "#1d4ed8",
+              color: "#334155",
             }}
-            title="Non-Service Affecting SLA Escalation Trigger"
           >
-            <Clock size={13} color="#2563eb" />
+            <Clock size={12} color="#64748b" />
             <span>Non-Service Affecting:</span>
-            <span style={{ fontWeight: 800 }}>{tier.nonServiceAffecting}</span>
+            <strong style={{ fontWeight: 800 }}>{tier.nonServiceAffecting}</strong>
           </div>
         </div>
       </div>
 
-      {/* Middle Details Row */}
+      {/* Middle: Contact Name, Role & Scope */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "center",
+          justifyContent: "space-between",
           flexWrap: "wrap",
           gap: 12,
-          padding: "10px 14px",
-          background: "#f8fafc",
-          borderRadius: 10,
+          paddingTop: 4,
         }}
       >
         <div>
           <div style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#1e293b" }}>
             {tier.contactName}
           </div>
-          <div style={{ fontFamily: FONT, fontSize: 12, color: "#64748b" }}>{tier.role}</div>
+          <div style={{ fontFamily: FONT, fontSize: 12, color: "#64748b", marginTop: 2 }}>
+            {tier.role} · <span style={{ color: "#475569" }}>{tier.scope}</span>
+          </div>
         </div>
 
+        {/* Contact Action Buttons */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           {/* Phone Button */}
           <div
             style={{
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
-              background: "#FFFFFF",
-              border: "1px solid #cbd5e1",
-              borderRadius: 8,
+              background: "#f0fdf4",
+              border: "1px solid #bbf7d0",
+              borderRadius: 6,
               padding: "4px 8px",
             }}
           >
-            <Phone size={14} color="#0f766e" style={{ marginRight: 6 }} />
+            <Phone size={13} color="#15803d" style={{ marginRight: 6 }} />
             <a
               href={`tel:${tier.phoneRaw}`}
               style={{
                 fontFamily: FONT_J,
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: 700,
-                color: "#0f766e",
+                color: "#15803d",
                 textDecoration: "none",
               }}
             >
@@ -979,7 +736,7 @@ function LevelCard({
             </a>
             <button
               onClick={() => onCopy(tier.phone, `${tier.levelLabel}-phone`)}
-              title="Copy phone"
+              title="Copy phone number"
               style={{
                 background: "none",
                 border: "none",
@@ -990,29 +747,29 @@ function LevelCard({
                 alignItems: "center",
               }}
             >
-              {copiedKey === `${tier.levelLabel}-phone` ? <Check size={14} /> : <Copy size={14} />}
+              {copiedKey === `${tier.levelLabel}-phone` ? <Check size={13} /> : <Copy size={13} />}
             </button>
           </div>
 
           {/* Email Button */}
           <div
             style={{
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
-              background: "#FFFFFF",
-              border: "1px solid #cbd5e1",
-              borderRadius: 8,
+              background: "#eff6ff",
+              border: "1px solid #bfdbfe",
+              borderRadius: 6,
               padding: "4px 8px",
             }}
           >
-            <Mail size={14} color="#2563eb" style={{ marginRight: 6 }} />
+            <Mail size={13} color="#1d4ed8" style={{ marginRight: 6 }} />
             <a
               href={`mailto:${tier.email}`}
               style={{
                 fontFamily: FONT_J,
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: 700,
-                color: "#2563eb",
+                color: "#1d4ed8",
                 textDecoration: "none",
               }}
             >
@@ -1020,7 +777,7 @@ function LevelCard({
             </a>
             <button
               onClick={() => onCopy(tier.email, `${tier.levelLabel}-email`)}
-              title="Copy email"
+              title="Copy email address"
               style={{
                 background: "none",
                 border: "none",
@@ -1031,113 +788,103 @@ function LevelCard({
                 alignItems: "center",
               }}
             >
-              {copiedKey === `${tier.levelLabel}-email` ? <Check size={14} /> : <Copy size={14} />}
+              {copiedKey === `${tier.levelLabel}-email` ? <Check size={13} /> : <Copy size={13} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Scope Footer */}
-      <div style={{ fontFamily: FONT, fontSize: 12, color: "#64748b", lineHeight: 1.4 }}>
-        <strong style={{ color: "#334155" }}>Escalation Scope:</strong> {tier.scopeSummary}
-      </div>
-    </div>
-  );
-}
-
-// ── Summary Table Component ──
-function MatrixTable({ levels }: { levels: MatrixLevel[] }) {
-  return (
-    <div
-      style={{
-        overflowX: "auto",
-        border: "1px solid #e2e8f0",
-        borderRadius: 12,
-        marginBottom: 20,
-      }}
-    >
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontFamily: FONT,
-          fontSize: 13,
-          textAlign: "left",
-          background: "#FFFFFF",
-        }}
-      >
-        <thead>
-          <tr
+      {/* Level 1 Toll-Free Numbers (If applicable) */}
+      {tier.tollFree && (
+        <div style={{ marginTop: 2, borderTop: "1px dashed #e2e8f0", paddingTop: 10 }}>
+          <button
+            onClick={() => setShowTollFree(!showTollFree)}
             style={{
-              background: "#f8fafc",
-              borderBottom: "1.5px solid #e2e8f0",
-              color: "#475569",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
               fontFamily: FONT_J,
               fontSize: 12,
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
+              fontWeight: 700,
+              color: "#0f766e",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: 0,
             }}
           >
-            <th style={{ padding: "12px 14px", width: 90 }}>Level</th>
-            <th style={{ padding: "12px 14px" }}>Service Affecting</th>
-            <th style={{ padding: "12px 14px" }}>Non-Service Affecting</th>
-            <th style={{ padding: "12px 14px" }}>Contact Person & Role</th>
-            <th style={{ padding: "12px 14px" }}>Contact Channels</th>
-          </tr>
-        </thead>
-        <tbody>
-          {levels.map((row, idx) => (
-            <tr
-              key={row.level}
+            <Globe size={14} color="#0f766e" />
+            <span>
+              {showTollFree
+                ? "Hide International Toll-Free Numbers"
+                : "View International Toll-Free Numbers (USA, Australia, HK, Singapore, Japan)"}
+            </span>
+            {showTollFree ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          </button>
+
+          {showTollFree && (
+            <div
               style={{
-                borderBottom: idx === levels.length - 1 ? "none" : "1px solid #f1f5f9",
-                background: idx % 2 === 0 ? "#FFFFFF" : "#fcfdfe",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: 8,
+                marginTop: 10,
               }}
             >
-              <td style={{ padding: "12px 14px", fontWeight: 800, color: row.accentColor }}>
-                <span
+              {tier.tollFree.map((tf) => (
+                <div
+                  key={tf.country}
                   style={{
-                    background: row.badgeBg,
-                    padding: "3px 8px",
-                    borderRadius: 6,
-                    fontSize: 12,
-                    fontFamily: FONT_J,
+                    background: "#f8fafc",
+                    border: "1px solid #e2e8f0",
+                    borderRadius: 8,
+                    padding: "6px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {row.levelLabel}
-                </span>
-              </td>
-              <td style={{ padding: "12px 14px", fontWeight: 700, color: "#dc2626" }}>
-                {row.serviceAffecting}
-              </td>
-              <td style={{ padding: "12px 14px", fontWeight: 700, color: "#2563eb" }}>
-                {row.nonServiceAffecting}
-              </td>
-              <td style={{ padding: "12px 14px" }}>
-                <div style={{ fontWeight: 700, color: "#0f172a" }}>{row.contactName}</div>
-                <div style={{ fontSize: 12, color: "#64748b" }}>{row.role}</div>
-              </td>
-              <td style={{ padding: "12px 14px" }}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                  <a
-                    href={`tel:${row.phoneRaw}`}
-                    style={{ color: "#0f766e", textDecoration: "none", fontWeight: 700 }}
-                  >
-                    📞 {row.phone}
-                  </a>
-                  <a
-                    href={`mailto:${row.email}`}
-                    style={{ color: "#2563eb", textDecoration: "none", fontWeight: 600 }}
-                  >
-                    ✉️ {row.email}
-                  </a>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ fontSize: 16 }}>{tf.flag}</span>
+                    <span style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#1e293b" }}>
+                      {tf.country}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <a
+                      href={tf.telHref}
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: "#0f766e",
+                        textDecoration: "none",
+                      }}
+                    >
+                      {tf.number}
+                    </a>
+                    <button
+                      onClick={() => onCopy(tf.number, tf.country)}
+                      title="Copy"
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: copiedKey === tf.country ? "#16a34a" : "#94a3b8",
+                        padding: 2,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {copiedKey === tf.country ? <Check size={12} /> : <Copy size={12} />}
+                    </button>
+                  </div>
                 </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
