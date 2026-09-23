@@ -1,6 +1,6 @@
 import type { ElementType } from "react";
 import { ShieldCheck, Search, Eye, Users } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, DocImage } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -47,6 +47,12 @@ export function ActivityLogOverviewPage({ onNavigate }: Props) {
         record, so you never have to wonder what happened or who did it.
       </P>
 
+      <DocImage
+        src="/screenshots/activity-logs/01-activity-logs-table.jpg"
+        alt="Polarin Activity Log table overview"
+        caption="Searchable audit trail of every sign-in, service provisioning event, and configuration change across your organisation."
+      />
+
       {/* ── Why it exists ── */}
       <H2 id="why">Why This Exists</H2>
       <P>We built this so you can track everything that happens on your account, without asking anyone.</P>
@@ -78,6 +84,7 @@ export function ActivityLogOverviewPage({ onNavigate }: Props) {
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>Ready to dig in? Go to <PageLink label="Using Activity Log" onClick={() => onNavigate("activity-log-details")} />.</LI>
+        <LI>Looking to configure automated threshold rules? See <PageLink label="Manage Alerts" onClick={() => onNavigate("manage-alerts" as KBPage)} />.</LI>
         <LI>Noticed something that needs a human? <PageLink label="Create a Ticket" onClick={() => onNavigate("create-ticket")} />.</LI>
       </UL>
     </ArticlePage>

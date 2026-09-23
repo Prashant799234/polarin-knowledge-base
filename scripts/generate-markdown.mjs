@@ -52,6 +52,7 @@ const PAGES = [
   { id: "notifications", file: "/src/app/components/knowledge-base/articles/NotificationsPage.tsx", exportName: "NotificationsPage", props: { onNavigate: noop } },
   { id: "activity-log-overview", file: "/src/app/components/knowledge-base/articles/ActivityLogOverviewPage.tsx", exportName: "ActivityLogOverviewPage", props: { onNavigate: noop } },
   { id: "activity-log-details", file: "/src/app/components/knowledge-base/articles/ActivityLogPage.tsx", exportName: "ActivityLogPage", props: { onNavigate: noop } },
+  { id: "manage-alerts", file: "/src/app/components/knowledge-base/articles/ManageAlertsPage.tsx", exportName: "ManageAlertsPage", props: { onNavigate: noop } },
   { id: "welcome", file: "/src/app/components/knowledge-base/WelcomePage.tsx", exportName: "WelcomePage", props: { onNavigate: noop } },
   { id: "locations", file: "/src/app/components/knowledge-base/LocationsPage.tsx", exportName: "LocationsPage", props: {} },
   { id: "release-notes", file: "/src/app/components/knowledge-base/ReleaseNotesPage.tsx", exportName: "ReleaseNotesPage", props: {} },
@@ -59,6 +60,7 @@ const PAGES = [
   { id: "create-ticket", file: "/src/app/components/knowledge-base/articles/CreateTicketPage.tsx", exportName: "CreateTicketPage", props: { onNavigate: noop } },
   { id: "my-tickets", file: "/src/app/components/knowledge-base/articles/MyTicketsPage.tsx", exportName: "MyTicketsPage", props: { onNavigate: noop } },
   { id: "contact-support", file: "/src/app/components/knowledge-base/ContactSupportPage.tsx", exportName: "ContactSupportPage", props: {} },
+  { id: "escalation-matrix", file: "/src/app/components/knowledge-base/articles/EscalationMatrixPage.tsx", exportName: "EscalationMatrixPage", props: { onNavigate: noop } },
   { id: "api-overview", file: "/src/app/components/knowledge-base/KnowledgeBase.tsx", exportName: "ApiOverviewPage", props: { onNavigate: noop } },
   { id: "api-onboarding", file: "/src/app/components/knowledge-base/KnowledgeBase.tsx", exportName: "ApiOnboardingPage", props: { onNavigate: noop } },
 ];

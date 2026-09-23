@@ -5,7 +5,7 @@ import { CopyPageMenu } from "./CopyPageMenu";
 import {
   Home, FileText, Code, UserCircle, Building2,
   MapPin, Cloud, Server, Plug, Router, CreditCard,
-  Headphones, ShieldAlert, Lightbulb,
+  Headphones, ShieldAlert,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
   Info, LayoutDashboard, Bell, Waypoints, ClipboardCheck, Gauge,
   LineChart, Users, FileBarChart, BellRing, UserCog,
@@ -50,7 +50,9 @@ import { ServiceStatusPage } from "./articles/ServiceStatusPage";
 import { VistaOverviewPage } from "./articles/VistaOverviewPage";
 import { DashboardOverviewPage } from "./articles/DashboardOverviewPage";
 import { NotificationsPage } from "./articles/NotificationsPage";
+import { ManageAlertsPage } from "./articles/ManageAlertsPage";
 import { ContactSupportPage } from "./ContactSupportPage";
+import { EscalationMatrixPage } from "./articles/EscalationMatrixPage";
 import { ArticleFooter, PageToolsProvider, usePageTools } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
@@ -113,7 +115,7 @@ const NAV_GROUPS: NavGroup[] = [
     title: "GETTING AROUND",
     items: [
       { id: "dashboard-overview", label: "Dashboard", icon: LayoutDashboard },
-      { id: "notifications", label: "Notifications", icon: Bell },
+      { id: "notifications", label: "Alerts & Notifications", icon: Bell },
     ],
   },
   {
@@ -229,7 +231,6 @@ const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { id: "escalation-matrix", label: "Escalation Matrix", icon: ShieldAlert },
-      { id: "feedback", label: "Feedback & Suggestions", icon: Lightbulb },
     ],
   },
 ];
@@ -397,11 +398,22 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "activity-log-details": {
     prev: { label: "Activity Log Overview", pageId: "activity-log-overview" },
+    next: { label: "Manage Alerts", pageId: "manage-alerts" },
     related: [
       { label: "Activity Log Overview",                 pageId: "activity-log-overview" },
+      { label: "Manage Alerts",                         pageId: "manage-alerts" },
       { label: "Understand Port Status",                pageId: "port-status" },
       { label: "Understand Virtual Router Status",      pageId: "vr-status" },
       { label: "Create a Port",                         pageId: "port-create" },
+    ],
+  },
+  "manage-alerts": {
+    prev: { label: "Alerts & Notifications", pageId: "notifications" },
+    next: { label: "Activity Log Overview", pageId: "activity-log-overview" },
+    related: [
+      { label: "Alerts & Notifications", pageId: "notifications" },
+      { label: "VISTA",                  pageId: "vista-overview" },
+      { label: "Using Activity Log",     pageId: "activity-log-details" },
     ],
   },
   "ticket-overview": {
@@ -410,6 +422,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Create a Ticket",   pageId: "create-ticket" },
       { label: "My Tickets",        pageId: "my-tickets" },
       { label: "Contact Support",   pageId: "contact-support" },
+      { label: "Escalation Matrix", pageId: "escalation-matrix" },
     ],
   },
   "create-ticket": {
@@ -419,26 +432,40 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Get Support",       pageId: "ticket-overview" },
       { label: "My Tickets",        pageId: "my-tickets" },
       { label: "Contact Support",   pageId: "contact-support" },
+      { label: "Escalation Matrix", pageId: "escalation-matrix" },
     ],
   },
   "my-tickets": {
     prev: { label: "Create a Ticket", pageId: "create-ticket" },
+    next: { label: "Escalation Matrix", pageId: "escalation-matrix" },
     related: [
       { label: "Get Support",       pageId: "ticket-overview" },
       { label: "Create a Ticket",   pageId: "create-ticket" },
       { label: "Contact Support",   pageId: "contact-support" },
+      { label: "Escalation Matrix", pageId: "escalation-matrix" },
+    ],
+  },
+  "escalation-matrix": {
+    prev: { label: "My Tickets", pageId: "my-tickets" },
+    related: [
+      { label: "Get Support",       pageId: "ticket-overview" },
+      { label: "Create a Ticket",   pageId: "create-ticket" },
+      { label: "Contact Support",   pageId: "contact-support" },
+      { label: "Alerts & Notifications", pageId: "notifications" },
     ],
   },
   "dashboard-overview": {
-    next: { label: "Notifications", pageId: "notifications" },
+    next: { label: "Alerts & Notifications", pageId: "notifications" },
     related: [
-      { label: "Notifications", pageId: "notifications" },
+      { label: "Alerts & Notifications", pageId: "notifications" },
       { label: "Quick Setup",   pageId: "quick-setup" },
     ],
   },
   "notifications": {
     prev: { label: "Dashboard", pageId: "dashboard-overview" },
+    next: { label: "Manage Alerts", pageId: "manage-alerts" },
     related: [
+      { label: "Manage Alerts",                      pageId: "manage-alerts" },
       { label: "VISTA",                              pageId: "vista-overview" },
       { label: "Understanding Service Status",       pageId: "service-status" },
     ],
@@ -511,7 +538,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "What Is a Port?",               pageId: "port-overview" },
       { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
-      { label: "Notifications",  pageId: "notifications" },
+      { label: "Alerts & Notifications",  pageId: "notifications" },
     ],
   },
 };
@@ -533,9 +560,11 @@ function getPageLabel(id: string): string {
 }
 
 export function KnowledgeBase() {
-  const [activePage, setActivePage] = useState<KBPage>(
-    () => new URLSearchParams(window.location.search).get("page") || "welcome"
-  );
+  const [activePage, setActivePage] = useState<KBPage>(() => {
+    const p = new URLSearchParams(window.location.search).get("page");
+    if (p === "feedback") return "escalation-matrix";
+    return p || "welcome";
+  });
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -705,7 +734,7 @@ export function KnowledgeBase() {
 
       {/* ── Full-width desktop header (spans sidebar + content) ── */}
       {!isMobile && (
-        <div style={{
+        <div className="kb-top-header" style={{
           height: 64, flexShrink: 0,
           background: "#fff", borderBottom: "0.5px solid #e2e8f1",
           display: "flex", alignItems: "center",
@@ -736,7 +765,7 @@ export function KnowledgeBase() {
 
       {/* ── Mobile top bar ── */}
       {isMobile && (
-        <div style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
+        <div className="kb-top-header" style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
           <button
             onClick={() => setSidebarOpen(true)}
             style={{ background: "none", border: "none", cursor: "pointer", color: "#0a3954", display: "flex", padding: 4, borderRadius: 6, transition: "background 0.12s" }}
@@ -749,7 +778,7 @@ export function KnowledgeBase() {
         </div>
       )}
 
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      <div className="kb-main-layout" style={{ display: "flex", flex: 1, overflow: "hidden" }}>
         {/* Overlay */}
         {isMobile && sidebarOpen && (
           <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", zIndex: 40 }} />
@@ -757,6 +786,7 @@ export function KnowledgeBase() {
 
         {/* Sidebar — desktop: no logo row (it's in the full-width header) */}
         <aside
+          className="kb-sidebar"
           style={{
             width: 240,
             minWidth: 240,
@@ -781,7 +811,7 @@ export function KnowledgeBase() {
         </aside>
 
         {/* Right panel — no header here, sits directly below the full-width header */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="kb-content-area" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
           {/* Outer scroll container — card + footer both live here */}
           <div ref={scrollerRef} style={{ flex: 1, overflowY: "auto", padding: 16 }}>
             {/* Inner flex column: card fills height on short pages; footer appends below for articles */}
@@ -789,6 +819,7 @@ export function KnowledgeBase() {
               {/* White card */}
               <div
                 ref={cardRef}
+                className="kb-card"
                 style={{
                   background: "#FFFFFF",
                   border: "0.5px solid rgba(0,0,0,0.06)",
@@ -846,6 +877,7 @@ export function KnowledgeBase() {
                     {activePage === "vista-overview" && <VistaOverviewPage onNavigate={navigate} />}
                     {activePage === "dashboard-overview" && <DashboardOverviewPage onNavigate={navigate} />}
                     {activePage === "notifications" && <NotificationsPage onNavigate={navigate} />}
+                    {activePage === "manage-alerts" && <ManageAlertsPage onNavigate={navigate} />}
                     {activePage === "activity-log-overview" && <ActivityLogOverviewPage onNavigate={navigate} />}
                     {activePage === "activity-log-details" && <ActivityLogPage onNavigate={navigate} />}
                     {activePage === "ticket-overview" && <SupportOverviewPage onNavigate={navigate} />}
@@ -853,6 +885,9 @@ export function KnowledgeBase() {
                     {activePage === "my-tickets" && <MyTicketsPage onNavigate={navigate} />}
                     {activePage === "contact-support" && (
                       <ContactSupportPage onNavigate={navigate} />
+                    )}
+                    {activePage === "escalation-matrix" && (
+                      <EscalationMatrixPage onNavigate={navigate} />
                     )}
                     {activePage === "api-overview" && (
                       <div style={{ padding: 24 }}>

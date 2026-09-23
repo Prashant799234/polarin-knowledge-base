@@ -1,0 +1,211 @@
+/* Print stylesheet for Polarin Knowledge Base documentation */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm 14mm 12mm;
+  }
+
+  /* Force exact background colors and borders to print */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide interactive and web-only UI elements */
+  .kb-top-header,
+  .kb-sidebar,
+  .kb-toc-aside,
+  .kb-article-footer,
+  [data-copy-page-exclude="true"],
+  [data-pdf-exclude="true"],
+  button {
+    display: none !important;
+  }
+
+  /* Reset layout constraints for natural multi-page flow */
+  html, body, #root {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  .kb-main-layout,
+  .kb-content-area,
+  .kb-card,
+  .kb-article-layout {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .kb-article-content {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Prevent awkward page break cuts across components */
+  .kb-doc-image,
+  figure,
+  img {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .kb-field-table,
+  table,
+  tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .kb-callout,
+  .kb-step,
+  .kb-flow-diagram {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  h1, h2, h3 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Document links */
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+}
+
+/* ── Active during programmatic PDF canvas capture ── */
+body.kb-exporting-pdf .kb-top-header,
+body.kb-exporting-pdf .kb-sidebar,
+body.kb-exporting-pdf .kb-toc-aside,
+body.kb-exporting-pdf .kb-article-footer,
+body.kb-exporting-pdf [data-copy-page-exclude="true"],
+body.kb-exporting-pdf [data-pdf-exclude="true"] {
+  display: none !important;
+}
+
+body.kb-exporting-pdf .kb-article-content {
+  width: 100% !important;
+  max-width: 820px !important;
+  padding: 16px 28px !important;
+  background: #ffffff !important;
+}
+
+body.kb-exporting-pdf .kb-card {
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+}
+
+body.kb-exporting-pdf {
+  color: #0f172a !important;
+  background: #ffffff !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+body.kb-exporting-pdf p,
+body.kb-exporting-pdf li {
+  color: #1e293b !important;
+}
+
+body.kb-exporting-pdf h1,
+body.kb-exporting-pdf h2,
+body.kb-exporting-pdf h3 {
+  color: #0a3954 !important;
+  font-weight: 800 !important;
+}
+
+body.kb-exporting-pdf .kb-doc-image {
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.kb-exporting-pdf .kb-doc-image img {
+  image-rendering: -webkit-optimize-contrast !important;
+}
+
+body.kb-exporting-pdf .kb-field-table {
+  border: 1.5px solid #cbd5e1 !important;
+}
+
+body.kb-exporting-pdf .kb-field-table th {
+  background-color: #f1f5f9 !important;
+  color: #0a3954 !important;
+  font-weight: 800 !important;
+  border-bottom: 1.5px solid #cbd5e1 !important;
+}
+
+body.kb-exporting-pdf .kb-field-table td {
+  color: #1e293b !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.kb-exporting-pdf .kb-callout {
+  border-width: 0 0 0 4px !important;
+}
+
+body.kb-exporting-pdf .kb-article-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 14px 0 24px !important;
+}
+
+body.kb-exporting-pdf .kb-tag-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  vertical-align: middle !important;
+  padding: 3px 10px !important;
+  box-sizing: border-box !important;
+}
+
+body.kb-exporting-pdf .kb-meta-dot {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin: 0 2px !important;
+}
+
+body.kb-exporting-pdf .kb-read-time {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+/* ── Regional Matrices Visibility & Print / PDF Overrides ── */
+.kb-region-hidden {
+  display: none;
+}
+
+@media print {
+  .kb-region-hidden {
+    display: block !important;
+  }
+}
+
+body.kb-exporting-pdf .kb-region-hidden {
+  display: block !important;
+}
+
+
+

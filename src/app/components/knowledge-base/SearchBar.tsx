@@ -19,7 +19,7 @@ const ALL_PAGES: SearchResult[] = [
   { id: "quick-setup",     label: "Quick Setup",                        group: "Get Started",                description: "Fast-track checklist to get your Polarin account ready" },
   { id: "create-account",  label: "Create a Polarin Account",           group: "Get Started",                description: "Sign up, verify email and set your password" },
   { id: "dashboard-overview", label: "Dashboard",                       group: "Getting Around",             description: "Your service counts, the global map, and quick links" },
-  { id: "notifications",   label: "Notifications",                      group: "Getting Around",             description: "Order updates and VISTA performance alerts" },
+  { id: "notifications",   label: "Alerts & Notifications",             group: "Getting Around",             description: "Order updates and VISTA performance alerts" },
   { id: "locations",       label: "Locations",                          group: "Products",                   description: "Global data centre locations and available products" },
   { id: "port-overview",   label: "What Is a Port?",                    group: "Products · Port",            description: "The physical entry point every other product builds on" },
   { id: "port-create",     label: "Create a Port",                      group: "Products · Port",            description: "Order a physical port on the Polarin network" },
@@ -43,8 +43,9 @@ const ALL_PAGES: SearchResult[] = [
   { id: "invite-members",  label: "User Management",                    group: "Organisation",               description: "Invite colleagues and manage role-based access" },
   { id: "billing-invoices", label: "Invoices",                          group: "Organisation · Billing Profile", description: "Download and manage billing invoices" },
   { id: "billing-payment", label: "Payment Methods",                    group: "Organisation · Billing Profile", description: "Manage credit cards and payment options" },
-  { id: "activity-log-overview", label: "Activity Log Overview",        group: "Organisation",               description: "Why the Activity Log exists and how it helps you track everything" },
-  { id: "activity-log-details",  label: "Using Activity Log",           group: "Organisation",               description: "Audit trail of all platform events with severity levels" },
+  { id: "activity-log-overview", label: "Activity Log Overview",        group: "Organisation · Activity Logs", description: "Why the Activity Log exists and how it helps you track everything" },
+  { id: "activity-log-details",  label: "Using Activity Log",           group: "Organisation · Activity Logs", description: "Audit trail of all platform events with severity levels" },
+  { id: "manage-alerts",         label: "Manage Alerts",                group: "Organisation · Alerts",        description: "Configure threshold rules, watched services, SLA conditions, and email/in-app notifications" },
   { id: "profile-personal", label: "Personal Information",              group: "My Account · Profile",       description: "Update your name, phone number, and see your role" },
   { id: "profile-password", label: "Update Password",                   group: "My Account · Profile",       description: "Rotate your password and see the security requirements" },
   { id: "profile-2fa",      label: "Two-Factor Authentication",         group: "My Account · Profile",       description: "Set up Authenticator App or Email Code for login" },
@@ -53,7 +54,6 @@ const ALL_PAGES: SearchResult[] = [
   { id: "my-tickets",      label: "My Tickets",                         group: "Help & Support",             description: "View and manage your open support tickets" },
   { id: "create-ticket",   label: "Create Ticket",                      group: "Help & Support",             description: "Open a new support request" },
   { id: "escalation-matrix", label: "Escalation Matrix",               group: "Help & Support",             description: "Contact hierarchy for issue escalation" },
-  { id: "feedback",        label: "Feedback & Suggestions",             group: "Help & Support",             description: "Share product feedback and feature requests" },
 ];
 
 function searchPages(query: string): SearchResult[] {

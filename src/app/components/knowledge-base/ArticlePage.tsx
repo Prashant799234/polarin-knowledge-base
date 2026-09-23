@@ -46,7 +46,7 @@ const CV: Record<CalloutVariant, { accent: string; bg: string; label: string; la
 export function Callout({ variant = "info", children }: { variant?: CalloutVariant; children: ReactNode }) {
   const s = CV[variant];
   return (
-    <div style={{
+    <div className="kb-callout" style={{
       background: s.bg,
       borderLeft: `3.5px solid ${s.accent}`,
       borderRadius: "0 8px 8px 0",
@@ -58,7 +58,7 @@ export function Callout({ variant = "info", children }: { variant?: CalloutVaria
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1, color: s.accent }}>
         {s.iconPath}
       </svg>
-      <div style={{ fontFamily: FONT, fontSize: 14, color: "#374151", lineHeight: 1.7 }}>
+      <div style={{ fontFamily: FONT, fontSize: 14, color: "#1e293b", lineHeight: 1.7 }}>
         <span style={{ fontWeight: 700, color: s.labelColor, marginRight: 6 }}>{s.label}:</span>
         {children}
       </div>
@@ -70,7 +70,7 @@ export function Callout({ variant = "info", children }: { variant?: CalloutVaria
 
 export function Steps({ children }: { children: ReactNode }) {
   return (
-    <ol style={{ listStyle: "none", padding: 0, margin: "24px 0", display: "flex", flexDirection: "column" }}>
+    <ol className="kb-steps" style={{ listStyle: "none", padding: 0, margin: "24px 0", display: "flex", flexDirection: "column" }}>
       {children}
     </ol>
   );
@@ -78,7 +78,7 @@ export function Steps({ children }: { children: ReactNode }) {
 
 export function Step({ num, title, children }: { num: number; title?: string; children: ReactNode }) {
   return (
-    <li style={{ display: "flex", gap: 16 }}>
+    <li className="kb-step" style={{ display: "flex", gap: 16 }}>
       {/* Number + connector */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
         <div style={{
@@ -97,7 +97,7 @@ export function Step({ num, title, children }: { num: number; title?: string; ch
         {title && (
           <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 8px" }}>{title}</p>
         )}
-        <div style={{ fontFamily: FONT, fontSize: 14, color: "#4b5563", lineHeight: 1.75 }}>
+        <div style={{ fontFamily: FONT, fontSize: 14, color: "#1e293b", lineHeight: 1.75 }}>
           {children}
         </div>
       </div>
@@ -109,25 +109,25 @@ export function Step({ num, title, children }: { num: number; title?: string; ch
 
 export function FieldTable({ rows }: { rows: { field: string; description: string; required?: boolean }[] }) {
   return (
-    <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
+    <div className="kb-field-table" style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 14 }}>
         <thead>
-          <tr style={{ background: "#f9fafb" }}>
-            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb", width: "28%" }}>Field</th>
-            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb" }}>Description</th>
-            <th style={{ padding: "11px 16px", textAlign: "center", fontWeight: 700, color: "#374151", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #e5e7eb", width: "96px" }}>Required</th>
+          <tr style={{ background: "#f8fafc" }}>
+            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0", width: "28%" }}>Field</th>
+            <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0" }}>Description</th>
+            <th style={{ padding: "11px 16px", textAlign: "center", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0", width: "96px" }}>Required</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f3f4f6" : "none" }}>
-              <td style={{ padding: "13px 16px", fontWeight: 600, color: "#1c808d", verticalAlign: "top", fontFamily: FONT_J, fontSize: 13 }}>{r.field}</td>
-              <td style={{ padding: "13px 16px", color: "#4b5563", lineHeight: 1.65 }}>{r.description}</td>
-              <td style={{ padding: "13px 16px", textAlign: "center" }}>
+            <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f1f5f9" : "none" }}>
+              <td style={{ padding: "13px 16px", fontWeight: 700, color: "#0d6a78", verticalAlign: "top", fontFamily: FONT_J, fontSize: 13 }}>{r.field}</td>
+              <td style={{ padding: "13px 16px", color: "#1e293b", lineHeight: 1.65 }}>{r.description}</td>
+              <td style={{ padding: "13px 16px", textAlign: "center", verticalAlign: "middle" }}>
                 {r.required ? (
-                  <span style={{ background: "#fef2f2", color: "#dc2626", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid #fecaca" }}>Required</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#fef2f2", color: "#b91c1c", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid #fecaca", lineHeight: 1 }}>Required</span>
                 ) : (
-                  <span style={{ background: "#f3f4f6", color: "#9ca3af", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>Optional</span>
+                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#f1f5f9", color: "#475569", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, border: "1px solid #e2e8f0", lineHeight: 1 }}>Optional</span>
                 )}
               </td>
             </tr>
@@ -142,7 +142,7 @@ export function FieldTable({ rows }: { rows: { field: string; description: strin
 
 export function DocImage({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
   return (
-    <figure style={{ margin: "24px auto", borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", maxWidth: "100%", width: "fit-content" }}>
+    <figure className="kb-doc-image" style={{ margin: "24px auto", borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", maxWidth: "100%", width: "fit-content" }}>
       <img src={src} alt={alt} style={{ maxWidth: "100%", width: "auto", display: "block" }} />
       {caption && (
         <figcaption style={{ fontFamily: FONT, fontSize: 12, color: "#9ca3af", padding: "8px 14px", background: "#f9fafb", textAlign: "center", borderTop: "1px solid #f3f4f6" }}>{caption}</figcaption>
@@ -172,10 +172,10 @@ export function usePageTools() {
 export function H1({ id, children }: { id?: string; children: ReactNode }) {
   const tools = usePageTools();
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginBottom: 4 }}>
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 24, marginBottom: 12 }}>
       <h1 id={id} style={{
         fontFamily: FONT_J, fontSize: 30, fontWeight: 800, color: "#0a3954",
-        margin: 0, minWidth: 0, lineHeight: 1.2, letterSpacing: "-0.02em",
+        margin: 0, minWidth: 0, lineHeight: 1.3, letterSpacing: "-0.02em",
       }}>
         {children}
       </h1>
@@ -210,12 +210,12 @@ export function H3({ id, children }: { id?: string; children: ReactNode }) {
 }
 
 export function P({ children }: { children: ReactNode }) {
-  return <p style={{ fontFamily: FONT, fontSize: 15, color: "#4b5563", lineHeight: 1.8, margin: "0 0 16px" }}>{children}</p>;
+  return <p style={{ fontFamily: FONT, fontSize: 15, color: "#1e293b", lineHeight: 1.8, margin: "0 0 16px" }}>{children}</p>;
 }
 
 export function UL({ children }: { children: ReactNode }) {
   return (
-    <ul style={{ fontFamily: FONT, fontSize: 15, color: "#4b5563", lineHeight: 1.8, margin: "0 0 16px", paddingLeft: 20, listStyle: "none" }}>
+    <ul style={{ fontFamily: FONT, fontSize: 15, color: "#1e293b", lineHeight: 1.8, margin: "0 0 16px", paddingLeft: 20, listStyle: "none" }}>
       {children}
     </ul>
   );
@@ -230,21 +230,39 @@ export function LI({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageLink({ label, onClick }: { label: ReactNode; onClick: () => void }) {
+export function PageLink({ label, pageId, onClick }: { label: ReactNode; pageId?: string; onClick: () => void }) {
+  let resolvedId = pageId;
+  if (!resolvedId && typeof onClick === "function") {
+    const match = onClick.toString().match(/["']([a-z0-9-]+)["']/);
+    if (match) resolvedId = match[1];
+  }
+  const origin = typeof window !== "undefined" && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")
+    ? window.location.origin
+    : "https://docs.polarin.lightstorm.net";
+  const href = resolvedId ? `${origin}/#${resolvedId}` : "#";
+
   return (
-    <button
-      onClick={onClick}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-page-link={resolvedId || ""}
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey) return;
+        e.preventDefault();
+        onClick();
+      }}
       style={{
         background: "none", border: "none", padding: 0, margin: 0,
         font: "inherit", color: "#1367D6",
-        textDecoration: "none", textUnderlineOffset: 2,
+        textDecoration: "none", textUnderlineOffset: 3,
         cursor: "pointer", display: "inline",
       }}
       onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }}
       onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}
     >
       {label}
-    </button>
+    </a>
   );
 }
 
@@ -299,7 +317,7 @@ export function FlowDiagram({ actor, stages }: { actor?: string; stages: FlowSta
     if (i < stages.length - 1) nodes.push(<Connector key={`c-${i}`} />);
   });
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 12, margin: "24px 0" }}>
+    <div className="kb-flow-diagram" style={{ display: "flex", flexWrap: "wrap", alignItems: "stretch", gap: 12, margin: "24px 0" }}>
       {nodes}
     </div>
   );
@@ -371,16 +389,19 @@ export function ArticlePage({ toc, children }: ArticlePageProps) {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="kb-article-layout" style={{ display: "flex" }}>
 
       {/* ── Main content — no overflow, grows naturally ── */}
-      <div style={{ flex: 1, padding: "36px 48px 40px 40px", minWidth: 0 }}>
+      <div className="kb-article-content" style={{ flex: 1, padding: "36px 48px 40px 40px", minWidth: 0 }}>
         {children}
       </div>
 
       {/* ── TOC sidebar — sticky within the outer scroll container ── */}
       {toc.length > 1 && (
         <aside
+          className="kb-toc-aside"
+          data-copy-page-exclude="true"
+          data-pdf-exclude="true"
           style={{
             width: 216,
             flexShrink: 0,
@@ -502,7 +523,7 @@ function TocLink({ isActive, level, onClick, children }: { isActive: boolean; le
 export function ArticleFooter({ prev, next, related, onNavigate }: ArticleFooterProps) {
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
   return (
-    <div style={{ padding: "24px 40px 32px" }}>
+    <div className="kb-article-footer" data-copy-page-exclude="true" data-pdf-exclude="true" style={{ padding: "24px 40px 32px" }}>
       {/* Feedback */}
       <div style={{ paddingBottom: 24 }}>
         <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 12px" }}>
@@ -593,3 +614,85 @@ function NavCard({ dir, label, onClick }: { dir: "prev" | "next"; label: string;
     </motion.button>
   );
 }
+
+// ── Article Metadata & Tags ───────────────────────────────────────────────────
+
+export function Tag({ label, color }: { label: string; color: string }) {
+  return (
+    <span
+      className="kb-tag-pill"
+      style={{
+        fontFamily: FONT,
+        fontSize: 12,
+        fontWeight: 700,
+        color,
+        background: `${color}18`,
+        border: `1px solid ${color}33`,
+        padding: "3px 10px",
+        borderRadius: 20,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        lineHeight: 1.2,
+        verticalAlign: "middle",
+        boxSizing: "border-box",
+      }}
+    >
+      {label}
+    </span>
+  );
+}
+
+export function Dot() {
+  return (
+    <span
+      className="kb-meta-dot"
+      style={{
+        width: 3,
+        height: 3,
+        borderRadius: "50%",
+        background: "#94a3b8",
+        display: "inline-block",
+        verticalAlign: "middle",
+        margin: "0 2px",
+        flexShrink: 0,
+      }}
+    />
+  );
+}
+
+export function ReadTime({ minutes }: { minutes: number }) {
+  return (
+    <span
+      className="kb-read-time"
+      style={{
+        fontFamily: FONT,
+        fontSize: 12,
+        color: "#64748b",
+        display: "inline-flex",
+        alignItems: "center",
+        verticalAlign: "middle",
+      }}
+    >
+      {minutes} min read
+    </span>
+  );
+}
+
+export function ArticleMeta({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="kb-article-meta"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        margin: "10px 0 22px",
+        flexWrap: "wrap",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+

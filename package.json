@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "node scripts/generate-markdown.mjs; vite build",
-    "dev": "vite"
+    "postinstall": "node scripts/patch-html2canvas.mjs",
+    "build": "node scripts/patch-html2canvas.mjs && node scripts/generate-markdown.mjs && vite build",
+    "dev": "node scripts/patch-html2canvas.mjs && vite"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -46,6 +47,7 @@
     "date-fns": "3.6.0",
     "embla-carousel-react": "8.6.0",
     "input-otp": "1.4.2",
+    "html2canvas": "^1.4.1",
     "jspdf": "2.5.2",
     "lucide-react": "0.487.0",
     "motion": "12.23.24",

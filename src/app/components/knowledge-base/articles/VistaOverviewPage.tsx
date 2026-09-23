@@ -91,6 +91,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>See where alerts show up day to day: <PageLink label="Notifications" onClick={() => onNavigate("notifications")} />.</LI>
+        <LI>See where alerts show up day to day: <PageLink label="Alerts & Notifications" onClick={() => onNavigate("notifications")} />.</LI>
         <LI>Configure what triggers an alert under <strong>Manage Alerts</strong> in Settings.</LI>
       </UL>
     </ArticlePage>

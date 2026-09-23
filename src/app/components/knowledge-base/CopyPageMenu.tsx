@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
-import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown } from "lucide-react";
+import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown, Printer, Loader2 } from "lucide-react";
 import { downloadPageAsPdf } from "./pdfExport";
 import { extractContentNodes } from "./extractContent";
 
@@ -27,7 +27,10 @@ function buildPrompt(title: string, pageId: string): string {
   // client-rendered, so a plain fetch (no JS execution) would only see an
   // empty shell. HTML (rather than raw .md/text) is used because some
   // browsing tools refuse to read non-HTML responses outright.
-  const pageUrl = `${window.location.origin}/md/${pageId}.html`;
+  const origin = typeof window !== "undefined" && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")
+    ? window.location.origin
+    : "https://docs.polarin.lightstorm.net";
+  const pageUrl = `${origin}/md/${pageId}.html`;
   return `Could you pull up this Polarin Docs page and get familiar with it? I'll have questions once you've had a look: ${pageUrl}\n\n(Page: "${title}")`;
 }
 
@@ -47,6 +50,7 @@ interface Props {
 export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -91,12 +95,29 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
       },
     },
     {
-      icon: FileDown,
-      label: "Download as PDF",
-      description: "Save this page as a formatted PDF",
-      onSelect: () => {
-        downloadPageAsPdf(contentRef.current, pageTitle).catch((err) => console.error("PDF export failed", err));
+      icon: isGeneratingPdf ? Loader2 : FileDown,
+      label: isGeneratingPdf ? "Generating PDF..." : "Download as PDF",
+      description: "Save exact page replica with screenshots",
+      onSelect: async () => {
         setOpen(false);
+        setIsGeneratingPdf(true);
+        try {
+          await downloadPageAsPdf(contentRef.current, pageTitle);
+        } catch (err: any) {
+          console.error("PDF export failed:", err);
+          alert("Could not generate PDF: " + (err?.message || "Render error"));
+        } finally {
+          setIsGeneratingPdf(false);
+        }
+      },
+    },
+    {
+      icon: Printer,
+      label: "Print page",
+      description: "Print directly or save via browser dialog",
+      onSelect: () => {
+        setOpen(false);
+        setTimeout(() => window.print(), 100);
       },
     },
     {
@@ -129,23 +150,39 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
     <div ref={wrapperRef} data-copy-page-exclude="true" style={{ position: "relative" }}>
       <button
         onClick={() => setOpen((v) => !v)}
+        disabled={isGeneratingPdf}
         style={{
           display: "flex", alignItems: "center", gap: 8,
           background: "#fff", border: "1px solid #e2e8f1", borderRadius: 10,
-          padding: "7px 12px", cursor: "pointer",
+          padding: "7px 12px", cursor: isGeneratingPdf ? "wait" : "pointer",
           fontFamily: FONT, fontSize: 13, fontWeight: 600, color: "#0a3954",
           boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)",
+          opacity: isGeneratingPdf ? 0.75 : 1,
         }}
       >
-        {copied ? <Check size={15} color="#059669" /> : <Copy size={15} />}
-        {copied ? "Copied!" : "Copy page"}
+        {isGeneratingPdf ? (
+          <>
+            <Loader2 size={15} style={{ animation: "spin 1s linear infinite", color: "#1c808d" }} />
+            <span>Generating PDF...</span>
+          </>
+        ) : copied ? (
+          <>
+            <Check size={15} color="#059669" />
+            <span>Copied!</span>
+          </>
+        ) : (
+          <>
+            <Copy size={15} />
+            <span>Copy page</span>
+          </>
+        )}
         <ChevronDown size={14} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform 0.15s" }} />
       </button>
 
       {open && (
         <div style={{
           position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 30,
-          width: 260, background: "#fff", border: "1px solid #e2e8f1", borderRadius: 12,
+          width: 270, background: "#fff", border: "1px solid #e2e8f1", borderRadius: 12,
           boxShadow: "0px 8px 24px rgba(15,23,42,0.12)", padding: 6,
         }}>
           {actions.map((action) => (

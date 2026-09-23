@@ -1,18 +1,19 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, FieldTable, DocImage, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
-  { id: "overview",     label: "Overview" },
-  { id: "what-you-see", label: "What You'll See",      level: 2 as const },
-  { id: "steps",        label: "Update Your Details",  level: 2 as const },
-  { id: "next-steps",   label: "Next Steps" },
+  { id: "overview",         label: "Overview" },
+  { id: "profile-sections", label: "Profile Sections",             level: 2 as const },
+  { id: "update-details",   label: "Update Personal Information",  level: 2 as const },
+  { id: "field-reference",  label: "Field Reference",              level: 2 as const },
+  { id: "next-steps",       label: "Next Steps" },
 ];
 
 const PERSONAL_FIELDS = [
-  { field: "Name",         description: "Your display name across Polarin. Fully editable.",                                          required: true },
-  { field: "Email ID",     description: "The email tied to your login. Shown read-only in the edit form — contact your admin or Support to change it.", required: false },
-  { field: "Phone Number", description: "Select your country code from the dropdown, then enter your number. Optional today, worth adding for account recovery.", required: false },
-  { field: "Role",         description: "Read-only. Set by your organisation's admin under User Management — not something you can change yourself.", required: false },
+  { field: "Name",         description: "Your display name across the Polarin console. Fully editable.", required: true },
+  { field: "Email ID",     description: "The primary email address tied to your login. Locked and read-only in this form — email changes must be requested through Support or your organisation's administrator.", required: false },
+  { field: "Phone Number", description: "Select your country dial code from the dropdown, then enter your mobile number. Used for account recovery and emergency notifications.", required: false },
+  { field: "Role",         description: "Read-only. Reflects your assigned permission level (e.g. Network Admin) set under User Management by your organisation's administrator.", required: false },
 ];
 
 interface Props {
@@ -23,58 +24,91 @@ export function PersonalInformationPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Personal Information</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={2} />
+      <ArticleMeta>
+        <ReadTime minutes={3} />
         <Dot />
         <Tag label="My Account" color="#0f766e" />
-      </div>
+      </ArticleMeta>
 
       <P>
-        The <strong>Personal Information</strong> card on your <PageLink label="Profile" onClick={() => onNavigate("profile-personal")} /> page shows your name, phone number, email, and role at a glance — the identity details tied to your own login, separate from anything under{" "}
-        <PageLink label="Organisation Details" onClick={() => onNavigate("org-profile")} />, which is shared across your whole team.
+        The <strong>Profile</strong> page under <strong>Settings &gt; Profile</strong> gives you direct visibility
+        and control over your individual login identity, security credentials, and account protection. Unlike{" "}
+        <PageLink label="Organisation Details" onClick={() => onNavigate("org-profile")} /> (which applies to your entire
+        company and billing tenancy), settings here are strictly personal to your user account.
       </P>
 
-      {/* ── What you'll see ── */}
-      <H2 id="what-you-see">What You'll See</H2>
-      <P>Click <strong>Edit</strong> on the Personal Information card to open the update form. It has four fields:</P>
-      <FieldTable rows={PERSONAL_FIELDS} />
-      <Callout variant="info">
-        Email and Role appear shaded and locked in the edit form on purpose. Email changes need to be verified against your login, and role changes affect what you're allowed to do across the organisation — both go through an admin rather than being self-served here.
-      </Callout>
+      <DocImage
+        src="/screenshots/profile/01-profile-overview.jpg"
+        alt="Polarin Profile page overview showing personal information, password, and two-factor authentication cards"
+        caption="① Personal Information card — ② Password card — ③ Two-Factor Authentication card"
+      />
 
-      {/* ── Steps ── */}
-      <H2 id="steps">Update Your Details</H2>
+      {/* ── Profile Sections ── */}
+      <H2 id="profile-sections">Profile Sections</H2>
+      <P>The main Profile screen organizes your account preferences into three dedicated cards:</P>
+      <UL>
+        <LI>
+          <strong>① Personal Information</strong>: Displays your contact details, avatar, and system role. Click{" "}
+          <strong>Edit</strong> to modify your name or phone number.
+        </LI>
+        <LI>
+          <strong>② Password</strong>: Displays your masked password, security compliance indicator (
+          <em>Your current password meets all security requirements</em>), and the date it was last rotated. Click{" "}
+          <strong>Update Password</strong> to change it.
+        </LI>
+        <LI>
+          <strong>③ Two-factor authentication</strong>: Displays whether multi-factor security is currently active.
+          Polarin recommends Google Authenticator or Duo for instant code verification. Click{" "}
+          <strong>Set up Two-Factor Authentication</strong> to configure app- or email-based 2FA.
+        </LI>
+      </UL>
+
+      {/* ── Update Details ── */}
+      <H2 id="update-details">Update Personal Information</H2>
+      <P>
+        Clicking the <strong>Edit</strong> button on the Personal Information card opens the slide-out drawer where you
+        can update your profile name and contact number:
+      </P>
+
+      <DocImage
+        src="/screenshots/profile/02-update-personal-info.jpg"
+        alt="Update Your Personal Information slide-out drawer"
+        caption="① Name (editable) — ② Email ID (locked) — ③ Phone Number with country code — ④ Role (locked) — ⑤ Update button"
+      />
+
       <Steps>
-        <Step num={1} title="Go to Profile">
-          Under <strong>My Account</strong> in the left sidebar, open <strong>Profile</strong>.
+        <Step num={1} title="Click Edit on the Personal Information card">
+          The <strong>Update Your Personal Information</strong> drawer slides open from the right side of the screen with your current details pre-populated.
         </Step>
-        <Step num={2} title="Click Edit on Personal Information">
-          Opens the <strong>Update Your Personal Information</strong> panel with your current details pre-filled.
+        <Step num={2} title="Edit your Name">
+          Type your preferred display name in the <strong>Name</strong> field <strong>①</strong>.
         </Step>
-        <Step num={3} title="Update your Name and/or Phone Number">
-          Type your new name directly into the field. For phone number, pick the correct country code from the dropdown first, then enter the number.
+        <Step num={3} title="Provide or update your Phone Number">
+          Choose your international calling country code from the dropdown menu, then enter your mobile number in the{" "}
+          <strong>Phone Number</strong> field <strong>③</strong>.
         </Step>
-        <Step num={4} title="Click Update">
-          Changes save immediately — no admin approval needed for your name or phone number.
+        <Step num={4} title="Review locked fields (Email ID & Role)">
+          <strong>Email ID ②</strong> and <strong>Role ④</strong> are intentionally non-editable in this drawer. Because email addresses are bound to active authentication tokens and roles determine administrative privileges across Polarin, changes must be processed through an administrator.
+        </Step>
+        <Step num={5} title="Click Update to save">
+          Click the <strong>Update</strong> button <strong>⑤</strong> at the bottom right. Your profile updates immediately without requiring approval.
         </Step>
       </Steps>
 
+      {/* ── Field Reference ── */}
+      <H2 id="field-reference">Field Reference</H2>
+      <FieldTable rows={PERSONAL_FIELDS} />
+
+      <Callout variant="info">
+        Need to change the email address tied to your login? Reach out to your organisation's Polarin administrator or contact Polarin Support. For role upgrades (such as gaining Service Ordering or Billing access), see <PageLink label="User Management" onClick={() => onNavigate("invite-members")} />.
+      </Callout>
+
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Want to rotate your password too? <PageLink label="Update Password" onClick={() => onNavigate("profile-password")} />.</LI>
-        <LI>Haven't turned on extra login security yet? <PageLink label="Two-Factor Authentication" onClick={() => onNavigate("profile-2fa")} />.</LI>
-        <LI>Need your role changed? That's an org-level action — see <PageLink label="User Management" onClick={() => onNavigate("invite-members")} />.</LI>
+        <LI>Rotate your account password: <PageLink label="Update Password" onClick={() => onNavigate("profile-password")} />.</LI>
+        <LI>Add extra protection to your login: <PageLink label="Two-Factor Authentication" onClick={() => onNavigate("profile-2fa")} />.</LI>
+        <LI>Invite colleagues or manage user permissions: <PageLink label="User Management" onClick={() => onNavigate("invite-members")} />.</LI>
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

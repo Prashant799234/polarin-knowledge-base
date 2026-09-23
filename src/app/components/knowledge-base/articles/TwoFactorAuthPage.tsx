@@ -1,17 +1,17 @@
 import type { ElementType } from "react";
 import { Shield, Mail } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
 
 const TOC = [
-  { id: "overview",   label: "Overview" },
-  { id: "choosing",   label: "Choosing a Method",           level: 2 as const },
-  { id: "app-setup",  label: "Setting Up an Authenticator App", level: 2 as const },
-  { id: "email-setup", label: "Setting Up Email Code",       level: 2 as const },
-  { id: "next-steps", label: "Next Steps" },
+  { id: "overview",    label: "Overview" },
+  { id: "choosing",    label: "Choosing a Method",              level: 2 as const },
+  { id: "app-setup",   label: "Setting Up an Authenticator App", level: 2 as const },
+  { id: "email-setup",  label: "Setting Up Email Code",          level: 2 as const },
+  { id: "next-steps",  label: "Next Steps" },
 ];
 
 interface MethodCard {
@@ -22,8 +22,18 @@ interface MethodCard {
 }
 
 const METHODS: MethodCard[] = [
-  { icon: Shield, color: "#1c808d", title: "Authenticator App", description: "Scan a QR code once into an app like Google Authenticator or Duo. Codes generate on your phone, no internet or email needed at login." },
-  { icon: Mail,   color: "#0a3954", title: "Email Code",         description: "Get a 6-digit code emailed to your registered address each time you sign in. No app to install, but you need inbox access at login." },
+  {
+    icon: Shield,
+    color: "#1c808d",
+    title: "Authenticator App",
+    description: "Scan a QR code once into an authenticator app (such as Google Authenticator or Duo). Codes generate locally on your device without needing mobile connectivity or email delivery at login.",
+  },
+  {
+    icon: Mail,
+    color: "#0a3954",
+    title: "Email Code",
+    description: "Receive a time-limited 6-digit one-time passcode sent directly to your registered email address every time you sign in. No mobile app required, but requires active inbox access when logging in.",
+  },
 ];
 
 interface Props {
@@ -34,70 +44,101 @@ export function TwoFactorAuthPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Two-Factor Authentication</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={3} />
+      <ArticleMeta>
+        <ReadTime minutes={4} />
         <Dot />
         <Tag label="My Account" color="#0f766e" />
-      </div>
+      </ArticleMeta>
 
       <P>
-        <strong>Two-factor authentication (2FA)</strong> adds a second check beyond your password when you sign in — even if your password leaks, an attacker still can't get in without also having your phone or your email inbox. It's optional, but worth turning on for any account with billing or provisioning access.
+        <strong>Two-factor authentication (2FA)</strong> adds a vital second layer of defense beyond your password
+        when logging in to Polarin. Even if your password becomes compromised, unauthorized users cannot access
+        your account without physical access to your authenticator device or your email inbox.
       </P>
 
       {/* ── Choosing a method ── */}
       <H2 id="choosing">Choosing a Method</H2>
-      <P>From <strong>Set up Two-Factor Authentication</strong> on your Profile page, pick one of two methods:</P>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, margin: "16px 0 24px" }}>
+      <P>
+        From the <strong>Two-factor authentication</strong> card on your <PageLink label="Profile" onClick={() => onNavigate("profile-personal")} /> page,
+        click <strong>Set up Two-Factor Authentication</strong> to open the setup drawer. You can choose between two methods:
+      </P>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, margin: "16px 0 24px" }}>
         {METHODS.map((m) => <MethodTile key={m.title} method={m} />)}
       </div>
+
       <Callout variant="tip">
-        For a smoother experience, Polarin recommends an authenticator app like <strong>Google Authenticator</strong> or <strong>Duo</strong> — codes generate instantly on your device without waiting on an email to arrive.
+        For the best experience, Polarin recommends using an <strong>Authenticator App</strong> like Google Authenticator or Duo.
+        Time-based one-time passcodes (TOTP) generate instantaneously offline on your phone without waiting for email delivery.
       </Callout>
 
       {/* ── Authenticator app ── */}
       <H2 id="app-setup">Setting Up an Authenticator App</H2>
+      <P>
+        The <strong>Authenticator App</strong> tab <strong>①</strong> is selected by default upon opening the drawer:
+      </P>
+
+      <DocImage
+        src="/screenshots/profile/04-setup-2fa-app.jpg"
+        alt="Set up Two-Factor Authentication drawer showing QR code and manual setup key"
+        caption="① Method tabs (Authenticator App selected) — ② QR Code and manual setup key — ③ 6-digit code entry and Verify button"
+      />
+
       <Steps>
-        <Step num={1} title="Click Set Up Two-Factor Authentication">
-          Opens the setup panel with both methods available. <strong>Authenticator App</strong> is selected by default.
+        <Step num={1} title="Click Set up Two-Factor Authentication">
+          Opens the setup drawer with <strong>Authenticator App ①</strong> active.
         </Step>
-        <Step num={2} title="Scan the QR code">
-          Open your authenticator app and scan the code shown on screen. Can't scan it? Use <strong>Or enter the code manually</strong> below the QR code instead — it's the same setup key, just typed in by hand.
+        <Step num={2} title="Scan the QR Code or copy the manual key">
+          Open Google Authenticator, Duo, Microsoft Authenticator, or 1Password on your mobile device and point your camera at the QR code <strong>②</strong>.
+          If your device camera is unavailable, copy the 32-character secret key shown under <em>Or enter the code manually</em> and paste it directly into your authenticator app.
         </Step>
-        <Step num={3} title="Enter the 6-digit code your app generates">
-          Type the current code from your authenticator app into the confirmation field.
+        <Step num={3} title="Enter the generated 6-digit code">
+          Type the 6-digit temporary verification code displayed in your authenticator app into the six entry boxes <strong>③</strong>.
         </Step>
-        <Step num={4} title="Confirm">
-          Confirms your app generated a valid code before 2FA is enforced on future logins.
+        <Step num={4} title="Click Verify">
+          Click <strong>Verify ③</strong>. Polarin confirms that your authenticator app is generating synchronized codes and enables 2FA protection for all subsequent sign-ins.
         </Step>
       </Steps>
+
       <Callout variant="important">
-        Treat the manual setup key exactly like a password — anyone with it can generate valid codes for your account. If you lose access to your authenticator app, you'll need Support to help you back in, so keep backup codes or a note of the setup key somewhere safe.
+        Treat your manual setup key as sensitive confidential data. Keep a secure backup of your authenticator account or export your authenticator credentials so you do not lose account access if you replace your phone.
       </Callout>
 
       {/* ── Email code ── */}
       <H2 id="email-setup">Setting Up Email Code</H2>
+      <P>
+        If you prefer receiving verification codes via email, select the <strong>Email Code</strong> tab:
+      </P>
+
+      <DocImage
+        src="/screenshots/profile/05-setup-2fa-email.jpg"
+        alt="Set up Two-Factor Authentication drawer showing email code countdown and verification inputs"
+        caption="① Email Code tab — ② Email sent confirmation with 2:00 expiration countdown — ③ 6-digit code entry and Verify button"
+      />
+
       <Steps>
-        <Step num={1} title="Click Set Up Two-Factor Authentication, then select Email Code">
-          Switches the panel to show <strong>Verify your email address</strong>.
+        <Step num={1} title="Select Email Code">
+          Click the <strong>Email Code</strong> tab <strong>①</strong> at the top of the setup drawer.
         </Step>
         <Step num={2} title="Click Request Verification Code">
-          Sends a 6-digit code to your registered email address.
+          Click <strong>Request Verification Code</strong> to trigger an email dispatch to your registered login address.
         </Step>
-        <Step num={3} title="Enter the code before it expires">
-          The code is time-limited — the panel shows a countdown so you know exactly how long you have.
+        <Step num={3} title="Check your inbox before the code expires">
+          The drawer confirms <em>Email sent successfully!</em> <strong>②</strong> and starts a <strong>2:00 countdown timer</strong>. Locate the 6-digit verification code sent by Polarin in your email inbox.
         </Step>
-        <Step num={4} title="Click Verify">
-          Confirms your inbox access and finishes setup. From then on, every login sends a fresh code to that email.
+        <Step num={4} title="Enter the 6-digit code and click Verify">
+          Type the received code into the six input boxes <strong>③</strong> and click <strong>Verify</strong> to activate email-based 2FA.
         </Step>
       </Steps>
+
       <Callout variant="tip">
-        Code expired before you entered it? No need to restart the whole flow — just request a new one from the same screen.
+        If the timer expires before you enter the code, simply request a fresh code directly from the screen without restarting the process.
       </Callout>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Haven't rotated your password in a while? <PageLink label="Update Password" onClick={() => onNavigate("profile-password")} />.</LI>
-        <LI>Need to update your name or phone number too? <PageLink label="Personal Information" onClick={() => onNavigate("profile-personal")} />.</LI>
+        <LI>Review your login credentials: <PageLink label="Update Password" onClick={() => onNavigate("profile-password")} />.</LI>
+        <LI>Keep your personal contact details up to date: <PageLink label="Personal Information" onClick={() => onNavigate("profile-personal")} />.</LI>
       </UL>
     </ArticlePage>
   );
@@ -123,14 +164,4 @@ function MethodTile({ method }: { method: MethodCard }) {
       </div>
     </div>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

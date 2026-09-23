@@ -5,3 +5,6 @@ dist
 .vercel
 public/md
 local-only
+.claude
+.pnpm-store
+*.mov

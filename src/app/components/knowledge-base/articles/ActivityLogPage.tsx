@@ -106,7 +106,37 @@ export function ActivityLogPage({ onNavigate }: Props) {
               <p style={{ fontFamily: FONT_J, fontSize: 14, fontWeight: 700, color: "#0a3954", margin: "0 0 6px" }}>{step.title}</p>
               <div style={{ fontFamily: FONT, fontSize: 14, color: "#4b5563", lineHeight: 1.75 }}>{step.body}</div>
               {step.num === 3 && (
-                <DocImage src="/screenshots/activity-log-main-page.png" alt="Activity Log main page" caption="Every event listed with its service, timestamp, initiator, and severity. (Names blurred for privacy.)" />
+                <>
+                  <DocImage
+                    src="/screenshots/activity-logs/01-activity-logs-table.jpg"
+                    alt="Activity Log main table"
+                    caption="Every event listed with its service, timestamp, initiator, and severity badge. Numbered callouts highlight key navigation and filtering controls."
+                  />
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 10, margin: "14px 0 6px" }}>
+                    {[
+                      { n: "1", title: "Search by Activity ID", desc: "Type or paste an exact Activity ID to locate a specific event instantly." },
+                      { n: "2", title: "Date Range Filter", desc: "Select a custom Start Date and End Date using the dual-month calendar picker." },
+                      { n: "3", title: "Services Filter", desc: "Filter by platform domain (Organisation Profile, Billing, Authentication, Ports, Virtual Connections, Virtual Routers)." },
+                      { n: "4", title: "Date & Time Sort", desc: "Click the column header to toggle between newest-first and oldest-first chronological sorting." },
+                      { n: "5", title: "Event & Initiated By", desc: "See the specific operation (e.g., User Login, Billing Profile Created) and the user who triggered it." },
+                      { n: "6", title: "Severity Tag", desc: "Colour-coded badge indicating the priority level from S0 (Emergency) to S7 (Debugging)." },
+                    ].map(c => (
+                      <div key={c.n} style={{ display: "flex", gap: 10, background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 8, padding: "10px 12px" }}>
+                        <span style={{
+                          width: 22, height: 22, borderRadius: "50%", background: "#1c808d",
+                          color: "#fff", fontFamily: FONT_J, fontSize: 11, fontWeight: 800,
+                          display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                        }}>
+                          {c.n}
+                        </span>
+                        <div>
+                          <strong style={{ fontFamily: FONT_J, fontSize: 12.5, color: "#0a3954" }}>{c.title}</strong>
+                          <p style={{ fontFamily: FONT, fontSize: 12, color: "#64748b", margin: "2px 0 0", lineHeight: 1.5 }}>{c.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -145,10 +175,35 @@ export function ActivityLogPage({ onNavigate }: Props) {
         ))}
       </div>
 
-      <DocImage src="/screenshots/activity-log-date-filter.png" alt="Date range filter with a dual-month calendar" caption="Pick a Start Date and End Date across two months, then click Apply." />
+      <DocImage
+        src="/screenshots/activity-logs/02-date-filter.jpg"
+        alt="Date range filter with a dual-month calendar"
+        caption="Dual-month calendar picker: select Start Date and End Date across months, then click Apply to filter results."
+      />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10, margin: "12px 0 20px" }}>
+        {[
+          { n: "1", title: "Date Range Inputs", desc: "Displays the active Start Date and End Date selection." },
+          { n: "2", title: "Dual-Month Calendar", desc: "Browse across months with navigation chevrons and select a continuous range." },
+          { n: "3", title: "Apply Button", desc: "Click Apply to instantly refresh the event table for the selected range." },
+        ].map(c => (
+          <div key={c.n} style={{ display: "flex", gap: 10, background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 8, padding: "10px 12px" }}>
+            <span style={{
+              width: 22, height: 22, borderRadius: "50%", background: "#1c808d",
+              color: "#fff", fontFamily: FONT_J, fontSize: 11, fontWeight: 800,
+              display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
+              {c.n}
+            </span>
+            <div>
+              <strong style={{ fontFamily: FONT_J, fontSize: 12.5, color: "#0a3954" }}>{c.title}</strong>
+              <p style={{ fontFamily: FONT, fontSize: 12, color: "#64748b", margin: "2px 0 0", lineHeight: 1.5 }}>{c.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <Callout variant="tip">
-        Combine the <strong>Services</strong> filter with a <strong>date range</strong> and <strong>Severity</strong> to quickly audit all errors affecting a specific service within a given period.
+        Combine the <strong>Services</strong> filter with a <strong>date range</strong> and <strong>Severity</strong> to quickly audit all errors affecting a specific service within a given period. To configure proactive notification rules instead of searching manually after an event, see <PageLink label="Manage Alerts" onClick={() => onNavigate("manage-alerts" as KBPage)} />.
       </Callout>
 
       {/* ── Severity table ── */}
