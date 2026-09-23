@@ -51,6 +51,9 @@ import { InternetExchangeOverviewPage } from "./articles/InternetExchangeOvervie
 import { ServiceDetailPage } from "./articles/ServiceDetailPage";
 import { ServiceStatusPage } from "./articles/ServiceStatusPage";
 import { VistaOverviewPage } from "./articles/VistaOverviewPage";
+import { VistaPortPage } from "./articles/VistaPortPage";
+import { VistaVirtualConnectionPage } from "./articles/VistaVirtualConnectionPage";
+import { VistaDCIWavePage } from "./articles/VistaDCIWavePage";
 import { DashboardOverviewPage } from "./articles/DashboardOverviewPage";
 import { NotificationsPage } from "./articles/NotificationsPage";
 import { ManageAlertsPage } from "./articles/ManageAlertsPage";
@@ -176,6 +179,9 @@ const NAV_GROUPS: NavGroup[] = [
     title: "VISTA",
     items: [
       { id: "vista-overview", label: "Overview", icon: LineChart },
+      { id: "vista-port", label: "Port", icon: Plug },
+      { id: "vista-vc", label: "Virtual Connection", icon: Cloud },
+      { id: "vista-dci-wave", label: "DCI Wave", icon: Server },
     ],
   },
   {
@@ -567,12 +573,42 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "vista-overview": {
+    next: { label: "VISTA for Port", pageId: "vista-port" },
     related: [
-      { label: "Reports",                       pageId: "reports" },
-      { label: "Alerts & Notifications",        pageId: "notifications" },
-      { label: "What Is a Port?",               pageId: "port-overview" },
+      { label: "VISTA for Port",               pageId: "vista-port" },
+      { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+      { label: "VISTA for DCI Wave",           pageId: "vista-dci-wave" },
+      { label: "Reports",                      pageId: "reports" },
+      { label: "Alerts & Notifications",       pageId: "notifications" },
+    ],
+  },
+  "vista-port": {
+    prev: { label: "VISTA Overview",           pageId: "vista-overview" },
+    next: { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+    related: [
+      { label: "What Is a Port?",              pageId: "port-overview" },
+      { label: "Create a Port",                pageId: "port-create" },
+      { label: "VISTA Overview",               pageId: "vista-overview" },
+      { label: "Reports",                      pageId: "reports" },
+    ],
+  },
+  "vista-vc": {
+    prev: { label: "VISTA for Port",           pageId: "vista-port" },
+    next: { label: "VISTA for DCI Wave",       pageId: "vista-dci-wave" },
+    related: [
       { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
+      { label: "Create a Virtual Connection",   pageId: "cloud-connect" },
+      { label: "VISTA Overview",               pageId: "vista-overview" },
+      { label: "Manage Alerts",                pageId: "manage-alerts" },
+    ],
+  },
+  "vista-dci-wave": {
+    prev: { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+    related: [
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
+      { label: "Create a Data Centre Interconnect", pageId: "dci-create" },
+      { label: "VISTA Overview",               pageId: "vista-overview" },
+      { label: "Reports",                      pageId: "reports" },
     ],
   },
 };
@@ -581,6 +617,10 @@ const ARTICLE_PAGES = new Set(Object.keys(ARTICLE_META));
 
 function getPageLabel(id: string): string {
   if (id === "billing-overview") return "Billing Overview";
+  if (id === "vista-overview") return "VISTA Overview";
+  if (id === "vista-port") return "VISTA for Port";
+  if (id === "vista-vc") return "VISTA for Virtual Connection";
+  if (id === "vista-dci-wave") return "VISTA for DCI Wave";
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {
       if (item.id === id) return item.label;
@@ -934,6 +974,9 @@ export function KnowledgeBase() {
                     {activePage === "service-detail" && <ServiceDetailPage onNavigate={navigate} />}
                     {activePage === "service-status" && <ServiceStatusPage onNavigate={navigate} />}
                     {activePage === "vista-overview" && <VistaOverviewPage onNavigate={navigate} />}
+                    {activePage === "vista-port" && <VistaPortPage onNavigate={navigate} />}
+                    {activePage === "vista-vc" && <VistaVirtualConnectionPage onNavigate={navigate} />}
+                    {activePage === "vista-dci-wave" && <VistaDCIWavePage onNavigate={navigate} />}
                     {activePage === "dashboard-overview" && <DashboardOverviewPage onNavigate={navigate} />}
                     {activePage === "notifications" && <NotificationsPage onNavigate={navigate} />}
                     {activePage === "manage-alerts" && <ManageAlertsPage onNavigate={navigate} />}

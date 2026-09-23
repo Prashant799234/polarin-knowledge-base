@@ -104,6 +104,9 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         <LI><strong>Direct Case Submissions & Tracking</strong>: One-click support ticket creation pre-populated with port serial, facility, and telemetry state.</LI>
         <LI><strong>Physical Link Stability & Errors</strong>: Port status, line protocol, and optical layer flap detection.</LI>
       </UL>
+      <P>
+        <PageLink label="Read full VISTA for Port guide →" onClick={() => onNavigate?.("vista-port")} />
+      </P>
 
       {/* 2. Virtual Connection & DCI Layer 2 */}
       <H3 id="product-vc">2. Virtual Connection (VC) & DCI Layer 2</H3>
@@ -160,6 +163,9 @@ export function VistaOverviewPage({ onNavigate }: Props) {
           </div>
         </div>
       </div>
+      <P>
+        <PageLink label="Read full VISTA for Virtual Connection guide →" onClick={() => onNavigate?.("vista-vc")} />
+      </P>
 
       {/* 3. DCI Wave */}
       <H3 id="product-wave">3. DCI Wave (Optical Layer 1 Interconnect)</H3>
@@ -172,6 +178,9 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         <LI><strong>Optical Flaps Counter</strong>: Tracks optical signal interruptions, loss of signal (LOS), or automatic protection switching (APS) events.</LI>
         <LI><strong>Mapped Maintenance & Incident Tickets</strong>: Correlates scheduled carrier maintenance windows directly against your circuit performance.</LI>
       </UL>
+      <P>
+        <PageLink label="Read full VISTA for DCI Wave guide →" onClick={() => onNavigate?.("vista-dci-wave")} />
+      </P>
 
       {/* ── Feature Comparison Matrix ── */}
       <H2 id="comparison-matrix">Metrics & Feature Comparison Matrix</H2>
