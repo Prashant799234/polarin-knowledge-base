@@ -30,6 +30,9 @@ import { TwoFactorAuthPage } from "./articles/TwoFactorAuthPage";
 import { KYCDocumentsPage } from "./articles/KYCDocumentsPage";
 import { OrgSettingsPage } from "./articles/OrgSettingsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
+import { BillingProfilePage } from "./articles/BillingProfilePage";
+import { BillingOverviewPage } from "./articles/BillingOverviewPage";
+import { ReportsPage } from "./articles/ReportsPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
 import { PortStatusPage } from "./articles/PortStatusPage";
 import { CreateLAGPage } from "./articles/CreateLAGPage";
@@ -301,11 +304,30 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "invite-members": {
     prev: { label: "Organisation Settings",     pageId: "org-settings" },
-    next: { label: "Locations",                 pageId: "locations" },
+    next: { label: "Billing Overview",          pageId: "billing-overview" },
     related: [
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
       { label: "Organisation Settings",         pageId: "org-settings" },
+      { label: "Billing Profile",               pageId: "billing-profile" },
       { label: "Create a Polarin Account",      pageId: "create-account" },
+    ],
+  },
+  "billing-overview": {
+    prev: { label: "User Management",          pageId: "invite-members" },
+    next: { label: "Billing Profile",          pageId: "billing-profile" },
+    related: [
+      { label: "Billing Profile",               pageId: "billing-profile" },
+      { label: "Organisation Settings",         pageId: "org-settings" },
+      { label: "VISTA",                         pageId: "vista-overview" },
+    ],
+  },
+  "billing-profile": {
+    prev: { label: "Billing Overview",         pageId: "billing-overview" },
+    next: { label: "Activity Log Overview",    pageId: "activity-log-overview" },
+    related: [
+      { label: "Billing Overview",              pageId: "billing-overview" },
+      { label: "User Management",               pageId: "invite-members" },
+      { label: "Organisation Settings",         pageId: "org-settings" },
     ],
   },
   "profile-personal": {
@@ -534,12 +556,23 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Understand Virtual Router Status",      pageId: "vr-status" },
     ],
   },
+  "reports": {
+    prev: { label: "Using Activity Log",       pageId: "activity-log-details" },
+    next: { label: "Manage Alerts",            pageId: "manage-alerts" },
+    related: [
+      { label: "VISTA",                        pageId: "vista-overview" },
+      { label: "Alerts & Notifications",        pageId: "notifications" },
+      { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
+      { label: "What Is a Port?",               pageId: "port-overview" },
+    ],
+  },
   "vista-overview": {
     related: [
+      { label: "Reports",                       pageId: "reports" },
+      { label: "Alerts & Notifications",        pageId: "notifications" },
       { label: "What Is a Port?",               pageId: "port-overview" },
       { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
-      { label: "Alerts & Notifications",  pageId: "notifications" },
     ],
   },
 };
@@ -882,7 +915,9 @@ export function KnowledgeBase() {
                     {activePage === "profile-2fa" && <TwoFactorAuthPage onNavigate={navigate} />}
                     {activePage === "org-kyc" && <KYCDocumentsPage />}
                     {activePage === "org-settings" && <OrgSettingsPage onNavigate={navigate} />}
-                    {activePage === "invite-members" && <InviteTeamPage />}
+                    {activePage === "invite-members" && <InviteTeamPage onNavigate={navigate} />}
+                    {activePage === "billing-overview" && <BillingOverviewPage onNavigate={navigate} />}
+                    {activePage === "billing-profile" && <BillingProfilePage onNavigate={navigate} />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
                     {activePage === "port-create" && <CreatePortPage />}
                     {activePage === "port-status" && <PortStatusPage />}
@@ -904,6 +939,7 @@ export function KnowledgeBase() {
                     {activePage === "manage-alerts" && <ManageAlertsPage onNavigate={navigate} />}
                     {activePage === "activity-log-overview" && <ActivityLogOverviewPage onNavigate={navigate} />}
                     {activePage === "activity-log-details" && <ActivityLogPage onNavigate={navigate} />}
+                    {activePage === "reports" && <ReportsPage onNavigate={navigate} />}
                     {activePage === "ticket-overview" && <SupportOverviewPage onNavigate={navigate} />}
                     {activePage === "create-ticket" && <CreateTicketPage onNavigate={navigate} />}
                     {activePage === "my-tickets" && <MyTicketsPage onNavigate={navigate} />}
