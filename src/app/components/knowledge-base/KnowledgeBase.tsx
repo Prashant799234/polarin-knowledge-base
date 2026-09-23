@@ -188,10 +188,11 @@ const NAV_GROUPS: NavGroup[] = [
       },
       { id: "invite-members", label: "User Management", icon: Users },
       {
-        id: "billing", label: "Billing Profile", icon: CreditCard,
+        id: "billing", label: "Billing", icon: CreditCard,
         children: [
+          { id: "billing-overview", label: "Overview" },
+          { id: "billing-profile", label: "Billing Profile" },
           { id: "billing-invoices", label: "Invoices" },
-          { id: "billing-payment", label: "Payment Methods" },
         ],
       },
       {
@@ -546,12 +547,16 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
 const ARTICLE_PAGES = new Set(Object.keys(ARTICLE_META));
 
 function getPageLabel(id: string): string {
+  if (id === "billing-overview") return "Billing Overview";
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {
       if (item.id === id) return item.label;
       if (item.children) {
         for (const child of item.children) {
-          if (child.id === id) return child.label;
+          if (child.id === id) {
+            if (child.label === "Overview") return `${item.label} Overview`;
+            return child.label;
+          }
         }
       }
     }
@@ -563,9 +568,21 @@ export function KnowledgeBase() {
   const [activePage, setActivePage] = useState<KBPage>(() => {
     const p = new URLSearchParams(window.location.search).get("page");
     if (p === "feedback") return "escalation-matrix";
+    if (p === "billing" || p === "billing-payment") return "billing-overview";
     return p || "welcome";
   });
-  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    const initialPage = new URLSearchParams(window.location.search).get("page") || "welcome";
+    const set = new Set<string>();
+    for (const group of NAV_GROUPS) {
+      for (const item of group.items) {
+        if (item.children?.some(c => c.id === initialPage)) {
+          set.add(item.id);
+        }
+      }
+    }
+    return set;
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const [recentPageHistory, setRecentPageHistory] = useState<string[]>([]);
@@ -587,6 +604,13 @@ export function KnowledgeBase() {
     if (id === activePage) return;
     if (scrollerRef.current) scrollerRef.current.scrollTop = 0;
     setRecentPageHistory(prev => [activePage, ...prev.filter(p => p !== activePage)].slice(0, 8));
+    for (const group of NAV_GROUPS) {
+      for (const item of group.items) {
+        if (item.children?.some(c => c.id === id)) {
+          setExpanded(prev => new Set(prev).add(item.id));
+        }
+      }
+    }
     setIsNavigating(true);
     setActivePage(id);
     if (isMobile) setSidebarOpen(false);
