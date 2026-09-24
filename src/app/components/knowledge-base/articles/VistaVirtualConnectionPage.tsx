@@ -188,3 +188,4 @@ function Dot() {
 function Tag({ label, color }: { label: string; color: string }) {
   return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }
+
