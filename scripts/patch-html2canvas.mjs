@@ -31,18 +31,29 @@ for (const file of files) {
     modified = true;
   }
 
-  // NOTE: a previous patch (3) inserted a "minSpace" heuristic into
-  // parseTextBounds that force-shifted any two same-line text bounds
-  // apart if they were "too close". It was meant to fix rare overlap
-  // between adjacent inline elements (e.g. text immediately followed by
-  // a <strong> or <button>), but it applied to EVERY text-bounds pair
-  // html2canvas measures — including normal, already-correctly-spaced
-  // words within a single accurately-measured text node. That corrupted
-  // word spacing across every paragraph (visible as stretched, justify-
-  // looking text) and made lines overflow their container width, which
-  // is what actually caused the overlapping/garbled PDF and print
-  // output. Removed — do not reintroduce without reproducing the
-  // original narrow bug first and scoping a fix to it specifically.
+  // 3. REMOVE the "minSpace" heuristic if present. A previous patch
+  // inserted this into parseTextBounds to force-shift any two same-line
+  // text bounds apart if they were "too close" — meant to fix rare
+  // overlap between adjacent inline elements (e.g. text immediately
+  // followed by a <strong> or <button>), but it applied to EVERY
+  // text-bounds pair html2canvas measures, including normal,
+  // already-correctly-spaced words within a single accurately-measured
+  // text node. That corrupted word spacing across every paragraph
+  // (visible as stretched, justify-looking text) and pushed lines past
+  // their container's right edge, which is what actually caused the
+  // overlapping/garbled PDF and print output.
+  //
+  // This is an active removal (not just "don't add it") because a
+  // cached node_modules — e.g. a CI/CD build cache that reused a
+  // previously-patched copy — can still carry the bad injected code
+  // even after it's gone from this script. Do not reintroduce without
+  // reproducing the original narrow bug first and scoping a fix to it
+  // specifically.
+  const minSpacePattern = /\n\s*var minSpace = \(styles\.fontSize[\s\S]*?\n\s*\}\n\s*\}\n\s*\}(?=\s*\n\s*return textBounds;)/;
+  if (minSpacePattern.test(content)) {
+    content = content.replace(minSpacePattern, "");
+    modified = true;
+  }
 
   if (modified) {
     writeFileSync(file, content, "utf-8");

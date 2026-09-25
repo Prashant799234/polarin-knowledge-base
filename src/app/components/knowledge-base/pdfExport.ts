@@ -58,11 +58,21 @@ export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle
   const documentLinks: DocumentLink[] = [];
 
   try {
-    // Wait for fonts and reflow
-    if (document.fonts && document.fonts.ready) {
-      await document.fonts.ready;
+    // Wait for fonts and reflow. document.fonts.ready alone only resolves
+    // for fonts already *requested* by the time it's called — on a cold
+    // page load (no cached fonts), a weight/style that this specific page
+    // happens to use for the first time can still be mid-fetch, so
+    // explicitly request every weight the KB actually uses before waiting.
+    if (document.fonts) {
+      const weights = [
+        "300 16px Lato", "400 16px Lato", "700 16px Lato", "900 16px Lato",
+        "400 16px 'Plus Jakarta Sans'", "500 16px 'Plus Jakarta Sans'",
+        "600 16px 'Plus Jakarta Sans'", "700 16px 'Plus Jakarta Sans'", "800 16px 'Plus Jakarta Sans'",
+      ];
+      await Promise.all(weights.map((w) => document.fonts.load(w).catch(() => {})));
+      if (document.fonts.ready) await document.fonts.ready;
     }
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 150));
 
     // 2. Guarantee all images within contentEl are completely loaded
     const imgs = Array.from(contentEl.querySelectorAll("img"));
