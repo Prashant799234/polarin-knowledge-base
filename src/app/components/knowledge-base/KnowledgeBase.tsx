@@ -826,7 +826,7 @@ export function KnowledgeBase() {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f8fafc", fontFamily: FONT }}>
+    <div className="kb-app-body" style={{ display: "flex", flexDirection: "column", height: "100%", background: "#f8fafc", fontFamily: FONT }}>
       <ProgressBar active={isNavigating} />
 
       {/* ── Full-width desktop header (spans sidebar + content) ── */}

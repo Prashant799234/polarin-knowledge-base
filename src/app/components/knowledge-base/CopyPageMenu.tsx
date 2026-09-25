@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
-import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown, Printer, Loader2 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { Copy, Check, FileText, FileDown, Sparkles, Search, ChevronDown, Printer, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { downloadPageAsPdf } from "./pdfExport";
 import { extractContentNodes } from "./extractContent";
 
@@ -51,7 +52,9 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [toast, setToast] = useState<{ message: string; variant: "success" | "error" } | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -61,6 +64,14 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [open]);
+
+  useEffect(() => () => { if (toastTimerRef.current) clearTimeout(toastTimerRef.current); }, []);
+
+  const showToast = (message: string, variant: "success" | "error") => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToast({ message, variant });
+    toastTimerRef.current = setTimeout(() => setToast(null), 3500);
+  };
 
   const openInService = (url: (encodedPrompt: string) => string) => {
     const prompt = buildPrompt(pageTitle, pageId);
@@ -102,10 +113,11 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
         setOpen(false);
         setIsGeneratingPdf(true);
         try {
-          await downloadPageAsPdf(contentRef.current, pageTitle);
+          const fileName = await downloadPageAsPdf(contentRef.current, pageTitle);
+          showToast(`Downloaded ${fileName}`, "success");
         } catch (err: any) {
           console.error("PDF export failed:", err);
-          alert("Could not generate PDF: " + (err?.message || "Render error"));
+          showToast("Could not generate PDF — " + (err?.message || "render error"), "error");
         } finally {
           setIsGeneratingPdf(false);
         }
@@ -190,7 +202,49 @@ export function CopyPageMenu({ contentRef, pageTitle, pageId }: Props) {
           ))}
         </div>
       )}
+
+      <Toast toast={toast} onDismiss={() => setToast(null)} />
     </div>
+  );
+}
+
+function Toast({ toast, onDismiss }: { toast: { message: string; variant: "success" | "error" } | null; onDismiss: () => void }) {
+  return (
+    <AnimatePresence>
+      {toast && (
+        <motion.div
+          data-copy-page-exclude="true"
+          initial={{ opacity: 0, y: 12, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 8, scale: 0.97 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          style={{
+            position: "fixed", bottom: 24, right: 24, zIndex: 1000,
+            display: "flex", alignItems: "center", gap: 10,
+            maxWidth: 360, background: "#fff",
+            border: `1px solid ${toast.variant === "success" ? "#a7f3d0" : "#fecaca"}`,
+            borderRadius: 12, padding: "12px 14px",
+            boxShadow: "0px 8px 24px rgba(15,23,42,0.16)",
+          }}
+        >
+          {toast.variant === "success" ? (
+            <CheckCircle2 size={18} color="#059669" style={{ flexShrink: 0 }} />
+          ) : (
+            <AlertCircle size={18} color="#dc2626" style={{ flexShrink: 0 }} />
+          )}
+          <span style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: "#0a3954", lineHeight: 1.4 }}>
+            {toast.message}
+          </span>
+          <button
+            onClick={onDismiss}
+            aria-label="Dismiss"
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "#94a3b8", padding: 2, flexShrink: 0 }}
+          >
+            ✕
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

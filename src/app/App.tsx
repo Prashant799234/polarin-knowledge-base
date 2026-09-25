@@ -12,7 +12,7 @@ function KBWithLoader() {
   }, []);
 
   return (
-    <div style={{ width: "100vw", height: "100vh", overflow: "hidden", background: "#F8FAFC" }}>
+    <div className="kb-app-shell" style={{ width: "100vw", height: "100vh", overflow: "hidden", background: "#F8FAFC" }}>
       <GlobalLoader show={loading} />
       <KnowledgeBase />
     </div>

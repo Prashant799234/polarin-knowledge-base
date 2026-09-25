@@ -31,24 +31,18 @@ for (const file of files) {
     modified = true;
   }
 
-  // 3. Ensure minSpace spacing guard exists in parseTextBounds
-  if (!content.includes("var minSpace =")) {
-    content = content.replace(
-      /(\s*return textBounds;\s*\n\s*\};)/,
-      `\n    var minSpace = (styles.fontSize && styles.fontSize.number ? styles.fontSize.number : 14) * 0.28;
-    for (var i = 1; i < textBounds.length; i++) {
-        var prev = textBounds[i - 1];
-        var curr = textBounds[i];
-        if (Math.abs(curr.bounds.top - prev.bounds.top) < 6) {
-            var prevRight = prev.bounds.left + prev.bounds.width;
-            if (curr.bounds.left < prevRight + minSpace) {
-                curr.bounds = new Bounds(prevRight + minSpace, curr.bounds.top, curr.bounds.width, curr.bounds.height);
-            }
-        }
-    }$1`
-    );
-    modified = true;
-  }
+  // NOTE: a previous patch (3) inserted a "minSpace" heuristic into
+  // parseTextBounds that force-shifted any two same-line text bounds
+  // apart if they were "too close". It was meant to fix rare overlap
+  // between adjacent inline elements (e.g. text immediately followed by
+  // a <strong> or <button>), but it applied to EVERY text-bounds pair
+  // html2canvas measures — including normal, already-correctly-spaced
+  // words within a single accurately-measured text node. That corrupted
+  // word spacing across every paragraph (visible as stretched, justify-
+  // looking text) and made lines overflow their container width, which
+  // is what actually caused the overlapping/garbled PDF and print
+  // output. Removed — do not reintroduce without reproducing the
+  // original narrow bug first and scoping a fix to it specifically.
 
   if (modified) {
     writeFileSync(file, content, "utf-8");

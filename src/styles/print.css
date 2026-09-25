@@ -32,6 +32,17 @@
     background: #ffffff !important;
   }
 
+  /*
+   * The live app is a fixed-viewport, non-scrolling "app shell"
+   * (100vw/100vh with overflow: hidden, only inner panes scroll) so it
+   * behaves like a native app. That's fundamentally incompatible with
+   * printing, which needs the document to reflow across multiple
+   * physical pages — without resetting these two wrapper divs, their
+   * fixed height + overflow:hidden clips print output to a single
+   * viewport-height page no matter what the classes below do.
+   */
+  .kb-app-shell,
+  .kb-app-body,
   .kb-main-layout,
   .kb-content-area,
   .kb-card,

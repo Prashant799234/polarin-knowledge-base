@@ -44,8 +44,8 @@ interface DocumentLink {
   height: number;
 }
 
-export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle: string): Promise<void> {
-  if (!container) return;
+export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle: string): Promise<string> {
+  if (!container) throw new Error("Nothing to export — page content not found.");
 
   // Identify the core content element
   const contentEl = (container.querySelector(".kb-article-content") as HTMLElement) || container;
@@ -416,4 +416,6 @@ export async function downloadPageAsPdf(container: HTMLElement | null, pageTitle
       // already cleaned up
     }
   }, 2000);
+
+  return fileName;
 }
