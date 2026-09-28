@@ -4,9 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "postinstall": "node scripts/patch-html2canvas.mjs",
-    "build": "node scripts/patch-html2canvas.mjs && node scripts/generate-markdown.mjs && vite build",
-    "dev": "node scripts/patch-html2canvas.mjs && vite"
+    "build": "node scripts/generate-markdown.mjs && vite build",
+    "dev": "vite"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -40,6 +39,7 @@
     "@radix-ui/react-toggle-group": "1.1.2",
     "@radix-ui/react-toggle": "1.1.2",
     "@radix-ui/react-tooltip": "1.1.8",
+    "@react-pdf/renderer": "^4.9.0",
     "canvas-confetti": "1.9.4",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -47,8 +47,6 @@
     "date-fns": "3.6.0",
     "embla-carousel-react": "8.6.0",
     "input-otp": "1.4.2",
-    "html2canvas": "^1.4.1",
-    "jspdf": "2.5.2",
     "lucide-react": "0.487.0",
     "motion": "12.23.24",
     "next-themes": "0.4.6",

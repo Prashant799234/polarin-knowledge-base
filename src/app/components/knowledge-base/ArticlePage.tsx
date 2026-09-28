@@ -46,7 +46,7 @@ const CV: Record<CalloutVariant, { accent: string; bg: string; label: string; la
 export function Callout({ variant = "info", children }: { variant?: CalloutVariant; children: ReactNode }) {
   const s = CV[variant];
   return (
-    <div className="kb-callout" style={{
+    <div className="kb-callout" data-variant={variant} style={{
       background: s.bg,
       borderLeft: `3.5px solid ${s.accent}`,
       borderRadius: "0 8px 8px 0",
