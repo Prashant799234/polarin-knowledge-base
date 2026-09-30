@@ -10,7 +10,7 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 const TOC = [
   { id: "overview",      label: "Overview" },
   { id: "what-it-does",  label: "What Polarin Does",   level: 2 as const },
-  { id: "why-it-helps",  label: "Why It Helps",        level: 2 as const },
+  { id: "why-it-helps",  label: "How It Helps",        level: 2 as const },
   { id: "how-it-fits",   label: "How the Pieces Fit",  level: 2 as const },
   { id: "next-steps",    label: "Next Steps" },
 ];
@@ -53,7 +53,7 @@ export function AboutPolarinPage({ onNavigate }: Props) {
         attention without switching between vendor portals. See <PageLink label="Services Offered" onClick={() => onNavigate("services-offered")} /> for the full breakdown.
       </P>
 
-      <H2 id="why-it-helps">Why It Helps</H2>
+      <H2 id="why-it-helps">How It Helps</H2>
       <UL>
         <LI><strong>Self-service:</strong> configure and order connectivity yourself instead of routing every request through a ticket queue.</LI>
         <LI><strong>One place to look:</strong> ports, routers, and cloud connections all show up in the same dashboard, with real status instead of a support thread.</LI>
