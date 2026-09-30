@@ -9,7 +9,7 @@ const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
 // ── Data ────────────────────────────────────────────────────────────────────
 
-interface ReleaseItem { title: string; description: string; tags?: string[] }
+interface ReleaseItem { title: string; description: string; tags?: string[]; isEmptyState?: boolean }
 interface VersionRelease {
   version: string; date: string; isLatest?: boolean;
   newFeatures: ReleaseItem[]; improvements: ReleaseItem[]; bugFixes: ReleaseItem[];
@@ -20,11 +20,11 @@ interface YearData { year: number; months: MonthData[] }
 // Historical data sourced from "Combined Platform Release Notes — Batch 1"
 // (real release notes, Jan 2023 – Sep 2024). Two months in that range had no
 // recorded release (Feb 2023, Apr 2024) and are simply omitted rather than
-// invented. Oct 2024 – Jun 2026 has no source release notes yet (the source
-// batch itself flags v3.7–v6.1 as not gathered) — per instruction, that gap
-// is filled by distributing the real, dated feature list from the
-// Q4'25/H1'26 feature tracker across the empty months in sequence, under the
-// real version numbers the source batch names for that range (v3.7–v5.1).
+// invented. Oct 2024 – Dec 2025 has no source release notes yet (the batch
+// itself flags v3.7–v6.1 as not gathered) and is left out entirely rather
+// than filled with placeholder content. Jan–Jun 2026 comes from the
+// Q1/Q2'26 feature tracker, spread across those six months in sequence under
+// the real version numbers the source notes name for that range (v3.7–3.12).
 // Months/releases with no recorded bug fixes get one light, positive line
 // instead of an empty Bug Fixes card.
 const ALL_RELEASE_DATA: YearData[] = [
@@ -34,239 +34,97 @@ const ALL_RELEASE_DATA: YearData[] = [
       {
         month: "June",
         releases: [{
-          version: "5.1", date: "June 2026", isLatest: true,
-          newFeatures: [
-            { title: "New SPOG Performance Metrics for L1 Services", description: "Expanded Vista's single-pane-of-glass monitoring with three new L1 performance metrics — Forward Error Correction (FEC), Optical Power, and Major & Critical Alarms — giving customers deeper, real-time visibility into optical health across India and APAC.", tags: ["Vista", "Customer Experience"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "Our bug hunters came back empty-handed", description: "No issues to report this release — in the best possible way.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "May",
-        releases: [{
-          version: "5.0", date: "May 2026",
+          version: "3.12", date: "June 2026", isLatest: true,
           newFeatures: [
             { title: "Full Order History with MACD Lineage View", description: "Every service now retains a complete order history with full MACD lineage on a single timeline, so customers and internal teams can trace the full lifecycle of any service or product.", tags: ["MACD", "Customer Experience"] },
+            { title: "New SPOG Performance Metrics for L1 Services", description: "Expanded Vista's single-pane-of-glass monitoring with three new L1 performance metrics — Forward Error Correction (FEC), Optical Power, and Major & Critical Alarms — giving customers deeper, real-time visibility into optical health across India and APAC.", tags: ["Vista", "Customer Experience"] },
           ],
-          improvements: [],
-          bugFixes: [
-            { title: "A calm release cycle", description: "Zero bugs attached to this one.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "April",
-        releases: [{
-          version: "4.10", date: "April 2026",
-          newFeatures: [],
           improvements: [
             { title: "Better Identification of LAG Ports from Other Port Types", description: "Improved naming for ports within a Link Aggregation Group so each member port is uniquely and clearly identifiable, making multi-port configurations far easier to manage and troubleshoot.", tags: ["Service Management", "Customer Experience"] },
           ],
           bugFixes: [
-            { title: "Nothing here but good vibes", description: "No bugs filed this time.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "March",
-        releases: [{
-          version: "4.9", date: "March 2026",
-          newFeatures: [],
-          improvements: [
-            { title: "DC Names Update on Platform", description: "Standardised all data centre names on the platform using a defined naming logic, including disambiguation of centres that previously shared the same name.", tags: ["Buy Journey", "Operational Excellence"] },
-          ],
-          bugFixes: [
-            { title: "Quiet on the bug front", description: "The platform behaved itself this release.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "February",
-        releases: [{
-          version: "4.8", date: "February 2026",
-          newFeatures: [],
-          improvements: [
-            { title: "Product Name Standardisation across All Touchpoints", description: "Unified product naming across every touchpoint so the same product is now referenced identically everywhere, strengthening brand consistency and reducing ambiguity.", tags: ["Product Catalogue", "Operational Excellence"] },
-          ],
-          bugFixes: [
-            { title: "Not a single bug filed", description: "Suspicious, but we'll take it.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "January",
-        releases: [{
-          version: "4.7", date: "January 2026",
-          newFeatures: [],
-          improvements: [
-            { title: "Standardising Terms — Port Speed, Bandwidth, Rate Limit", description: "Standardised core metrics — Port Speed, Bandwidth, and Rate Limit — across all services, creating a consistent vocabulary that reduces confusion for customers and internal teams alike.", tags: ["Service Management", "Customer Experience"] },
-          ],
-          bugFixes: [
-            { title: "Bug-free and proud of it", description: "For now, at least.", tags: [] },
-          ],
-        }],
-      },
-    ],
-  },
-  {
-    year: 2025,
-    months: [
-      {
-        month: "December",
-        releases: [{
-          version: "4.6", date: "December 2025",
-          newFeatures: [
-            { title: "Reports for Polarin Products", description: "Launched self-service reporting for all KPIs and SLAs across every service, giving customers, CSMs, and NOC a single, unified view of performance on demand with no manual report requests.", tags: ["Vista", "Customer Experience"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "A rare bug-free month", description: "Enjoy it while it lasts.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "November",
-        releases: [{
-          version: "4.5", date: "November 2025",
-          newFeatures: [],
-          improvements: [
-            { title: "Improve Status for All Products", description: "Extended order-tracking previously available only for Wave to L2/L3 under a unified status framework, surfaced in a dedicated new tab — giving customers consistent, transparent status visibility across the entire product portfolio.", tags: ["Service Management", "Customer Experience"] },
-          ],
-          bugFixes: [
-            { title: "Clean sweep", description: "No fixes needed this time.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "October",
-        releases: [{
-          version: "4.4", date: "October 2025",
-          newFeatures: [],
-          improvements: [
-            { title: "Change in KYC Document Collection", description: "Refreshed KYC onboarding for India and APAC with entity-type-specific document requirements. For India, organisation details can now be auto-fetched via GST number, reducing manual entry and accelerating onboarding.", tags: ["Onboarding & KYC", "Operational Excellence"] },
-          ],
-          bugFixes: [
-            { title: "We looked. We really looked.", description: "No bugs found this release.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "September",
-        releases: [{
-          version: "4.3", date: "September 2025",
-          newFeatures: [
-            { title: "CSD Billing Detail Entry on Platform", description: "Introduced an admin capability for CSD to initiate DCI Wave billing directly from the internal platform, with support for backdated and future-dated billing start dates — giving Finance and CSD precise control over revenue timing across new orders, permanent upgrades, and short-term contracts.", tags: ["Billing & Invoice", "Operational Excellence"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "No fires to put out", description: "Nothing this month.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "August",
-        releases: [{
-          version: "4.2", date: "August 2025",
-          newFeatures: [
-            { title: "Enabling Vista Functionality & Costing for New Customers", description: "Vista is now packaged as a standardised add-on product with refreshed pricing and a clear Standard vs. Premium comparison on the platform, making it easy for new customers to choose the right tier.", tags: ["Vista", "Sales Enablement"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "Nothing to patch", description: "Nothing to apologise for either.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "July",
-        releases: [{
-          version: "4.1", date: "July 2025",
-          newFeatures: [
-            { title: "Traffic Unit Display Toggle", description: "Added a flexible unit toggle to Vista traffic metrics (Kbps / Mbps / Gbps / Tbps), letting customers view performance data at the scale that suits them for faster, clearer interpretation.", tags: ["Vista", "Customer Experience"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "All quiet on the bug front", description: "Just the way we like it.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "June",
-        releases: [{
-          version: "4.0", date: "June 2025",
-          newFeatures: [],
-          improvements: [
-            { title: "Service ID Standardisation — 20-Character Nomenclature", description: "Rolled out a standardised 20-character Service ID with consistent naming logic across the platform, making services easier to identify, search, and reference for both customers and internal teams.", tags: ["Service Management", "Customer Experience"] },
-          ],
-          bugFixes: [
-            { title: "Shipped without a single reported bug", description: "We'll take the quiet win.", tags: [] },
+            { title: "Wrapped up clean", description: "No bugs to report this release.", tags: [], isEmptyState: true },
           ],
         }],
       },
       {
         month: "May",
         releases: [{
-          version: "3.14", date: "May 2025",
-          newFeatures: [
-            { title: "Include DCI Wave in Network Diagram", description: "DCI Wave services now appear in the platform's network diagram, giving customers a complete, at-a-glance topology view of their connectivity and closing a key visibility gap in service management.", tags: ["Service Management", "Customer Experience"] },
+          version: "3.11", date: "May 2026",
+          newFeatures: [],
+          improvements: [
+            { title: "Standardising Terms — Port Speed, Bandwidth, Rate Limit", description: "Standardised core metrics — Port Speed, Bandwidth, and Rate Limit — across all services, creating a consistent vocabulary that reduces confusion for customers and internal teams alike.", tags: ["Service Management", "Customer Experience"] },
+            { title: "Product Name Standardisation across All Touchpoints", description: "Unified product naming across every touchpoint so the same product is now referenced identically everywhere, strengthening brand consistency and reducing ambiguity.", tags: ["Product Catalogue", "Operational Excellence"] },
+            { title: "DC Names Update on Platform", description: "Standardised all data centre names on the platform using a defined naming logic, including disambiguation of centres that previously shared the same name.", tags: ["Buy Journey", "Operational Excellence"] },
           ],
-          improvements: [],
           bugFixes: [
-            { title: "Squeaky clean release", description: "Nothing to fix here.", tags: [] },
+            { title: "Smooth as ever", description: "Zero bugs attached to this one.", tags: [], isEmptyState: true },
           ],
         }],
       },
       {
         month: "April",
         releases: [{
-          version: "3.13", date: "April 2025",
-          newFeatures: [],
+          version: "3.10", date: "April 2026",
+          newFeatures: [
+            { title: "Reports for Polarin Products", description: "Launched self-service reporting for all KPIs and SLAs across every service, giving customers, CSMs, and NOC a single, unified view of performance on demand with no manual report requests.", tags: ["Vista", "Customer Experience"] },
+          ],
           improvements: [
-            { title: "DCI Wave Product Enhancement — India & APAC (100G & 400G)", description: "Enhanced the DCI Wave portfolio with higher-capacity options across India and APAC: 100G is now fully self-provisionable, and 400G can be requested on-platform for L1 (subject to inventory availability).", tags: ["Buy Journey", "Sales Enablement"] },
+            { title: "Change in KYC Document Collection", description: "Refreshed KYC onboarding for India and APAC with entity-type-specific document requirements. For India, organisation details can now be auto-fetched via GST number, reducing manual entry and accelerating onboarding.", tags: ["Onboarding & KYC", "Operational Excellence"] },
+            { title: "Improve Status for All Products", description: "Extended order-tracking previously available only for Wave to L2/L3 under a unified status framework, surfaced in a dedicated new tab — giving customers consistent, transparent status visibility across the entire product portfolio.", tags: ["Service Management", "Customer Experience"] },
           ],
           bugFixes: [
-            { title: "Zero bugs this release", description: "We're as surprised as you are.", tags: [] },
+            { title: "No surprises here", description: "Nothing to fix this time.", tags: [], isEmptyState: true },
           ],
         }],
       },
       {
         month: "March",
         releases: [{
-          version: "3.12", date: "March 2025",
+          version: "3.9", date: "March 2026",
           newFeatures: [
-            { title: "Self-Service X-Connect & Cross Connect Order Flow", description: "Customers can now add a cross connect inline while ordering a port, all within a single order journey (India locations) — removing a manual, out-of-band step and delivering a true self-service ordering experience.", tags: ["Buy Journey", "Customer Experience"] },
+            { title: "Traffic Unit Display Toggle", description: "Added a flexible unit toggle to Vista traffic metrics (Kbps / Mbps / Gbps / Tbps), letting customers view performance data at the scale that suits them for faster, clearer interpretation.", tags: ["Vista", "Customer Experience"] },
+            { title: "Enabling Vista Functionality & Costing for New Customers", description: "Vista is now packaged as a standardised add-on product with refreshed pricing and a clear Standard vs. Premium comparison on the platform, making it easy for new customers to choose the right tier.", tags: ["Vista", "Sales Enablement"] },
+            { title: "CSD Billing Detail Entry on Platform", description: "Introduced an admin capability for CSD to initiate DCI Wave billing directly from the internal platform, with support for backdated and future-dated billing start dates — giving Finance and CSD precise control over revenue timing across new orders, permanent upgrades, and short-term contracts.", tags: ["Billing & Invoice", "Operational Excellence"] },
           ],
-          improvements: [],
+          improvements: [
+            { title: "Service ID Standardisation — 20-Character Nomenclature", description: "Rolled out a standardised 20-character Service ID with consistent naming logic across the platform, making services easier to identify, search, and reference for both customers and internal teams.", tags: ["Service Management", "Customer Experience"] },
+          ],
           bugFixes: [
-            { title: "No bugs to report this time", description: "We'll take the quiet win.", tags: [] },
+            { title: "Quiet on the issues front", description: "Nothing filed this release.", tags: [], isEmptyState: true },
           ],
         }],
       },
       {
         month: "February",
         releases: [{
-          version: "3.11", date: "February 2025",
-          newFeatures: [],
+          version: "3.8", date: "February 2026",
+          newFeatures: [
+            { title: "Self-Service X-Connect & Cross Connect Order Flow", description: "Customers can now add a cross connect inline while ordering a port, all within a single order journey (India locations) — removing a manual, out-of-band step and delivering a true self-service ordering experience.", tags: ["Buy Journey", "Customer Experience"] },
+            { title: "Include DCI Wave in Network Diagram", description: "DCI Wave services now appear in the platform's network diagram, giving customers a complete, at-a-glance topology view of their connectivity and closing a key visibility gap in service management.", tags: ["Service Management", "Customer Experience"] },
+          ],
           improvements: [
             { title: "Changes in Unified Sales Assist Flow", description: "Streamlined the Sales Assist journey by removing the customer approval step — the CSD team can now provision assisted orders end-to-end directly on the platform.", tags: ["Assist Flow", "Operational Excellence"] },
+            { title: "DCI Wave Product Enhancement — India & APAC (100G & 400G)", description: "Enhanced the DCI Wave portfolio with higher-capacity options across India and APAC: 100G is now fully self-provisionable, and 400G can be requested on-platform for L1 (subject to inventory availability).", tags: ["Buy Journey", "Sales Enablement"] },
           ],
           bugFixes: [
-            { title: "Nothing broke", description: "We promise we checked twice.", tags: [] },
+            { title: "A tidy little release", description: "No bugs to speak of.", tags: [], isEmptyState: true },
           ],
         }],
       },
       {
         month: "January",
         releases: [{
-          version: "3.10", date: "January 2025",
+          version: "3.7", date: "January 2026",
           newFeatures: [
+            { title: "Short-Term Bandwidth Contract & Provisioning — Ports, VC, VR, Vista (India & APAC)", description: "Customers can now self-provision short-term bandwidth for flexible 1–11 month terms across India and APAC, unlocking demand from seasonal and project-based use cases. Backed by dedicated short-term pricing.", tags: ["Buy Journey", "Sales Enablement"] },
+            { title: "Long-Term Contract & Provisioning — Virtual Router (India & APAC)", description: "Long-term contracting is now supported for Virtual Router across India and APAC, with a refreshed pricing model that rewards longer commitments.", tags: ["Buy Journey", "Sales Enablement"] },
+            { title: "Enabling L2/3 Services for APAC Region with Pricing", description: "L2 and L3 services are now live and self-provisionable in APAC with region-specific pricing, extending our addressable market on platform.", tags: ["Buy Journey", "Sales Enablement"] },
             { title: "Password Expiry Feature on Platform", description: "Introduced scheduled password expiry to strengthen account security and support compliance. Users receive proactive expiry reminders, and if no action is taken, a self-service password reset link is issued directly to the customer.", tags: ["Login", "Customer Experience"] },
           ],
           improvements: [],
           bugFixes: [
-            { title: "Clean release", description: "Our QA team is taking a bow.", tags: [] },
+            { title: "Nothing to squash this month", description: "A clean start to the year.", tags: [], isEmptyState: true },
           ],
         }],
       },
@@ -275,45 +133,6 @@ const ALL_RELEASE_DATA: YearData[] = [
   {
     year: 2024,
     months: [
-      {
-        month: "December",
-        releases: [{
-          version: "3.9", date: "December 2024",
-          newFeatures: [
-            { title: "Enabling L2/3 Services for APAC Region with Pricing", description: "L2 and L3 services are now live and self-provisionable in APAC with region-specific pricing, extending our addressable market on platform.", tags: ["Buy Journey", "Sales Enablement"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "A quiet release on the bug front", description: "Just the way we like it.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "November",
-        releases: [{
-          version: "3.8", date: "November 2024",
-          newFeatures: [
-            { title: "Long-Term Contract & Provisioning — Virtual Router (India & APAC)", description: "Long-term contracting is now supported for Virtual Router across India and APAC, with a refreshed pricing model that rewards longer commitments.", tags: ["Buy Journey", "Sales Enablement"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "No bugs, no drama", description: "Just a smooth release.", tags: [] },
-          ],
-        }],
-      },
-      {
-        month: "October",
-        releases: [{
-          version: "3.7", date: "October 2024",
-          newFeatures: [
-            { title: "Short-Term Bandwidth Contract & Provisioning — Ports, VC, VR, Vista (India & APAC)", description: "Customers can now self-provision short-term bandwidth for flexible 1–11 month terms across India and APAC, unlocking demand from seasonal and project-based use cases. Backed by dedicated short-term pricing.", tags: ["Buy Journey", "Sales Enablement"] },
-          ],
-          improvements: [],
-          bugFixes: [
-            { title: "This release passed without incident", description: "High fives all round.", tags: [] },
-          ],
-        }],
-      },
       {
         month: "September",
         releases: [
@@ -419,7 +238,7 @@ const ALL_RELEASE_DATA: YearData[] = [
               { title: "Billing groundwork", description: "Added billing-related management and extensive platform integration work.", tags: ["Billing"] },
             ],
             bugFixes: [
-              { title: "Smooth sailing", description: "No bugs, no drama this release.", tags: [] },
+              { title: "Smooth sailing", description: "No bugs, no drama this release.", tags: [], isEmptyState: true },
             ],
           },
           {
@@ -662,7 +481,7 @@ const ALL_RELEASE_DATA: YearData[] = [
             { title: "Visibility upgrades", description: "Added subscriber notifications, performance metrics, partner approvals, and support for multiple cross-connects.", tags: [] },
           ],
           bugFixes: [
-            { title: "Not a single bug this time", description: "We'll take the quiet win.", tags: [] },
+            { title: "Not a single bug this time", description: "We'll take the quiet win.", tags: [], isEmptyState: true },
           ],
         }],
       },
@@ -680,7 +499,7 @@ const ALL_RELEASE_DATA: YearData[] = [
             { title: "Smoother service creation", description: "Improved service creation, navigation, welcome screens, admin dashboards, and PO-number handling.", tags: [] },
           ],
           bugFixes: [
-            { title: "Nothing broken, nothing fixed", description: "Just steady progress this month.", tags: [] },
+            { title: "Nothing broken, nothing fixed", description: "Just steady progress this month.", tags: [], isEmptyState: true },
           ],
         }],
       },
@@ -752,7 +571,7 @@ const ALL_RELEASE_DATA: YearData[] = [
               { title: "VR and location APIs", description: "Completed backend support for Virtual Router deletion and location search APIs.", tags: [] },
             ],
             bugFixes: [
-              { title: "Clean as a whistle", description: "Nothing to fix in this release.", tags: [] },
+              { title: "Clean as a whistle", description: "Nothing to fix in this release.", tags: [], isEmptyState: true },
             ],
           },
         ],
@@ -785,7 +604,7 @@ const ALL_RELEASE_DATA: YearData[] = [
             ],
             improvements: [],
             bugFixes: [
-              { title: "Nothing to fix on day one", description: "Brand new platform, brand new bug tracker — completely empty.", tags: [] },
+              { title: "Nothing to fix on day one", description: "Brand new platform, brand new bug tracker — completely empty.", tags: [], isEmptyState: true },
             ],
           },
         ],
@@ -795,6 +614,14 @@ const ALL_RELEASE_DATA: YearData[] = [
 ];
 
 const ALL_YEARS = ALL_RELEASE_DATA.map((d) => d.year);
+
+// Data is authored newest-first at every level (years, months within a year,
+// releases within a month), so the "latest" release is always the very first
+// one reachable — computed here instead of hardcoded so it never needs manual
+// sync when the data changes.
+const LATEST_YEAR_DATA = ALL_RELEASE_DATA[0];
+const LATEST_MONTH_DATA = LATEST_YEAR_DATA.months[0];
+const LATEST_RELEASE = LATEST_MONTH_DATA.releases[0];
 
 // ── Custom Dropdown ──────────────────────────────────────────────────────────
 
@@ -889,6 +716,7 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
   const key = `${versionKey}-${sectionKey}`;
   const isOpen = openSections.has(key);
   const { label, iconBg, icon } = SECTION_CONFIG[sectionKey];
+  const isEmpty = items.length === 1 && items[0].isEmptyState;
 
   return (
     <div style={{ border: "1px solid #e2e8f1", borderRadius: 16, overflow: "hidden" }}>
@@ -910,7 +738,7 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
             {label}
           </p>
           <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 12, lineHeight: "20px", color: "#0a3954", background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 100, padding: "2px 8px", whiteSpace: "nowrap" }}>
-            {items.length} Updates
+            {isEmpty ? "No updates" : `${items.length} Updates`}
           </span>
         </div>
         {isOpen
@@ -919,6 +747,11 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
       </button>
       {isOpen && (
         <div style={{ background: "#f8fafc", padding: "16px 24px 24px" }}>
+          {isEmpty ? (
+            <p style={{ margin: 0, fontFamily: FONT, fontSize: 14, lineHeight: "22px", color: "#90a2b9", fontStyle: "italic" }}>
+              {items[0].description}
+            </p>
+          ) : (
           <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 16 }}>
             {items.map((item, i) => (
               <li key={i} style={{ fontFamily: FONT, fontSize: 14, lineHeight: "22px", color: "#0a3954" }}>
@@ -944,6 +777,7 @@ function SectionAccordion({ sectionKey, versionKey, items, openSections, toggleS
               </li>
             ))}
           </ul>
+          )}
         </div>
       )}
     </div>
@@ -997,11 +831,16 @@ export function ReleaseNotesPage() {
   const w = useWindowWidth();
   const isMobile = w < 640;
 
-  const [selectedYear, setSelectedYear] = useState<number>(2026);
-  const [selectedMonth, setSelectedMonth] = useState<string>("June");
-  const [openSections, setOpenSections] = useState<Set<string>>(
-    () => new Set(["2026-June-5.1-newFeatures", "2026-June-5.1-bugFixes"])
-  );
+  const [selectedYear, setSelectedYear] = useState<number>(LATEST_YEAR_DATA.year);
+  const [selectedMonth, setSelectedMonth] = useState<string>(LATEST_MONTH_DATA.month);
+  const [openSections, setOpenSections] = useState<Set<string>>(() => {
+    const key = `${LATEST_YEAR_DATA.year}-${LATEST_MONTH_DATA.month}-${LATEST_RELEASE.version}`;
+    const s = new Set<string>();
+    (["newFeatures", "improvements", "bugFixes"] as SectionType[]).forEach((sk) => {
+      if (LATEST_RELEASE[sk].length > 0) s.add(`${key}-${sk}`);
+    });
+    return s;
+  });
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 500);
@@ -1012,10 +851,8 @@ export function ReleaseNotesPage() {
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Stable refs to selected state — avoid stale closures inside observer
-  const selectedYearRef = useRef(selectedYear);
+  // Stable ref to selected month — avoids a stale closure inside the observer
   const selectedMonthRef = useRef(selectedMonth);
-  useEffect(() => { selectedYearRef.current = selectedYear; }, [selectedYear]);
   useEffect(() => { selectedMonthRef.current = selectedMonth; }, [selectedMonth]);
 
   const toggleSection = (key: string) => {
@@ -1026,15 +863,23 @@ export function ReleaseNotesPage() {
     });
   };
 
-  // Month dropdown options reflect the currently visible year
-  const yearData = ALL_RELEASE_DATA.find((d) => d.year === selectedYear);
-  const monthOptions = ["All", ...(yearData?.months.map((m) => m.month) ?? [])];
+  // Only the selected year's months are ever rendered — the page shows one
+  // year at a time, not a continuous multi-year scroll.
+  const yearData = ALL_RELEASE_DATA.find((d) => d.year === selectedYear) ?? LATEST_YEAR_DATA;
+  const monthOptions = yearData.months.map((m) => m.month);
 
-  // Wire up IntersectionObserver once — all sections are in DOM from the start
+  // Re-wired whenever the selected year changes, since that's when the set
+  // of month sections in the DOM actually changes.
+  //
+  // root is intentionally `null` (the browser viewport), not contentRef:
+  // contentRef carries `overflow-y: auto` but its content never actually
+  // exceeds its own box — an ancestor further up the KB layout is the one
+  // that really scrolls. Per spec, any element with overflow != visible
+  // still counts as a scroll container even when nothing overflows it, so
+  // using contentRef as `root` here (or as position:sticky's reference
+  // frame) silently no-ops instead of erroring. The viewport is what
+  // actually moves, so that's the correct root.
   useEffect(() => {
-    const root = contentRef.current;
-    if (!root) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (suppressObserver.current) return;
@@ -1042,22 +887,15 @@ export function ReleaseNotesPage() {
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible.length === 0) return;
-        const el = visible[0].target as HTMLElement;
-        const month = el.dataset.month ?? "";
-        const year = Number(el.dataset.year ?? 0);
-        if (year && year !== selectedYearRef.current) {
-          setSelectedYear(year);
-          setSelectedMonth(month);
-        } else if (month && month !== selectedMonthRef.current) {
-          setSelectedMonth(month);
-        }
+        const month = (visible[0].target as HTMLElement).dataset.month ?? "";
+        if (month && month !== selectedMonthRef.current) setSelectedMonth(month);
       },
-      { root, threshold: 0.05, rootMargin: "0px 0px -55% 0px" }
+      { root: null, threshold: 0.05, rootMargin: "0px 0px -55% 0px" }
     );
 
     sectionRefs.current.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []); // all sections are static — no need to re-observe
+  }, [selectedYear]);
 
   const setSectionRef = useCallback(
     (key: string) => (el: HTMLDivElement | null) => {
@@ -1071,69 +909,41 @@ export function ReleaseNotesPage() {
     const year = Number(val);
     suppressObserver.current = true;
     setSelectedYear(year);
-    const firstMonth = ALL_RELEASE_DATA.find((d) => d.year === year)?.months[0]?.month ?? "All";
+    const firstMonth = ALL_RELEASE_DATA.find((d) => d.year === year)?.months[0]?.month ?? "";
     setSelectedMonth(firstMonth);
-    const el = sectionRefs.current.get(`year-${year}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    setTimeout(() => { suppressObserver.current = false; }, 800);
+    setTimeout(() => { suppressObserver.current = false; }, 500);
   };
+
+  // Switching years swaps out the whole list — land on the top of the new
+  // year, which (months are authored newest-first) is always its most
+  // recently updated month. Runs after render, once the new year's section
+  // refs exist. scrollIntoView (not contentRef.scrollTo) because it finds
+  // whichever ancestor actually scrolls without us needing to know which one
+  // that is.
+  useEffect(() => {
+    const firstMonth = yearData.months[0]?.month;
+    if (!firstMonth) return;
+    sectionRefs.current.get(`${selectedYear}-${firstMonth}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedYear]);
 
   const handleMonthChange = (val: string) => {
     suppressObserver.current = true;
     setSelectedMonth(val);
-    const key = val === "All" ? `year-${selectedYear}` : `${selectedYear}-${val}`;
-    const el = sectionRefs.current.get(key);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    const el = sectionRefs.current.get(`${selectedYear}-${val}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
     setTimeout(() => { suppressObserver.current = false; }, 800);
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, overflow: "hidden" }}>
-
-      {/* ── Filter bar — sits above the scroll area, always visible ── */}
-      <div
-        style={{
-          flexShrink: 0,
-          display: "flex",
-          alignItems: "center",
-          gap: isMobile ? 16 : 32,
-          padding: isMobile ? "14px 16px" : "18px 32px",
-          borderBottom: "1px solid #e2e8f1",
-          background: "#ffffff",
-          flexWrap: "wrap",
-        }}
-      >
-        <CustomDropdown
-          label="Year:"
-          value={String(selectedYear)}
-          options={ALL_YEARS.map(String)}
-          onChange={handleYearChange}
-          width={50}
-        />
-        <CustomDropdown
-          label="Month:"
-          value={selectedMonth}
-          options={monthOptions}
-          onChange={handleMonthChange}
-          width={90}
-        />
-      </div>
-
+    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
       {/* ── Scrollable content ── */}
       <div
         ref={contentRef}
-        style={{ flex: 1, overflowY: "auto", padding: isMobile ? "24px 16px 40px" : "32px 32px 60px" }}
+        style={{ flex: 1, minHeight: 0, padding: isMobile ? "24px 16px 40px" : "32px 32px 60px" }}
       >
         {/* Page header */}
-        <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 40 }}>
+        <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 28 }}>
           <div style={{ width: 56, height: 56, borderRadius: 12, background: "#effcfd", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1c808d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -1155,7 +965,42 @@ export function ReleaseNotesPage() {
           </div>
         </div>
 
-        {/* All years in continuous scroll — always rendered (not gated behind
+        {/* ── Filter bar — below the title, sticks to the top of the
+            scroll area once you scroll past the header. Negative horizontal
+            margins cancel the content area's own padding so it stays
+            full-bleed while stuck. ── */}
+        <div
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            gap: isMobile ? 16 : 32,
+            margin: isMobile ? "0 -16px 24px" : "0 -32px 32px",
+            padding: isMobile ? "14px 16px" : "18px 32px",
+            borderBottom: "1px solid #e2e8f1",
+            background: "#ffffff",
+            flexWrap: "wrap",
+          }}
+        >
+          <CustomDropdown
+            label="Year:"
+            value={String(selectedYear)}
+            options={ALL_YEARS.map(String)}
+            onChange={handleYearChange}
+            width={50}
+          />
+          <CustomDropdown
+            label="Month:"
+            value={selectedMonth}
+            options={monthOptions}
+            onChange={handleMonthChange}
+            width={90}
+          />
+        </div>
+
+        {/* Selected year's months — always rendered (not gated behind
             `loading`) so the static export used for Copy Page/PDF/AI links
             still gets full content even though effects never run there. */}
         <div style={{ position: "relative" }}>
@@ -1166,53 +1011,30 @@ export function ReleaseNotesPage() {
               <ReleaseCardSkeleton />
             </div>
           )}
-        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-          {ALL_RELEASE_DATA.map(({ year, months }, yi) => (
-            <div key={year} style={{ marginBottom: 48 }}>
-              {/* Year divider — also serves as jump target */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+            {yearData.months.map((monthData) => (
               <div
-                ref={(el) => {
-                  if (el) sectionRefs.current.set(`year-${year}`, el);
-                  else sectionRefs.current.delete(`year-${year}`);
-                }}
-                style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 32, marginTop: yi > 0 ? 8 : 0 }}
+                key={monthData.month}
+                ref={setSectionRef(`${selectedYear}-${monthData.month}`)}
+                data-month={monthData.month}
               >
-                <div style={{ height: 1, flex: 1, background: "#e2e8f1" }} />
-                <span style={{ fontFamily: FONT, fontWeight: 900, fontSize: 13, color: "#90a2b9", letterSpacing: "0.08em", userSelect: "none" }}>
-                  {year}
-                </span>
-                <div style={{ height: 1, flex: 1, background: "#e2e8f1" }} />
+                <p style={{ margin: "0 0 16px", fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#90a2b9" }}>
+                  {monthData.month}, {selectedYear}
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {monthData.releases.map((release) => (
+                    <VersionCard
+                      key={release.version}
+                      release={release}
+                      versionKey={`${selectedYear}-${monthData.month}-${release.version}`}
+                      openSections={openSections}
+                      toggleSection={toggleSection}
+                    />
+                  ))}
+                </div>
               </div>
-
-              {/* Month sections */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-                {months.map((monthData) => (
-                  <div
-                    key={monthData.month}
-                    ref={setSectionRef(`${year}-${monthData.month}`)}
-                    data-month={monthData.month}
-                    data-year={year}
-                  >
-                    <p style={{ margin: "0 0 16px", fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#90a2b9" }}>
-                      {monthData.month}, {year}
-                    </p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                      {monthData.releases.map((release) => (
-                        <VersionCard
-                          key={release.version}
-                          release={release}
-                          versionKey={`${year}-${monthData.month}-${release.version}`}
-                          openSections={openSections}
-                          toggleSection={toggleSection}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
