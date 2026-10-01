@@ -990,7 +990,7 @@ export function KnowledgeBase() {
                     {activePage === "about-polarin" && <AboutPolarinPage onNavigate={navigate} />}
                     {activePage === "services-offered" && <ServicesOfferedPage onNavigate={navigate} />}
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
-                    {activePage === "create-account" && <CreateAccountPage />}
+                    {activePage === "create-account" && <CreateAccountPage onNavigate={navigate} />}
                     {activePage === "complete-profile" && <CompleteProfilePage onNavigate={navigate} />}
                     {activePage === "profile-personal" && <PersonalInformationPage onNavigate={navigate} />}
                     {activePage === "profile-password" && <UpdatePasswordPage onNavigate={navigate} />}

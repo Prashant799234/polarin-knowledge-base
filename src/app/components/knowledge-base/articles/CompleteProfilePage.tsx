@@ -1,13 +1,20 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
-  { id: "step-country",  label: "Step 1 — Select Your Country",    level: 2 as const },
-  { id: "step-org",      label: "Step 2 — Organisation Details",   level: 2 as const },
+  { id: "step-country",  label: "Step 1 — Select Country",    level: 2 as const },
+  { id: "step-org",      label: "Step 2 — Organization Details",   level: 2 as const },
   { id: "step-sign",     label: "Step 3 — Authorised Signatory",   level: 2 as const },
-  { id: "step-review",   label: "Step 4 — Review & Submit",        level: 2 as const },
+  { id: "step-review",   label: "Step 4 — Terms & Conditions",     level: 2 as const },
   { id: "after-submit",  label: "After Submission" },
+];
+
+const SIGNATORY_FIELDS = [
+  { field: "Name",        description: "Full name of the person authorised to sign contracts for your organisation.", required: true },
+  { field: "Email ID",    description: "Their contact email.", required: true },
+  { field: "Phone Number",description: "Select the country code, then enter the number — the form validates length against the country selected.", required: true },
+  { field: "Department (Optional)", description: "Their department within the organisation.", required: false },
 ];
 
 interface Props {
@@ -19,102 +26,142 @@ export function CompleteProfilePage({ onNavigate }: Props) {
     <ArticlePage toc={TOC}>
       <H1 id="overview">Complete Organisation Profile</H1>
       <ArticleMeta>
-        <ReadTime minutes={5} />
+        <ReadTime minutes={6} />
         <Dot />
         <Tag label="Required" color="#e11d48" />
       </ArticleMeta>
 
       <P>
-        Before you can subscribe to any Polarin service, your organisation must pass a one-time KYC (Know Your Customer) verification. It's a short, four-step wizard — select your country, fill in organisation details, add an authorised signatory, then review and submit — and the Polarin team reviews it before activating your account.
+        Right after your first sign-in, Polarin shows a <strong>"Why complete your organization profile?"</strong>{" "}
+        screen: two reasons — <strong>Access all services</strong> (you cannot order or manage anything without
+        this) and <strong>One-time setup</strong> (do it once, it covers every future order) — plus a note that it
+        only takes a couple of minutes and your progress saves automatically.
       </P>
-
-      <Callout variant="important">
-        Your organisation profile must be <strong>verified by the Polarin team</strong> before you can subscribe to any service. Completing this step early avoids delays when you're ready to provision connections.
+      <DocImage
+        src="/screenshots/complete-profile/01-why-complete.jpg"
+        alt="Why complete your organization profile screen with Access all services and One-time setup benefits"
+        caption="Name blurred here for privacy"
+      />
+      <P>
+        Click <strong>Complete Organization Profile</strong> to start the four-step wizard. If you click{" "}
+        <strong>Skip for now → Explore Polarin</strong> instead, a confirmation screen spells out exactly what
+        you'll be giving up until you come back and finish it:
+      </P>
+      <DocImage
+        src="/screenshots/complete-profile/02-skip-warning.jpg"
+        alt="Skip Organization Profile Setup confirmation listing what you lose access to"
+        caption="Without a completed profile you can't order services, access service management features, or get priority support"
+      />
+      <Callout variant="tip">
+        Skipping isn't permanent — the prompt itself says you can finish setup <strong>anytime from your
+        dashboard</strong>. There's no penalty for coming back to it later.
       </Callout>
 
       {/* ── Step 1 ── */}
-      <H2 id="step-country">Step 1 — Select Your Country</H2>
+      <H2 id="step-country">Step 1 — Select Country</H2>
       <P>
-        This is the first and most consequential choice in the whole wizard. The country you select here decides everything that follows: whether instant GST-based verification is available to you (India only, for now), and which document checklist the rest of the form will ask for.
+        Search or scroll a flag-by-flag country list and pick where your organisation is <strong>legally
+        registered</strong> — not necessarily where you personally sit. This is the most consequential choice in
+        the wizard: it decides whether instant GST-based verification is available (India only, for now) and
+        exactly which document checklist Step 2 asks for.
       </P>
-      <Callout variant="tip">
-        Choose carefully — this should be the country your organisation is legally registered in, not necessarily where you personally are based.
-      </Callout>
+      <DocImage
+        src="/screenshots/complete-profile/03-select-country.jpg"
+        alt="Select Country step with searchable, flag-labelled country list"
+        caption="Countries are grouped alphabetically with a live search box above the list"
+      />
 
       {/* ── Step 2 ── */}
-      <H2 id="step-org">Step 2 — Organisation Details</H2>
+      <H2 id="step-org">Step 2 — Organization Details</H2>
       <P>
-        What this step asks for depends on the country you selected in Step 1:
+        What this step asks for depends on your Step 1 country. For India, you choose between two tabs:
       </P>
       <UL>
-        <LI><strong>India</strong> — choose between <strong>GST Verification</strong> (recommended) and <strong>Manual Details</strong>. With GST Verification, enter your GSTIN and Polarin instantly fetches your legal name, address, and state from government records for you to review and confirm. Prefer not to use GST lookup? Switch to Manual Details and type in Company Name, Address, Postal Code, City, and State yourself.</LI>
-        <LI><strong>Every other country</strong> — only Manual Details is available: Company Name, Address, Postal Code, City, and State/Province, entered directly.</LI>
+        <LI><strong>GST Verification (Recommended)</strong> — enter a GSTIN (format hint: <em>22AAAAA0000A1Z5</em>) and click <strong>Verify</strong>; Polarin auto-fills your Company Name and address from it.</LI>
+        <LI><strong>Manual Details</strong> — type in Company Name, Address, City, State/Province, and Postal Code yourself.</LI>
       </UL>
+      <DocImage
+        src="/screenshots/complete-profile/04-org-details.jpg"
+        alt="Organization Details step showing GST Verification and Manual Details tabs"
+        caption="GST Verification is recommended — Manual Details is always available as a fallback"
+      />
       <P>
-        Next, select your <strong>Legal Entity Type</strong> from the dropdown (Individual, Company, Partnership, LLP, and so on, depending on your country). As soon as you do, the form reveals exactly the supporting document you need to upload for that entity type — for example, selecting "Company" outside India surfaces an upload field for your Establishment Card or Company Registration Certificate.
+        Below the address, pick your <strong>Legal Entity Type</strong> (Individual, Partnership, LLP, Private
+        Limited, and so on). The form immediately reveals the exact supporting document that entity type needs —
+        for example, <strong>Individual</strong> asks for an <strong>Aadhaar / Voter ID</strong> upload. Not sure
+        which document your country and entity type will need? See{" "}
+        <PageLink label="KYC Document Requirements" onClick={() => onNavigate("org-kyc")} /> before you start.
       </P>
-      <Callout variant="info">
-        Not sure which document your country and entity type will ask for? See the full breakdown in <PageLink label="KYC Document Requirements" onClick={() => onNavigate("org-kyc")} /> before you start.
-      </Callout>
+      <DocImage
+        src="/screenshots/complete-profile/05-legal-entity.jpg"
+        alt="Legal Entity Type dropdown with the resulting document upload requirement"
+        caption="Selecting a Legal Entity Type immediately reveals the document it requires — uploaded file name blurred here"
+      />
       <P>
-        Finally, answer <strong>"Does your organisation issue a Purchase Order for Invoicing?"</strong> This is a simple Yes/No that determines whether future invoices will expect a matching PO number.
+        Finally, answer <strong>"Does your organization issue a Purchase Order for Invoicing?"</strong> — Yes
+        ("My organisation issues a PO for every Invoice") or No ("My organisation does not Issue a PO"). This
+        sets the PO behaviour you'll see later in every checkout across Polarin.
       </P>
-
-      <Steps>
-        <Step num={1} title="Confirm your selected country">
-          Shown at the top of the step — go back to Step 1 if it's wrong before continuing.
-        </Step>
-        <Step num={2} title="Verify via GST, or enter details manually">
-          In India, use GST Verification for an instant auto-fill, or switch to Manual Details. Everywhere else, fill in your organisation address directly.
-        </Step>
-        <Step num={3} title="Select your Legal Entity Type">
-          Choose the option matching your organisation's registered structure. The required document upload field appears immediately below.
-        </Step>
-        <Step num={4} title="Upload the requested document and answer the PO question">
-          Attach the document shown for your entity type, then answer whether your organisation issues a Purchase Order for invoicing.
-        </Step>
-      </Steps>
 
       {/* ── Step 3 ── */}
       <H2 id="step-sign">Step 3 — Authorised Signatory</H2>
       <P>
-        The authorised signatory is the person empowered to sign contracts on behalf of your organisation. This requirement is the same in every country and for every entity type.
+        The authorised signatory is the person empowered to sign contracts on your organisation's behalf — same
+        requirement regardless of country or entity type.
       </P>
-
-      <FieldTable rows={[
-        { field: "Name",                              description: "Full name of the authorised signatory.",                                                 required: true  },
-        { field: "Email",                              description: "Valid email address of the authorised signatory.",                                      required: true  },
-        { field: "Phone Number",                       description: "With country code.",                                                                     required: false },
-        { field: "Designation",                        description: "Their role or title at the organisation.",                                              required: false },
-        { field: "Proof of Identity",                  description: "A government-issued ID for the authorised signatory.",                                   required: true  },
-        { field: "Board Resolution / Power of Attorney", description: "Confirms this person's authority to act on behalf of the organisation.",                required: true  },
-      ]} />
-
-      <Steps>
-        <Step num={5} title="Fill in Authorised Signatory details">
-          Enter the signatory's name, email, and (optionally) phone number and designation.
-        </Step>
-        <Step num={6} title="Upload the two supporting documents">
-          Attach the signatory's Proof of Identity and the Board Resolution or Power of Attorney, then continue.
-        </Step>
-      </Steps>
+      <FieldTable rows={SIGNATORY_FIELDS} />
+      <DocImage
+        src="/screenshots/complete-profile/06-signatory.jpg"
+        alt="Authorised Signatory step with contact fields and document upload"
+        caption="Name, Email ID, and the phone autofill suggestion blurred here for privacy"
+      />
+      <P>Two supporting documents go with it, each as its own drag-and-drop upload (PDF, JPG, or PNG, up to 5.0 MB):</P>
+      <UL>
+        <LI><strong>Proof of Identity</strong> of the authorised signatory.</LI>
+        <LI><strong>Board Resolution (Power of Attorney)</strong> confirming their authority to sign.</LI>
+      </UL>
 
       {/* ── Step 4 ── */}
-      <H2 id="step-review">Step 4 — Review & Submit</H2>
+      <H2 id="step-review">Step 4 — Terms &amp; Conditions</H2>
       <P>
-        A final summary screen shows everything entered across the previous three steps. Check it over, then submit — this sends your profile to the Polarin team for review.
+        This is a one-time acceptance for your whole organisation — accept it here and you won't need to accept
+        terms again on individual orders. Polarin Terms &amp; Conditions and the Polarin Service Schedule are
+        both linked for review before you choose. Three options are available:
       </P>
+      <UL>
+        <LI><strong>I accept the Terms and Conditions</strong> (Recommended) — review and accept the Polarin Terms &amp; Conditions and Service Schedule shared here.</LI>
+        <LI><strong>I have an existing agreement with Lightstorm</strong> — if you already have a pre-existing agreement in place, Polarin's legal team will contact you to finalise any addendum if required.</LI>
+        <LI><strong>I want to review agreement offline</strong> — choose this to review the documents with your legal team and discuss offline first.</LI>
+      </UL>
+      <DocImage
+        src="/screenshots/complete-profile/07-terms.jpg"
+        alt="Terms and Conditions step with three acceptance options"
+        caption="The signed document is stored permanently on your organisation profile once accepted"
+      />
+      <P>Click <strong>Submit for Review</strong> to finish.</P>
 
       <H2 id="after-submit">After Submission</H2>
-      <Callout variant="tip">
-        Once submitted, you'll see an <strong>"Organisation profile submitted"</strong> confirmation banner. The Polarin team will review your documents, and you will be notified by email once your organisation is verified.
-      </Callout>
+      <P>
+        Your dashboard immediately shows an <strong>"Organization Profile Under Review"</strong> banner — "Your
+        profile has been submitted and is currently being reviewed. We'll notify you once the verification is
+        complete. This typically takes 24–48 hours." — with a <strong>Check Details</strong> link if you want to
+        see what was submitted.
+      </P>
+      <DocImage
+        src="/screenshots/complete-profile/08-under-review.jpg"
+        alt="Dashboard showing the Organization Profile Under Review banner"
+        caption="Name and avatar blurred here for privacy"
+      />
       <P>What happens next:</P>
       <UL>
-        <LI>The profile enters a <strong>pending review</strong> state — typically completed within 1–2 business days.</LI>
-        <LI>You'll receive an email notification when the review is complete.</LI>
-        <LI>Once approved, you can immediately subscribe to Polarin services such as virtual connections, cloud connect, and DCI.</LI>
+        <LI>The profile enters <strong>pending review</strong> — typically 24–48 business hours.</LI>
+        <LI>You'll receive an email notification once review is complete.</LI>
+        <LI>Once approved, you can immediately order services — a <PageLink label="Port" onClick={() => onNavigate("port-create")} />, a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} />, or any Virtual Connection or DCI product.</LI>
       </UL>
+      <Callout variant="info">
+        Once approved, every detail submitted here becomes editable (and re-reviewable) from{" "}
+        <PageLink label="Organisation Settings" onClick={() => onNavigate("org-settings")} />.
+      </Callout>
     </ArticlePage>
   );
 }
