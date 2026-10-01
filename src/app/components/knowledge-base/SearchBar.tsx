@@ -41,7 +41,7 @@ const ALL_PAGES: SearchResult[] = [
   { id: "vista-vc",        label: "VISTA for Virtual Connection",        group: "VISTA",                      description: "Virtual Connection & DCI Layer 2 telemetry, Standard vs Premium packages, 180-day availability, packet loss, jitter" },
   { id: "vista-dci-wave",  label: "VISTA for DCI Wave",                 group: "VISTA",                      description: "DCI Wave Layer 1 optical monitoring, 99.999% SLA availability, latency RTD, optical flaps, and maintenance tracking" },
   { id: "complete-profile", label: "Complete Organisation Profile",      group: "Organisation",               description: "Set up org details and authorised signatory" },
-  { id: "org-kyc",         label: "KYC Document Requirements",          group: "Organisation",               description: "Proof of identity documents for Indian and global entities" },
+  { id: "org-kyc",         label: "KYC Document Requirements",          group: "Organisation",               description: "Required documents by country (India, APAC, UAE) and entity type" },
   { id: "org-settings",    label: "Organisation Settings",              group: "Organisation",               description: "Org profile, PO settings, authorised signatory, and accepted terms" },
   { id: "invite-members",  label: "User Management",                    group: "Organisation",               description: "Invite team members, assign RBAC roles (System Admin, Network Admin), and manage access" },
   { id: "billing-overview", label: "Billing Overview",                  group: "Organisation · Billing",    description: "Overview of Polarin billing, invoice lifecycles, and payment options" },

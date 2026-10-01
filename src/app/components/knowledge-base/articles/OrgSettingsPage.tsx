@@ -15,7 +15,7 @@ const ORG_FIELDS = [
   { field: "Company Name",          description: "Your organisation's registered legal name.",       required: true },
   { field: "Address",               description: "State/Province, City, and Postal Code.",            required: true },
   { field: "Legal Entity Type",     description: "Individual, Partnership, LLP, Private/Public Limited, or Trust/Society.", required: true },
-  { field: "Proof of Identity",     description: "The KYC document for your entity type — see requirements below.", required: true },
+  { field: "Proof of Identity",     description: "The KYC document for your country and entity type — see requirements below.", required: true },
 ];
 
 const SIGNATORY_FIELDS = [
@@ -69,7 +69,7 @@ export function OrgSettingsPage({ onNavigate }: Props) {
         place new orders until it's re-approved. Existing services and orders are unaffected in the meantime.
       </Callout>
       <P>
-        Not sure which document your entity type needs? See{" "}
+        Not sure which document your country and entity type need? See{" "}
         <PageLink label="KYC Document Requirements" onClick={() => onNavigate("org-kyc")} />.
       </P>
 
