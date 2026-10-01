@@ -43,8 +43,12 @@ import { VirtualRouterOverviewPage } from "./articles/VirtualRouterOverviewPage"
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ActivityLogOverviewPage } from "./articles/ActivityLogOverviewPage";
 import { CloudConnectPage } from "./articles/CloudConnectPage";
+import { CreateCloudToCloudPage } from "./articles/CreateCloudToCloudPage";
+import { CreateDCToCloudPage } from "./articles/CreateDCToCloudPage";
 import { VirtualConnectionOverviewPage } from "./articles/VirtualConnectionOverviewPage";
 import { DCICreatePage } from "./articles/DCICreatePage";
+import { CreateDCIWavePage } from "./articles/CreateDCIWavePage";
+import { CreateDCILayer2Page } from "./articles/CreateDCILayer2Page";
 import { DCIOverviewPage } from "./articles/DCIOverviewPage";
 import { InternetExchangePage } from "./articles/InternetExchangePage";
 import { InternetExchangeOverviewPage } from "./articles/InternetExchangeOverviewPage";
@@ -149,6 +153,8 @@ const NAV_GROUPS: NavGroup[] = [
         children: [
           { id: "vc-overview",   label: "Overview" },
           { id: "cloud-connect", label: "Create a Virtual Connection" },
+          { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection" },
+          { id: "dc-to-cloud-create",    label: "Create a DC to Cloud Connection" },
         ],
       },
       {
@@ -156,6 +162,8 @@ const NAV_GROUPS: NavGroup[] = [
         children: [
           { id: "dci-overview", label: "Overview" },
           { id: "dci-create",   label: "Create a Data Centre Interconnect" },
+          { id: "dci-wave-create",   label: "Create a DCI Wave Connection" },
+          { id: "dci-layer2-create", label: "Create a DCI Layer 2 Connection" },
         ],
       },
       {
@@ -393,6 +401,40 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
       { label: "Locations",                             pageId: "locations" },
     ],
   },
+  "cloud-to-cloud-create": {
+    prev: { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
+    next: { label: "Create a DC to Cloud Connection",   pageId: "dc-to-cloud-create" },
+    related: [
+      { label: "Create a Virtual Router",               pageId: "vr-create" },
+      { label: "Create a DC to Cloud Connection",        pageId: "dc-to-cloud-create" },
+      { label: "VISTA for Virtual Connection",           pageId: "vista-vc" },
+    ],
+  },
+  "dc-to-cloud-create": {
+    prev: { label: "Create a Cloud to Cloud Connection", pageId: "cloud-to-cloud-create" },
+    related: [
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "Create a Cloud to Cloud Connection",     pageId: "cloud-to-cloud-create" },
+      { label: "VISTA for Virtual Connection",           pageId: "vista-vc" },
+    ],
+  },
+  "dci-wave-create": {
+    prev: { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
+    next: { label: "Create a DCI Layer 2 Connection",   pageId: "dci-layer2-create" },
+    related: [
+      { label: "Create a DCI Layer 2 Connection",       pageId: "dci-layer2-create" },
+      { label: "VISTA for DCI Wave",                    pageId: "vista-dci-wave" },
+      { label: "Create a Port",                         pageId: "port-create" },
+    ],
+  },
+  "dci-layer2-create": {
+    prev: { label: "Create a DCI Wave Connection",      pageId: "dci-wave-create" },
+    related: [
+      { label: "Create a DCI Wave Connection",          pageId: "dci-wave-create" },
+      { label: "Create a Port",                         pageId: "port-create" },
+      { label: "VISTA for Virtual Connection",          pageId: "vista-vc" },
+    ],
+  },
   "vr-overview": {
     next: { label: "Create a Virtual Router", pageId: "vr-create" },
     related: [
@@ -510,9 +552,9 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   "cloud-connect": {
     prev: { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
     related: [
+      { label: "Create a Cloud to Cloud Connection",    pageId: "cloud-to-cloud-create" },
+      { label: "Create a DC to Cloud Connection",       pageId: "dc-to-cloud-create" },
       { label: "Create a Port",                        pageId: "port-create" },
-      { label: "What Is Data Centre Interconnect?",     pageId: "dci-overview" },
-      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
     ],
   },
   "dci-overview": {
@@ -526,9 +568,9 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   "dci-create": {
     prev: { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
     related: [
+      { label: "Create a DCI Wave Connection",          pageId: "dci-wave-create" },
+      { label: "Create a DCI Layer 2 Connection",       pageId: "dci-layer2-create" },
       { label: "Create a Port",                        pageId: "port-create" },
-      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
-      { label: "Understanding the Service Detail Page", pageId: "service-detail" },
     ],
   },
   "ix-overview": {
@@ -959,17 +1001,21 @@ export function KnowledgeBase() {
                     {activePage === "billing-overview" && <BillingOverviewPage onNavigate={navigate} />}
                     {activePage === "billing-profile" && <BillingProfilePage onNavigate={navigate} />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
-                    {activePage === "port-create" && <CreatePortPage />}
+                    {activePage === "port-create" && <CreatePortPage onNavigate={navigate} />}
                     {activePage === "port-status" && <PortStatusPage />}
-                    {activePage === "port-lag" && <CreateLAGPage />}
+                    {activePage === "port-lag" && <CreateLAGPage onNavigate={navigate} />}
                     {activePage === "vr-overview" && <VirtualRouterOverviewPage onNavigate={navigate} />}
-                    {activePage === "vr-create" && <CreateVirtualRouterPage />}
+                    {activePage === "vr-create" && <CreateVirtualRouterPage onNavigate={navigate} />}
                     {activePage === "vr-status" && <VirtualRouterStatusPage />}
                     {activePage === "vc-overview" && <VirtualConnectionOverviewPage onNavigate={navigate} />}
                     {activePage === "dci-overview" && <DCIOverviewPage onNavigate={navigate} />}
                     {activePage === "ix-overview" && <InternetExchangeOverviewPage onNavigate={navigate} />}
                     {activePage === "cloud-connect" && <CloudConnectPage onNavigate={navigate} />}
+                    {activePage === "cloud-to-cloud-create" && <CreateCloudToCloudPage onNavigate={navigate} />}
+                    {activePage === "dc-to-cloud-create" && <CreateDCToCloudPage onNavigate={navigate} />}
                     {activePage === "dci-create" && <DCICreatePage onNavigate={navigate} />}
+                    {activePage === "dci-wave-create" && <CreateDCIWavePage onNavigate={navigate} />}
+                    {activePage === "dci-layer2-create" && <CreateDCILayer2Page onNavigate={navigate} />}
                     {activePage === "ix-create" && <InternetExchangePage onNavigate={navigate} />}
                     {activePage === "service-detail" && <ServiceDetailPage onNavigate={navigate} />}
                     {activePage === "service-status" && <ServiceStatusPage onNavigate={navigate} />}

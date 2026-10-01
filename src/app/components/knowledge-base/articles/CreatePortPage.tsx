@@ -1,146 +1,171 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
+import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",       label: "Overview" },
-  { id: "prerequisites",  label: "Before You Begin",   level: 2 as const },
-  { id: "new-user",       label: "New User Setup",     level: 2 as const },
-  { id: "existing-user",  label: "Existing User",      level: 2 as const },
-  { id: "configure-port", label: "Configure Port",     level: 2 as const },
-  { id: "checkout",       label: "Checkout & Order",   level: 2 as const },
+  { id: "prerequisites",  label: "Before You Begin",      level: 2 as const },
+  { id: "start",          label: "Start the Wizard",      level: 2 as const },
+  { id: "port-location",  label: "1. Port Location",      level: 2 as const },
+  { id: "configure-port", label: "2. Configure Port",     level: 2 as const },
+  { id: "add-ons",        label: "3. Add Ons",            level: 2 as const },
+  { id: "checkout",       label: "4. Checkout",           level: 2 as const },
+  { id: "lifecycle",      label: "After You Order",       level: 2 as const },
   { id: "next-steps",     label: "Next Steps" },
 ];
 
-const PORT_FIELDS = [
-  { field: "Port Name",        description: "A unique, identifiable name for this port. Use a descriptive name if you plan on having more than one port.", required: true },
-  { field: "Port Speed",       description: "Physical interface speed. Available options: 1GE, 10GE, and 100GE. Ensure your equipment can interface with the selected speed.", required: true },
-  { field: "Subscription Term",description: "Duration of your port subscription. Select the term that best matches your deployment needs.", required: true },
-  { field: "Payment",          description: "Upfront payment preference. Options: No Upfront, Partial Upfront, or All Upfront. Affects the monthly price displayed in You Pay.", required: true },
+const CONFIGURE_FIELDS = [
+  { field: "Port Name", description: "A name for this port. Must be unique across your organisation — alphanumeric characters and hyphens only.", required: true },
+  { field: "Port Bandwidth", description: "1 Gbps, 10 Gbps, or 100 Gbps. Only the tiers the selected data centre actually has capacity for are selectable — the rest are shown greyed out and marked \"Not Available\".", required: true },
+  { field: "LAG (Link Aggregation Group)", description: "A toggle, off by default. Switch it on to bundle 2–8 physical ports into one logical link for higher aggregate bandwidth and redundancy — see Create a Link Aggregation Group for the full picture.", required: false },
+  { field: "Subscription Term", description: "Short Term (pick anywhere from 1–11 months) or Long Term (12–60 months, flagged \"Better savings\"). There's no pay‑as‑you‑go option for a Port — it's physical infrastructure, so a term is always required.", required: true },
+  { field: "Payment Options", description: "No Upfront (pay monthly), Partial Upfront (50% now + 50% spread monthly, +5% discount), or All Upfront (pay the full term now, +10% discount).", required: true },
 ];
 
 const CHECKOUT_FIELDS = [
-  { field: "Billing Profile",  description: "Select an existing billing profile. Click Add Billing Profile to create one, or use the menu to edit an existing profile.", required: true },
-  { field: "Port Details",     description: "A summary of your port order — location, speed, subscription term, and price estimate. Verify all details before ordering.", required: false },
-  { field: "MSA",              description: "Review and accept the Polarin Master Services Agreement before placing the order.", required: true },
+  { field: "Billing Cycle", description: "How often invoices are raised for this port: Monthly, Quarterly (every 3 months), or Half Yearly (every 6 months). This only controls invoice frequency, not the subscription term itself.", required: true },
+  { field: "Purchase Order (Optional)", description: "Off by default if your organisation hasn't marked POs as mandatory in Organisation Settings. Switch it on to attach a PO number — billing will otherwise be generated from your signed order form.", required: false },
+  { field: "Billing Profile", description: "Which of your billing entities this port is billed to. Pick an existing one from the dropdown or click Add Billing Profile to create one without leaving the wizard.", required: true },
 ];
 
-export function CreatePortPage() {
+interface Props {
+  onNavigate: (page: KBPage) => void;
+}
+
+export function CreatePortPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Create a Port</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={5} />
+      <ArticleMeta>
+        <ReadTime minutes={8} />
         <Dot />
-        <Tag label="Services" color="#f97316" />
-      </div>
+        <Tag label="Core Product" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
-        A <strong>Port</strong> is the physical point of connection between your organisation's network and the Polarin network. Every traffic path in Polarin originates from a port — you will need to deploy one at each location where you want to direct traffic.
-      </P>
-      <P>
-        Ports are available in three speeds — 1GE, 10GE, and 100GE — and can optionally be grouped into a Link Aggregation Group (LAG) for higher bandwidth and redundancy.
+        A <strong>Port</strong> is the physical point of connection between your equipment and the Polarin
+        network at one of our data centre locations. It's the foundation almost everything else builds on —
+        a <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} />, a{" "}
+        <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} />, and a{" "}
+        <PageLink label="DC to Cloud connection" onClick={() => onNavigate("dc-to-cloud-create")} /> all
+        attach to a Port you've already created. Not sure if a Port is what you need first? See{" "}
+        <PageLink label="What Is a Port?" onClick={() => onNavigate("port-overview")} />.
       </P>
 
-      <Callout variant="important" id="prerequisites">
-        Before creating a port, ensure your <strong>Organisation Profile</strong> is complete and <strong>KYC documents</strong> have been submitted and approved. Ports cannot be ordered without a verified organisation.
+      <Callout variant="important">
+        Your <strong>Organisation Profile</strong> must be verified before you can order a Port. If you haven't
+        completed that yet, start at{" "}
+        <PageLink label="Complete Organisation Profile" onClick={() => onNavigate("complete-profile")} />.
       </Callout>
 
-      {/* ── New user flow ── */}
-      <H2 id="new-user">Creating a Port — New User</H2>
+      <H2 id="start">Start the Wizard</H2>
       <P>
-        If this is your first time on the Services page, you will see the <strong>All Services</strong> onboarding screen with product tiles.
+        From <strong>Services</strong>, click <strong>Create</strong> next to Port (or <strong>+Create</strong> →{" "}
+        <strong>Create a Port</strong> if you already have services). The wizard runs through four steps shown
+        as a progress trail at the top: <strong>Port Location → Configure Port → Add Ons → Checkout</strong>.
       </P>
 
-      <Steps>
-        <Step num={1} title="Sign in to Polarin">
-          Go to <strong>polarin.lightstorm.net</strong> and sign in with your credentials.
-        </Step>
-        <Step num={2} title="Navigate to Services">
-          From the left sidebar, click <strong>Services</strong>.
-          <DocImage src="https://docs.polarin.lightstorm.net/menu_services_left_panel.svg" alt="Services menu in left panel" caption="Select Services from the left navigation panel." />
-        </Step>
-        <Step num={3} title="Start port creation">
-          In the <strong>All Services</strong> page, locate the <strong>Port</strong> tile and click <strong>Create</strong>.
-          <DocImage src="https://docs.polarin.lightstorm.net/start_with_product_port.svg" alt="Port tile on All Services page" caption="Click Create inside the Port tile to begin." />
-        </Step>
-      </Steps>
-
-      {/* ── Existing user flow ── */}
-      <H2 id="existing-user">Creating a Port — Existing User</H2>
+      {/* ── Step 1 ── */}
+      <H2 id="port-location">1. Port Location</H2>
       <P>
-        If you already have services provisioned, use the <strong>+Create</strong> button to add a new port.
+        Search for and select the data centre where you want the port physically provisioned — by data centre
+        name, city, state, country, or provider. This choice is permanent and determines which bandwidth tiers
+        are available in the next step, since it depends on actual capacity at that facility.
       </P>
 
-      <Steps>
-        <Step num={1} title="Sign in and go to Services">
-          Sign in to Polarin and click <strong>Services</strong> in the left sidebar.
-        </Step>
-        <Step num={2} title="Click +Create">
-          On the Services page, click <strong>+Create</strong> in the top-right area, then select <strong>Create a Port</strong> from the dropdown.
-          <DocImage src="https://docs.polarin.lightstorm.net/select_service_port.svg" alt="Create a Port from the +Create dropdown" caption="Select 'Create a Port' from the +Create dropdown." />
-        </Step>
-      </Steps>
-
-      {/* ── Configure port ── */}
-      <H2 id="configure-port">Configure Your Port</H2>
+      {/* ── Step 2 ── */}
+      <H2 id="configure-port">2. Configure Port</H2>
       <P>
-        Both flows lead to the <strong>Create Port</strong> wizard. Follow the steps below.
+        This is where most of the decisions happen. Give the port a name, pick its bandwidth, optionally turn
+        it into a LAG, and choose how you want to pay for it.
+      </P>
+      <FieldTable rows={CONFIGURE_FIELDS} />
+      <DocImage
+        src="/screenshots/ports/01-configure-port.jpg"
+        alt="Configure Port step showing Port Bandwidth, LAG toggle, Subscription Term, and Payment Options"
+        caption="Port Bandwidth tiles, the LAG toggle with its ×1–×8 port multiplier, Subscription Term, and Payment Options"
+      />
+      <P>
+        Turning <strong>LAG</strong> on reveals a row of ×1 through ×8 tiles — each one is both the number of
+        physical ports bundled together <em>and</em> the resulting aggregate bandwidth at your chosen per-port
+        speed (so ×4 on a 1 Gbps port gives you a 4 Gbps LAG across 4 physical ports). This is the same LAG
+        your device needs to run <strong>IEEE 802.3ad LACP</strong> to use — see{" "}
+        <PageLink label="Create a Link Aggregation Group" onClick={() => onNavigate("port-lag")} /> for the full
+        detail on member-port rules.
       </P>
 
-      <Steps>
-        <Step num={1} title="Select a location">
-          In the <strong>Search Location</strong> field, search for or select your preferred data centre location from the list.
-          <DocImage src="https://docs.polarin.lightstorm.net/create_port_step1.svg" alt="Port location selection" caption="Choose the data centre where you want to deploy the port." />
-        </Step>
-        <Step num={2} title="Click Next">
-          Click <strong>Next</strong> to proceed to the <strong>Configure Port</strong> section.
-        </Step>
-        <Step num={3} title="Fill in the port details">
-          Complete the following fields:
-          <FieldTable rows={PORT_FIELDS} />
-          <DocImage src="https://docs.polarin.lightstorm.net/create__port_step2.svg" alt="Configure Port form" caption="Set the port name, speed, subscription term, and payment type." />
-        </Step>
-        <Step num={4} title="Click Next">
-          Click <strong>Next</strong> to proceed to <strong>Checkout</strong>.
-        </Step>
-      </Steps>
+      {/* ── Step 3 ── */}
+      <H2 id="add-ons">3. Add Ons</H2>
+      <P>
+        Two optional add-ons can attach to a Port at order time:
+      </P>
+      <UL>
+        <LI>
+          <strong>Cross Connect</strong> — Polarin arranges and manages the physical cross connect inside the
+          data centre for you ("Managed by Lightstorm"). You either upload a Letter of Authorization (LOA)
+          document, or enter the cross connect details manually (exchange, suite/cage, patch panel, and
+          connector type) if you'd rather arrange it yourself at your data centre operator. It's billed as part
+          of the port's own billing profile — no separate line item to manage.
+        </LI>
+        <LI>
+          <strong>VISTA</strong> — Polarin's network intelligence add-on. <strong>Standard</strong> is free and
+          covers basic network statistics and daily performance reports. <strong>Premium</strong> adds 24/7
+          monitoring support, real-time monitoring, advanced traffic analytics, proactive alert notifications,
+          performance optimisation insights, and custom dashboards & reports. See{" "}
+          <PageLink label="VISTA for Port" onClick={() => onNavigate("vista-port")} /> for what each metric
+          actually shows you.
+        </LI>
+      </UL>
+      <DocImage
+        src="/screenshots/ports/02-add-ons.jpg"
+        alt="Add Ons step with VISTA Standard and Premium comparison"
+        caption="VISTA Standard vs Premium — Premium's full feature list expands inline"
+      />
 
-      {/* ── Checkout ── */}
-      <H2 id="checkout">Checkout & Place Order</H2>
+      {/* ── Step 4 ── */}
+      <H2 id="checkout">4. Checkout</H2>
+      <FieldTable rows={CHECKOUT_FIELDS} />
+      <DocImage
+        src="/screenshots/ports/03-checkout.jpg"
+        alt="Checkout screen with Billing Cycle, Purchase Order toggle, and Order Summary"
+        caption="Order Summary shows the port, its billing profile, and the Cross Connect add-on — billing profile values blurred here for privacy"
+      />
+      <P>
+        Review the <strong>Order Summary</strong> — it restates the port's location, name, bandwidth, and term
+        next to whichever billing profile you've selected — then click <strong>Create Port</strong>.
+      </P>
 
-      <Steps>
-        <Step num={1} title="Review checkout details">
-          In the <strong>Checkout</strong> section, complete the following:
-          <FieldTable rows={CHECKOUT_FIELDS} />
-          <DocImage src="https://docs.polarin.lightstorm.net/port_checkout.svg" alt="Port checkout screen" caption="Review your port order and billing details before placing the order." />
-        </Step>
-        <Step num={2} title="Place the order">
-          Click <strong>Order</strong> to confirm. A confirmation message will appear on screen. Click <strong>Back</strong> if you need to make any changes first.
-        </Step>
-      </Steps>
-
+      {/* ── Lifecycle ── */}
+      <H2 id="lifecycle">After You Order</H2>
+      <P>
+        Your new port appears on the Services list immediately with a <strong>Deployment in Progress</strong>{" "}
+        badge. Open it and go to the <strong>Track Order</strong> tab to watch it move through four milestones:
+      </P>
+      <UL>
+        <LI><strong>Order Details Validated</strong> — your order information has been reviewed.</LI>
+        <LI><strong>Deployment in Progress</strong> — Polarin is setting up the physical infrastructure.</LI>
+        <LI><strong>Ready to Patch</strong> — the port is physically ready; if you ordered a Cross Connect, this is when it gets patched in.</LI>
+        <LI><strong>Port goes Live</strong> — traffic can now flow.</LI>
+      </UL>
+      <DocImage
+        src="/screenshots/ports/04-service-lifecycle.jpg"
+        alt="Service detail page Track Order tab showing the port lifecycle milestones"
+        caption="The Track Order tab — timestamps confirm exactly when each milestone was reached (name blurred here for privacy)"
+      />
       <Callout variant="info">
-        After ordering, you can monitor the deployment progress on the <strong>Services</strong> page. See <strong>Understand Port Status</strong> for a full breakdown of what each status means.
+        For what each status badge means across every product, see{" "}
+        <PageLink label="Understand Port Status" onClick={() => onNavigate("port-status")} /> and the shared{" "}
+        <PageLink label="Understanding Service Status" onClick={() => onNavigate("service-status")} /> reference.
       </Callout>
 
       {/* ── Next steps ── */}
       <H2 id="next-steps">Next Steps</H2>
-      <P>Once your port is live, you can:</P>
+      <P>Once your port is live, you can attach almost anything to it:</P>
       <UL>
-        <LI>Create a <strong>Link Aggregation Group (LAG)</strong> to bundle ports for higher throughput.</LI>
-        <LI>Set up a <strong>Virtual Connection</strong> over your port.</LI>
-        <LI>Attach a <strong>Virtual Router</strong> for advanced routing configurations.</LI>
-        <LI>Monitor port health and utilisation from the <strong>SPOG dashboard</strong>.</LI>
+        <LI>Bundle more ports into it: <PageLink label="Create a Link Aggregation Group" onClick={() => onNavigate("port-lag")} />.</LI>
+        <LI>Link it to another site: <PageLink label="Create a DCI Layer 2 Connection" onClick={() => onNavigate("dci-layer2-create")} /> or <PageLink label="Create a DCI Wave Connection" onClick={() => onNavigate("dci-wave-create")} />.</LI>
+        <LI>Reach a cloud provider directly: <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.</LI>
+        <LI>Add routing on top: <PageLink label="Create a Virtual Router" onClick={() => onNavigate("vr-create")} />.</LI>
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }
