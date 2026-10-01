@@ -36,14 +36,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "3.12", date: "June 2026", isLatest: true,
           newFeatures: [
-            { title: "Full Order History with MACD Lineage View", description: "Every service now retains a complete order history with full MACD lineage on a single timeline, so customers and internal teams can trace the full lifecycle of any service or product." },
-            { title: "New SPOG Performance Metrics for L1 Services", description: "Expanded Vista's single-pane-of-glass monitoring with three new L1 performance metrics — Forward Error Correction (FEC), Optical Power, and Major & Critical Alarms — giving customers deeper, real-time visibility into optical health across India and APAC." },
+            { title: "Full Order History with MACD Lineage View", description: "Every service now retains a complete order history with full MACD — Moves, Adds, Changes, and Deletes — lineage on a single timeline. Previously, an upgrade or renewal could effectively spin up what looked like a brand-new service with no visible record of what came before it, making billing or configuration disputes hard to untangle. Customers and internal teams can now trace the full lifecycle of any service or product from the original order through every change that followed. This is especially useful for support and finance teams resolving questions about exactly when a change took effect." },
+            { title: "New SPOG Performance Metrics for L1 Services", description: "Expanded Vista's single-pane-of-glass monitoring with three new L1 performance metrics — Forward Error Correction (FEC), Optical Power, and Major & Critical Alarms. Until now, L1 circuits carried far less visibility than L2/L3 services, so customers often had to raise a support ticket just to understand optical-layer health. These metrics now surface directly inside the existing Vista dashboard alongside other telemetry, with no separate tooling required. The result is deeper, real-time visibility into optical health across India and APAC, and an earlier warning sign of a degrading link before it becomes an outage." },
           ],
           improvements: [
-            { title: "Better Identification of LAG Ports from Other Port Types", description: "Improved naming for ports within a Link Aggregation Group so each member port is uniquely and clearly identifiable, making multi-port configurations far easier to manage and troubleshoot." },
+            { title: "Better Identification of LAG Ports from Other Port Types", description: "Improved naming for ports within a Link Aggregation Group so each member port is uniquely and clearly identifiable, rather than sharing a generic label with standalone ports. Previously, telling a LAG member apart from an unrelated port meant opening its detail page, which slowed down troubleshooting during an active incident. The clearer naming now shows up directly in inventory and service listings. Multi-port configurations are far easier to manage, audit, and troubleshoot as a result." },
           ],
           bugFixes: [
-            { title: "Wrapped up clean", description: "No bugs to report this release.", isEmptyState: true },
+            { title: "Wrapped up clean", description: "No bugs to report this release — the whole cycle went into the features and improvements above instead. We'll take a clean scoreboard wherever we can get one.", isEmptyState: true },
           ],
         }],
       },
@@ -53,12 +53,12 @@ const ALL_RELEASE_DATA: YearData[] = [
           version: "3.11", date: "May 2026",
           newFeatures: [],
           improvements: [
-            { title: "Standardising Terms — Port Speed, Bandwidth, Rate Limit", description: "Standardised core metrics — Port Speed, Bandwidth, and Rate Limit — across all services, creating a consistent vocabulary that reduces confusion for customers and internal teams alike." },
-            { title: "Product Name Standardisation across All Touchpoints", description: "Unified product naming across every touchpoint so the same product is now referenced identically everywhere, strengthening brand consistency and reducing ambiguity." },
-            { title: "DC Names Update on Platform", description: "Standardised all data centre names on the platform using a defined naming logic, including disambiguation of centres that previously shared the same name." },
+            { title: "Standardising Terms — Port Speed, Bandwidth, Rate Limit", description: "Standardised the core metrics — Port Speed, Bandwidth, and Rate Limit — across every service type on the platform. Different teams and products had drifted into slightly different terminology over time, which meant the same underlying number could be labelled differently depending on where you looked. This creates one consistent vocabulary across quotes, orders, invoices, and dashboards, reducing confusion for customers and internal teams alike. It also makes cross-product reporting and comparisons much more reliable." },
+            { title: "Product Name Standardisation across All Touchpoints", description: "Unified product naming across every customer and internal touchpoint, so the same product is now referenced identically everywhere — in the portal, in quotes, in CRM records, and in support tickets. Previously, a product could appear under two or three slightly different names depending on the source system, which made search, reporting, and cross-team communication harder than it needed to be. This strengthens brand consistency and removes a recurring source of ambiguity for sales, support, and finance." },
+            { title: "DC Names Update on Platform", description: "Standardised all data centre names on the platform using a single, defined naming convention, including disambiguation of centres that previously shared the same display name. This had been a quiet source of ordering mistakes, since two facilities with identical-looking names could easily be confused during provisioning. The cleaned-up names now appear consistently across ordering, inventory, and reporting. Customers and internal teams can identify the exact facility at a glance." },
           ],
           bugFixes: [
-            { title: "Smooth as ever", description: "Zero bugs attached to this one.", isEmptyState: true },
+            { title: "Smooth as ever", description: "Zero bugs attached to this one. Standardisation work tends to be quiet by nature, and this release was no exception.", isEmptyState: true },
           ],
         }],
       },
@@ -67,14 +67,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "3.10", date: "April 2026",
           newFeatures: [
-            { title: "Reports for Polarin Products", description: "Launched self-service reporting for all KPIs and SLAs across every service, giving customers, CSMs, and NOC a single, unified view of performance on demand with no manual report requests." },
+            { title: "Reports for Polarin Products", description: "Launched self-service reporting for all KPIs and SLAs across every service, giving customers, CSMs, and NOC a single, unified view of performance on demand. Previously, pulling this kind of data meant raising a request and waiting for someone internally to compile it manually. Now the same report can be generated directly from the platform whenever it's needed, with no back-and-forth. This removes a recurring bottleneck for both customers tracking their own SLAs and internal teams preparing for business reviews." },
           ],
           improvements: [
-            { title: "Change in KYC Document Collection", description: "Refreshed KYC onboarding for India and APAC with entity-type-specific document requirements. For India, organisation details can now be auto-fetched via GST number, reducing manual entry and accelerating onboarding." },
-            { title: "Improve Status for All Products", description: "Extended order-tracking previously available only for Wave to L2/L3 under a unified status framework, surfaced in a dedicated new tab — giving customers consistent, transparent status visibility across the entire product portfolio." },
+            { title: "Change in KYC Document Collection", description: "Refreshed KYC onboarding for India and APAC with entity-type-specific document requirements, so customers are only ever asked for documents that are actually relevant to their organisation type. For India specifically, organisation details can now be auto-fetched using a GST number instead of being typed in manually. This reduces manual data entry, cuts down on mismatched or incomplete submissions, and meaningfully accelerates onboarding for new customers." },
+            { title: "Improve Status for All Products", description: "Extended order-tracking that was previously available only for Wave to L2/L3 services as well, under one unified status framework surfaced in a dedicated new tab. Before this, customers with a mixed Wave and L2/L3 footprint had to check different places to understand where each order stood. Status visibility is now consistent and transparent across the entire product portfolio, in one place." },
           ],
           bugFixes: [
-            { title: "No surprises here", description: "Nothing to fix this time.", isEmptyState: true },
+            { title: "No surprises here", description: "Nothing to fix this time. Both features above shipped without any follow-up issues reported.", isEmptyState: true },
           ],
         }],
       },
@@ -83,15 +83,15 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "3.9", date: "March 2026",
           newFeatures: [
-            { title: "Traffic Unit Display Toggle", description: "Added a flexible unit toggle to Vista traffic metrics (Kbps / Mbps / Gbps / Tbps), letting customers view performance data at the scale that suits them for faster, clearer interpretation." },
-            { title: "Enabling Vista Functionality & Costing for New Customers", description: "Vista is now packaged as a standardised add-on product with refreshed pricing and a clear Standard vs. Premium comparison on the platform, making it easy for new customers to choose the right tier." },
-            { title: "CSD Billing Detail Entry on Platform", description: "Introduced an admin capability for CSD to initiate DCI Wave billing directly from the internal platform, with support for backdated and future-dated billing start dates — giving Finance and CSD precise control over revenue timing across new orders, permanent upgrades, and short-term contracts." },
+            { title: "Traffic Unit Display Toggle", description: "Added a flexible unit toggle to Vista traffic metrics — Kbps, Mbps, Gbps, or Tbps — so customers can view performance data at whatever scale makes sense for their circuit. A 100 Mbps port and a 100 Gbps wave don't read naturally on the same fixed scale, and this previously meant squinting at long strings of digits or doing mental unit conversion. Switching units is now a single click inside the existing Vista graphs, for faster, clearer interpretation of the same underlying data." },
+            { title: "Enabling Vista Functionality & Costing for New Customers", description: "Vista is now packaged as a standardised add-on product with refreshed pricing and a clear Standard vs. Premium comparison presented directly on the platform. Previously, bringing a new customer onto Vista involved manual, case-by-case pricing conversations. The new packaging makes it easy for a new customer to see exactly what each tier includes and choose the right one during their own buying journey, without waiting on a custom quote." },
+            { title: "CSD Billing Detail Entry on Platform", description: "Introduced an admin capability for the CSD team to initiate DCI Wave billing directly from the internal platform, including support for backdated and future-dated billing start dates. Before this, Wave billing start dates were handled outside the core system, which made it easy for timing to slip out of sync with what was actually delivered. Finance and CSD now have precise, auditable control over revenue timing across new orders, permanent upgrades, and short-term contracts." },
           ],
           improvements: [
-            { title: "Service ID Standardisation — 20-Character Nomenclature", description: "Rolled out a standardised 20-character Service ID with consistent naming logic across the platform, making services easier to identify, search, and reference for both customers and internal teams." },
+            { title: "Service ID Standardisation — 20-Character Nomenclature", description: "Rolled out a standardised 20-character Service ID with a consistent naming logic applied across the whole platform. Service IDs had previously grown organically, with varying lengths and formats depending on when and where a service was created, which made searching and cross-referencing them error-prone. The new, consistent format makes services easier to identify, search for, and reference correctly in conversations between customers and internal teams." },
           ],
           bugFixes: [
-            { title: "Quiet on the issues front", description: "Nothing filed this release.", isEmptyState: true },
+            { title: "Quiet on the issues front", description: "Nothing filed this release. The three new features above went out clean.", isEmptyState: true },
           ],
         }],
       },
@@ -100,15 +100,15 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "3.8", date: "February 2026",
           newFeatures: [
-            { title: "Self-Service X-Connect & Cross Connect Order Flow", description: "Customers can now add a cross connect inline while ordering a port, all within a single order journey (India locations) — removing a manual, out-of-band step and delivering a true self-service ordering experience." },
-            { title: "Include DCI Wave in Network Diagram", description: "DCI Wave services now appear in the platform's network diagram, giving customers a complete, at-a-glance topology view of their connectivity and closing a key visibility gap in service management." },
+            { title: "Self-Service X-Connect & Cross Connect Order Flow", description: "Customers can now add a cross connect inline while ordering a port, all within a single order journey for India locations. Previously, the cross connect had to be requested as a separate, manual, out-of-band step after the port order was placed, which added delay and extra coordination. Folding it into the same flow removes that gap entirely and delivers a true self-service ordering experience from start to finish." },
+            { title: "Include DCI Wave in Network Diagram", description: "DCI Wave services now appear directly in the platform's network diagram alongside every other connectivity type a customer has. This had been a visibility gap: customers with a Wave circuit couldn't see it represented in the same topology view as their Ports, Virtual Routers, and Virtual Connections. They now get a complete, at-a-glance picture of their full connectivity footprint in one diagram, closing that gap in service management." },
           ],
           improvements: [
-            { title: "Changes in Unified Sales Assist Flow", description: "Streamlined the Sales Assist journey by removing the customer approval step — the CSD team can now provision assisted orders end-to-end directly on the platform." },
-            { title: "DCI Wave Product Enhancement — India & APAC (100G & 400G)", description: "Enhanced the DCI Wave portfolio with higher-capacity options across India and APAC: 100G is now fully self-provisionable, and 400G can be requested on-platform for L1 (subject to inventory availability)." },
+            { title: "Changes in Unified Sales Assist Flow", description: "Streamlined the Sales Assist journey by removing the customer approval step that previously sat in the middle of an assisted order. That step added a waiting period even when the customer had already agreed to the order over a call or email, slowing down time-to-provision. The CSD team can now provision assisted orders end-to-end directly on the platform, without the extra round trip." },
+            { title: "DCI Wave Product Enhancement — India & APAC (100G & 400G)", description: "Enhanced the DCI Wave portfolio with higher-capacity options across India and APAC. 100G is now fully self-provisionable through the normal ordering flow, and 400G can be requested directly on-platform for L1, subject to inventory availability, instead of being handled entirely offline. This brings Wave's highest-capacity tiers in line with the rest of the self-service catalogue." },
           ],
           bugFixes: [
-            { title: "A tidy little release", description: "No bugs to speak of.", isEmptyState: true },
+            { title: "A tidy little release", description: "No bugs to speak of this time around.", isEmptyState: true },
           ],
         }],
       },
@@ -117,14 +117,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "3.7", date: "January 2026",
           newFeatures: [
-            { title: "Short-Term Bandwidth Contract & Provisioning — Ports, VC, VR, Vista (India & APAC)", description: "Customers can now self-provision short-term bandwidth for flexible 1–11 month terms across India and APAC, unlocking demand from seasonal and project-based use cases. Backed by dedicated short-term pricing." },
-            { title: "Long-Term Contract & Provisioning — Virtual Router (India & APAC)", description: "Long-term contracting is now supported for Virtual Router across India and APAC, with a refreshed pricing model that rewards longer commitments." },
-            { title: "Enabling L2/3 Services for APAC Region with Pricing", description: "L2 and L3 services are now live and self-provisionable in APAC with region-specific pricing, extending our addressable market on platform." },
-            { title: "Password Expiry Feature on Platform", description: "Introduced scheduled password expiry to strengthen account security and support compliance. Users receive proactive expiry reminders, and if no action is taken, a self-service password reset link is issued directly to the customer." },
+            { title: "Short-Term Bandwidth Contract & Provisioning — Ports, VC, VR, Vista (India & APAC)", description: "Customers can now self-provision short-term bandwidth for flexible 1–11 month terms across India and APAC, spanning Ports, Virtual Connections, Virtual Routers, and Vista. Previously, anything shorter than a standard annual term required a manual, off-platform conversation with sales. This unlocks demand from seasonal spikes and project-based use cases that don't fit a long-term contract, and it's backed by dedicated short-term pricing built specifically for this use case rather than a prorated long-term rate." },
+            { title: "Long-Term Contract & Provisioning — Virtual Router (India & APAC)", description: "Long-term contracting is now supported for Virtual Router across India and APAC, with a refreshed pricing model that rewards longer commitments. Customers who already knew they wanted a multi-year Virtual Router deployment previously had no self-service path to lock that in on favourable terms. They can now select a longer term directly during ordering and see the better pricing reflected immediately." },
+            { title: "Enabling L2/3 Services for APAC Region with Pricing", description: "L2 and L3 services are now live and self-provisionable in APAC with region-specific pricing, rather than being limited to India as the only fully self-service region for these service types. This extends Polarin's addressable market on-platform and lets APAC customers order the same L2/L3 services India customers already could, at pricing calibrated for their region." },
+            { title: "Password Expiry Feature on Platform", description: "Introduced scheduled password expiry to strengthen account security and support compliance requirements that many enterprise customers are held to. Users receive proactive reminders in the lead-up to their expiry date, so the change rarely comes as a surprise. If no action is taken in time, a self-service password reset link is issued directly to the customer, avoiding a support ticket just to regain access." },
           ],
           improvements: [],
           bugFixes: [
-            { title: "Nothing to squash this month", description: "A clean start to the year.", isEmptyState: true },
+            { title: "Nothing to squash this month", description: "A clean start to the year, with the four features above shipping without any reported issues.", isEmptyState: true },
           ],
         }],
       },
@@ -139,26 +139,26 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "3.6", date: "September 2024",
             newFeatures: [
-              { title: "End-to-End Portal Ordering & Audit Logs", description: "Added end-to-end portal ordering and JSON audit logs for Polarin and Wave, plus opportunity creation from customer-initiated Buy Journeys." },
-              { title: "SLA Visibility", description: "Added SLA visibility for Ports, Virtual Routers, and Virtual Connections, and support for multiple products in Price Calculator estimates." },
+              { title: "End-to-End Portal Ordering & Audit Logs", description: "Added end-to-end portal ordering and JSON audit logs for both Polarin and Wave, plus opportunity creation directly from customer-initiated Buy Journeys. Previously, some ordering steps required internal handoffs, and there was no consistent, machine-readable record of what happened during an order. The new audit logs give support and engineering a reliable trail to debug issues after the fact, while CRM opportunities now get created automatically the moment a customer starts a Buy Journey." },
+              { title: "SLA Visibility", description: "Added SLA visibility for Ports, Virtual Routers, and Virtual Connections, alongside support for multiple products in a single Price Calculator estimate. Customers previously had to check SLA terms separately from pricing, and couldn't price more than one product type in one pass. Both now live together, making it easier to understand commitments and costs side by side before committing to an order." },
             ],
             improvements: [
-              { title: "Wave Dashboard & CRM Sync", description: "Added Wave dashboard skeleton loaders with SLA widgets, APIs, and side-panel summaries, plus document synchronisation between Portal and CRM and CRM opportunity stage/probability checks." },
+              { title: "Wave Dashboard & CRM Sync", description: "Added Wave dashboard skeleton loaders along with SLA widgets, supporting APIs, and side-panel summaries, plus document synchronisation between the Portal and CRM and automatic CRM opportunity stage/probability checks. The skeleton loaders make the dashboard feel responsive even while data is still loading, and keeping Portal and CRM documents in sync removes a manual re-upload step that sales teams previously had to repeat in two places." },
             ],
             bugFixes: [
-              { title: "Wave & platform fixes", description: "Fixed incomplete pricing validation, router status, duplicate activity logs, renewal-termination controls, inspection reports, cloud deployment, VA help details, impersonation, CAF values, billing dates, invoice generation, and price summaries." },
+              { title: "Wave & platform fixes", description: "Fixed incomplete pricing validation, router status, duplicate activity logs, renewal-termination controls, inspection reports, cloud deployment, VA help details, impersonation, CAF values, billing dates, invoice generation, and price summaries. This was a broad stability pass across Wave and the core platform, closing out issues reported across several teams rather than a single feature area." },
             ],
           },
           {
             version: "3.5", date: "September 2024",
             newFeatures: [
-              { title: "Price Calculator Disclaimer & NOC Alerts", description: "Added a disclaimer to the Polarin Price Calculator and NOC notifications for onboarding, service readiness, configuration, billing, and invoice events." },
+              { title: "Price Calculator Disclaimer & NOC Alerts", description: "Added a disclaimer to the Polarin Price Calculator clarifying that displayed figures are estimates, and introduced NOC notifications for onboarding, service readiness, configuration, billing, and invoice events. The disclaimer reduces confusion when a final quote differs slightly from the calculator's estimate, while the new NOC alerts keep operations staff informed of key lifecycle events without having to poll the system manually." },
             ],
             improvements: [
-              { title: "User Management Refresh", description: "Updated User Management with new designs, filters, CRUD actions, and confirmation flows, plus VA connection details and permission-based deletion." },
+              { title: "User Management Refresh", description: "Updated User Management with new designs, clearer filters, streamlined CRUD actions, and explicit confirmation flows before destructive actions, plus added Virtual Appliance connection details and permission-based deletion. The confirmation flows in particular reduce the risk of an admin accidentally removing a user or access grant without realising the consequence first." },
             ],
             bugFixes: [
-              { title: "Order & billing fixes", description: "Fixed order creation, PAYG selection, VA deployment, router creation, logo updates, export columns, pricing, service states, subscription renewal, BGP details, billing profiles, user management, and Wave price-calculator defects." },
+              { title: "Order & billing fixes", description: "Fixed order creation, PAYG selection, Virtual Appliance deployment, router creation, logo updates, export columns, pricing, service states, subscription renewal, BGP details, billing profiles, user management, and Wave price-calculator defects. A wide-ranging cleanup touching nearly every major module, aimed at tightening up the ordering and billing experience ahead of further feature work." },
             ],
           },
         ],
@@ -169,28 +169,28 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "3.4", date: "August 2024",
             newFeatures: [
-              { title: "VA Internet Rate-Limit Visibility", description: "Added Virtual Appliance internet-rate-limit visibility and validation, and disabled locations when inventory is unavailable." },
-              { title: "Bandwidth on Demand (Polarin Wave)", description: "Polarin Wave added Bandwidth on Demand and updated quotation pricing." },
+              { title: "VA Internet Rate-Limit Visibility", description: "Added Virtual Appliance internet-rate-limit visibility and validation, and the platform now disables locations when inventory is unavailable rather than letting a customer attempt to order into a dead end. Surfacing the rate limit up front lets customers see exactly what bandwidth they're provisioning before committing, and the inventory check prevents orders that would otherwise fail later in fulfilment." },
+              { title: "Bandwidth on Demand (Polarin Wave)", description: "Polarin Wave added Bandwidth on Demand along with updated quotation pricing to match. Customers with a Wave circuit can now flex capacity up or down to match short-term traffic needs instead of being locked into a single fixed rate for the full contract term, with pricing that reflects the actual bandwidth used." },
             ],
             improvements: [
-              { title: "Pricing & filter polish", description: "Improved pricing-summary presentation, port-status processing, VA filters, notification time formatting, billing-profile dropdowns, search behaviour, and service-logo sizing." },
+              { title: "Pricing & filter polish", description: "Improved pricing-summary presentation, port-status processing, Virtual Appliance filters, notification time formatting, billing-profile dropdowns, search behaviour, and service-logo sizing. A collection of smaller usability fixes across several screens, each individually minor but together making day-to-day navigation noticeably smoother." },
             ],
             bugFixes: [
-              { title: "Stability fixes", description: "Fixed activity-log UI, LAG cross-connect locations, subscription actions, tab responsiveness, file uploads, VA connection details, pricing-calculator formats, cloud-flow pricing, pagination, invoice downloads, billing profiles, and VR validation." },
+              { title: "Stability fixes", description: "Fixed activity-log UI, LAG cross-connect locations, subscription actions, tab responsiveness, file uploads, Virtual Appliance connection details, pricing-calculator formats, cloud-flow pricing, pagination, invoice downloads, billing profiles, and VR validation. This release focused on tightening up stability across a broad set of everyday workflows rather than one specific area." },
             ],
           },
           {
             version: "3.3", date: "August 2024",
             newFeatures: [
-              { title: "Admin Billing Controls", description: "Added Admin Portal Start Billing controls, billing-detail side panels, Finance and Sales role controls, and service-page permissions." },
-              { title: "Virtual Appliance Cloud Coverage", description: "Added VA cloud scenarios for AWS, Oracle, and Azure." },
-              { title: "Polarin Price Calculator", description: "Introduced the Polarin Price Calculator and Virtual Router flat pricing." },
+              { title: "Admin Billing Controls", description: "Added Admin Portal Start Billing controls, billing-detail side panels, dedicated Finance and Sales role controls, and granular service-page permissions. Previously, billing actions and sensitive service data weren't cleanly separated by role, which meant broader access than many organisations wanted to grant. Finance and Sales can now be scoped to exactly what each role needs to see and do." },
+              { title: "Virtual Appliance Cloud Coverage", description: "Added Virtual Appliance cloud scenarios for AWS, Oracle, and Azure, extending VA support beyond its initial launch footprint. Customers running infrastructure across any of these three major clouds can now deploy and manage Virtual Appliances against them directly from the platform." },
+              { title: "Polarin Price Calculator", description: "Introduced the Polarin Price Calculator along with Virtual Router flat pricing. Before this, estimating the cost of a Virtual Router setup typically required a conversation with sales. Customers can now get an instant, self-service estimate using flat, predictable pricing rather than a custom-quoted figure." },
             ],
             improvements: [
-              { title: "Platform standardisation", description: "Standardised input and dropdown states, billing warnings, latency stitching, VR host details, export ordering, activity-log product names, and regulatory reporting." },
+              { title: "Platform standardisation", description: "Standardised input and dropdown states, billing warnings, latency stitching, VR host details, export ordering, activity-log product names, and regulatory reporting. These changes bring consistency to how similar UI elements and data behave across different parts of the platform, reducing the small inconsistencies that otherwise accumulate as a product grows." },
             ],
             bugFixes: [
-              { title: "Support & billing fixes", description: "Fixed Help and Support attachments, billing profiles, logout, onboarding, email forwarding, case deletion, VA columns, cross-connect actions, billing-profile defaults, subscription visibility, phone validation, search, pricing, and notification issues." },
+              { title: "Support & billing fixes", description: "Fixed Help and Support attachments, billing profiles, logout, onboarding, email forwarding, case deletion, Virtual Appliance columns, cross-connect actions, billing-profile defaults, subscription visibility, phone validation, search, pricing, and notification issues. A large, cross-cutting fix list spanning support tooling, onboarding, and billing together." },
             ],
           },
         ],
@@ -201,27 +201,27 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "3.2", date: "July 2024",
             newFeatures: [
-              { title: "New Billing Profile Design", description: "Introduced a new Billing Profile design with improved table search and filtering." },
-              { title: "Polarin Wave Data Versioning", description: "Added Polarin Wave data versioning and Virtual Appliance knowledge-base documentation." },
+              { title: "New Billing Profile Design", description: "Introduced a redesigned Billing Profile layout with improved table search and filtering. Organisations managing several billing profiles at once previously had to scroll through a long, largely unfilterable list. The refreshed design makes it much faster to locate a specific profile, particularly for larger accounts with many entities." },
+              { title: "Polarin Wave Data Versioning", description: "Added Polarin Wave data versioning along with new Virtual Appliance knowledge-base documentation. Versioning gives the team a reliable way to track how Wave data has changed over time, while the new VA documentation gives customers a self-serve reference instead of relying entirely on support for setup questions." },
             ],
             improvements: [
-              { title: "Inventory & routing controls", description: "Added inventory filters, service-reservation controls, routing types, and export-column support, plus VA event notifications and subscription-end-date administration." },
+              { title: "Inventory & routing controls", description: "Added inventory filters, service-reservation controls, routing types, and export-column support, plus Virtual Appliance event notifications and subscription-end-date administration. Together these give both customers and internal teams finer-grained control over how inventory is reserved, routed, and reported on." },
             ],
             bugFixes: [
-              { title: "Pricing & billing fixes", description: "Fixed pricing summaries, service-state messaging, VC rate-limit calculations, CRM fields, VA admin actions, activity-log billing fields, exported billing values, LOA recipients, inventory details, pagination, and help-and-support service selection." },
+              { title: "Pricing & billing fixes", description: "Fixed pricing summaries, service-state messaging, VC rate-limit calculations, CRM fields, Virtual Appliance admin actions, activity-log billing fields, exported billing values, LOA recipients, inventory details, pagination, and help-and-support service selection. A broad pricing- and billing-focused cleanup addressing issues reported across several teams." },
             ],
           },
           {
             version: "3.1", date: "July 2024",
             newFeatures: [
-              { title: "Automated Compliance Checks", description: "Added automated Bonafide Check inspection reports for customer signature." },
+              { title: "Automated Compliance Checks", description: "Added automated Bonafide Check inspection reports for customer signature. This replaces a previously manual verification step with an automatically generated report that customers can review and sign directly, reducing turnaround time on compliance-related approvals." },
             ],
             improvements: [
-              { title: "Virtual Appliance expansion", description: "Expanded Virtual Appliance ordering, configuration, viewing, editing, subscriptions, pricing, and administration." },
-              { title: "Admin & pricing polish", description: "Improved admin impersonation access, product locations, network-diagram status colours, payment pricing, service-page designs, VLAN selection, and billing controls." },
+              { title: "Virtual Appliance expansion", description: "Expanded Virtual Appliance ordering, configuration, viewing, editing, subscriptions, pricing, and administration. This rounds out VA as a product, giving it the same depth of lifecycle management that other core service types already had." },
+              { title: "Admin & pricing polish", description: "Improved admin impersonation access, product locations, network-diagram status colours, payment pricing, service-page designs, VLAN selection, and billing controls. Several smaller refinements aimed at making day-to-day admin work and customer-facing pricing clearer and more consistent." },
             ],
             bugFixes: [
-              { title: "Cross-module fixes", description: "Fixed case submission, VA pricing, PAYG logs, VR rate limits, subscription deletion and renewal, cloud-key validation, organisation defaults, checkout errors, CRM profile updates, port failures, billing invoices, help-and-support attachments, and VA editing." },
+              { title: "Cross-module fixes", description: "Fixed case submission, VA pricing, PAYG logs, VR rate limits, subscription deletion and renewal, cloud-key validation, organisation defaults, checkout errors, CRM profile updates, port failures, billing invoices, help-and-support attachments, and VA editing. One of the larger fix batches of the year, touching nearly every major area of the platform." },
             ],
           },
         ],
@@ -232,28 +232,28 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "3.0.1", date: "June 27, 2024",
             newFeatures: [
-              { title: "Virtual Appliance Ordering (Beta)", description: "Introduced beta Virtual Appliance ordering, with configuration, viewing, editing, subscriptions, pricing, Sales Assist, and Admin Portal management." },
+              { title: "Virtual Appliance Ordering (Beta)", description: "Introduced beta Virtual Appliance ordering, covering configuration, viewing, editing, subscriptions, pricing, Sales Assist, and Admin Portal management. This is the first self-service entry point for VA as a product, released in beta so the team could gather real usage feedback before the full launch that followed in subsequent releases." },
             ],
             improvements: [
-              { title: "Billing groundwork", description: "Added billing-related management and extensive platform integration work." },
+              { title: "Billing groundwork", description: "Added billing-related management capabilities and extensive platform integration work behind the scenes. Most of this release was foundational — not directly visible to customers, but necessary groundwork for the billing features that shipped in the months that followed." },
             ],
             bugFixes: [
-              { title: "Smooth sailing", description: "No bugs, no drama this release.", isEmptyState: true },
+              { title: "Smooth sailing", description: "No bugs, no drama this release. A quiet patch release focused entirely on the beta VA launch and billing groundwork above.", isEmptyState: true },
             ],
           },
           {
             version: "3.0", date: "June 20, 2024",
             newFeatures: [
-              { title: "LOA Sharing UI", description: "Introduced new LOA sharing and download UI." },
-              { title: "Live Performance Metrics", description: "Added performance metrics for live Ports, Virtual Routers, and Virtual Connections, plus connection-details tabs." },
-              { title: "Corrective Billing", description: "Added corrective billing and target single-invoice formats." },
+              { title: "LOA Sharing UI", description: "Introduced a new Letter of Authorization sharing and download UI. Customers previously had to request LOAs through support; they can now generate, view, and download them directly from the platform, cutting out a manual request-and-wait step." },
+              { title: "Live Performance Metrics", description: "Added performance metrics for live Ports, Virtual Routers, and Virtual Connections, along with new connection-details tabs to house them. Customers can now check how a service is actually performing in real time rather than relying solely on status indicators, directly from the same page where they manage the service." },
+              { title: "Corrective Billing", description: "Added corrective billing support along with target single-invoice formats. When a billing error needed correcting, it previously required manual intervention outside the normal invoicing flow; corrections can now be issued in a way that produces a single, clean target invoice for the customer." },
             ],
             improvements: [
-              { title: "Portal consistency", description: "Added consistent empty-state messaging across portal screens and show/hide columns in Admin Portal services." },
-              { title: "Diagram & inventory polish", description: "Improved Internet Exchange network diagrams, inventory country filters, Console Connect logos, location APIs, bulk e-invoicing, and bill-number sequencing." },
+              { title: "Portal consistency", description: "Added consistent empty-state messaging across portal screens, and introduced show/hide column controls in Admin Portal services. Empty states previously varied screen to screen, some showing nothing at all; now every screen gives a clear, consistent message when there's no data to display yet." },
+              { title: "Diagram & inventory polish", description: "Improved Internet Exchange network diagrams, inventory country filters, Console Connect logos, location APIs, bulk e-invoicing, and bill-number sequencing. A broad polish pass across visualisation, inventory, and billing-adjacent tooling." },
             ],
             bugFixes: [
-              { title: "Billing & orchestration fixes", description: "Fixed billing-status consistency, Console Connect VC creation, PAYG termination images, duplicate subscription logs, service-card movement, port names, GST refresh, Oracle verification, Azure orders, and orchestration callbacks." },
+              { title: "Billing & orchestration fixes", description: "Fixed billing-status consistency, Console Connect VC creation, PAYG termination images, duplicate subscription logs, service-card movement, port names, GST refresh, Oracle verification, Azure orders, and orchestration callbacks. This closed out a number of edge cases discovered as order volumes grew across cloud and Console Connect integrations." },
             ],
           },
         ],
@@ -263,14 +263,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "2.10", date: "May 28, 2024",
           newFeatures: [
-            { title: "Richer Billing Profiles", description: "Billing profiles now support phone numbers, country codes, auto-filled state, and preferred currency." },
-            { title: "New Components", description: "Introduced a new table component, network diagram component, activity-log design, and availability-metrics improvements." },
+            { title: "Richer Billing Profiles", description: "Billing profiles now support phone numbers, country codes, auto-filled state, and preferred currency. These fields had previously been missing or required manual lookup, which slowed down billing-profile setup, particularly for international customers whose state/province and currency needed to be entered by hand." },
+            { title: "New Components", description: "Introduced a new shared table component, a network diagram component, a refreshed activity-log design, and availability-metrics improvements. These are largely foundational UI building blocks, used across multiple pages, that set up more consistent presentation for the features that followed in later releases." },
           ],
           improvements: [
-            { title: "Redesigned billing & services views", description: "Revamped billing-profile list view and Services page design, and improved VC notification formatting." },
+            { title: "Redesigned billing & services views", description: "Revamped the billing-profile list view and the Services page design, and improved VC notification formatting so emails are easier to scan. Both pages had grown cluttered as more fields and services were added over time; this release reorganised them around what customers actually look for most often." },
           ],
           bugFixes: [
-            { title: "Wide-ranging fixes", description: "Fixed checkout split, GST-number errors, VR update controls, LAG popup cancellation, organisation-profile spelling, add-on exceptions, billing-profile display, activity-log search, knowledge-base routing, UAT port navigation, admin approval details, and Azure service-key validation." },
+            { title: "Wide-ranging fixes", description: "Fixed checkout split, GST-number errors, VR update controls, LAG popup cancellation, organisation-profile spelling, add-on exceptions, billing-profile display, activity-log search, knowledge-base routing, UAT port navigation, admin approval details, and Azure service-key validation. One of the broadest fix lists of the quarter, spanning checkout, billing, and several admin workflows." },
           ],
         }],
       },
@@ -280,25 +280,25 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "2.9", date: "March 2024",
             newFeatures: [
-              { title: "Azure Rate-Limit Upgrades", description: "Added Azure virtual-connection rate-limit upgrades, paid-plan POC upgrades, and DECIX peering by ASN." },
-              { title: "Pricing controls", description: "Added Admin Portal service deletion, billing-date selection, price margins, and Salesforce/Vlocity pricing-calculator work." },
+              { title: "Azure Rate-Limit Upgrades", description: "Added Azure virtual-connection rate-limit upgrades, paid-plan POC upgrades, and DECIX peering by ASN. Customers running a proof-of-concept on a paid plan can now upgrade their rate limit without needing a brand-new order, and DECIX peering can be configured directly by ASN instead of requiring manual coordination." },
+              { title: "Pricing controls", description: "Added Admin Portal service deletion, billing-date selection, price margins, and Salesforce/Vlocity pricing-calculator work. These give internal teams finer control over pricing and service lifecycle actions that previously required engineering involvement or a database-level change." },
             ],
             improvements: [
-              { title: "Navigation & filtering", description: "Improved connection-creation navigation, subscription filters, billing fields, virtual-appliance toggles and forms, and pricing display." },
+              { title: "Navigation & filtering", description: "Improved connection-creation navigation, subscription filters, billing fields, and virtual-appliance toggles and forms, alongside clearer pricing display throughout the ordering flow. These changes reduce the number of steps and amount of back-and-forth needed to complete a typical order." },
             ],
             bugFixes: [
-              { title: "Validation fixes", description: "Fixed wizard validation, activity-log filtering, Console Connect pricing, VC notifications, quotation links, and cloud/port pricing issues. Quality snapshot: 29 bugs across all partners, 21 in UAT and production." },
+              { title: "Validation fixes", description: "Fixed wizard validation, activity-log filtering, Console Connect pricing, VC notifications, quotation links, and cloud/port pricing issues. Internally, this release closed out 29 reported bugs across all partners, 21 of which were caught in UAT and production testing before reaching customers." },
             ],
           },
           {
             version: "2.8", date: "March 2024",
             newFeatures: [
-              { title: "Billing-Start Controls", description: "Added Admin Portal billing-detail updates, Finance-user billing-start controls, billing notifications, monthly subscriber coverage, POC-order support, and Salesforce POC duration details." },
-              { title: "New India Data Centre", description: "Added Alphatum Noida as a new India data centre." },
+              { title: "Billing-Start Controls", description: "Added Admin Portal billing-detail updates, Finance-user billing-start controls, billing notifications, monthly subscriber coverage, POC-order support, and Salesforce POC duration details. Finance users gained direct control over exactly when billing starts for a given order, rather than relying on a default that didn't always match the actual service-ready date." },
+              { title: "New India Data Centre", description: "Added Alphatum Noida as a new India data centre available for ordering. This extends the self-service catalogue of Indian facilities, giving customers in and around the National Capital Region another location option for Ports, interconnects, and related services." },
             ],
             improvements: [],
             bugFixes: [
-              { title: "Quotation & transformation fixes", description: "Fixed BGP display, product-type emails, quotation links, recipient routing, and normal-VC-to-cloud transformation." },
+              { title: "Quotation & transformation fixes", description: "Fixed BGP display, product-type emails, quotation links, recipient routing, and normal-VC-to-cloud transformation. These fixes targeted a cluster of issues in how quotations and their related notifications were generated and delivered." },
             ],
           },
         ],
@@ -308,13 +308,13 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "2.7", date: "February 2024",
           newFeatures: [
-            { title: "POC Ordering", description: "Added POC ordering, expiration notifications, 24-hour sessions, and performance-metric availability changes." },
+            { title: "POC Ordering", description: "Added POC (proof-of-concept) ordering, expiration notifications, 24-hour sessions, and performance-metric availability changes. Customers evaluating the platform can now set up a time-boxed POC with automatic expiry and reminders, rather than needing a full commercial order just to trial a service." },
           ],
           improvements: [
-            { title: "Service panel refinements", description: "Improved service side panels, packet-loss calculations, PO-number validation, upfront-payment display, OTC values, and service-price presentation." },
+            { title: "Service panel refinements", description: "Improved service side panels, packet-loss calculations, PO-number validation, upfront-payment display, OTC values, and service-price presentation. The side panel in particular saw several small layout fixes that made key service details easier to scan without opening the full detail page." },
           ],
           bugFixes: [
-            { title: "Ordering & pricing fixes", description: "Fixed VR deletion, cross-connect ordering, add-on downgrade, port deletion, bandwidth capacity, Console Connect pricing, CRM mapping, VR pricing, subscription details, and date display. Quality snapshot: 42 bugs across all partners, 28 in UAT and production." },
+            { title: "Ordering & pricing fixes", description: "Fixed VR deletion, cross-connect ordering, add-on downgrade, port deletion, bandwidth capacity, Console Connect pricing, CRM mapping, VR pricing, subscription details, and date display. This release closed out 42 reported bugs across all partners, with 28 of those caught during UAT and production testing." },
           ],
         }],
       },
@@ -324,27 +324,27 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "2.6", date: "January 2024",
             newFeatures: [
-              { title: "Half-Yearly Billing", description: "Added service visibility, billing exceptions, organisation-profile export, and half-yearly billing." },
-              { title: "POC Quotations", description: "Added Salesforce POC quotations, valid-until and duration warnings, and cross-connect OTC values." },
+              { title: "Half-Yearly Billing", description: "Added service visibility improvements, billing exceptions handling, organisation-profile export, and support for half-yearly billing cycles. Previously billing cycles were limited to monthly, quarterly, or annual; customers who preferred a six-month cadence now have that option available directly during setup." },
+              { title: "POC Quotations", description: "Added Salesforce POC quotations, valid-until and duration warnings, and cross-connect OTC values. Sales teams can now generate a proper POC quotation with a clear expiry date built in, rather than tracking the trial period separately outside the quoting system." },
             ],
             improvements: [
-              { title: "Clearer VLAN guidance", description: "Improved VLAN help text, post-creation navigation, organisation defaults, subscription terminology, and notification targeting." },
+              { title: "Clearer VLAN guidance", description: "Improved VLAN help text, post-creation navigation, organisation defaults, subscription terminology, and notification targeting. The updated help text in particular reduced a recurring category of support questions about how VLAN IDs should be chosen during ordering." },
             ],
             bugFixes: [
-              { title: "VR & cross-connect fixes", description: "Fixed VR-to-DC payloads, VR capacity, and cross-connect availability. Quality snapshot: 15 bugs across all partners, 13 in UAT and production." },
+              { title: "VR & cross-connect fixes", description: "Fixed VR-to-DC payloads, VR capacity, and cross-connect availability. This release resolved 15 reported bugs across all partners, with 13 caught during UAT and production testing before affecting customers." },
             ],
           },
           {
             version: "2.5", date: "January 2024",
             newFeatures: [
-              { title: "VR-to-VR Ordering", description: "Added VR–VR ordering, reserved and PAYG VR updates, and Singapore-origin ordering." },
-              { title: "Console Connect–Polarin Link", description: "Added payment history, location and latency APIs, and Console Connect–Polarin connectivity." },
+              { title: "VR-to-VR Ordering", description: "Added VR–VR ordering, reserved and PAYG VR updates, and Singapore-origin ordering. Customers can now connect two Virtual Routers directly to one another through self-service ordering, and PAYG Virtual Routers gained the same update capabilities that reserved VRs already had." },
+              { title: "Console Connect–Polarin Link", description: "Added payment history, location and latency APIs, and direct Console Connect–Polarin connectivity. The new connectivity option lets customers reach Polarin's network directly through their existing Console Connect relationship, without needing a separate physical interconnect." },
             ],
             improvements: [
-              { title: "Billing & pricing polish", description: "Improved billing dates, GCP zones, navigation, Polarin integrations, LOA data, NLD billing profiles, and pricing." },
+              { title: "Billing & pricing polish", description: "Improved billing dates, GCP zones, navigation, Polarin integrations, LOA data, NLD billing profiles, and pricing. A broad quality pass across billing and cloud-provider integration details that had accumulated small inconsistencies since launch." },
             ],
             bugFixes: [
-              { title: "Metrics & integration fixes", description: "Fixed performance metrics, GST, Oracle location filtering, cross-connect status, circuit upgrades, VR payloads, Azure keys, pricing, network diagrams, user roles, and Console Connect inventory." },
+              { title: "Metrics & integration fixes", description: "Fixed performance metrics, GST, Oracle location filtering, cross-connect status, circuit upgrades, VR payloads, Azure keys, pricing, network diagrams, user roles, and Console Connect inventory. One of the larger fix batches of the period, spanning metrics, tax handling, and several cloud integrations at once." },
             ],
           },
         ],
@@ -359,14 +359,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "2.4", date: "December 2023",
           newFeatures: [
-            { title: "Subscription Lifecycle Management", description: "Added subscription renewal and termination, Console Connect connectivity, product visibility, and cross-connect pricing." },
-            { title: "New India Data Centres", description: "Added India data centres including IBM Mumbai, Infosys Bangalore and Pune, Adani Chennai, and three additional Bengaluru locations." },
+            { title: "Subscription Lifecycle Management", description: "Added subscription renewal and termination, Console Connect connectivity, product visibility, and cross-connect pricing. Before this, ending or renewing a subscription required manual intervention from internal teams. Customers can now manage the full lifecycle of a subscription themselves, from initial order through renewal or termination, without raising a ticket." },
+            { title: "New India Data Centres", description: "Added India data centres including IBM Mumbai, Infosys Bangalore and Pune, Adani Chennai, and three additional Bengaluru locations. This significantly expands the self-service India footprint in a single release, giving customers far more choice of facility across the country's key metro and tech-hub markets." },
           ],
           improvements: [
-            { title: "Attribute & pricing depth", description: "Added cloud-location details, tagged/untagged/trunk compatibility, MRC/TCV fields, partner referrals, virtual-connection attributes, pricebook integration, renewal APIs, and history components." },
+            { title: "Attribute & pricing depth", description: "Added cloud-location details, tagged/untagged/trunk compatibility, MRC/TCV fields, partner referrals, virtual-connection attributes, pricebook integration, renewal APIs, and history components. This release deepened the data model behind virtual connections and pricing, laying groundwork that later billing and reporting features would build on." },
           ],
           bugFixes: [
-            { title: "Capacity & flow fixes", description: "Fixed LAG spacing, capacity, organisation mapping, LAG eligibility, service status, VR availability, access control, activity logs, pricing, cloud flows, subscription details, and checkout errors." },
+            { title: "Capacity & flow fixes", description: "Fixed LAG spacing, capacity, organisation mapping, LAG eligibility, service status, VR availability, access control, activity logs, pricing, cloud flows, subscription details, and checkout errors. A wide-ranging stability release closing out issues across inventory, access control, and checkout together." },
           ],
         }],
       },
@@ -376,28 +376,28 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "2.3", date: "November 2023",
             newFeatures: [
-              { title: "Console Connect Locations", description: "Added Console Connect locations, port ordering, and services/product details." },
-              { title: "Admin Reporting", description: "Added Admin Portal Excel reports and organisation-purpose filtering." },
+              { title: "Console Connect Locations", description: "Added Console Connect locations, port ordering, and services/product details. Customers with an existing Console Connect relationship can now browse and order into the same catalogue of locations directly from Polarin, rather than coordinating the connection separately." },
+              { title: "Admin Reporting", description: "Added Admin Portal Excel reports and organisation-purpose filtering. Internal teams previously had to query data manually for reporting; they can now export structured Excel reports directly from the Admin Portal and filter organisations by their stated purpose." },
             ],
             improvements: [
-              { title: "Partner & SLA expansion", description: "Expanded MDF, partner-portal, revenue-forecast, SLA, virtual-router, connection-type, and opportunity work." },
+              { title: "Partner & SLA expansion", description: "Expanded MDF, partner-portal, revenue-forecast, SLA, virtual-router, connection-type, and opportunity work. This release broadened partner-facing tooling and forecasting capability at the same time as extending SLA and Virtual Router functionality." },
             ],
             bugFixes: [
-              { title: "Billing & display fixes", description: "Fixed BGP display, PAYG pricing, billing entities, duplicate states, cloud-flow failures, email delivery, VR status transitions, billing fields, and impersonation." },
+              { title: "Billing & display fixes", description: "Fixed BGP display, PAYG pricing, billing entities, duplicate states, cloud-flow failures, email delivery, VR status transitions, billing fields, and impersonation. These fixes addressed a cluster of billing-accuracy and display issues reported shortly after the previous release." },
             ],
           },
           {
             version: "2.2", date: "November 2023",
             newFeatures: [
-              { title: "In-Platform Quotations", description: "Added quotations in the platform, subscription filtering and sorting, subscription details, and Test/Sales organisation types." },
-              { title: "Cloud Decommissioning", description: "Added cloud decommissioning, LOA email sharing, and channel-team notifications." },
+              { title: "In-Platform Quotations", description: "Added quotations directly in the platform, along with subscription filtering and sorting, subscription details, and new Test/Sales organisation types. Sales teams previously generated quotes outside the platform and attached them manually; quotations can now be created, tracked, and referenced natively alongside the rest of an account's data." },
+              { title: "Cloud Decommissioning", description: "Added cloud decommissioning, LOA email sharing, and channel-team notifications. Tearing down a cloud connection previously required manual coordination between teams; it can now be initiated and tracked through the platform, with the relevant channel team notified automatically." },
             ],
             improvements: [
-              { title: "Sales-assist expansion", description: "Expanded Salesforce sales-assist, cross-connect, quarterly-billing, service-asset, billing-exception, quotation, upcoming-DC, and renewal capabilities." },
-              { title: "Invoicing & checkout", description: "Added BRM final invoices, invoice-guideline support, multi-country checkout, and multi-PO accounts." },
+              { title: "Sales-assist expansion", description: "Expanded Salesforce sales-assist, cross-connect, quarterly-billing, service-asset, billing-exception, quotation, upcoming-DC, and renewal capabilities. A broad extension of the Sales Assist toolset, giving internal teams more of the context and controls they need to support a customer end-to-end." },
+              { title: "Invoicing & checkout", description: "Added BRM final invoices, invoice-guideline support, multi-country checkout, and multi-PO accounts. Customers operating across more than one country can now complete checkout and manage multiple purchase orders within a single account, rather than needing separate accounts per country." },
             ],
             bugFixes: [
-              { title: "Data & access fixes", description: "Addressed performance metrics, cloud-zone flags, document visibility, admin access, email formatting, AWS keys, and NSP data issues." },
+              { title: "Data & access fixes", description: "Addressed performance metrics, cloud-zone flags, document visibility, admin access, email formatting, AWS keys, and NSP data issues. These fixes focused on data accuracy and access control following the expansion of sales-assist and invoicing capability earlier in the same release." },
             ],
           },
         ],
@@ -407,14 +407,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "2.1", date: "October 2023",
           newFeatures: [
-            { title: "Faster PAYG Deletion", description: "Added PAYG deletion for DC–DC services and AWS SES email delivery." },
+            { title: "Faster PAYG Deletion", description: "Added PAYG deletion for DC–DC services along with AWS SES email delivery. Removing a Pay-As-You-Go DC–DC service previously required a manual back-end step; it can now be deleted directly, and the switch to AWS SES improved the reliability of outbound platform emails at the same time." },
           ],
           improvements: [
-            { title: "Component library refresh", description: "Updated the component library, input states, dropdowns, country selection, pagination, and create-wizard layouts." },
-            { title: "Billing traceability", description: "Added connection type to order payloads, quarterly billing classification, billing-start-date capture, API-call logging, CRM account IDs, and pricing logs." },
+            { title: "Component library refresh", description: "Updated the shared component library, including input states, dropdowns, country selection, pagination, and create-wizard layouts. This refresh touched UI building blocks used across the whole platform, so the improvements carried through into nearly every ordering and setup flow." },
+            { title: "Billing traceability", description: "Added connection type to order payloads, quarterly billing classification, billing-start-date capture, API-call logging, CRM account IDs, and pricing logs. These changes made it significantly easier to trace exactly how a bill was calculated after the fact, which had previously required piecing together information from several systems." },
           ],
           bugFixes: [
-            { title: "Ordering & security fixes", description: "Improved VR deletion, Oracle service IDs, cross-connect ordering, special-character emails, LAG capacity, notification formatting, SonarQube security findings, and port display errors." },
+            { title: "Ordering & security fixes", description: "Improved VR deletion, Oracle service IDs, cross-connect ordering, special-character emails, LAG capacity, notification formatting, SonarQube security findings, and port display errors. Several of these fixes resolved security findings surfaced by automated code-scanning tooling." },
           ],
         }],
       },
@@ -423,14 +423,14 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "2.0", date: "September 2023",
           newFeatures: [
-            { title: "UAE Market Launch", description: "Prepared the platform for UAE expansion, including currency, KYC, organisation, billing, location, and country-specific flows, plus UAE billing, invoicing, and CRM changes." },
-            { title: "Custom VC Quotes", description: "Added custom virtual-connection quotes and a redesigned Salesforce Partner Portal." },
+            { title: "UAE Market Launch", description: "Prepared the platform for UAE expansion, including currency, KYC, organisation, billing, location, and country-specific flows, plus UAE billing, invoicing, and CRM changes. This was a major release that extended nearly every core workflow to support a second country, rather than simply adding UAE as another dropdown option." },
+            { title: "Custom VC Quotes", description: "Added custom virtual-connection quotes and a redesigned Salesforce Partner Portal. Sales teams can now generate a tailored quote for non-standard virtual-connection requirements, rather than being limited to the fixed pricing tiers available through standard ordering." },
           ],
           improvements: [
-            { title: "Notification & metrics polish", description: "Improved LOA branding, rate-limit notifications, test-account notifications, and performance metrics." },
+            { title: "Notification & metrics polish", description: "Improved LOA branding, rate-limit notifications, test-account notifications, and performance metrics. A focused quality pass that followed closely on the heels of the UAE launch, tightening up notifications and reporting across both markets." },
           ],
           bugFixes: [
-            { title: "Multi-region fixes", description: "Fixed email formatting, activity logs, phone validation, BGP editing, currency selection, LAG pricing, cross-connect emails, and PAYG deletion." },
+            { title: "Multi-region fixes", description: "Fixed email formatting, activity logs, phone validation, BGP editing, currency selection, LAG pricing, cross-connect emails, and PAYG deletion. Several of these issues were specific to handling more than one currency and region correctly, surfaced directly by the UAE expansion work." },
           ],
         }],
       },
@@ -440,29 +440,29 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "1.9", date: "August 2023",
             newFeatures: [
-              { title: "Invoice Management", description: "Added invoice-management states in the Admin Portal and invoice views in the Customer Portal." },
-              { title: "Bank-Transfer Receipts", description: "Enabled receipt uploads for bank transfers and expanded TTSL partnership support." },
-              { title: "Order Dashboards", description: "Added Polarin order and cross-connect dashboards, reseller licensing, and digital CAF signatures." },
+              { title: "Invoice Management", description: "Added invoice-management states in the Admin Portal and corresponding invoice views in the Customer Portal. Internal teams can now track an invoice through its full lifecycle state by state, while customers get a matching, simplified view of the same information." },
+              { title: "Bank-Transfer Receipts", description: "Enabled receipt uploads for bank transfers and expanded TTSL partnership support. Customers paying by bank transfer previously had no way to confirm payment within the platform itself; they can now upload a receipt directly, speeding up reconciliation." },
+              { title: "Order Dashboards", description: "Added Polarin order and cross-connect dashboards, reseller licensing, and digital CAF signatures. The new dashboards give a consolidated view of order and cross-connect activity, while digital CAF signatures remove the need to print, sign, and re-upload a physical form." },
             ],
             improvements: [
-              { title: "Reporting improvements", description: "Improved MSA capture, notifications, DECIX quotations, and Salesforce reporting." },
+              { title: "Reporting improvements", description: "Improved MSA capture, notifications, DECIX quotations, and Salesforce reporting. These changes made it easier for internal teams to generate accurate reports without manually cross-referencing data from multiple systems." },
             ],
             bugFixes: [
-              { title: "Billing & connectivity fixes", description: "Fixed demarcation, password-special-character, test-email, performance-metric, capacity, billing-state, and DC-to-DC issues." },
+              { title: "Billing & connectivity fixes", description: "Fixed demarcation, password-special-character, test-email, performance-metric, capacity, billing-state, and DC-to-DC issues. A broad fix list spanning authentication edge cases through to DC-to-DC connectivity reporting." },
             ],
           },
           {
             version: "1.8", date: "August 2023",
             newFeatures: [
-              { title: "Temporary Rate-Limit Add-Ons", description: "Added temporary VC rate-limit add-ons and platform service notifications." },
-              { title: "Flexible VLAN Pricing", description: "Allowed preferred VLAN IDs from 101–699 and introduced differential pricing." },
+              { title: "Temporary Rate-Limit Add-Ons", description: "Added temporary VC rate-limit add-ons and platform service notifications. Customers who only need extra bandwidth for a short period can now add a temporary rate-limit boost rather than upgrading to a permanently higher tier." },
+              { title: "Flexible VLAN Pricing", description: "Allowed preferred VLAN IDs from 101–699 and introduced differential pricing. Customers with a preference for a specific VLAN ID range now have far more choice than the previous, narrower allowed range, with pricing that reflects the different tiers available." },
             ],
             improvements: [
-              { title: "Security & inventory controls", description: "Added weak-lockout controls and individual LAG-port deletion." },
-              { title: "Admin dashboard refresh", description: "Updated admin dashboards, GCP zone tags, VLAN settings, pricing monitoring, GST display, and VR minimum rate limit." },
+              { title: "Security & inventory controls", description: "Added weak-lockout controls and individual LAG-port deletion. The lockout controls reduce the risk of repeated failed login attempts going unnoticed, while individual LAG-port deletion means a single misconfigured port no longer requires rebuilding the whole LAG." },
+              { title: "Admin dashboard refresh", description: "Updated admin dashboards, GCP zone tags, VLAN settings, pricing monitoring, GST display, and VR minimum rate limit. This release tightened up a number of admin-facing details that had been flagged as inconsistent since the UAE and India rollouts." },
             ],
             bugFixes: [
-              { title: "Data accuracy fixes", description: "Fixed organisation-profile copy, port payload allocation, email units, pagination, and rate-limit validation." },
+              { title: "Data accuracy fixes", description: "Fixed organisation-profile copy, port payload allocation, email units, pagination, and rate-limit validation. These were largely data-accuracy issues that had been quietly affecting a small number of accounts since earlier releases." },
             ],
           },
         ],
@@ -472,16 +472,16 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "1.7", date: "July 2023",
           newFeatures: [
-            { title: "Partner & Reseller Management", description: "Delivered Pacehub partner, sales-agent, and reseller management." },
-            { title: "Expanded PAYG Coverage", description: "Enabled PAYG for DC–Cloud, VR–Cloud, and Cloud–Cloud scenarios." },
-            { title: "LAG Creation", description: "Added Link Aggregation Group creation, real-time inventory, and reference names." },
+            { title: "Partner & Reseller Management", description: "Delivered Pacehub partner, sales-agent, and reseller management. This gave the partner ecosystem its own dedicated management tooling for the first time, rather than relying on internal teams to track partner relationships manually." },
+            { title: "Expanded PAYG Coverage", description: "Enabled PAYG for DC–Cloud, VR–Cloud, and Cloud–Cloud scenarios. Pay-As-You-Go pricing had previously been limited to DC–DC and DC–VR connections; it now covers every major cloud-connectivity combination customers commonly need." },
+            { title: "LAG Creation", description: "Added Link Aggregation Group creation, real-time inventory, and reference names. Customers can now combine multiple physical ports into a single logical LAG directly through self-service ordering, with real-time inventory reflecting exactly what's available." },
           ],
           improvements: [
-            { title: "Ordering polish", description: "Added cross-connect ordering, PO display, improved journey templates, pricing summaries, and service side panels." },
-            { title: "Visibility upgrades", description: "Added subscriber notifications, performance metrics, partner approvals, and support for multiple cross-connects." },
+            { title: "Ordering polish", description: "Added cross-connect ordering, PO display, improved journey templates, pricing summaries, and service side panels. Together these changes made the end-to-end ordering journey noticeably smoother, particularly for orders involving a cross-connect." },
+            { title: "Visibility upgrades", description: "Added subscriber notifications, performance metrics, partner approvals, and support for multiple cross-connects on a single order. Customers ordering several cross-connects at once no longer need to submit separate orders for each one." },
           ],
           bugFixes: [
-            { title: "Not a single bug this time", description: "We'll take the quiet win.", isEmptyState: true },
+            { title: "Not a single bug this time", description: "We'll take the quiet win. A busy feature release for partner management and PAYG coverage went out without any issues reported.", isEmptyState: true },
           ],
         }],
       },
@@ -490,16 +490,16 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "1.6", date: "June 2023",
           newFeatures: [
-            { title: "More Cloud Connectivity", description: "Added manual Cloudflare, De-CIX, and Microsoft 365 connectivity." },
-            { title: "Azure Multi-Connection Support", description: "Added Azure primary, secondary, and multipoint connections." },
-            { title: "New Lifecycle Emails", description: "Added welcome, live-connection, and NOC notification emails." },
+            { title: "More Cloud Connectivity", description: "Added manual Cloudflare, De-CIX, and Microsoft 365 connectivity. These three options extend the cloud and interconnect catalogue beyond the original hyperscaler-focused launch set, covering a CDN/security provider, an internet exchange, and a SaaS provider in one release." },
+            { title: "Azure Multi-Connection Support", description: "Added Azure primary, secondary, and multipoint connections. Customers can now build redundant or multi-site Azure connectivity directly through self-service ordering, rather than being limited to a single primary connection per account." },
+            { title: "New Lifecycle Emails", description: "Added welcome, live-connection, and NOC notification emails. These fill in gaps in the customer lifecycle communication: a proper welcome message after signup, confirmation once a connection goes live, and NOC alerts for events that affect service." },
           ],
           improvements: [
-            { title: "Streamlined organisation profiles", description: "Simplified the organisation-profile setup flow." },
-            { title: "Smoother service creation", description: "Improved service creation, navigation, welcome screens, admin dashboards, and PO-number handling." },
+            { title: "Streamlined organisation profiles", description: "Simplified the organisation-profile setup flow, removing steps that weren't adding value for most customers. New organisations now get through initial setup noticeably faster than before." },
+            { title: "Smoother service creation", description: "Improved service creation, navigation, welcome screens, admin dashboards, and PO-number handling. A broad usability pass across the areas a new customer touches most in their first few sessions on the platform." },
           ],
           bugFixes: [
-            { title: "Nothing broken, nothing fixed", description: "Just steady progress this month.", isEmptyState: true },
+            { title: "Nothing broken, nothing fixed", description: "Just steady progress this month, with the team focused on the cloud connectivity and lifecycle email features above rather than bug fixes.", isEmptyState: true },
           ],
         }],
       },
@@ -508,15 +508,15 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "1.5", date: "May 2023",
           newFeatures: [
-            { title: "Expanded VLAN & Peering Options", description: "Added tagged, untagged, and trunk VLAN types, Q-in-Q, Azure Peering Service, De-CIX connectivity, and automated IP allocation." },
-            { title: "Partner Portal Foundations", description: "Added partner onboarding, lead and opportunity management, and partner lead distribution." },
+            { title: "Expanded VLAN & Peering Options", description: "Added tagged, untagged, and trunk VLAN types, Q-in-Q, Azure Peering Service, De-CIX connectivity, and automated IP allocation. This significantly broadened the networking options available during ordering, covering several VLAN configurations that enterprise customers had specifically been asking for." },
+            { title: "Partner Portal Foundations", description: "Added partner onboarding, lead and opportunity management, and partner lead distribution. This laid the foundational tooling that the fuller Partner & Reseller Management feature, shipped two months later, would build directly on top of." },
           ],
           improvements: [
-            { title: "Sharper VR & quoting", description: "Enhanced VR rate-limit validation, CRM IDs, inventory, and sales-assist quoting." },
-            { title: "Planned Polarin branding refresh", description: "Planned branding and UI/UX refresh work for the Partner Portal." },
+            { title: "Sharper VR & quoting", description: "Enhanced VR rate-limit validation, CRM IDs, inventory, and sales-assist quoting. These changes reduced a class of ordering errors where a requested rate limit didn't actually match what was available in inventory." },
+            { title: "Planned Polarin branding refresh", description: "Planned branding and UI/UX refresh work for the Partner Portal, ahead of the fuller partner-management capabilities due in upcoming releases. This was preparatory design and groundwork rather than a customer-facing change on its own." },
           ],
           bugFixes: [
-            { title: "Cross-team fixes", description: "Fixed performance metrics, sales-assist, deployment, email, activity-log, and Help and Support issues." },
+            { title: "Cross-team fixes", description: "Fixed performance metrics, sales-assist, deployment, email, activity-log, and Help and Support issues. A broad fix list spanning nearly every team's area, cleaning up loose ends ahead of the Partner Portal work that followed." },
           ],
         }],
       },
@@ -525,15 +525,15 @@ const ALL_RELEASE_DATA: YearData[] = [
         releases: [{
           version: "1.4", date: "April 2023",
           newFeatures: [
-            { title: "End-to-End PAYG", description: "Added end-to-end Pay-As-You-Go for DC–DC and DC–VR virtual connections and virtual routers." },
-            { title: "Helpdesk & Knowledge Base", description: "Introduced Helpdesk, Salesforce case tracking, and Knowledge Base category, article, contact, and search views." },
-            { title: "Lifecycle Notifications", description: "Added notification emails for account, service, invoice, payment, and user-management events." },
+            { title: "End-to-End PAYG", description: "Added end-to-end Pay-As-You-Go for DC–DC and DC–VR virtual connections and virtual routers. This was the first release to offer true PAYG pricing rather than fixed-term contracts only, letting customers pay for exactly what they use on these connection types." },
+            { title: "Helpdesk & Knowledge Base", description: "Introduced Helpdesk, Salesforce case tracking, and Knowledge Base category, article, contact, and search views — in effect, the first version of the self-service support experience the platform still builds on today. Customers could now find answers and raise cases without needing a direct line to support." },
+            { title: "Lifecycle Notifications", description: "Added notification emails for account, service, invoice, payment, and user-management events. Before this, many of these events happened silently from the customer's point of view; they now get a clear email trail for the things that matter most to their account." },
           ],
           improvements: [
-            { title: "Platform clean-up", description: "Improved inventory, performance-data cleanup, API error handling, navigation, pricing, activity logs, Captcha, invoices, and cloud-status updates." },
+            { title: "Platform clean-up", description: "Improved inventory, performance-data cleanup, API error handling, navigation, pricing, activity logs, Captcha, invoices, and cloud-status updates. A wide-reaching quality pass that touched nearly every corner of the platform ahead of the PAYG and Helpdesk launches in the same release." },
           ],
           bugFixes: [
-            { title: "Known issue: PAYG suspension", description: "PAYG suspension was not yet covered by this release." },
+            { title: "Known issue: PAYG suspension", description: "PAYG suspension was not yet covered by this release, meaning a Pay-As-You-Go service could not yet be temporarily suspended rather than fully terminated. This was flagged openly as a known gap to be addressed in a future release rather than fixed silently." },
           ],
         }],
       },
@@ -543,35 +543,35 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "1.3", date: "March 2023",
             newFeatures: [
-              { title: "Two-Factor Authentication", description: "Implemented TOTP-based two-factor authentication with backup codes, device recovery, and deregistration." },
-              { title: "Help & Support Module", description: "Added Help and Support, case creation, and service-ordering improvements." },
-              { title: "L2/L3 Performance Dashboards", description: "Introduced L2/L3 performance metrics and data-centre dashboards." },
+              { title: "Two-Factor Authentication", description: "Implemented TOTP-based two-factor authentication with backup codes, device recovery, and deregistration. This was the platform's first major security feature beyond password login, giving customers a standard authenticator-app-based second factor along with a safety net of backup codes if they lose access to their device." },
+              { title: "Help & Support Module", description: "Added Help and Support, case creation, and service-ordering improvements. This was an early version of the support experience that the fuller Helpdesk and Knowledge Base feature, shipped the following month, would significantly expand on." },
+              { title: "L2/L3 Performance Dashboards", description: "Introduced L2/L3 performance metrics and data-centre dashboards. Customers could now see performance data for their Layer 2 and Layer 3 services directly on the platform instead of requesting it from support." },
             ],
             improvements: [
-              { title: "Virtual connection upgrades", description: "Added virtual-connection upgrades, price-breakup displays, VR updates, and cloud-flow changes." },
-              { title: "Stronger account security", description: "Strengthened password reuse controls, account lockout, user reactivation, and deletion." },
-              { title: "Onboarding refinements", description: "Improved organisation setup, international phone numbers, and optional identity documents." },
-              { title: "Platform hardening", description: "Added router-provision templates, MSA acceptance, activity-log improvements, Recaptcha, CSP headers, and session invalidation." },
+              { title: "Virtual connection upgrades", description: "Added virtual-connection upgrades, price-breakup displays, VR updates, and cloud-flow changes. Customers gained the ability to upgrade an existing virtual connection in place, rather than needing to order a new one and decommission the old." },
+              { title: "Stronger account security", description: "Strengthened password reuse controls, account lockout, user reactivation, and deletion. These changes closed out a number of basic account-security gaps identified ahead of the two-factor authentication launch in the same release." },
+              { title: "Onboarding refinements", description: "Improved organisation setup, international phone numbers, and optional identity documents. International customers in particular benefited from phone number formats that now worked correctly for their country." },
+              { title: "Platform hardening", description: "Added router-provision templates, MSA acceptance, activity-log improvements, Recaptcha, CSP headers, and session invalidation. A broad security- and reliability-hardening pass, including bot protection via Recaptcha and stricter session handling." },
             ],
             bugFixes: [
-              { title: "Known issues", description: "Known issues included VR updates, service deletion, selected network-diagram cases, and user-access permissions." },
+              { title: "Known issues", description: "Known issues included VR updates, service deletion, selected network-diagram cases, and user-access permissions. These were disclosed openly alongside the release rather than silently deferred, so customers knew what to expect ahead of a fix." },
             ],
           },
           {
             version: "1.2", date: "March 3, 2023",
             newFeatures: [
-              { title: "GCP Zone Visibility", description: "Added GCP zone information and corrected cloud-to-cloud available bandwidth display." },
-              { title: "Inventory Utilisation Alerts", description: "Added inventory filters and threshold highlighting above 70% utilisation." },
-              { title: "Signup Email Verification", description: "Added email verification before signup." },
-              { title: "Secure File Handling", description: "Added file metadata removal and malware scanning before upload." },
+              { title: "GCP Zone Visibility", description: "Added GCP zone information and corrected cloud-to-cloud available bandwidth display. Customers connecting to Google Cloud could now see exactly which zone they were provisioning into, rather than an ambiguous region-level label." },
+              { title: "Inventory Utilisation Alerts", description: "Added inventory filters and threshold highlighting above 70% utilisation. Internal teams managing capacity can now spot facilities approaching their limit at a glance, instead of discovering a shortage only when an order fails." },
+              { title: "Signup Email Verification", description: "Added email verification before signup. This closed a gap where accounts could previously be created with an unverified or mistyped email address, which had been causing downstream delivery and account-recovery problems." },
+              { title: "Secure File Handling", description: "Added file metadata removal and malware scanning before upload. Any file a customer uploads is now scanned and stripped of potentially sensitive metadata before it's stored, reducing both a security and a privacy risk." },
             ],
             improvements: [
-              { title: "Enhanced AWS L3 flow", description: "Enhanced AWS L3 flow with BGP updates." },
-              { title: "Refreshed activity views", description: "Updated performance graphs, welcome screens, and activity logs." },
-              { title: "VR and location APIs", description: "Completed backend support for Virtual Router deletion and location search APIs." },
+              { title: "Enhanced AWS L3 flow", description: "Enhanced AWS L3 flow with BGP updates. These changes made it easier to update BGP configuration for an existing AWS Layer 3 connection without needing to recreate it from scratch." },
+              { title: "Refreshed activity views", description: "Updated performance graphs, welcome screens, and activity logs. These were largely visual and usability refinements to screens customers see frequently in their day-to-day use of the platform." },
+              { title: "VR and location APIs", description: "Completed backend support for Virtual Router deletion and location search APIs. This groundwork enabled cleaner VR deletion flows and faster, more accurate location search in subsequent releases." },
             ],
             bugFixes: [
-              { title: "Clean as a whistle", description: "Nothing to fix in this release.", isEmptyState: true },
+              { title: "Clean as a whistle", description: "Nothing to fix in this release — a rare quiet patch between the bigger feature pushes either side of it.", isEmptyState: true },
             ],
           },
         ],
@@ -582,29 +582,29 @@ const ALL_RELEASE_DATA: YearData[] = [
           {
             version: "1.1", date: "January 16, 2023",
             newFeatures: [
-              { title: "Azure & Oracle Connectivity", description: "Added Azure L2, Oracle L2, and Oracle L3 connectivity options." },
-              { title: "HubSpot Integration", description: "Integrated HubSpot contact creation for signed-up users." },
-              { title: "Sales-Assist Impersonation", description: "Added internal-admin impersonation so sales-assist users can act on a customer's behalf." },
+              { title: "Azure & Oracle Connectivity", description: "Added Azure L2, Oracle L2, and Oracle L3 connectivity options. This was the first expansion of cloud connectivity beyond whatever the initial 1.0 launch supported, bringing two of the major hyperscalers into the self-service catalogue." },
+              { title: "HubSpot Integration", description: "Integrated HubSpot contact creation for signed-up users. Every new signup now automatically creates a matching HubSpot contact, removing a manual data-entry step that marketing and sales had previously handled by hand." },
+              { title: "Sales-Assist Impersonation", description: "Added internal-admin impersonation so sales-assist users can act on a customer's behalf. This lets a sales-assist representative help a customer complete an order or troubleshoot an issue directly, without needing the customer's own login credentials." },
             ],
             improvements: [
-              { title: "Richer organisation profiles", description: "Expanded organisation profiles with CAF-required fields and added customer user-role management." },
+              { title: "Richer organisation profiles", description: "Expanded organisation profiles with CAF-required fields and added customer user-role management. Organisations could now capture the additional fields required for a Customer Application Form directly within their profile, rather than handling it as a separate document." },
             ],
             bugFixes: [
-              { title: "Minor fixes and polish", description: "Delivered minor bug fixes and cosmetic improvements across the portal." },
+              { title: "Minor fixes and polish", description: "Delivered minor bug fixes and cosmetic improvements across the portal. A routine stabilisation release following shortly after the initial 1.0 launch, smoothing out early rough edges found in production." },
             ],
           },
           {
             version: "1.0", date: "January 2023",
             newFeatures: [
-              { title: "Customer Portal Launch", description: "Self-service signup and organisation setup, profile management (contact number, password, profile picture), and role-based access for Network Admin, Finance Admin, and Support users." },
-              { title: "Core Service Ordering", description: "Order Ports, Virtual Connections, Virtual Routers, and cloud connectivity directly from the portal." },
-              { title: "Billing and Subscriptions", description: "View subscription history with start dates and terms, plus invoice history with credit-card payment via CC Avenue." },
-              { title: "Performance Visibility", description: "Track errors, traffic, packets, and power-level metrics, with a network diagram showing customer connectivity." },
-              { title: "Internal Admin Portal", description: "SSO login for administrators, plus an organisation review and approval workflow for KYC validation." },
+              { title: "Customer Portal Launch", description: "Self-service signup and organisation setup, profile management (contact number, password, profile picture), and role-based access for Network Admin, Finance Admin, and Support users. This was the platform's original launch release — the very first version of the Customer Portal that every subsequent feature in this changelog has been built on top of." },
+              { title: "Core Service Ordering", description: "Order Ports, Virtual Connections, Virtual Routers, and cloud connectivity directly from the portal. From day one, the core self-service ordering experience covered all four of the platform's foundational service types." },
+              { title: "Billing and Subscriptions", description: "View subscription history with start dates and terms, plus invoice history with credit-card payment via CC Avenue. This gave customers a single place to see what they'd ordered, when it started, and to pay their invoices online rather than through an offline process." },
+              { title: "Performance Visibility", description: "Track errors, traffic, packets, and power-level metrics, with a network diagram showing customer connectivity. Even at launch, customers had direct visibility into how their services were performing, rather than relying entirely on support for that information." },
+              { title: "Internal Admin Portal", description: "SSO login for administrators, plus an organisation review and approval workflow for KYC validation. This gave internal teams the tooling they needed from day one to securely review and approve new organisations signing up to the platform." },
             ],
             improvements: [],
             bugFixes: [
-              { title: "Nothing to fix on day one", description: "Brand new platform, brand new bug tracker — completely empty.", isEmptyState: true },
+              { title: "Nothing to fix on day one", description: "Brand new platform, brand new bug tracker — completely empty. Every bug fix in every release since this one started from this exact blank slate.", isEmptyState: true },
             ],
           },
         ],
@@ -904,7 +904,17 @@ export function ReleaseNotesPage() {
   // refs exist. scrollIntoView (not contentRef.scrollTo) because it finds
   // whichever ancestor actually scrolls without us needing to know which one
   // that is.
+  //
+  // Skipped on the very first run (initial mount/page load/refresh): the
+  // page already renders at the top showing the latest year and month by
+  // default, so there's nothing to scroll to yet — doing it anyway produced
+  // a visible, unwanted scroll animation every time the page first loaded.
+  const isFirstYearEffect = useRef(true);
   useEffect(() => {
+    if (isFirstYearEffect.current) {
+      isFirstYearEffect.current = false;
+      return;
+    }
     const firstMonth = yearData.months[0]?.month;
     if (!firstMonth) return;
     sectionRefs.current.get(`${selectedYear}-${firstMonth}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
