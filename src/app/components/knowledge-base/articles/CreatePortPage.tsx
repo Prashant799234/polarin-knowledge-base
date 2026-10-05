@@ -100,25 +100,24 @@ export function CreatePortPage({ onNavigate }: Props) {
       </P>
       <UL>
         <LI>
-          <strong>Cross Connect</strong> — Polarin arranges and manages the physical cross connect inside the
-          data centre for you ("Managed by Lightstorm"). You either upload a Letter of Authorization (LOA)
-          document, or enter the cross connect details manually (exchange, suite/cage, patch panel, and
-          connector type) if you'd rather arrange it yourself at your data centre operator. It's billed as part
-          of the port's own billing profile — no separate line item to manage.
+          <strong>Cross Connect</strong> — "Let Lightstorm set up your physical cross connect" (badged Faster
+          delivery / End-to-end managed). Choose <strong>I have the LOA file</strong> and upload your Letter of
+          Authorization (PDF, JPG, or PNG, up to 5 MB), or <strong>I will enter the details manually</strong> if
+          you'd rather arrange it yourself at your data centre operator. It's billed as part of the port's own
+          billing profile — no separate line item to manage.
         </LI>
         <LI>
-          <strong>VISTA</strong> — Polarin's network intelligence add-on. <strong>Standard</strong> is free and
-          covers basic network statistics and daily performance reports. <strong>Premium</strong> adds 24/7
-          monitoring support, real-time monitoring, advanced traffic analytics, proactive alert notifications,
-          performance optimisation insights, and custom dashboards & reports. See{" "}
+          <strong>VISTA</strong> — Polarin's network intelligence add-on. For a Port, the <strong>VISTA Premium
+          package is included by default at no extra cost</strong> — there's no separate Standard/Premium choice
+          to make here. Click <strong>View Benefits</strong> to expand the full feature list. See{" "}
           <PageLink label="VISTA for Port" onClick={() => onNavigate("vista-port")} /> for what each metric
           actually shows you.
         </LI>
       </UL>
       <DocImage
         src="/screenshots/ports/02-add-ons.jpg"
-        alt="Add Ons step with VISTA Standard and Premium comparison"
-        caption="VISTA Standard vs Premium — Premium's full feature list expands inline"
+        alt="Add Ons step with Cross Connect LOA upload and VISTA included by default"
+        caption="Cross Connect's LOA upload, and VISTA Premium included free with every port"
       />
 
       {/* ── Step 4 ── */}
