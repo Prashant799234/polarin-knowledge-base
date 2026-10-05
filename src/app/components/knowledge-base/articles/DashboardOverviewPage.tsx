@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, DocImage, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, DocImage, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -18,11 +18,11 @@ export function DashboardOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Dashboard</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={6} />
         <Dot />
-        <Tag label="Getting Around" color="#1c808d" />
-      </div>
+        <Tag label="Getting Around" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         The <strong>Dashboard</strong> is what you land on after signing in — your service count at a glance on
@@ -115,18 +115,9 @@ export function DashboardOverviewPage({ onNavigate }: Props) {
       <UL>
         <LI><strong>Add a service</strong> — jumps to the services catalogue. See the ordering guide for the specific product you need under <strong>Products</strong> in the sidebar.</LI>
         <LI><strong>Invite Your Teammates</strong> — bring colleagues onto the account. See <PageLink label="User Management" onClick={() => onNavigate("invite-members")} />.</LI>
-        <LI><strong>Developer Portal</strong> — generate API keys and explore the API reference directly.</LI>
+        <LI><strong>Developer Portal</strong> — generate API keys and explore the API reference directly. See <PageLink label="Polarin API" onClick={() => onNavigate("api-overview")} /> for how to get access.</LI>
       </UL>
     </ArticlePage>
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

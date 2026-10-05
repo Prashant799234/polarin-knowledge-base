@@ -17,6 +17,7 @@ const ALL_PAGES: SearchResult[] = [
   { id: "about-polarin",   label: "About Polarin",                      group: "Get Started",                description: "What Polarin is and how the platform works" },
   { id: "services-offered", label: "Services Offered",                  group: "Get Started",                description: "Overview of all services available on Polarin" },
   { id: "quick-setup",     label: "Quick Setup",                        group: "Get Started",                description: "Fast-track checklist to get your Polarin account ready" },
+  { id: "choose-product",  label: "Choosing the Right Product",         group: "Get Started",                description: "Port vs Virtual Router vs Virtual Connection vs DCI vs Internet Exchange — which one do I need?" },
   { id: "create-account",  label: "Create a Polarin Account",           group: "Get Started",                description: "Sign up form, password policy, email verification, and sign in" },
   { id: "dashboard-overview", label: "Dashboard",                       group: "Getting Around",             description: "Your service counts, the global map, and quick links" },
   { id: "notifications",   label: "Alerts & Notifications",             group: "Getting Around",             description: "Order updates and VISTA performance alerts" },

@@ -49,7 +49,7 @@ const PATH_CARDS = [
     title: "Billing & Usage",
     description: "Manage your billing, view usage reports, and optimize costs across your services.",
     link: "Manage Billing",
-    pageId: "billing",
+    pageId: "billing-overview",
   },
   {
     iconBg: "#f40049",
@@ -66,7 +66,7 @@ const POPULAR_TOPICS = [
   { title: "KYC Document Requirements", description: "List of supported documents for verification", pageId: "org-kyc" },
   { title: "Virtual Connection Setup", description: "Create your first virtual network connection", pageId: "cloud-connect" },
   { title: "Team Member Invitations", description: "Invite colleagues to your Polarin workspace", pageId: "invite-members" },
-  { title: "API Documentation", description: "Integrate with Polarin using our APIs", pageId: "api-docs" },
+  { title: "API Documentation", description: "Integrate with Polarin using our APIs", pageId: "api-overview" },
 ];
 
 interface Props {

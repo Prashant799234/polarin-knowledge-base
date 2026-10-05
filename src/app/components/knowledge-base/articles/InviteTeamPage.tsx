@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -23,11 +23,11 @@ export function InviteTeamPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">User Management</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Administration" color="#d97706" />
-      </div>
+        <Tag label="Administration" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         Polarin offers comprehensive <strong>User Management</strong> with enterprise Role-Based Access Control (RBAC). Organisation administrators can invite team members, assign targeted roles matching engineering or financial responsibilities, and adjust privileges at any time.
@@ -262,12 +262,3 @@ function PermBadge({ val }: { val: string }) {
   return <span style={{ background: "#f1f5f9", color: "#94a3b8", fontSize: 11, fontWeight: 500, padding: "3px 8px", borderRadius: 6, border: "1px solid #e2e8f0" }}>No Access</span>;
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

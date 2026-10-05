@@ -45,6 +45,7 @@ export function CreateDCILayer2Page({ onNavigate }: Props) {
         <PageLink label="Create a DCI Wave Connection" onClick={() => onNavigate("dci-wave-create")} />.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         You need an active <PageLink label="Port" onClick={() => onNavigate("port-create")} /> already
         provisioned at <strong>both</strong> the A-End and Z-End locations before starting this wizard — DCI

@@ -44,6 +44,7 @@ export function CreateDCIWavePage({ onNavigate }: Props) {
         <PageLink label="Create a DCI Layer 2 Connection" onClick={() => onNavigate("dci-layer2-create")} />.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         Unlike Port, Virtual Router, or DCI Layer 2, DCI Wave connects two <strong>data centre sites</strong>
         directly — not two ports you provision separately beforehand. Because it's built to order, allow roughly
@@ -86,9 +87,14 @@ export function CreateDCIWavePage({ onNavigate }: Props) {
       <P>DCI Wave's Add Ons step is the richest of the six creation wizards:</P>
       <UL>
         <LI><strong>Cross Connect</strong> — available for both the A-End and Z-End independently, each "Managed by Lightstorm." A notice on this step flags that cross connect charges are subject to feasibility, and may change if the feasibility scope does.</LI>
-        <LI><strong>VISTA</strong> — Standard (free) or Premium, for real-time monitoring and traffic analytics on the circuit.</LI>
-        <LI><strong>Bit Error Rate Test (BERT)</strong> — unique to Wave. Choose a 24-hour or 48-hour test window; Polarin runs the test on the circuit before handover so you have a verified error-rate baseline from day one.</LI>
+        <LI><strong>VISTA</strong> — Standard (free) or Premium (₹5,000/month per circuit), for real-time monitoring and traffic analytics on the circuit.</LI>
+        <LI><strong>Bit Error Rate Test (BERT)</strong> — unique to Wave. <strong>24 Hours</strong> is included by default at no extra cost; <strong>48 Hours</strong> is a paid upgrade, billed per circuit, for more rigorous testing. Either way, Polarin runs the test before handover and guarantees a full retest if any criteria aren't met.</LI>
       </UL>
+      <DocImage
+        src="/screenshots/dci-wave/04-add-ons-bert.jpg"
+        alt="Add Ons step showing VISTA Standard/Premium and the Bit Error Rate Test 24 Hour / 48 Hour options"
+        caption="VISTA and Bit Error Rate Test — expanding Benefits shows exactly what the test verifies"
+      />
       <P>
         See <PageLink label="VISTA for DCI Wave" onClick={() => onNavigate("vista-dci-wave")} /> for what the
         optical-layer telemetry (latency RTD, optical flaps, 99.999% SLA availability) actually tracks.

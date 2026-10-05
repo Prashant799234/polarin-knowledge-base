@@ -41,6 +41,7 @@ export function CreateDCToCloudPage({ onNavigate }: Props) {
         <PageLink label="Create a Cloud to Cloud Connection" onClick={() => onNavigate("cloud-to-cloud-create")} />.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         You need an active <PageLink label="Port" onClick={() => onNavigate("port-create")} /> with spare
         capacity before starting — DC to Cloud attaches to an existing port, it doesn't create one.

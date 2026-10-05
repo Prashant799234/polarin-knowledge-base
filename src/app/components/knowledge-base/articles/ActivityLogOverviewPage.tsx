@@ -1,6 +1,6 @@
 import type { ElementType } from "react";
 import { ShieldCheck, Search, Eye, Users } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, DocImage } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -35,11 +35,11 @@ export function ActivityLogOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Activity Log</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Monitoring" color="#0ea5e9" />
-      </div>
+        <Tag label="Monitoring" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         Every action across your Polarin organisation leaves a trace — sign-ins, service changes, billing
@@ -113,12 +113,3 @@ function ValueCard({ item }: { item: ValueItem }) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

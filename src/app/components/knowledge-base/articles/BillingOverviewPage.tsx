@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -20,11 +20,11 @@ export function BillingOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Billing Overview</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Billing & Finance" color="#0d9488" />
-      </div>
+        <Tag label="Billing" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         Polarin provides transparent, flexible enterprise billing for cloud connectivity and optical networking. Whether you provision predictable fixed monthly circuits or dynamically burst capacity using temporary rate limit add-ons, your costs are tracked in real time.
@@ -74,18 +74,27 @@ export function BillingOverviewPage({ onNavigate }: Props) {
       </UL>
 
       <Callout variant="important">
-        Subscription charges apply only when your service status is <strong>Live</strong>. While your connection is in <em>Design</em> or <em>Ordered</em> provisioning stages, no billing charges accrue.
+        Subscription charges apply only when your service status is <strong>Live</strong>. While your connection
+        is in <em>Design</em> or <em>Deployment in Progress</em>, no billing charges accrue.
       </Callout>
 
       {/* ── Lifecycle ── */}
       <H2 id="invoicing-lifecycle">Invoice Lifecycle</H2>
-      <P>Invoicing follows a predictable monthly schedule:</P>
+      <P>Invoicing follows a predictable monthly schedule, with one setting you choose per order — your <strong>Billing Cycle</strong> — controlling how often it happens:</P>
       <UL>
-        <LI><strong>Billing Cycle</strong>: Invoices are generated at the end of each calendar month covering active subscriptions and prorated add-ons.</LI>
+        <LI><strong>Billing Cycle</strong>: chosen at checkout on every order — Monthly, Quarterly (every 3 months), or Half Yearly (every 6 months) — covering active subscriptions and prorated add-ons.</LI>
         <LI><strong>Direct Delivery</strong>: Generated invoices are emailed automatically to the designated billing contact registered on your Billing Profile.</LI>
-        <LI><strong>Portal Access</strong>: Admins and finance users can view, filter, and download historical invoices at any time from the <strong>Invoices</strong> section in the top navigation.</LI>
+        <LI><strong>Portal Access</strong>: Admins and finance users can view, filter, and download historical invoices at any time from the <strong>Invoices</strong> item in the top navigation.</LI>
         <LI><strong>Tax Credits</strong>: Each invoice contains a state-compliant GST breakdown (CGST, SGST, IGST) ensuring seamless Input Tax Credit (ITC) reconciliation.</LI>
       </UL>
+
+      <Callout variant="info">
+        Issue a Purchase Order for every invoice? That's set once, for your whole organisation, in{" "}
+        <PageLink label="Organisation Settings" onClick={() => onNavigate?.("org-settings")} /> ("Does your
+        organisation issue a Purchase Order for Invoicing?"). If it's set to Yes, every order's checkout screen
+        shows a <strong>Purchase Order (Optional)</strong> toggle, and the Track Order timeline inserts a{" "}
+        <strong>Purchase Order Required</strong> step with a deadline before provisioning continues.
+      </Callout>
 
       {/* ── Quick Navigation ── */}
       <H2 id="quick-navigation">Explore Billing Features</H2>
@@ -96,15 +105,5 @@ export function BillingOverviewPage({ onNavigate }: Props) {
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }
 

@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -12,55 +12,37 @@ const STATUSES = [
     status: "Design",
     color: "#6b7280",
     bg: "#f3f4f6",
-    description: "The port is in design mode — it has been configured but not yet submitted as an order.",
+    description: "The port has been started but not fully ordered yet. A separate \"Setup Incomplete\" tag next to it means a required step in the wizard was never finished — open the port and complete Checkout to submit it.",
   },
   {
-    status: "Ordered",
-    color: "#2563eb",
-    bg: "#eff6ff",
-    description: "An order has been placed successfully. Polarin has received your request.",
-  },
-  {
-    status: "Awaiting Deployment",
+    status: "Deployment in Progress",
     color: "#d97706",
     bg: "#fffbeb",
-    description: "The order has been accepted by the system and is queued for deployment in the Polarin network.",
+    description: "The order has been submitted and Polarin is setting up the physical infrastructure. If your organisation requires a Purchase Order, you'll also see a \"Purchase Order Required\" step here with a deadline — provisioning won't continue past it until you add PO details.",
   },
   {
     status: "Ready to Patch",
     color: "#7c3aed",
     bg: "#faf5ff",
-    description: "The port is provisioned and ready. The physical cross-connect is pending in the data centre.",
+    description: "The port itself is provisioned. If you ordered Cross Connect, this is when Lightstorm patches it in at the data centre — shown as its own \"In process\" step.",
   },
   {
     status: "Live",
     color: "#059669",
     bg: "#f0fdf4",
-    description: "The port is fully deployed and active. Traffic can flow through this port.",
-  },
-  {
-    status: "Failed",
-    color: "#dc2626",
-    bg: "#fef2f2",
-    description: "The port could not be provisioned or deployed. Contact support for details on the failure reason.",
-  },
-  {
-    status: "Cancelled",
-    color: "#9ca3af",
-    bg: "#f9fafb",
-    description: "The port has been cancelled by the user. The subscription term remains active until it expires.",
-  },
-  {
-    status: "Deleted",
-    color: "#374151",
-    bg: "#f3f4f6",
-    description: "The port has been permanently removed from the Polarin platform and will no longer appear in your services list.",
+    description: "The port is fully deployed and active. Traffic can flow, and billing starts from this point.",
   },
   {
     status: "Down",
     color: "#b45309",
     bg: "#fff7ed",
-    description: "The port's network connection is currently down. This may indicate a physical or network issue.",
+    description: "A previously live port has lost its network connection. This may indicate a physical or network issue.",
+  },
+  {
+    status: "Deleted",
+    color: "#374151",
+    bg: "#f3f4f6",
+    description: "The port has been permanently removed and moved to Archived Services — it no longer appears in your main services list.",
   },
 ];
 
@@ -68,24 +50,29 @@ export function PortStatusPage() {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Understand Port Status</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={3} />
+      <ArticleMeta>
+        <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Reference" color="#7c3aed" />
-      </div>
+        <Tag label="Reference" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
-        After you order a port, Polarin moves it through a series of provisioning states — from initial design to live deployment. This page explains what each status means so you always know where your port stands.
+        After you order a port, Polarin moves it through a small number of real statuses — from Design to Live.
+        This page lists exactly what each one means, using the same six statuses you'll see in the Services
+        page's own <strong>Advance Filter</strong> panel.
       </P>
       <P>
-        You can check the current status of any port on the <strong>Services</strong> page. The status badge updates automatically as the port progresses through each stage.
+        You can check the current status of any port on the <strong>Services</strong> page. The status badge
+        updates automatically as the port progresses through each stage.
       </P>
 
       {/* ── Status table ── */}
       <H2 id="status-table">Port Status Reference</H2>
-      <P>
-        The table below lists every possible port status and its meaning:
-      </P>
+      <DocImage
+        src="/screenshots/services/06-advance-filter.jpg"
+        alt="Advance Filter panel showing the full real status list: Live, Down, Design, Deployment in Progress, Configured, Deleted"
+        caption="① The complete real status list, straight from the Advance Filter panel — these six apply to every product, not just Port"
+      />
 
       <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "'Lato', sans-serif", fontSize: 14 }}>
@@ -117,20 +104,25 @@ export function PortStatusPage() {
           </tbody>
         </table>
       </div>
+      <Callout variant="info">
+        <strong>Configured</strong> is also in the filter list, but it's a Virtual Router status, not a Port one —
+        see <strong>Understand Virtual Router Status</strong> for that. A Port never shows "Configured"; it goes
+        straight from Deployment in Progress to Ready to Patch to Live.
+      </Callout>
 
       {/* ── Lifecycle ── */}
       <H2 id="lifecycle">Normal Port Lifecycle</H2>
       <P>
-        Under normal circumstances, a port moves through the following progression after you place an order:
+        Under normal circumstances, a port moves through the following progression after you place an order —
+        exactly matching the <strong>Track Order</strong> tab on the port's own detail page:
       </P>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 0, margin: "20px 0" }}>
         {[
-          { status: "Design", note: "Port configured, not yet ordered" },
-          { status: "Ordered", note: "Order submitted" },
-          { status: "Awaiting Deployment", note: "System has accepted the order" },
-          { status: "Ready to Patch", note: "Port provisioned, awaiting physical cross-connect" },
-          { status: "Live", note: "Fully active — traffic ready" },
+          { status: "Order Details Validated", note: "Your order information has been reviewed and approved" },
+          { status: "Deployment in Progress", note: "Polarin is setting up the physical infrastructure (Purchase Order Required step inserts here if your organisation issues POs)" },
+          { status: "Ready to Patch", note: "Port provisioned; Cross Connect patched in if you ordered it" },
+          { status: "Live", note: "Fully active — traffic ready, billing starts" },
         ].map((step, i, arr) => (
           <div key={step.status} style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -146,43 +138,37 @@ export function PortStatusPage() {
         ))}
       </div>
 
-      <Callout variant="info">
-        The time between <strong>Ordered</strong> and <strong>Live</strong> depends on data centre provisioning timelines. Most ports go live within 1–3 business days after reaching <strong>Ready to Patch</strong>.
+      <Callout variant="tip">
+        Each completed step on the Track Order tab shows the exact date and time it happened — handy context to
+        have ready if you end up raising a ticket about a delay.
       </Callout>
 
       {/* ── Troubleshooting ── */}
+      <H3>Port shows "Setup Incomplete" next to Design</H3>
+      <P>
+        This just means the order wizard was started but never submitted — nothing has been ordered or billed
+        yet. Open the port and pick up where you left off in Checkout.
+      </P>
+
+      <H3>Port is stuck on "Deployment in Progress"</H3>
+      <P>
+        If there's an outstanding <strong>Purchase Order Required</strong> step shown on the Track Order tab,
+        provisioning won't continue until you add PO details — do that first. Otherwise, if the status hasn't
+        changed after 24 hours, raise a support ticket with the port's Service ID.
+      </P>
+
       <H2 id="troubleshoot">Troubleshooting</H2>
-
-      <H3>Port is stuck on "Awaiting Deployment"</H3>
-      <P>
-        This usually means the provisioning request is queued on the Polarin network side. If the status hasn't changed after 24 hours, raise a support ticket.
-      </P>
-
-      <H3>Port shows "Failed"</H3>
-      <P>
-        A failed port means provisioning could not be completed. Common causes include location capacity constraints or configuration errors. Delete the port, review your settings, and try again — or contact support for help.
-      </P>
-
       <H3>Port shows "Down"</H3>
       <P>
-        A <strong>Down</strong> status indicates a live port has lost its network connection. Check your physical cross-connect and patch panel. If the physical layer is healthy, open a support ticket with your port ID.
+        A <strong>Down</strong> status indicates a live port has lost its network connection. Check your physical
+        cross-connect and patch panel. If the physical layer is healthy, open a support ticket with your port ID.
       </P>
 
       <UL>
-        <LI>Check the <strong>Services</strong> page for error detail messages alongside the failed port.</LI>
-        <LI>Use the <strong>SPOG dashboard</strong> to view real-time port health and traffic metrics.</LI>
+        <LI>Check the <strong>Services</strong> page for any error detail alongside the port.</LI>
+        <LI>Use <strong>VISTA</strong> to view real-time port health and traffic metrics.</LI>
         <LI>Contact <strong>Polarin Support</strong> from Help &amp; Support → Contact Support.</LI>
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

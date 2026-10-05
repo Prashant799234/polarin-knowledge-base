@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, Callout, PageLink, DocImage } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, Callout, PageLink, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -47,11 +47,11 @@ export function ActivityLogPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Using Activity Log</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Monitoring" color="#0ea5e9" />
-      </div>
+        <Tag label="Monitoring" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         The <strong>Activity Log</strong> gives you a complete audit trail of everything that happens across your Polarin organisation — from service provisioning and billing updates to user logins and configuration changes. Every event is timestamped, attributed to a user, and tagged with a severity level so you can quickly spot issues or verify past actions.
@@ -236,12 +236,3 @@ export function ActivityLogPage({ onNavigate }: Props) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: FONT, fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

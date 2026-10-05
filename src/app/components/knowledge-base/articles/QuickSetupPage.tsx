@@ -1,5 +1,5 @@
 import { UserCircle, ShieldCheck, UserPlus, Plug } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, FlowDiagram, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, FlowDiagram, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -16,11 +16,11 @@ export function QuickSetupPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Quick Setup</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Get Started" color="#1c808d" />
-      </div>
+        <Tag label="Get Started" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A fast path through the pages you'll need to get your account ready and your first service live. Each
@@ -73,20 +73,11 @@ export function QuickSetupPage({ onNavigate }: Props) {
 
       <H2 id="next">Next Steps</H2>
       <UL>
-        <LI>Once your first port is live, check its progress under <strong>Understand Port Status</strong>.</LI>
-        <LI>Keep an eye on activity across your account from the <strong>Activity Log</strong>.</LI>
+        <LI>Once your first port is live, check its progress under <PageLink label="Understand Port Status" onClick={() => onNavigate("port-status")} />.</LI>
+        <LI>Keep an eye on activity across your account from the <PageLink label="Activity Log" onClick={() => onNavigate("activity-log-overview")} />.</LI>
         <LI>Need help along the way? <PageLink label="Contact Support" onClick={() => onNavigate("contact-support")} /> is always available.</LI>
       </UL>
     </ArticlePage>
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

@@ -33,7 +33,7 @@ export function PersonalInformationPage({ onNavigate }: Props) {
       <P>
         The <strong>Profile</strong> page under <strong>Settings &gt; Profile</strong> gives you direct visibility
         and control over your individual login identity, security credentials, and account protection. Unlike{" "}
-        <PageLink label="Organisation Details" onClick={() => onNavigate("org-profile")} /> (which applies to your entire
+        <PageLink label="Organisation Details" onClick={() => onNavigate("org-settings")} /> (which applies to your entire
         company and billing tenancy), settings here are strictly personal to your user account.
       </P>
 

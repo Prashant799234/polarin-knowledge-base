@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -11,6 +11,7 @@ const TOC = [
   { id: "optical-availability",label: "Optical SLA & Availability",   level: 2 as const },
   { id: "latency-rtd",         label: "Ultra-Low Latency RTD",        level: 2 as const },
   { id: "optical-flaps",       label: "Optical Flaps & Signal Health",level: 2 as const },
+  { id: "bert",                label: "Bit Error Rate Test",          level: 2 as const },
   { id: "tickets-correlation", label: "Maintenance Windows & Tickets" },
   { id: "metrics-reference",   label: "DCI Wave Metrics Reference" },
   { id: "troubleshooting",     label: "Optical Troubleshooting" },
@@ -24,11 +25,12 @@ export function VistaDCIWavePage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">VISTA for DCI Wave</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={4} />
+      <ArticleMeta>
+        <ReadTime minutes={5} />
         <Dot />
-        <Tag label="Optical Layer 1 Telemetry" color="#b45309" />
-      </div>
+        <Tag label="VISTA" color="#0f766e" />
+        <Tag label="Optical · Layer 1" color="#1c808d" />
+      </ArticleMeta>
 
       <P>
         <strong>DCI Wave</strong> delivers dedicated, unshared Layer 1 optical wavelength connectivity over Polarin's dense wavelength division multiplexing (DWDM) fiber backbone. Unlike packet-switched circuits, DCI Wave provides dedicated physical photonic channels with deterministic, speed-of-light propagation latency.
@@ -110,6 +112,34 @@ export function VistaDCIWavePage({ onNavigate }: Props) {
         <LI><strong>Micro-Bends & Fiber Stress</strong>: Increasing flap counts warn of physical fiber bending, road construction vibrations along long-haul routes, or failing optical amplifiers (EDFA) before total signal collapse occurs.</LI>
       </UL>
 
+      <H2 id="bert">Bit Error Rate Test (BERT)</H2>
+      <P>
+        BERT is unique to DCI Wave among every VISTA-monitored product — it's offered as an{" "}
+        <PageLink label="Add Ons" onClick={() => onNavigate?.("dci-wave-create")} /> step option at order time,
+        not something you turn on after the fact. "Choose how long the bit-error rate test should run — choose
+        48 hours if you need more rigorous testing."
+      </P>
+      <DocImage
+        src="/screenshots/dci-wave/04-add-ons-bert.jpg"
+        alt="Bit Error Rate Test add-on with 24 Hour and 48 Hour options and the What We Verify checklist"
+        caption="24 Hours is included by default at no extra cost; 48 Hours is a paid upgrade, billed per circuit"
+      />
+      <FieldTable rows={[
+        { field: "24 Hours", description: "Included by default at no extra cost.", required: false },
+        { field: "48 Hours", description: "A paid upgrade, billed per circuit (shown as its own BERT line item at checkout) — choose this for more rigorous testing.", required: false },
+      ]} />
+      <P>Expanding <strong>Hide/Show Benefits</strong> reveals exactly what the test verifies:</P>
+      <UL>
+        <LI>Link stability and uptime over the full test window.</LI>
+        <LI>Traffic switchover within 60 ms on any path failure event.</LI>
+        <LI>Service availability confirmed from source to destination node.</LI>
+        <LI>A full 24-hour retest, guaranteed, if any criteria are unmet.</LI>
+      </UL>
+      <Callout variant="tip">
+        That last point matters: if your circuit fails the test, you're not stuck with a bad result — Polarin
+        guarantees a full retest rather than handing over a circuit that didn't pass.
+      </Callout>
+
       <H2 id="tickets-correlation">Maintenance Windows & Tickets</H2>
       <P>
         Unlike standalone monitoring tools that lack carrier context, VISTA integrates planned maintenance schedules directly into your circuit view:
@@ -127,6 +157,7 @@ export function VistaDCIWavePage({ onNavigate }: Props) {
         { field: "Flaps Counter",            description: "Number of optical loss-of-signal (LOS) or carrier protection switching transitions." },
         { field: "Optical Power (Tx/Rx)",   description: "Photonic laser transmit and receive power levels in dBm." },
         { field: "Carrier Tickets",         description: "Mapped maintenance windows, planned network re-routes, and open support cases." },
+        { field: "Bit Error Rate Test",     description: "One-time, pre-handover test result (24h or 48h window), if you selected it as an Add On when ordering." },
       ]} />
 
       {/* ── Optical Troubleshooting ── */}
@@ -137,7 +168,7 @@ export function VistaDCIWavePage({ onNavigate }: Props) {
       </UL>
 
       <Callout variant="tip">
-        Learn how to order optical wavelength circuits in <PageLink label="DCI Overview" onClick={() => onNavigate?.("dci-overview")} /> and <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate?.("dci-create")} />.
+        Learn how to order optical wavelength circuits in <PageLink label="DCI Overview" onClick={() => onNavigate?.("dci-overview")} /> and <PageLink label="Create a DCI Wave Connection" onClick={() => onNavigate?.("dci-wave-create")} />.
       </Callout>
     </ArticlePage>
   );
@@ -153,15 +184,5 @@ function WaveCard({ icon, title, description }: { icon: string; title: string; d
       <p style={{ fontFamily: FONT, fontSize: 13, color: "#475569", margin: 0, lineHeight: 1.55 }}>{description}</p>
     </div>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }
 

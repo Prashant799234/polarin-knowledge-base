@@ -49,6 +49,7 @@ export function CreateCloudToCloudPage({ onNavigate }: Props) {
         <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         You need a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} /> — existing or
         created inline during this wizard — plus a <strong>Pairing Key</strong> from each cloud provider's own

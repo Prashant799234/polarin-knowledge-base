@@ -40,6 +40,7 @@ export function CreateVirtualRouterPage({ onNavigate }: Props) {
         <PageLink label="What Is a Virtual Router?" onClick={() => onNavigate("vr-overview")} /> first.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         Your <strong>Organisation Profile</strong> must be verified before you can order a Virtual Router. See{" "}
         <PageLink label="Complete Organisation Profile" onClick={() => onNavigate("complete-profile")} /> if

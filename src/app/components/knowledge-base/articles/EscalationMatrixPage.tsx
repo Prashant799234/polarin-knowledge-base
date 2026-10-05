@@ -234,9 +234,9 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
       <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Help & Support" color="#1c808d" />
+        <Tag label="Help & Support" color="#0f766e" />
         <Dot />
-        <Tag label="NOC 24×7" color="#0284c7" />
+        <Tag label="NOC 24×7" color="#1c808d" />
       </ArticleMeta>
 
       <P>

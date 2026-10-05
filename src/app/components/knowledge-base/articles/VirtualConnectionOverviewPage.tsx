@@ -1,6 +1,6 @@
 import type { ElementType } from "react";
 import { Server, Cloud, Building2 } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -21,9 +21,9 @@ interface ConnType {
 }
 
 const TYPES: ConnType[] = [
-  { icon: Building2, color: "#1a65fd", title: "DC to DC",      description: "Links two of your own data centre sites together, over Polarin's network instead of leased dark fibre." },
-  { icon: Cloud,      color: "#00b345", title: "DC to Cloud",   description: "Links a data centre site directly into a cloud provider — AWS, Azure, or GCP — bypassing the public internet." },
-  { icon: Server,     color: "#fd5900", title: "Cloud to Cloud", description: "Links two cloud providers, or two regions of the same provider, directly to each other." },
+  { icon: Building2, color: "#0f766e", title: "DC to DC",      description: "Links two of your own Ports at different data centre sites together, over Polarin's network instead of leased dark fibre." },
+  { icon: Cloud,      color: "#1c808d", title: "DC to Cloud",   description: "Links a Port you already own directly into a cloud provider — AWS, GCP, Azure, or Oracle — bypassing the public internet." },
+  { icon: Server,     color: "#0d6a78", title: "Cloud to Cloud", description: "Links two cloud providers to each other through a Virtual Router — no Port required at either end." },
 ];
 
 interface Props {
@@ -34,11 +34,11 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">What Is a Virtual Connection?</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Products" color="#00b345" />
-      </div>
+        <Tag label="Virtual Connection" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A <strong>Virtual Connection</strong> is a private, point-to-point link between two endpoints on
@@ -72,12 +72,14 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       </Callout>
 
       <P>
-        Every Virtual Connection attaches to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> at the Polarin end — provision that first if you don't already have one at the location you need.
+        DC to DC and DC to Cloud both attach to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> you've already provisioned at the Polarin end. Cloud to Cloud is the exception — it has no Port on either end, but it does require an existing (or newly created) <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> to route between the two clouds.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Ready to set one up? <PageLink label="Create a Virtual Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
+        <LI>Linking two of your own sites? <PageLink label="Create a Virtual Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
+        <LI>Reaching a single cloud from a Port? <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.</LI>
+        <LI>Linking two clouds to each other? <PageLink label="Create a Cloud to Cloud Connection" onClick={() => onNavigate("cloud-to-cloud-create")} />.</LI>
         <LI>Need something with routing logic instead? <PageLink label="What Is a Virtual Router?" onClick={() => onNavigate("vr-overview")} />.</LI>
       </UL>
     </ArticlePage>
@@ -104,14 +106,4 @@ function TypeCard({ type }: { type: ConnType }) {
       </div>
     </div>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

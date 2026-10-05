@@ -11,6 +11,7 @@ const TOC = [
   { id: "choosing",    label: "Choosing a Method",              level: 2 as const },
   { id: "app-setup",   label: "Setting Up an Authenticator App", level: 2 as const },
   { id: "email-setup",  label: "Setting Up Email Code",          level: 2 as const },
+  { id: "recovery",    label: "Backup Codes & Lost Device",      level: 2 as const },
   { id: "next-steps",  label: "Next Steps" },
 ];
 
@@ -133,6 +134,23 @@ export function TwoFactorAuthPage({ onNavigate }: Props) {
 
       <Callout variant="tip">
         If the timer expires before you enter the code, simply request a fresh code directly from the screen without restarting the process.
+      </Callout>
+
+      <H2 id="recovery">Backup Codes & Lost Device</H2>
+      <P>
+        When you first set up two-factor authentication, Polarin issues a set of one-time <strong>backup
+        codes</strong> alongside it — save these somewhere safe outside your authenticator app or inbox. Each
+        code works once, and they exist specifically so a lost phone or an inaccessible inbox doesn't lock you
+        out of your own account.
+      </P>
+      <UL>
+        <LI><strong>Lost your device or can't receive the email code?</strong> Use a backup code at the login challenge screen instead — it takes you straight through as if you'd entered the regular code.</LI>
+        <LI><strong>Used up your backup codes?</strong> Generate a fresh set from your Two-Factor Authentication settings once you're signed back in.</LI>
+        <LI><strong>Want to switch methods or turn 2FA off?</strong> You can deregister your current method (authenticator app or email code) from the same settings screen, then set up a different one — or leave 2FA off entirely, though we don't recommend it.</LI>
+      </UL>
+      <Callout variant="warning">
+        Treat backup codes like passwords — anyone with one can use it to get past your second factor. Store them
+        somewhere only you can access, not in the same inbox protected by email-code 2FA.
       </Callout>
 
       <H2 id="next-steps">Next Steps</H2>

@@ -27,7 +27,7 @@ export function CreateLAGPage({ onNavigate }: Props) {
         <ReadTime minutes={4} />
         <Dot />
         <Tag label="Core Product" color="#0f766e" />
-        <Tag label="Advanced" color="#6366f1" />
+        <Tag label="Advanced" color="#1c808d" />
       </ArticleMeta>
 
       <P>

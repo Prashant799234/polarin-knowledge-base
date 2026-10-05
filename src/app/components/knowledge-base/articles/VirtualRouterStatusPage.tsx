@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 
 const TOC = [
   { id: "overview",      label: "Overview" },
@@ -12,49 +12,25 @@ const STATUSES = [
     status: "Design",
     color: "#6b7280",
     bg: "#f3f4f6",
-    description: "The Virtual Router is in design mode — configured but not yet submitted as an order.",
+    description: "The router has been started but not fully ordered yet. A \"Setup Incomplete\" tag next to it means a required step in the wizard was never finished.",
   },
   {
-    status: "Ordered",
-    color: "#2563eb",
-    bg: "#eff6ff",
-    description: "An order has been placed successfully. Polarin has received your provisioning request.",
-  },
-  {
-    status: "Awaiting Deployment",
+    status: "Deployment in Progress",
     color: "#d97706",
     bg: "#fffbeb",
-    description: "The order has been accepted by the system and is queued for deployment in the Polarin network.",
+    description: "The order has been submitted and the router instance is being provisioned. If your organisation requires a Purchase Order, a \"Purchase Order Required\" step appears here with a deadline.",
   },
   {
     status: "Configured",
     color: "#7c3aed",
     bg: "#faf5ff",
-    description: "The Virtual Router has been deployed and configured on the network. Final activation is in progress.",
+    description: "The Virtual Router has been deployed and its configuration applied. Final activation is in progress — this status is specific to Virtual Router; Ports don't show it.",
   },
   {
     status: "Live",
     color: "#059669",
     bg: "#f0fdf4",
-    description: "The Virtual Router is fully operational. Layer 3 connections can now be attached.",
-  },
-  {
-    status: "Failed",
-    color: "#dc2626",
-    bg: "#fef2f2",
-    description: "Provisioning could not be completed. Contact support with the router ID for failure details.",
-  },
-  {
-    status: "Cancelled",
-    color: "#9ca3af",
-    bg: "#f9fafb",
-    description: "The Virtual Router has been cancelled by the user. The subscription term remains active until it expires.",
-  },
-  {
-    status: "Deleted",
-    color: "#374151",
-    bg: "#f3f4f6",
-    description: "The Virtual Router has been permanently removed from the Polarin platform and will no longer appear in your services list.",
+    description: "The Virtual Router is fully operational. Connections can now be attached to it, and billing starts.",
   },
   {
     status: "Down",
@@ -62,27 +38,41 @@ const STATUSES = [
     bg: "#fff7ed",
     description: "The Virtual Router's network connectivity is currently down. Check BGP sessions and attached connections.",
   },
+  {
+    status: "Deleted",
+    color: "#374151",
+    bg: "#f3f4f6",
+    description: "The Virtual Router has been permanently removed and moved to Archived Services.",
+  },
 ];
 
 export function VirtualRouterStatusPage() {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Understand Virtual Router Status</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={3} />
+      <ArticleMeta>
+        <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Reference" color="#7c3aed" />
-      </div>
+        <Tag label="Reference" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
-        After you order a Virtual Router, Polarin moves it through a series of provisioning states before it becomes operational. This page explains what each status means so you can track your router's progress and act quickly if something goes wrong.
+        After you order a Virtual Router, Polarin moves it through a small number of real statuses before it
+        becomes operational. This page lists exactly what each one means, using the same status list you'll see
+        in the Services page's own <strong>Advance Filter</strong> panel.
       </P>
       <P>
-        You can check the current status of any Virtual Router on the <strong>Services</strong> page. The status badge updates automatically as provisioning advances.
+        You can check the current status of any Virtual Router on the <strong>Services</strong> page. The status
+        badge updates automatically as provisioning advances.
       </P>
 
       {/* ── Status table ── */}
       <H2 id="status-table">Virtual Router Status Reference</H2>
+      <DocImage
+        src="/screenshots/services/06-advance-filter.jpg"
+        alt="Advance Filter panel showing the full real status list: Live, Down, Design, Deployment in Progress, Configured, Deleted"
+        caption="The complete real status list, straight from the Advance Filter panel — these apply to every product, not just Virtual Router"
+      />
 
       <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "'Lato', sans-serif", fontSize: 14 }}>
@@ -114,20 +104,25 @@ export function VirtualRouterStatusPage() {
           </tbody>
         </table>
       </div>
+      <Callout variant="info">
+        <strong>Ready to Patch</strong> is also a real status, but it's Port-specific — a Virtual Router never
+        shows it, since there's no physical cross-connect to patch in. See{" "}
+        <strong>Understand Port Status</strong> for that one.
+      </Callout>
 
       {/* ── Lifecycle ── */}
       <H2 id="lifecycle">Normal Router Lifecycle</H2>
       <P>
-        Under normal circumstances, a Virtual Router moves through the following progression after you place an order:
+        Under normal circumstances, a Virtual Router moves through the following progression after you place an
+        order — matching the Track Order tab on the router's own detail page:
       </P>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 0, margin: "20px 0" }}>
         {[
-          { status: "Design",              note: "Router configured, not yet ordered" },
-          { status: "Ordered",             note: "Order submitted" },
-          { status: "Awaiting Deployment", note: "System has accepted the order" },
-          { status: "Configured",          note: "Router deployed and network configuration applied" },
-          { status: "Live",                note: "Fully operational — Layer 3 connections can be attached" },
+          { status: "Order Details Validated", note: "Your order information has been reviewed and approved" },
+          { status: "Deployment in Progress", note: "The router instance is being provisioned (Purchase Order Required step inserts here if your organisation issues POs)" },
+          { status: "Configured",              note: "Router deployed and configuration applied" },
+          { status: "Live",                note: "Fully operational — connections can be attached, billing starts" },
         ].map((step, i, arr) => (
           <div key={step.status} style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -144,20 +139,18 @@ export function VirtualRouterStatusPage() {
       </div>
 
       <Callout variant="info">
-        The <strong>Configured</strong> status is unique to Virtual Routers — it means the software routing instance has been deployed and network parameters (ASN, IP, rate limit) are applied. <strong>Live</strong> confirms full Layer 3 readiness.
+        <strong>Configured</strong> means the software routing instance has been deployed and its parameters are
+        applied. <strong>Live</strong> confirms it's actually ready to carry traffic.
       </Callout>
 
       {/* ── Troubleshooting ── */}
       <H2 id="troubleshoot">Troubleshooting</H2>
 
-      <H3>Router is stuck on "Awaiting Deployment"</H3>
+      <H3>Router is stuck on "Deployment in Progress"</H3>
       <P>
-        This usually indicates the provisioning task is queued. If the status hasn't advanced after 24 hours, raise a support ticket with your Virtual Router ID.
-      </P>
-
-      <H3>Router shows "Failed"</H3>
-      <P>
-        A failed state means provisioning could not be completed — often due to IP address conflicts or location constraints. Delete the router, review your IP address and ASN settings, and try again. Contact support if the issue persists.
+        If there's an outstanding <strong>Purchase Order Required</strong> step on the Track Order tab,
+        provisioning won't continue until PO details are added. Otherwise, if the status hasn't advanced after 24
+        hours, raise a support ticket with your Virtual Router's Service ID.
       </P>
 
       <H3>Router shows "Down"</H3>
@@ -165,23 +158,14 @@ export function VirtualRouterStatusPage() {
         A <strong>Down</strong> status on a live router indicates a network connectivity issue. Check:
       </P>
       <UL>
-        <LI>BGP session state for all attached Layer 3 connections.</LI>
+        <LI>BGP session state for all attached connections.</LI>
         <LI>Health of the underlying ports that carry traffic to this router.</LI>
-        <LI>Whether there are any active incidents affecting the PoP from the Polarin status page.</LI>
+        <LI>Whether there are any active incidents affecting the PoP.</LI>
       </UL>
       <P>
-        If everything looks healthy on your side, open a support ticket with the router ID and the PoP location.
+        If everything looks healthy on your side, open a support ticket with the router's Service ID and PoP
+        location.
       </P>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

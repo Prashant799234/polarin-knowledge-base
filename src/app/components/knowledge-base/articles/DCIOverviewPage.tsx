@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -16,11 +16,11 @@ export function DCIOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">What Is Data Centre Interconnect?</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Products" color="#fd5900" />
-      </div>
+        <Tag label="Data Centre Interconnect" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         <strong>Data Centre Interconnect (DCI)</strong> links two or more of your own data centre sites
@@ -32,8 +32,8 @@ export function DCIOverviewPage({ onNavigate }: Props) {
       {/* ── Types ── */}
       <H2 id="types">Wave vs Layer 2</H2>
       <UL>
-        <LI><strong>DCI Wave</strong> — an optical-layer connection carrying raw wavelength capacity between sites. The highest bandwidth option, with the least protocol overhead.</LI>
-        <LI><strong>DCI Layer 2</strong> — an Ethernet-based connection between sites. Simpler to consume for most applications, at a wider range of bandwidths.</LI>
+        <LI><strong>DCI Wave</strong> — an optical (Layer 1) connection carrying dedicated wavelength capacity between two entire data centre <em>sites</em>, not two ports. The highest bandwidth option, built to order.</LI>
+        <LI><strong>DCI Layer 2</strong> — an Ethernet connection between two <PageLink label="Ports" onClick={() => onNavigate("port-overview")} /> you already own. Simpler to consume for most applications, and faster to provision since it reuses infrastructure you already have.</LI>
       </UL>
 
       {/* ── Use cases ── */}
@@ -50,7 +50,7 @@ export function DCIOverviewPage({ onNavigate }: Props) {
       </Callout>
 
       <P>
-        Like every product on Polarin, DCI attaches to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> at each end — you'll need one already provisioned at both sites.
+        DCI Layer 2 attaches to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> at each end, so you'll need one already provisioned at both sites. DCI Wave is the exception — it connects two data centre sites directly, with no Port involved on either end.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
@@ -60,14 +60,4 @@ export function DCIOverviewPage({ onNavigate }: Props) {
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

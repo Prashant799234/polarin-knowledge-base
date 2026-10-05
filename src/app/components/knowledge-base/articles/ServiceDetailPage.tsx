@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, DocImage, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, DocImage, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -31,11 +31,11 @@ export function ServiceDetailPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Understanding the Service Detail Page</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={7} />
         <Dot />
-        <Tag label="Service Management" color="#1c808d" />
-      </div>
+        <Tag label="Service Management" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         Every service you provision — a Port, a Virtual Connection, a Virtual Router, a DCI connection — opens
@@ -86,7 +86,7 @@ export function ServiceDetailPage({ onNavigate }: Props) {
       <UL>
         <LI><strong>Order Details Validated</strong> — your order information has been reviewed and approved.</LI>
         <LI><strong>Purchase Order Required ②</strong> — appears only if your organisation issues POs for invoicing (see <PageLink label="Organisation Settings" onClick={() => onNavigate("org-settings")} />). Provide it before the stated deadline via <strong>Update PO Details</strong>, or provisioning stalls here.</LI>
-        <LI><strong>Deployed</strong> — provisioning is complete and the resource is operational.</LI>
+        <LI><strong>Deployed</strong> — shown as "Deployment in Progress" on the status badge while it's underway, and as "Port deployed" (or the equivalent for your product) once it completes — either way, this is the step where Polarin actually provisions the resource.</LI>
         <LI><strong>Ready to Patch</strong> — for a Port specifically, Lightstorm is arranging the physical cross-connect at the data centre, shown as <strong>Cross Connect ③</strong> with an "In process" badge.</LI>
         <LI><strong>Live</strong> — the final step. Once reached, the Track Order tab disappears and Overview becomes the default.</LI>
       </UL>
@@ -180,12 +180,3 @@ export function ServiceDetailPage({ onNavigate }: Props) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

@@ -24,6 +24,7 @@ const PAGES = [
   { id: "about-polarin", file: "/src/app/components/knowledge-base/articles/AboutPolarinPage.tsx", exportName: "AboutPolarinPage", props: { onNavigate: noop } },
   { id: "services-offered", file: "/src/app/components/knowledge-base/articles/ServicesOfferedPage.tsx", exportName: "ServicesOfferedPage", props: { onNavigate: noop } },
   { id: "quick-setup", file: "/src/app/components/knowledge-base/articles/QuickSetupPage.tsx", exportName: "QuickSetupPage", props: { onNavigate: noop } },
+  { id: "choose-product", file: "/src/app/components/knowledge-base/articles/ChooseProductPage.tsx", exportName: "ChooseProductPage", props: { onNavigate: noop } },
   { id: "create-account", file: "/src/app/components/knowledge-base/articles/CreateAccountPage.tsx", exportName: "CreateAccountPage", props: { onNavigate: noop } },
   { id: "complete-profile", file: "/src/app/components/knowledge-base/articles/CompleteProfilePage.tsx", exportName: "CompleteProfilePage", props: { onNavigate: noop } },
   { id: "org-kyc", file: "/src/app/components/knowledge-base/articles/KYCDocumentsPage.tsx", exportName: "KYCDocumentsPage", props: {} },

@@ -14,7 +14,7 @@ import {
   Play,
   Plus,
 } from "lucide-react";
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, PageLink, DocImage } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, PageLink, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -40,13 +40,11 @@ export function ManageAlertsPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Manage Alerts</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={5} />
         <Dot />
-        <Tag label="Settings" color="#1c808d" />
-        <Dot />
-        <Tag label="Monitoring" color="#0ea5e9" />
-      </div>
+        <Tag label="Alerts" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         <strong>Manage Alerts</strong> puts you in control of automated network monitoring. Rather than waiting
@@ -84,7 +82,7 @@ export function ManageAlertsPage({ onNavigate }: Props) {
       <H2 id="rules-dashboard">Alert Rules Dashboard</H2>
       <P>
         To access your alert rules, sign in to <strong>polarin.lightstorm.net</strong>, click <strong>Settings</strong> in
-        the top header, and select <strong>Manage Alerts</strong> under the <strong>ALERTS</strong> section in the left
+        the top header, and select <strong>Manage Alerts</strong> under the <strong>ORGANISATION</strong> section in the left
         sidebar.
       </P>
 
@@ -353,13 +351,4 @@ export function ManageAlertsPage({ onNavigate }: Props) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: FONT, fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}
 

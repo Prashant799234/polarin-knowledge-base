@@ -19,6 +19,7 @@ import { ProgressBar } from "./ProgressBar";
 import { AboutPolarinPage } from "./articles/AboutPolarinPage";
 import { ServicesOfferedPage } from "./articles/ServicesOfferedPage";
 import { QuickSetupPage } from "./articles/QuickSetupPage";
+import { ChooseProductPage } from "./articles/ChooseProductPage";
 import { SupportOverviewPage } from "./articles/SupportOverviewPage";
 import { CreateTicketPage } from "./articles/CreateTicketPage";
 import { MyTicketsPage } from "./articles/MyTicketsPage";
@@ -116,6 +117,7 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "about-polarin",    label: "About Polarin" },
           { id: "services-offered", label: "Services Offered" },
           { id: "quick-setup",      label: "Quick Setup" },
+          { id: "choose-product",   label: "Choosing the Right Product" },
         ],
       },
       { id: "create-account", label: "Create a Polarin Account", icon: UserCircle },
@@ -274,11 +276,21 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "quick-setup": {
     prev: { label: "Services Offered", pageId: "services-offered" },
-    next: { label: "Create a Polarin Account", pageId: "create-account" },
+    next: { label: "Choosing the Right Product", pageId: "choose-product" },
     related: [
       { label: "About Polarin",              pageId: "about-polarin" },
       { label: "Services Offered",           pageId: "services-offered" },
       { label: "Create a Polarin Account",   pageId: "create-account" },
+    ],
+  },
+  "choose-product": {
+    prev: { label: "Quick Setup", pageId: "quick-setup" },
+    next: { label: "Create a Polarin Account", pageId: "create-account" },
+    related: [
+      { label: "What Is a Port?",                   pageId: "port-overview" },
+      { label: "What Is a Virtual Router?",         pageId: "vr-overview" },
+      { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
+      { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
     ],
   },
   "create-account": {
@@ -990,6 +1002,7 @@ export function KnowledgeBase() {
                     {activePage === "about-polarin" && <AboutPolarinPage onNavigate={navigate} />}
                     {activePage === "services-offered" && <ServicesOfferedPage onNavigate={navigate} />}
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
+                    {activePage === "choose-product" && <ChooseProductPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage onNavigate={navigate} />}
                     {activePage === "complete-profile" && <CompleteProfilePage onNavigate={navigate} />}
                     {activePage === "profile-personal" && <PersonalInformationPage onNavigate={navigate} />}

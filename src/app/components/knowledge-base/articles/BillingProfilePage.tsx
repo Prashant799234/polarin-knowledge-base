@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -24,11 +24,11 @@ export function BillingProfilePage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Billing Profile</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Finance & Admin" color="#0d9488" />
-      </div>
+        <Tag label="Finance & Admin" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A <strong>Billing Profile</strong> in Polarin connects your legal entity, official tax identification (such as GSTIN in India or regional tax registration numbers globally), registered office address, and designated billing contact to your network services.
@@ -191,6 +191,10 @@ export function BillingProfilePage({ onNavigate }: Props) {
           question="Can I change the Billing Profile on a live service?"
           answer="Yes. System Admins and Finance Admins can modify the assigned Billing Profile from the Service Detail page under the Subscription tab, provided the new billing profile has been verified."
         />
+        <FAQItem
+          question="Does a Billing Profile control whether we need a Purchase Order?"
+          answer="No — those are separate settings. Whether your organisation issues a PO for every invoice is set once, organisation-wide, in Organisation Settings. A Billing Profile only controls which legal entity and tax details an order is billed against; you pick both independently at checkout."
+        />
       </div>
     </ArticlePage>
   );
@@ -205,13 +209,4 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}
 

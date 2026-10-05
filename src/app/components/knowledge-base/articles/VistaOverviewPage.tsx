@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -26,11 +26,11 @@ export function VistaOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">VISTA Network Performance Monitoring</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={6} />
         <Dot />
-        <Tag label="Telemetry & Performance" color="#7c3aed" />
-      </div>
+        <Tag label="Telemetry & Performance" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         <strong>VISTA</strong> is Polarin's real-time network observability and telemetry engine. Built directly into the platform, VISTA transforms traditional black-box carrier connections into fully transparent, software-defined circuits with live telemetry, automated SLA auditing, and dynamic bandwidth elasticity.
@@ -163,6 +163,12 @@ export function VistaOverviewPage({ onNavigate }: Props) {
           </div>
         </div>
       </div>
+      <Callout variant="tip">
+        At order time, the Add Ons step summarises Premium more simply as a checklist: basic network statistics,
+        daily performance reports, 24/7 monitoring support, real-time monitoring, advanced traffic analytics,
+        proactive alert notifications, performance optimisation insights, and custom dashboards &amp; reports.
+        Everything above is what those items expand into once you're actually inside the VISTA dashboard.
+      </Callout>
       <P>
         <PageLink label="Read full VISTA for Virtual Connection guide →" onClick={() => onNavigate?.("vista-vc")} />
       </P>
@@ -343,12 +349,3 @@ function TableBadge({ val, color }: { val: string; color: string }) {
   return <span style={{ color: "#94a3b8", fontSize: 11 }}>{val}</span>;
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

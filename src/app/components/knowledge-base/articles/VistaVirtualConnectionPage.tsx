@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, H3, P, UL, LI, Callout, Steps, Step, DocImage, FieldTable, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -25,11 +25,11 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">VISTA for Virtual Connection</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={5} />
         <Dot />
-        <Tag label="Layer 2 / Layer 3 Telemetry" color="#7c3aed" />
-      </div>
+        <Tag label="Layer 2 / Layer 3 Telemetry" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A <strong>Virtual Connection (VC)</strong> delivers dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether linking two on-premise facilities, connecting a data centre to public cloud on-ramps, or bridging multi-cloud environments, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
@@ -103,6 +103,13 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
           </div>
         </div>
       </div>
+
+      <Callout variant="tip">
+        At order time, the Add Ons step summarises Premium more simply as a checklist: basic network statistics,
+        daily performance reports, 24/7 monitoring support, real-time monitoring, advanced traffic analytics,
+        proactive alert notifications, performance optimisation insights, and custom dashboards &amp; reports —
+        everything above is what those items expand into once you're inside the VISTA dashboard itself.
+      </Callout>
 
       {/* ── Rate Limit Scaling ── */}
       <H2 id="rate-limit-scaling">Effective Rate Limit & Dynamic Bandwidth Scaling</H2>
@@ -179,13 +186,4 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}
 

@@ -1,6 +1,6 @@
 import type { ElementType } from "react";
 import { Search, Ticket, Loader, CheckCircle2, Archive, RotateCcw, Headphones, ListChecks, Eye, Zap, Inbox } from "lucide-react";
-import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const FONT   = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -51,11 +51,11 @@ export function SupportOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Get Support</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Help & Support" color="#1c808d" />
-      </div>
+        <Tag label="Help & Support" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         Most questions have an answer already written down in this Knowledge Base. When they don't — a bug,
@@ -189,12 +189,3 @@ function QuickLinkCard({ link, onNavigate }: { link: QuickLink; onNavigate: (pag
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

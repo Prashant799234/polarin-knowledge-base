@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -15,11 +15,11 @@ export function VirtualRouterOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">What Is a Virtual Router?</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Products" color="#9e27fd" />
-      </div>
+        <Tag label="Core Product" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A <strong>Virtual Router</strong> is a software-based Layer 3 router that sits on Polarin's network,
@@ -47,7 +47,9 @@ export function VirtualRouterOverviewPage({ onNavigate }: Props) {
       </Callout>
 
       <P>
-        A Virtual Router attaches to an existing <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> — provision the Port first if you don't already have one at that location.
+        Unlike a Virtual Connection or DCI Layer 2, a Virtual Router doesn't attach to an existing{" "}
+        <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> — it's software-defined, deployed
+        directly at the data centre location you choose. No pre-provisioned Port is required before you start.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
@@ -57,14 +59,4 @@ export function VirtualRouterOverviewPage({ onNavigate }: Props) {
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

@@ -5,6 +5,7 @@ const TOC = [
   { id: "overview",      label: "Overview" },
   { id: "requirements",  label: "Password Requirements", level: 2 as const },
   { id: "steps",         label: "Update Your Password",  level: 2 as const },
+  { id: "expiry",        label: "Password Expiry",       level: 2 as const },
   { id: "next-steps",    label: "Next Steps" },
 ];
 
@@ -78,6 +79,18 @@ export function UpdatePasswordPage({ onNavigate }: Props) {
 
       <Callout variant="tip">
         We recommend rotating your account password periodically, and immediately if you ever suspect your device, email, or credentials have been compromised.
+      </Callout>
+
+      <H2 id="expiry">Password Expiry</H2>
+      <P>
+        Polarin supports scheduled password expiry to help enterprise customers meet their own compliance
+        requirements. If your organisation has this enabled, you'll see proactive reminder emails in the lead-up
+        to your expiry date — it's designed to not come as a surprise.
+      </P>
+      <Callout variant="tip">
+        If your password does expire before you get to it, you're not locked out without a path back: a
+        self-service password reset link is issued directly to your registered email, so you can regain access
+        without raising a support ticket.
       </Callout>
 
       <H2 id="next-steps">Next Steps</H2>

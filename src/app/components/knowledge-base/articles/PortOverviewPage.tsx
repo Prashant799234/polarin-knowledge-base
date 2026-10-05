@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
@@ -16,16 +16,19 @@ export function PortOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">What Is a Port?</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Products" color="#1a65fd" />
-      </div>
+        <Tag label="Core Product" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         A <strong>Port</strong> is the physical cable running from your equipment into Polarin's network, at a
-        data centre of your choosing. It's the one thing every other Polarin service needs before it can exist
-        — nothing routes, connects, or peers without a Port underneath it first.
+        data centre of your choosing. It's what most other Port-based services need before they can exist — a{" "}
+        <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> or a{" "}
+        <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} /> link attaches to a Port
+        you've already provisioned. A <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} />{" "}
+        is the one exception — it's deployed directly at a location, with no Port required underneath it.
       </P>
 
       <P>
@@ -36,23 +39,23 @@ export function PortOverviewPage({ onNavigate }: Props) {
       {/* ── Use cases ── */}
       <H2 id="usecases">What You Build on a Port</H2>
       <UL>
-        <LI><strong>Data centre to data centre</strong> — attach a <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> between two of your Ports to link two sites together at high bandwidth, without leasing dark fibre yourself.</LI>
-        <LI><strong>Data centre to cloud</strong> — attach a Virtual Connection from your Port straight into AWS, Azure, or GCP, bypassing the public internet entirely.</LI>
-        <LI><strong>Routing between multiple endpoints</strong> — attach a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> to your Port when you need real L3 routing logic between clouds and sites, not just a single point-to-point link.</LI>
-        <LI><strong>Site-to-site interconnection at scale</strong> — a <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} /> service also attaches to a Port, for high-bandwidth links purpose-built for replication and DR traffic.</LI>
+        <LI><strong>Data centre to data centre</strong> — attach a <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> or a <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} /> link between two of your Ports to link two sites together at high bandwidth, without leasing dark fibre yourself.</LI>
+        <LI><strong>Data centre to cloud</strong> — attach a <PageLink label="DC to Cloud connection" onClick={() => onNavigate("dc-to-cloud-create")} /> from your Port straight into AWS, Azure, GCP, or Oracle, bypassing the public internet entirely.</LI>
+        <LI><strong>Site-to-site interconnection at scale</strong> — a <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} /> service also attaches to a Port, for Ethernet links purpose-built for replication and DR traffic. (DCI Wave is the one DCI type that connects whole data centre sites instead — no Port needed.)</LI>
       </UL>
 
       <Callout variant="tip">
-        Think of a Port as the socket — Virtual Connection, Virtual Router, and DCI are what you plug into it.
+        Think of a Port as the socket — Virtual Connection and DCI Layer 2 are what you plug into it. Virtual
+        Router and DCI Wave are the two products on Polarin that <em>don't</em> need one.
       </Callout>
 
       {/* ── Speeds ── */}
       <H2 id="speeds">Choosing a Speed</H2>
-      <P>Ports come in three speeds. Pick based on your combined bandwidth need across everything you'll run over it:</P>
+      <P>Ports come in three bandwidth tiers. Pick based on your combined bandwidth need across everything you'll run over it — only the tiers your chosen data centre actually has capacity for will be selectable when you order:</P>
       <UL>
-        <LI><strong>1GE</strong> — small workloads, a single low-bandwidth connection, or dev/test environments.</LI>
-        <LI><strong>10GE</strong> — the common choice for a production Virtual Connection or a Virtual Router serving moderate traffic.</LI>
-        <LI><strong>100GE</strong> — high-throughput workloads, or when several services will share the same Port.</LI>
+        <LI><strong>1 Gbps</strong> — small workloads, a single low-bandwidth connection, or dev/test environments.</LI>
+        <LI><strong>10 Gbps</strong> — the common choice for a production Virtual Connection serving moderate traffic.</LI>
+        <LI><strong>100 Gbps</strong> — high-throughput workloads, or when several services will share the same Port.</LI>
       </UL>
       <P>
         Need more than one Port's worth of bandwidth at a single location? Bundle multiple Ports into a{" "}
@@ -66,14 +69,4 @@ export function PortOverviewPage({ onNavigate }: Props) {
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

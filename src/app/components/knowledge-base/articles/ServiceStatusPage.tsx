@@ -1,4 +1,4 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, FlowDiagram, PageLink, DocImage, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import { FileEdit, ClipboardCheck, CheckCircle2 } from "lucide-react";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -20,8 +20,8 @@ interface StatusInfo {
 }
 
 const PROBLEM_STATES: StatusInfo[] = [
-  { label: "Failed", color: "#dc2626", bg: "#fef2f2", description: "Provisioning couldn't complete — usually inventory or configuration related. Check the service detail page for a reason, or raise a ticket." },
   { label: "Down",   color: "#ea580c", bg: "#fff7ed", description: "A previously live service has lost connectivity. Check the physical layer first (cross-connects, cabling) before assuming a Polarin-side issue." },
+  { label: "Setup Incomplete", color: "#b45309", bg: "#fff7ed", description: "Shown alongside Design when the order wizard was started but never submitted. Nothing is provisioned or billed — open the service and finish Checkout." },
 ];
 
 interface Props {
@@ -32,34 +32,42 @@ export function ServiceStatusPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">Understanding Service Status</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
+      <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Service Management" color="#1c808d" />
-      </div>
+        <Tag label="Service Management" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
-        Every product on Polarin — Port, Virtual Router, Virtual Connection, DCI, Internet Exchange — moves through
-        the <strong>same broad lifecycle</strong> from order to live traffic. Knowing this one pattern
-        means you can read the status of any service at a glance, regardless of which product it is.
+        Every product on Polarin — Port, Virtual Router, Virtual Connection, DCI, Internet Exchange — shares the
+        <strong> same six statuses</strong>, exactly as they appear in any service list's own{" "}
+        <strong>Advance Filter</strong> panel: Live, Down, Design, Deployment in Progress, Configured, and
+        Deleted. Knowing this one list means you can read the status of any service at a glance, regardless of
+        which product it is.
       </P>
+      <DocImage
+        src="/screenshots/services/06-advance-filter.jpg"
+        alt="Advance Filter panel showing the full real status list: Live, Down, Design, Deployment in Progress, Configured, Deleted"
+        caption="The exact six statuses, straight from the product's own filter panel"
+      />
 
       {/* ── Lifecycle ── */}
       <H2 id="lifecycle">The Status Lifecycle</H2>
 
       <FlowDiagram
         stages={[
-          { title: "Design",  items: [{ icon: <FileEdit size={16} />, label: "Configured, not ordered" }] },
-          { title: "Ordered", items: [{ icon: <ClipboardCheck size={16} />, label: "Deployment in Progress" }] },
+          { title: "Design",  items: [{ icon: <FileEdit size={16} />, label: "Started, not ordered" }] },
+          { title: "Deployment in Progress", items: [{ icon: <ClipboardCheck size={16} />, label: "Order placed, provisioning" }] },
           { title: "Live",    items: [{ icon: <CheckCircle2 size={16} />, label: "Active, traffic ready" }] },
         ]}
       />
 
       <UL>
-        <LI><strong>Design</strong> — you've configured the service but haven't placed the order yet. Nothing is provisioned, and nothing is billed. A <strong>Setup Incomplete</strong> warning here just means the order itself hasn't been submitted — finish and submit it from the service's own detail page.</LI>
-        <LI><strong>Deployment in Progress</strong> — the order is submitted and provisioning is underway. Track exactly where it's at on the service's <PageLink label="Track Order" onClick={() => onNavigate("service-detail")} /> tab. For a Port specifically, this stage includes a <strong>Ready to Patch</strong> step while Lightstorm arranges the physical cross-connect.</LI>
-        <LI><strong>Configured</strong> — provisioning has completed on Polarin's side and the service is fully set up, but it isn't carrying traffic yet.</LI>
+        <LI><strong>Design</strong> — you've started the service but haven't placed the order yet. Nothing is provisioned, and nothing is billed. A <strong>Setup Incomplete</strong> tag next to it just means the wizard was never finished — open the service and pick up from Checkout.</LI>
+        <LI><strong>Deployment in Progress</strong> — the order is submitted and provisioning is underway. Track exactly where it's at on the service's <PageLink label="Track Order" onClick={() => onNavigate("service-detail")} /> tab. If your organisation issues Purchase Orders, a <strong>Purchase Order Required</strong> step appears here too, with a deadline — provisioning won't continue past it until PO details are added. For a Port specifically, this stage is followed by its own <strong>Ready to Patch</strong> step while Lightstorm arranges the physical cross-connect.</LI>
+        <LI><strong>Configured</strong> — specific to Virtual Router: provisioning has completed and configuration is applied, but final activation is still in progress.</LI>
         <LI><strong>Live</strong> — the service is fully active. Billing starts here, not when you placed the order.</LI>
+        <LI><strong>Down</strong> — a previously live service has lost connectivity. Check the physical layer first (cross-connects, cabling) before assuming a Polarin-side issue.</LI>
         <LI><strong>Deleted</strong> — the service has been decommissioned and moved to Archived Services.</LI>
       </UL>
 
@@ -104,12 +112,3 @@ export function ServiceStatusPage({ onNavigate }: Props) {
   );
 }
 
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
-}

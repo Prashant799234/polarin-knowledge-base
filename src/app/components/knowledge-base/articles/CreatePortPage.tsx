@@ -51,6 +51,7 @@ export function CreatePortPage({ onNavigate }: Props) {
         <PageLink label="What Is a Port?" onClick={() => onNavigate("port-overview")} />.
       </P>
 
+      <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         Your <strong>Organisation Profile</strong> must be verified before you can order a Port. If you haven't
         completed that yet, start at{" "}

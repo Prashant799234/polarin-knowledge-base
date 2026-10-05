@@ -97,7 +97,7 @@ export function ContactSupportPage({ onNavigate }: Props) {
         <InfoCard
           icon={<Zap size={22} color="#f97316" />}
           title="Fast Response"
-          desc="P1 and P2 issues are acknowledged within 2 hours. We resolve most incidents same day."
+          desc="P1 and P2 issues are acknowledged within 2 hours. If one isn't moving, the Escalation Matrix has the exact tiered windows for when to push further."
         />
         <InfoCard
           icon={<ShieldCheck size={22} color="#059669" />}
