@@ -78,7 +78,7 @@ export function CreateDCToCloudPage({ onNavigate }: Props) {
       <H2 id="add-ons">3. Add Ons</H2>
       <P>
         <strong>VISTA</strong> — Standard (free) or Premium — for real-time monitoring and traffic analytics on
-        the connection. See <PageLink label="VISTA for Cloud Connect" onClick={() => onNavigate("vista-vc")} />.
+        the connection. See <PageLink label="VISTA for Connections" onClick={() => onNavigate("vista-vc")} />.
       </P>
 
       {/* ── Step 4 ── */}

@@ -170,7 +170,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         Everything above is what those items expand into once you're actually inside the VISTA dashboard.
       </Callout>
       <P>
-        <PageLink label="Read full VISTA for Cloud Connect guide →" onClick={() => onNavigate?.("vista-vc")} />
+        <PageLink label="Read full VISTA for Connections guide →" onClick={() => onNavigate?.("vista-vc")} />
       </P>
 
       {/* 3. DCI Wave */}

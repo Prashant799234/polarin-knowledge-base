@@ -12,6 +12,7 @@ const TOC = [
   { id: "port",       label: "Port",                             level: 2 as const },
   { id: "vr",         label: "Virtual Router",                   level: 2 as const },
   { id: "cloud",      label: "Cloud Connect",               level: 2 as const },
+  { id: "dc-to-dc",   label: "DC to DC",                         level: 2 as const },
   { id: "dci",        label: "Data Centre Interconnect",         level: 2 as const },
   { id: "manage",     label: "Managing What You Order",          level: 1 as const },
 ];
@@ -120,14 +121,21 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
 
       <H2 id="cloud">Cloud Connect</H2>
       <P>
-        A <strong>Cloud Connect</strong> gives you a private, point-to-point link - DC to DC, DC to Cloud,
-        or Cloud to Cloud - bypassing the public internet for lower latency and more predictable performance
-        than a standard VPN. See <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown, or jump straight to <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.
+        A <strong>Cloud Connect</strong> gives you a private, point-to-point link to a cloud provider - DC to
+        Cloud or Cloud to Cloud - bypassing the public internet for lower latency and more predictable
+        performance than a standard VPN. See <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown.
       </P>
       <UL>
-        <LI>Three types: DC to DC, DC to Cloud, and Cloud to Cloud.</LI>
+        <LI>Two types: DC to Cloud (a port you own reaching a cloud provider) and Cloud to Cloud (two cloud providers linked via a Virtual Router).</LI>
         <LI>Better suited to steady, high-bandwidth workloads than internet-based connectivity.</LI>
       </UL>
+
+      <H2 id="dc-to-dc">DC to DC</H2>
+      <P>
+        A <strong>DC to DC</strong> connection links two of your own ports at different Polarin data centres -
+        no cloud provider on either end. It's a separate product from Cloud Connect, though it shares the same
+        private, point-to-point model. See <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} /> to get started.
+      </P>
 
       <H2 id="dci">Data Centre Interconnect (DCI)</H2>
       <P>

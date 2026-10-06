@@ -10,9 +10,9 @@ const TOC = [
 ];
 
 const COMPARE_FIELDS = [
-  { field: "DC to DC", description: "A private link between two of your own ports at different Polarin data centres. This page.", required: false },
   { field: "DC to Cloud", description: "A port you own linked directly to a single cloud provider (AWS, GCP, Azure, or Oracle).", required: false },
   { field: "Cloud to Cloud", description: "Two cloud providers linked to each other through a Virtual Router — no port required at either end.", required: false },
+  { field: "DCI Layer 2", description: "Also two ports, but purpose-built for steady, heavy replication traffic rather than general-purpose connectivity.", required: false },
 ];
 
 interface Props {
@@ -26,25 +26,25 @@ export function CloudConnectPage({ onNavigate }: Props) {
       <ArticleMeta>
         <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Cloud Connect" color="#0f766e" />
+        <Tag label="Virtual Connection" color="#0f766e" />
       </ArticleMeta>
 
       <P>
         A <strong>DC to DC</strong> connection links two of your own ports at different Polarin data centres —
-        a private, point-to-point Cloud Connect connection that bypasses the public internet for lower latency and
-        more predictable performance than a VPN. Not sure Cloud Connect is the right product at all? See{" "}
-        <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> first.
+        a private, point-to-point link that bypasses the public internet for lower latency and more predictable
+        performance than a VPN. Unlike <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} />,
+        there's no cloud provider on either end — both sides are Ports you already own.
       </P>
 
       <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         You need an active <PageLink label="Port" onClick={() => onNavigate("port-create")} /> at both ends
-        before starting — a Cloud Connect connection attaches to existing ports, it doesn't create them.
+        before starting — a DC to DC connection attaches to existing ports, it doesn't create them.
       </Callout>
 
       <H2 id="steps">How It Works</H2>
       <P>
-        It follows the same wizard pattern as the other Cloud Connect flows: select your{" "}
+        It follows the same wizard pattern as Polarin's other point-to-point flows: select your{" "}
         <strong>A-End Port</strong> and <strong>Z-End Port</strong>, configure a name, rate limit, and
         subscription term, add VISTA if you want telemetry, then check out against a billing profile.
       </P>
@@ -58,7 +58,7 @@ export function CloudConnectPage({ onNavigate }: Props) {
       </Callout>
 
       <H2 id="compare">Not What You Need?</H2>
-      <P>Cloud Connect covers three distinct wizards depending on what's on each end:</P>
+      <P>If one end of your link is a cloud provider instead of a Polarin Port, or you need higher dedicated bandwidth, one of these fits better:</P>
       <FieldTable rows={COMPARE_FIELDS} />
       <UL>
         <LI><PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} /> — one port, one cloud provider.</LI>

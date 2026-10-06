@@ -13,7 +13,7 @@ const TOC = [
   { id: "rate-limit-scaling",  label: "Effective Rate Limit & Scaling" },
   { id: "health-kpis",         label: "Real-Time Telemetry & Health" },
   { id: "circuit-topology",    label: "End-to-End A/Z Topology",      level: 2 as const },
-  { id: "metrics-reference",   label: "Cloud Connect Metrics" },
+  { id: "metrics-reference",   label: "Metrics Reference" },
   { id: "troubleshooting",     label: "Troubleshooting & Support" },
 ];
 
@@ -24,7 +24,7 @@ interface Props {
 export function VistaVirtualConnectionPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
-      <H1 id="overview">VISTA for Cloud Connect</H1>
+      <H1 id="overview">VISTA for Connections</H1>
       <ArticleMeta>
         <ReadTime minutes={5} />
         <Dot />
@@ -32,17 +32,17 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        A <strong>Cloud Connect</strong> connection delivers dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether linking two on-premise facilities, connecting a data centre to public cloud on-ramps, or bridging multi-cloud environments, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
+        Cloud Connect, DC to DC, and DCI Layer 2 connections all deliver dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether linking two on-premise facilities, connecting a data centre to public cloud on-ramps, or bridging multi-cloud environments, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
       </P>
 
       <P>
-        VISTA for Cloud Connect combines continuous performance monitoring with self-service bandwidth scaling through the <strong>Effective Rate Limit</strong> engine.
+        VISTA for Connections combines continuous performance monitoring with self-service bandwidth scaling through the <strong>Effective Rate Limit</strong> engine.
       </P>
 
       {/* ── Applicable Types ── */}
       <H2 id="applicable-types">Supported Connection Types</H2>
       <P>
-        VISTA telemetry applies identically across all Polarin Cloud Connect product categories:
+        VISTA telemetry applies identically across all of Polarin's point-to-point connection products:
       </P>
       <UL>
         <LI><strong>DC to Cloud (Cloud Connect)</strong>: Private, direct interconnection to hyperscalers (AWS Direct Connect, Microsoft Azure ExpressRoute, Google Cloud Interconnect, Oracle FastConnect).</LI>
@@ -65,7 +65,7 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
             <span style={{ background: "#e2e8f0", color: "#334155", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 12 }}>Free</span>
           </div>
           <p style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", margin: "0 0 14px", lineHeight: 1.5 }}>
-            Included free with every Cloud Connect connection. Provides baseline real-time visibility into your connection throughput.
+            Included free with every connection. Provides baseline real-time visibility into your connection throughput.
           </p>
           <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12 }}>
             <p style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>Included Capabilities:</p>
@@ -114,13 +114,13 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       {/* ── Rate Limit Scaling ── */}
       <H2 id="rate-limit-scaling">Effective Rate Limit & Dynamic Bandwidth Scaling</H2>
       <P>
-        VISTA pairs deep telemetry with instantaneous bandwidth scaling. On any active Cloud Connect connection, the <strong>EFFECTIVE RATE LIMIT</strong> card displays your active bandwidth ceiling:
+        VISTA pairs deep telemetry with instantaneous bandwidth scaling. On any active connection, the <strong>EFFECTIVE RATE LIMIT</strong> card displays your active bandwidth ceiling:
       </P>
 
       <DocImage
         src="/screenshots/vista/03-vista-telemetry-rate-limit.jpg"
-        alt="VISTA Effective Rate Limit and Health KPIs on Cloud Connect"
-        caption="VISTA Cloud Connect: (1) Effective Rate Limit with Base + Temp Add-on, (2) Health KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End topology."
+        alt="VISTA Effective Rate Limit and Health KPIs on a point-to-point connection"
+        caption="VISTA: (1) Effective Rate Limit with Base + Temp Add-on, (2) Health KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End topology."
       />
 
       <UL>
@@ -160,7 +160,7 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       </UL>
 
       {/* ── Metrics Table ── */}
-      <H2 id="metrics-reference">Cloud Connect Metrics Reference</H2>
+      <H2 id="metrics-reference">Metrics Reference</H2>
       <FieldTable rows={[
         { field: "Traffic In & Out (Mbps)",  description: "Bidirectional throughput transmitted across the virtual connection in megabits per second." },
         { field: "Packet In & Out",          description: "Count of Ethernet frames forwarded across the virtual circuit." },

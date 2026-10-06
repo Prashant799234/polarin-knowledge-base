@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Server, Cloud, Building2 } from "lucide-react";
+import { Server, Cloud } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -8,8 +8,9 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 
 const TOC = [
   { id: "overview",   label: "Overview" },
-  { id: "types",      label: "The Three Types", level: 2 as const },
+  { id: "types",      label: "The Two Types", level: 2 as const },
   { id: "choosing",   label: "Which One Do You Need?", level: 2 as const },
+  { id: "not-cloud",  label: "Not Reaching a Cloud?", level: 2 as const },
   { id: "next-steps", label: "Next Steps" },
 ];
 
@@ -21,7 +22,6 @@ interface ConnType {
 }
 
 const TYPES: ConnType[] = [
-  { icon: Building2, color: "#0f766e", title: "DC to DC",      description: "Links two of your own Ports at different data centre sites together, over Polarin's network instead of leased dark fibre." },
   { icon: Cloud,      color: "#1c808d", title: "DC to Cloud",   description: "Links a Port you already own directly into a cloud provider — AWS, GCP, Azure, or Oracle — bypassing the public internet." },
   { icon: Server,     color: "#0d6a78", title: "Cloud to Cloud", description: "Links two cloud providers to each other through a Virtual Router — no Port required at either end." },
 ];
@@ -41,17 +41,18 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        <strong>Cloud Connect</strong> gives you a private, point-to-point link between two endpoints on
-        Polarin's network — bypassing the public internet for lower latency and more predictable performance
-        than a standard VPN. It's the simplest way to connect two specific places together.
+        <strong>Cloud Connect</strong> gives you a private, point-to-point link to a cloud provider — bypassing
+        the public internet for lower latency and more predictable performance than a standard VPN. Both types
+        reach a cloud; if you're linking two of your own sites instead, that's a different product — see{" "}
+        <strong>Not Reaching a Cloud?</strong> below.
       </P>
 
       <P>
-        Every Cloud Connect connection is one of three types, depending on what's on each end:
+        Every Cloud Connect connection is one of two types, depending on what's on each end:
       </P>
 
       {/* ── Types ── */}
-      <H2 id="types">The Three Types</H2>
+      <H2 id="types">The Two Types</H2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, margin: "16px 0 24px" }}>
         {TYPES.map((t) => (
           <TypeCard key={t.title} type={t} />
@@ -61,7 +62,6 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       {/* ── Choosing ── */}
       <H2 id="choosing">Which One Do You Need?</H2>
       <UL>
-        <LI>Extending your own infrastructure across sites, for replication or disaster recovery? <strong>DC to DC.</strong></LI>
         <LI>Reaching a cloud provider from your own equipment? <strong>DC to Cloud.</strong></LI>
         <LI>Connecting workloads that already live in two different clouds, or two regions? <strong>Cloud to Cloud.</strong></LI>
       </UL>
@@ -72,14 +72,25 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       </Callout>
 
       <P>
-        DC to DC and DC to Cloud both attach to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> you've already provisioned at the Polarin end. Cloud to Cloud is the exception — it has no Port on either end, but it does require an existing (or newly created) <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> to route between the two clouds.
+        DC to Cloud attaches to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> you've
+        already provisioned at the Polarin end. Cloud to Cloud is the exception — it has no Port on either end,
+        but it does require an existing (or newly created) <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> to route between the two clouds.
+      </P>
+
+      {/* ── Not reaching a cloud ── */}
+      <H2 id="not-cloud">Not Reaching a Cloud?</H2>
+      <P>
+        If you're linking two of your own sites together instead — no cloud provider on either end — that's{" "}
+        <PageLink label="DC to DC" onClick={() => onNavigate("cloud-connect")} />, a separate product. For
+        heavier, steadier replication-grade traffic between two sites, compare it against{" "}
+        <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} />.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Linking two of your own sites? <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
         <LI>Reaching a single cloud from a Port? <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.</LI>
         <LI>Linking two clouds to each other? <PageLink label="Create a Cloud to Cloud Connection" onClick={() => onNavigate("cloud-to-cloud-create")} />.</LI>
+        <LI>Linking two of your own sites instead? <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
         <LI>Need something with routing logic instead? <PageLink label="What Is a Virtual Router?" onClick={() => onNavigate("vr-overview")} />.</LI>
       </UL>
     </ArticlePage>

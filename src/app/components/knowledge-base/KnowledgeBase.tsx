@@ -8,7 +8,7 @@ import {
   Headphones, ShieldAlert,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
   Info, LayoutDashboard, Bell, Waypoints, ClipboardCheck, Gauge,
-  LineChart, Users, FileBarChart, BellRing, UserCog, Boxes,
+  LineChart, Users, FileBarChart, BellRing, UserCog, Boxes, Link2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -151,9 +151,9 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "vc-overview",   label: "Overview" },
           { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection" },
           { id: "dc-to-cloud-create",    label: "Create a DC to Cloud Connection" },
-          { id: "cloud-connect", label: "Create a DC to DC Connection" },
         ],
       },
+      { id: "cloud-connect", label: "Create a DC to DC Connection", icon: Link2 },
       {
         id: "dci", label: "Data Centre Interconnect", icon: Server,
         children: [
@@ -185,7 +185,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "vista-overview", label: "Overview", icon: LineChart },
       { id: "vista-port", label: "Port", icon: Plug },
-      { id: "vista-vc", label: "Cloud Connect", icon: Cloud },
+      { id: "vista-vc", label: "Connections", icon: Cloud },
       { id: "vista-dci-wave", label: "DCI Wave", icon: Server },
     ],
   },
@@ -414,7 +414,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Virtual Router",               pageId: "vr-create" },
       { label: "Create a DC to Cloud Connection",        pageId: "dc-to-cloud-create" },
-      { label: "VISTA for Cloud Connect",           pageId: "vista-vc" },
+      { label: "VISTA for Connections",           pageId: "vista-vc" },
     ],
   },
   "dc-to-cloud-create": {
@@ -422,7 +422,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Port",                         pageId: "port-create" },
       { label: "Create a Cloud to Cloud Connection",     pageId: "cloud-to-cloud-create" },
-      { label: "VISTA for Cloud Connect",           pageId: "vista-vc" },
+      { label: "VISTA for Connections",           pageId: "vista-vc" },
     ],
   },
   "dci-wave-create": {
@@ -439,7 +439,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a DCI Wave Connection",          pageId: "dci-wave-create" },
       { label: "Create a Port",                         pageId: "port-create" },
-      { label: "VISTA for Cloud Connect",          pageId: "vista-vc" },
+      { label: "VISTA for Connections",          pageId: "vista-vc" },
     ],
   },
   "vr-overview": {
@@ -625,7 +625,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     next: { label: "VISTA for Port", pageId: "vista-port" },
     related: [
       { label: "VISTA for Port",               pageId: "vista-port" },
-      { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
+      { label: "VISTA for Connections", pageId: "vista-vc" },
       { label: "VISTA for DCI Wave",           pageId: "vista-dci-wave" },
       { label: "Reports",                      pageId: "reports" },
       { label: "Alerts & Notifications",       pageId: "notifications" },
@@ -633,7 +633,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "vista-port": {
     prev: { label: "VISTA Overview",           pageId: "vista-overview" },
-    next: { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
+    next: { label: "VISTA for Connections", pageId: "vista-vc" },
     related: [
       { label: "What Is a Port?",              pageId: "port-overview" },
       { label: "Create a Port",                pageId: "port-create" },
@@ -652,7 +652,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "vista-dci-wave": {
-    prev: { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
+    prev: { label: "VISTA for Connections", pageId: "vista-vc" },
     related: [
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
       { label: "Create a Data Centre Interconnect", pageId: "dci-create" },
@@ -668,7 +668,7 @@ function getPageLabel(id: string): string {
   if (id === "billing-overview") return "Billing Overview";
   if (id === "vista-overview") return "VISTA Overview";
   if (id === "vista-port") return "VISTA for Port";
-  if (id === "vista-vc") return "VISTA for Cloud Connect";
+  if (id === "vista-vc") return "VISTA for Connections";
   if (id === "vista-dci-wave") return "VISTA for DCI Wave";
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {
