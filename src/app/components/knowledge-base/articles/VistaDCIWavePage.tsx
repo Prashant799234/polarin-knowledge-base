@@ -41,7 +41,7 @@ export function VistaDCIWavePage({ onNavigate }: Props) {
       </P>
 
       <Callout variant="tip">
-        Because DCI Wave operates at physical Layer 1 without packet encapsulation, VISTA tracks optical photonic parameters rather than packet-level counters. For packet-switched Ethernet interconnects, see <PageLink label="VISTA for Virtual Connection" onClick={() => onNavigate?.("vista-vc")} />.
+        Because DCI Wave operates at physical Layer 1 without packet encapsulation, VISTA tracks optical photonic parameters rather than packet-level counters. For packet-switched Ethernet interconnects, see <PageLink label="VISTA for Cloud Connect" onClick={() => onNavigate?.("vista-vc")} />.
       </Callout>
 
       {/* ── What Is DCI Wave ── */}

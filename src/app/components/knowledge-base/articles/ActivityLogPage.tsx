@@ -33,7 +33,7 @@ const SEVERITY_LEVELS: Severity[] = [
 const FILTER_OPTIONS = [
   { label: "Search by Activity ID", icon: "🔍", description: "Type or paste an Activity ID to jump straight to that event." },
   { label: "Date range",            icon: "📅", description: "Pick a Start Date and End Date from the calendar, then click Apply to narrow results to that window." },
-  { label: "Services",              icon: "⚙️", description: "Filter by service: Organisation Profile, Billing Profile, Authentication, Port, Virtual Connection, or Virtual Router." },
+  { label: "Services",              icon: "⚙️", description: "Filter by service: Organisation Profile, Billing Profile, Authentication, Port, Cloud Connect, or Virtual Router." },
   { label: "Initiated By",          icon: "👤", description: "Filter by the user or system actor who triggered the event." },
   { label: "Severity",              icon: "🚨", description: "Filter by one or more severity levels, from S0 (Emergency) to S7 (Debugging)." },
   { label: "Sort by date & time",   icon: "↕️", description: "Click the sort icon on the Date & time column to switch between newest-first and oldest-first." },
@@ -116,7 +116,7 @@ export function ActivityLogPage({ onNavigate }: Props) {
                     {[
                       { n: "1", title: "Search by Activity ID", desc: "Type or paste an exact Activity ID to locate a specific event instantly." },
                       { n: "2", title: "Date Range Filter", desc: "Select a custom Start Date and End Date using the dual-month calendar picker." },
-                      { n: "3", title: "Services Filter", desc: "Filter by platform domain (Organisation Profile, Billing, Authentication, Ports, Virtual Connections, Virtual Routers)." },
+                      { n: "3", title: "Services Filter", desc: "Filter by platform domain (Organisation Profile, Billing, Authentication, Ports, Cloud Connect connections, Virtual Routers)." },
                       { n: "4", title: "Date & Time Sort", desc: "Click the column header to toggle between newest-first and oldest-first chronological sorting." },
                       { n: "5", title: "Event & Initiated By", desc: "See the specific operation (e.g., User Login, Billing Profile Created) and the user who triggered it." },
                       { n: "6", title: "Severity Tag", desc: "Colour-coded badge indicating the priority level from S0 (Emergency) to S7 (Debugging)." },

@@ -11,9 +11,9 @@ const TOC = [
 const DECISION_FIELDS = [
   { field: "Port", description: "You have equipment at (or access to) a data centre and need a physical cable into Polarin's network. Everything Port-based builds on top of this.", required: false },
   { field: "Virtual Router", description: "You need real Layer 3 routing logic between multiple clouds, data centres, or partner networks — not just one link, but several managed from one place. No Port required.", required: false },
-  { field: "Virtual Connection — DC to DC", description: "You own ports at two Polarin data centres and want a private, point-to-point link between them.", required: false },
-  { field: "Virtual Connection — DC to Cloud", description: "You own a port and want to reach a single cloud provider (AWS, GCP, Azure, Oracle) directly, bypassing the public internet.", required: false },
-  { field: "Virtual Connection — Cloud to Cloud", description: "You need two cloud providers linked to each other, with no port on either end — routed through a Virtual Router instead.", required: false },
+  { field: "Cloud Connect — DC to DC", description: "You own ports at two Polarin data centres and want a private, point-to-point link between them.", required: false },
+  { field: "Cloud Connect — DC to Cloud", description: "You own a port and want to reach a single cloud provider (AWS, GCP, Azure, Oracle) directly, bypassing the public internet.", required: false },
+  { field: "Cloud Connect — Cloud to Cloud", description: "You need two cloud providers linked to each other, with no port on either end — routed through a Virtual Router instead.", required: false },
   { field: "DCI Layer 2", description: "You own ports at two sites and need an Ethernet link purpose-built for steady, heavy traffic — replication or disaster recovery — rather than general connectivity.", required: false },
   { field: "DCI Wave", description: "You need dedicated, very high-throughput optical capacity between two entire data centre sites (not ports), and can accept a short, scheduled build-out.", required: false },
   { field: "Internet Exchange", description: "You want to peer directly with other networks at a Polarin location instead of paying a transit provider for that traffic.", required: false },
@@ -46,7 +46,7 @@ export function ChooseProductPage({ onNavigate }: Props) {
         Rule of thumb: if you're connecting more than two things, or need routing decisions made between them, it's
         a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> question. If you're
         linking exactly two things together, it's a{" "}
-        <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> or{" "}
+        <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> or{" "}
         <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} /> question — and
         DCI is for when that link specifically needs to carry heavy, steady replication-grade traffic rather than
         general-purpose connectivity.

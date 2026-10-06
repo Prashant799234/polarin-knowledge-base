@@ -81,7 +81,7 @@ export function CreateTicketPage({ onNavigate }: Props) {
       {/* ── From a service page ── */}
       <H2 id="from-service">Raising It From a Service</H2>
       <P>
-        You don't always have to start from Help. Open any service's detail page — a Port, a Virtual Connection,
+        You don't always have to start from Help. Open any service's detail page — a Port, a Cloud Connect connection,
         a Virtual Router — and click <strong>Raise a Ticket</strong> right next to <strong>Edit</strong>. It's the faster path when
         you're already looking at the specific service having the issue.
       </P>

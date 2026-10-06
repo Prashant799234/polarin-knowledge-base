@@ -33,21 +33,21 @@ interface Props {
 export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
-      <H1 id="overview">What Is a Virtual Connection?</H1>
+      <H1 id="overview">What Is Cloud Connect?</H1>
       <ArticleMeta>
         <ReadTime minutes={3} />
         <Dot />
-        <Tag label="Virtual Connection" color="#0f766e" />
+        <Tag label="Cloud Connect" color="#0f766e" />
       </ArticleMeta>
 
       <P>
-        A <strong>Virtual Connection</strong> is a private, point-to-point link between two endpoints on
+        <strong>Cloud Connect</strong> gives you a private, point-to-point link between two endpoints on
         Polarin's network — bypassing the public internet for lower latency and more predictable performance
         than a standard VPN. It's the simplest way to connect two specific places together.
       </P>
 
       <P>
-        Every Virtual Connection is one of three types, depending on what's on each end:
+        Every Cloud Connect connection is one of three types, depending on what's on each end:
       </P>
 
       {/* ── Types ── */}
@@ -67,8 +67,8 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       </UL>
 
       <Callout variant="tip">
-        Connecting more than two points, or need real routing logic between them? A single Virtual Connection
-        is point-to-point only — reach for a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> instead once the topology grows past a simple link.
+        Connecting more than two points, or need real routing logic between them? A single Cloud Connect
+        connection is point-to-point only — reach for a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-overview")} /> instead once the topology grows past a simple link.
       </Callout>
 
       <P>

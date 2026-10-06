@@ -453,7 +453,7 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
             Direct customer traffic downtime, hard circuit failure, or active packet drop:
           </P>
           <UL>
-            <LI>Total physical port or Virtual Connection link down</LI>
+            <LI>Total physical port or Cloud Connect link down</LI>
             <LI>BGP peering dropped with no redundant route</LI>
             <LI>Sustained packet loss (&gt;5%) or severe latency breach</LI>
             <LI>Failure of primary route on a protected path</LI>
@@ -548,7 +548,7 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
           {[
             { label: "1. Incident / Ticket ID", desc: "Active ticket reference (e.g. #INC-XXXXXX) logged with Level 1." },
-            { label: "2. Polarin Service ID", desc: "Port ID (PORT-SIN-001) or Virtual Connection ID (VC-AWS-009)." },
+            { label: "2. Polarin Service ID", desc: "Port ID (PORT-SIN-001) or Cloud Connect ID (VC-AWS-009)." },
             { label: "3. Location Details", desc: "Originating and terminating data centres or cloud PoP regions." },
             { label: "4. Observed Impact", desc: "Telemetry details (loss, latency, flap frequency) and affected services." },
           ].map((item) => (

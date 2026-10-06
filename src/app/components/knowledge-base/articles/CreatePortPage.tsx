@@ -44,7 +44,7 @@ export function CreatePortPage({ onNavigate }: Props) {
       <P>
         A <strong>Port</strong> is the physical point of connection between your equipment and the Polarin
         network at one of our data centre locations. It's the foundation almost everything else builds on —
-        a <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} />, a{" "}
+        a <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} />, a{" "}
         <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} />, and a{" "}
         <PageLink label="DC to Cloud connection" onClick={() => onNavigate("dc-to-cloud-create")} /> all
         attach to a Port you've already created. Not sure if a Port is what you need first? See{" "}

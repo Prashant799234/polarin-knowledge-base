@@ -49,7 +49,7 @@ export function ManageAlertsPage({ onNavigate }: Props) {
       <P>
         <strong>Manage Alerts</strong> puts you in control of automated network monitoring. Rather than waiting
         for end users to report an issue or manually checking telemetry graphs in VISTA, you can configure
-        threshold rules that continuously monitor your Ports, Virtual Connections, and DCIs. When a service
+        threshold rules that continuously monitor your Ports, Cloud Connect connections, and DCIs. When a service
         breaches your target availability or health metric for a sustained duration, Polarin alerts your team
         in real time via in-app banners, the top bell icon, and direct standalone email dispatches.
       </P>
@@ -135,7 +135,7 @@ export function ManageAlertsPage({ onNavigate }: Props) {
         {[
           { n: "1", title: "Condition & SLA Presets", desc: "Choose an SLA preset (Expected SLA 99.9%, Standard SLA 99.7%) or enter a Custom percentage threshold." },
           { n: "2", title: "Hold For Duration", desc: "Select 15 min, 30 min, 45 min, or 60 min to require a continuous breach before the alert triggers." },
-          { n: "3", title: "Services This Alert Watches", desc: "Multi-select dropdown with checkboxes to assign specific active ports and Virtual Connections." },
+          { n: "3", title: "Services This Alert Watches", desc: "Multi-select dropdown with checkboxes to assign specific active ports and Cloud Connect connections." },
           { n: "4", title: "In-App Notification Preview", desc: "Preview explaining that in-app alerts are always on across dashboards, service pages, and the top bell." },
         ].map(c => (
           <div key={c.n} style={{ display: "flex", gap: 10, background: "#f8fafc", border: "1px solid #e2e8f1", borderRadius: 8, padding: "10px 12px" }}>
@@ -231,7 +231,7 @@ export function ManageAlertsPage({ onNavigate }: Props) {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 10, margin: "16px 0 24px" }}>
         {[
-          { n: "1", title: "Watched Service & Status", desc: "Lists the service name, type (e.g. Virtual Connection), and live health indicator ('No Alerts Yet' or active breach)." },
+          { n: "1", title: "Watched Service & Status", desc: "Lists the service name, type (e.g. Cloud Connect), and live health indicator ('No Alerts Yet' or active breach)." },
           { n: "2", title: "View Service Details Link", desc: "Directly opens the full telemetry and configuration page for the affected service in a single click." },
           { n: "3", title: "Detach Service (Trash Icon)", desc: "Remove an individual service from this rule without deleting the rule itself. Removing a service immediately clears any active breach window." },
         ].map(c => (

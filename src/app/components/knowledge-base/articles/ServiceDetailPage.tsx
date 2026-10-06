@@ -38,7 +38,7 @@ export function ServiceDetailPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        Every service you provision — a Port, a Virtual Connection, a Virtual Router, a DCI connection — opens
+        Every service you provision — a Port, a Cloud Connect connection, a Virtual Router, a DCI connection — opens
         into the <strong>same kind of detail page</strong>. Once you know how to read one, you know how to read
         all of them.
       </P>
@@ -109,7 +109,7 @@ export function ServiceDetailPage({ onNavigate }: Props) {
       />
       <P>
         Below that, the <strong>A-End</strong> and <strong>Z-End</strong> cards (<strong>②</strong> below) show
-        the two points this service connects. For a Port, that's just one end; for a Virtual Connection or DCI,
+        the two points this service connects. For a Port, that's just one end; for a Cloud Connect connection or DCI,
         both ends are shown side by side. <strong>③</strong> is <strong>Subscription Details</strong>, which
         fills in once billing starts.
       </P>

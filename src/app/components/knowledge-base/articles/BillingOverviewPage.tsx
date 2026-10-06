@@ -65,7 +65,7 @@ export function BillingOverviewPage({ onNavigate }: Props) {
       <UL>
         <LI>
           <strong>Fixed Base Subscriptions</strong>:
-          Physical Ports and baseline Virtual Connections are billed on a predictable monthly recurring subscription (e.g., a 10 Gbps port or 1 Gbps base VC rate limit). Billing commences only once the circuit transitions to <em>Live</em> status.
+          Physical Ports and baseline Cloud Connect connections are billed on a predictable monthly recurring subscription (e.g., a 10 Gbps port or 1 Gbps base VC rate limit). Billing commences only once the circuit transitions to <em>Live</em> status.
         </LI>
         <LI>
           <strong>Dynamic Temporary Add-ons</strong>:

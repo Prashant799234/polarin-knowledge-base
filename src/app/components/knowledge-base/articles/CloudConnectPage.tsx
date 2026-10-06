@@ -31,15 +31,15 @@ export function CloudConnectPage({ onNavigate }: Props) {
 
       <P>
         A <strong>DC to DC</strong> connection links two of your own ports at different Polarin data centres —
-        a private, point-to-point Virtual Connection that bypasses the public internet for lower latency and
-        more predictable performance than a VPN. Not sure a Virtual Connection is the right product at all? See{" "}
-        <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> first.
+        a private, point-to-point Cloud Connect connection that bypasses the public internet for lower latency and
+        more predictable performance than a VPN. Not sure Cloud Connect is the right product at all? See{" "}
+        <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> first.
       </P>
 
       <H2 id="prerequisites">Before You Begin</H2>
       <Callout variant="important">
         You need an active <PageLink label="Port" onClick={() => onNavigate("port-create")} /> at both ends
-        before starting — a Virtual Connection attaches to existing ports, it doesn't create them.
+        before starting — a Cloud Connect connection attaches to existing ports, it doesn't create them.
       </Callout>
 
       <H2 id="steps">How It Works</H2>

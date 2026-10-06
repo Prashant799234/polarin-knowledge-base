@@ -86,8 +86,8 @@ export function CreateDCILayer2Page({ onNavigate }: Props) {
         caption="VISTA's full Premium feature list, expanded inline"
       />
       <P>
-        See <PageLink label="VISTA for Virtual Connection" onClick={() => onNavigate("vista-vc")} /> — DCI
-        Layer 2 telemetry is covered under the same VISTA package as Virtual Connection.
+        See <PageLink label="VISTA for Cloud Connect" onClick={() => onNavigate("vista-vc")} /> — DCI
+        Layer 2 telemetry is covered under the same VISTA package as Cloud Connect connections.
       </P>
 
       {/* ── Step 4 ── */}

@@ -185,7 +185,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "vista-overview", label: "Overview", icon: LineChart },
       { id: "vista-port", label: "Port", icon: Plug },
-      { id: "vista-vc", label: "Virtual Connection", icon: Cloud },
+      { id: "vista-vc", label: "Cloud Connect", icon: Cloud },
       { id: "vista-dci-wave", label: "DCI Wave", icon: Server },
     ],
   },
@@ -284,7 +284,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "What Is a Port?",                   pageId: "port-overview" },
       { label: "What Is a Virtual Router?",         pageId: "vr-overview" },
-      { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?",     pageId: "vc-overview" },
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
     ],
   },
@@ -379,7 +379,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Port",                         pageId: "port-create" },
       { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
-      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?",         pageId: "vc-overview" },
       { label: "What Is Data Centre Interconnect?",     pageId: "dci-overview" },
     ],
   },
@@ -409,12 +409,12 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "cloud-to-cloud-create": {
-    prev: { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
+    prev: { label: "What Is Cloud Connect?",     pageId: "vc-overview" },
     next: { label: "Create a DC to Cloud Connection",   pageId: "dc-to-cloud-create" },
     related: [
       { label: "Create a Virtual Router",               pageId: "vr-create" },
       { label: "Create a DC to Cloud Connection",        pageId: "dc-to-cloud-create" },
-      { label: "VISTA for Virtual Connection",           pageId: "vista-vc" },
+      { label: "VISTA for Cloud Connect",           pageId: "vista-vc" },
     ],
   },
   "dc-to-cloud-create": {
@@ -422,7 +422,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Port",                         pageId: "port-create" },
       { label: "Create a Cloud to Cloud Connection",     pageId: "cloud-to-cloud-create" },
-      { label: "VISTA for Virtual Connection",           pageId: "vista-vc" },
+      { label: "VISTA for Cloud Connect",           pageId: "vista-vc" },
     ],
   },
   "dci-wave-create": {
@@ -439,7 +439,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a DCI Wave Connection",          pageId: "dci-wave-create" },
       { label: "Create a Port",                         pageId: "port-create" },
-      { label: "VISTA for Virtual Connection",          pageId: "vista-vc" },
+      { label: "VISTA for Cloud Connect",          pageId: "vista-vc" },
     ],
   },
   "vr-overview": {
@@ -447,7 +447,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Virtual Router",               pageId: "vr-create" },
       { label: "What Is a Port?",                       pageId: "port-overview" },
-      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?",         pageId: "vc-overview" },
     ],
   },
   "vr-create": {
@@ -557,7 +557,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "cloud-connect": {
-    prev: { label: "What Is a Virtual Connection?",     pageId: "vc-overview" },
+    prev: { label: "What Is Cloud Connect?",     pageId: "vc-overview" },
     related: [
       { label: "Create a Cloud to Cloud Connection",    pageId: "cloud-to-cloud-create" },
       { label: "Create a DC to Cloud Connection",       pageId: "dc-to-cloud-create" },
@@ -569,7 +569,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Create a Data Centre Interconnect",     pageId: "dci-create" },
       { label: "What Is a Port?",                       pageId: "port-overview" },
-      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?",         pageId: "vc-overview" },
     ],
   },
   "dci-create": {
@@ -585,7 +585,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     related: [
       { label: "Set Up Internet Exchange",              pageId: "ix-create" },
       { label: "What Is a Port?",                       pageId: "port-overview" },
-      { label: "What Is a Virtual Connection?",         pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?",         pageId: "vc-overview" },
     ],
   },
   "ix-create": {
@@ -625,7 +625,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     next: { label: "VISTA for Port", pageId: "vista-port" },
     related: [
       { label: "VISTA for Port",               pageId: "vista-port" },
-      { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+      { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
       { label: "VISTA for DCI Wave",           pageId: "vista-dci-wave" },
       { label: "Reports",                      pageId: "reports" },
       { label: "Alerts & Notifications",       pageId: "notifications" },
@@ -633,7 +633,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "vista-port": {
     prev: { label: "VISTA Overview",           pageId: "vista-overview" },
-    next: { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+    next: { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
     related: [
       { label: "What Is a Port?",              pageId: "port-overview" },
       { label: "Create a Port",                pageId: "port-create" },
@@ -645,14 +645,14 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     prev: { label: "VISTA for Port",           pageId: "vista-port" },
     next: { label: "VISTA for DCI Wave",       pageId: "vista-dci-wave" },
     related: [
-      { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
+      { label: "What Is Cloud Connect?", pageId: "vc-overview" },
       { label: "Create a DC to DC Connection",   pageId: "cloud-connect" },
       { label: "VISTA Overview",               pageId: "vista-overview" },
       { label: "Manage Alerts",                pageId: "manage-alerts" },
     ],
   },
   "vista-dci-wave": {
-    prev: { label: "VISTA for Virtual Connection", pageId: "vista-vc" },
+    prev: { label: "VISTA for Cloud Connect", pageId: "vista-vc" },
     related: [
       { label: "What Is Data Centre Interconnect?", pageId: "dci-overview" },
       { label: "Create a Data Centre Interconnect", pageId: "dci-create" },
@@ -668,7 +668,7 @@ function getPageLabel(id: string): string {
   if (id === "billing-overview") return "Billing Overview";
   if (id === "vista-overview") return "VISTA Overview";
   if (id === "vista-port") return "VISTA for Port";
-  if (id === "vista-vc") return "VISTA for Virtual Connection";
+  if (id === "vista-vc") return "VISTA for Cloud Connect";
   if (id === "vista-dci-wave") return "VISTA for DCI Wave";
   for (const group of NAV_GROUPS) {
     for (const item of group.items) {

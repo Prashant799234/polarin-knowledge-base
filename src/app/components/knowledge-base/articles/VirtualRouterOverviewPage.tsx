@@ -28,7 +28,7 @@ export function VirtualRouterOverviewPage({ onNavigate }: Props) {
       </P>
 
       <P>
-        A single <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> only ever links two points together. A Virtual Router is what you reach for once
+        A single <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> only ever links two points together. A Virtual Router is what you reach for once
         you need more than that — multiple endpoints, route-based traffic decisions, and one place to manage all
         of it.
       </P>
@@ -43,11 +43,11 @@ export function VirtualRouterOverviewPage({ onNavigate }: Props) {
 
       <Callout variant="tip">
         Still just connecting two points, like one data centre to one cloud region? A plain{" "}
-        <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> is simpler and usually all you need — reach for a Virtual Router when the topology genuinely needs routing logic.
+        <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> is simpler and usually all you need — reach for a Virtual Router when the topology genuinely needs routing logic.
       </Callout>
 
       <P>
-        Unlike a Virtual Connection or DCI Layer 2, a Virtual Router doesn't attach to an existing{" "}
+        Unlike a Cloud Connect connection or DCI Layer 2, a Virtual Router doesn't attach to an existing{" "}
         <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> — it's software-defined, deployed
         directly at the data centre location you choose. No pre-provisioned Port is required before you start.
       </P>

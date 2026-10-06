@@ -31,7 +31,7 @@ export function VistaPortPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        A <strong>Port</strong> represents your physical cross-connect entry point into the Polarin high-performance optical network (available in 1 Gbps, 10 Gbps, and 100 Gbps port speeds). Because the port forms the physical anchor upon which all Virtual Connections, Virtual Routers, and Data Centre Interconnects run, monitoring its health is vital.
+        A <strong>Port</strong> represents your physical cross-connect entry point into the Polarin high-performance optical network (available in 1 Gbps, 10 Gbps, and 100 Gbps port speeds). Because the port forms the physical anchor upon which all Cloud Connect connections, Virtual Routers, and Data Centre Interconnects run, monitoring its health is vital.
       </P>
 
       <P>

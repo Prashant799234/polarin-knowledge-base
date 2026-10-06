@@ -39,7 +39,7 @@ export function ServiceStatusPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        Every product on Polarin — Port, Virtual Router, Virtual Connection, DCI, Internet Exchange — shares the
+        Every product on Polarin — Port, Virtual Router, Cloud Connect, DCI, Internet Exchange — shares the
         <strong> same six statuses</strong>, exactly as they appear in any service list's own{" "}
         <strong>Advance Filter</strong> panel: Live, Down, Design, Deployment in Progress, Configured, and
         Deleted. Knowing this one list means you can read the status of any service at a glance, regardless of

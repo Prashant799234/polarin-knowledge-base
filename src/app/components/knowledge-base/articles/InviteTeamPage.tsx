@@ -58,7 +58,7 @@ export function InviteTeamPage({ onNavigate }: Props) {
           title="Network Admin"
           badge="Engineering Lead"
           color="#2563eb"
-          description="Network admins have Read/Write permission for Services (Ports, Virtual Connections, Routers, DCI) and Support Tickets only. They have strict Read-only permission for everything else."
+          description="Network admins have Read/Write permission for Services (Ports, Cloud Connect connections, Routers, DCI) and Support Tickets only. They have strict Read-only permission for everything else."
         />
         <RoleCard
           title="Network Viewer"
@@ -160,7 +160,7 @@ export function InviteTeamPage({ onNavigate }: Props) {
           Review the roles and choose the one that aligns with their job responsibilities:
           <UL>
             <LI>Select <strong>System Admin</strong> (<strong>Badge 2</strong>) for complete administrative control.</LI>
-            <LI>Select <strong>Network Admin</strong> (<strong>Badge 3</strong>) for engineers provisioning Ports and Virtual Connections.</LI>
+            <LI>Select <strong>Network Admin</strong> (<strong>Badge 3</strong>) for engineers provisioning Ports and Cloud Connect connections.</LI>
             <LI>Select <strong>Network Viewer</strong>, <strong>Finance Admin</strong>, or <strong>Finance Viewer</strong> (<strong>Badge 4</strong>) for specialized operational or billing functions.</LI>
           </UL>
         </Step>

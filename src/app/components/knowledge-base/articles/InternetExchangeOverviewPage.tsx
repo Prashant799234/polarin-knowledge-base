@@ -51,7 +51,7 @@ export function InternetExchangeOverviewPage({ onNavigate }: Props) {
       <Callout variant="tip">
         IX is about reaching other networks broadly through shared peering — if you need a dedicated, private
         link to one specific cloud or site instead, that's what a{" "}
-        <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> is for.
+        <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> is for.
       </Callout>
 
       {/* ── Peering models ── */}
@@ -74,7 +74,7 @@ export function InternetExchangeOverviewPage({ onNavigate }: Props) {
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>Ready to join? <PageLink label="Set Up Internet Exchange" onClick={() => onNavigate("ix-create")} />.</LI>
-        <LI>Need a private link instead? <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} />.</LI>
+        <LI>Need a private link instead? <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} />.</LI>
       </UL>
     </ArticlePage>
   );

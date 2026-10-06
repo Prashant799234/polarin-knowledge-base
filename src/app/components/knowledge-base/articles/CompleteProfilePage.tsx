@@ -156,7 +156,7 @@ export function CompleteProfilePage({ onNavigate }: Props) {
       <UL>
         <LI>The profile enters <strong>pending review</strong> — typically 24–48 business hours.</LI>
         <LI>You'll receive an email notification once review is complete.</LI>
-        <LI>Once approved, you can immediately order services — a <PageLink label="Port" onClick={() => onNavigate("port-create")} />, a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} />, or any Virtual Connection or DCI product.</LI>
+        <LI>Once approved, you can immediately order services — a <PageLink label="Port" onClick={() => onNavigate("port-create")} />, a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} />, or any Cloud Connect or DCI product.</LI>
       </UL>
       <Callout variant="info">
         Once approved, every detail submitted here becomes editable (and re-reviewable) from{" "}

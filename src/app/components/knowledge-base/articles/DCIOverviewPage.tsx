@@ -26,7 +26,7 @@ export function DCIOverviewPage({ onNavigate }: Props) {
         <strong>Data Centre Interconnect (DCI)</strong> links two or more of your own data centre sites
         together at high bandwidth — purpose-built for the kind of steady, heavy traffic that replication and
         disaster recovery generate, which a general-purpose{" "}
-        <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> isn't optimised for.
+        <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> isn't optimised for.
       </P>
 
       {/* ── Types ── */}
@@ -46,7 +46,7 @@ export function DCIOverviewPage({ onNavigate }: Props) {
 
       <Callout variant="tip">
         Just need to reach a single cloud provider, or link two sites for general connectivity rather than
-        heavy replication traffic? A <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> is usually the simpler, cheaper fit — reach for DCI when the workload specifically demands it.
+        heavy replication traffic? A <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> is usually the simpler, cheaper fit — reach for DCI when the workload specifically demands it.
       </Callout>
 
       <P>
@@ -56,7 +56,7 @@ export function DCIOverviewPage({ onNavigate }: Props) {
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>Ready to set one up? <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} />.</LI>
-        <LI>Not sure DCI is the right fit? <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> covers the simpler alternative.</LI>
+        <LI>Not sure DCI is the right fit? <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> covers the simpler alternative.</LI>
       </UL>
     </ArticlePage>
   );

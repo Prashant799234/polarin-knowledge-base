@@ -56,7 +56,7 @@ export function ReportsPage({ onNavigate }: Props) {
           Covers physical cross-connect interfaces (1 Gbps, 10 Gbps, 100 Gbps). Reports on total ingress/egress data volume (<em>Traffic In and Out</em>) and raw packet counts (<em>Packets In and Out</em>).
         </LI>
         <LI>
-          <strong>Virtual Connection (VC)</strong>:
+          <strong>Cloud Connect</strong>:
           Covers Point-to-Point Layer 2/3 connections across Data Centre to Cloud, Cloud to Cloud, and Data Centre to Data Centre paths. Tracks latency, packet loss, jitter, and link status.
         </LI>
       </UL>
@@ -77,7 +77,7 @@ export function ReportsPage({ onNavigate }: Props) {
         The dashboard includes the following key areas:
       </P>
       <UL>
-        <LI><strong>Badge 1 — Service Category Tabs</strong>: Switch seamlessly between <em>DCI L1</em>, <em>Port</em>, and <em>Virtual Connection</em> reporting domains.</LI>
+        <LI><strong>Badge 1 — Service Category Tabs</strong>: Switch seamlessly between <em>DCI L1</em>, <em>Port</em>, and <em>Cloud Connect</em> reporting domains.</LI>
         <LI><strong>Badge 2 — Metric Filter Pills</strong>: Filter telemetry records by specific health dimensions, such as <em>Flaps</em>, <em>Latency</em>, <em>Tickets</em>, or <em>Availability</em>.</LI>
         <LI><strong>Badge 3 — Action Buttons</strong>: Click <strong>Download Report</strong> for an instant export, or click <strong>Schedule Report</strong> to set up automated recurring email delivery.</LI>
         <LI><strong>Badge 4 — Telemetry Data Table</strong>: Displays individual circuit records including Circuit Name, Service ID, telemetry measurement values, and exact timestamps.</LI>

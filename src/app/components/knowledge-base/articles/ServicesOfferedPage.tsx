@@ -11,7 +11,7 @@ const TOC = [
   { id: "locations",  label: "Locations",                       level: 2 as const },
   { id: "port",       label: "Port",                             level: 2 as const },
   { id: "vr",         label: "Virtual Router",                   level: 2 as const },
-  { id: "cloud",      label: "Virtual Connection",               level: 2 as const },
+  { id: "cloud",      label: "Cloud Connect",               level: 2 as const },
   { id: "dci",        label: "Data Centre Interconnect",         level: 2 as const },
   { id: "manage",     label: "Managing What You Order",          level: 1 as const },
 ];
@@ -37,7 +37,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
     badges: ["High Performance", "Scalable", "Secure"],
   },
   {
-    num: 3, icon: Cloud, color: "#00b345", title: "Virtual Connection",
+    num: 3, icon: Cloud, color: "#00b345", title: "Cloud Connect",
     description: "Private, point-to-point links — DC to DC, DC to Cloud, or Cloud to Cloud.",
     badges: ["DC to DC", "DC to Cloud", "Cloud to Cloud"],
   },
@@ -118,11 +118,11 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
         <LI>Sits on top of a port - provision the port first, then attach a virtual router.</LI>
       </UL>
 
-      <H2 id="cloud">Virtual Connection</H2>
+      <H2 id="cloud">Cloud Connect</H2>
       <P>
-        A <strong>Virtual Connection</strong> gives you a private, point-to-point link - DC to DC, DC to Cloud,
+        A <strong>Cloud Connect</strong> gives you a private, point-to-point link - DC to DC, DC to Cloud,
         or Cloud to Cloud - bypassing the public internet for lower latency and more predictable performance
-        than a standard VPN. See <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown, or jump straight to <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.
+        than a standard VPN. See <PageLink label="What Is Cloud Connect?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown, or jump straight to <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.
       </P>
       <UL>
         <LI>Three types: DC to DC, DC to Cloud, and Cloud to Cloud.</LI>
@@ -137,7 +137,7 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
 
       <Callout variant="tip">
         Not sure which service you need first? Most organisations start with a <strong>Port</strong>, then add
-        a <strong>Virtual Router</strong> or <strong>Virtual Connection</strong> once they know what they're
+        a <strong>Virtual Router</strong> or <strong>Cloud Connect</strong> once they know what they're
         connecting to. <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} /> walks through the order.
       </Callout>
 

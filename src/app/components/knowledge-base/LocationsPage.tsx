@@ -345,7 +345,7 @@ function ProductFilter({ selected, onToggle, onClear }: {
     document.addEventListener("mousedown", h);
     return () => document.removeEventListener("mousedown", h);
   }, []);
-  const OPTS = ["L2/L3 Port", "DCI Wave", "Virtual Connection"];
+  const OPTS = ["L2/L3 Port", "DCI Wave", "Cloud Connect"];
   const active = selected.size > 0;
   return (
     <div ref={ref} style={{ position: "relative" }}>
@@ -454,7 +454,7 @@ export function LocationsPage() {
         ([...productFilter].every(p =>
           (p === "L2/L3 Port"        && d.portProducts.length > 0) ||
           (p === "DCI Wave"          && d.waveProducts.length > 0) ||
-          (p === "Virtual Connection"&& d.vcProducts.length > 0)
+          (p === "Cloud Connect"&& d.vcProducts.length > 0)
         ));
       return matchSearch && matchOrg && matchCountry && matchProduct;
     });
@@ -495,7 +495,7 @@ export function LocationsPage() {
           { label: "Total DCs",             value: DATA.length,                                          color: "#1c808d" },
           { label: "With L2/L3 Port",        value: DATA.filter(d => d.portProducts.length > 0).length,  color: "#1a65fd" },
           { label: "With DCI Wave",          value: DATA.filter(d => d.waveProducts.length > 0).length,  color: "#1c808d" },
-          { label: "With Virtual Connection",value: DATA.filter(d => d.vcProducts.length > 0).length,    color: "#00a854" },
+          { label: "With Cloud Connect",value: DATA.filter(d => d.vcProducts.length > 0).length,    color: "#00a854" },
           { label: "Countries",              value: new Set(DATA.map(d => d.country)).size,               color: "#7c3aed" },
         ].map(s => (
           <div key={s.label} style={{ background: "#fff", border: "1px solid #e2e8f1", borderRadius: 10, padding: "10px 18px", display: "flex", flexDirection: "column", gap: 2, minWidth: 120 }}>
@@ -575,7 +575,7 @@ export function LocationsPage() {
                 </th>
                 <th style={{ ...TH_STYLE, color: "#1a65fd" }}>L2/L3 Port</th>
                 <th style={{ ...TH_STYLE, color: "#1c808d" }}>DCI Wave</th>
-                <th style={{ ...TH_STYLE, color: "#00a854" }}>Virtual Connection</th>
+                <th style={{ ...TH_STYLE, color: "#00a854" }}>Cloud Connect</th>
               </tr>
             </thead>
             <tbody>
@@ -624,7 +624,7 @@ export function LocationsPage() {
                   <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
                     <ProductCell values={dc.waveProducts} color="#1c808d" maxShow={2} />
                   </td>
-                  {/* Virtual Connection */}
+                  {/* Cloud Connect */}
                   <td style={{ padding: "12px 8px", verticalAlign: "middle" }}>
                     <ProductCell values={dc.vcProducts} color="#00a854" maxShow={4} />
                   </td>

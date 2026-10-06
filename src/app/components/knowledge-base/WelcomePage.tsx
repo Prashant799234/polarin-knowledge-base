@@ -64,7 +64,7 @@ const PATH_CARDS = [
 const POPULAR_TOPICS = [
   { title: "Account Setup & Verification", description: "Complete your profile and verify your organization", pageId: "create-account" },
   { title: "KYC Document Requirements", description: "List of supported documents for verification", pageId: "org-kyc" },
-  { title: "Virtual Connection Setup", description: "Create your first virtual network connection", pageId: "cloud-connect" },
+  { title: "Cloud Connect Setup", description: "Create your first virtual network connection", pageId: "cloud-connect" },
   { title: "Team Member Invitations", description: "Invite colleagues to your Polarin workspace", pageId: "invite-members" },
   { title: "API Documentation", description: "Integrate with Polarin using our APIs", pageId: "api-overview" },
 ];

@@ -9,7 +9,7 @@ const TOC = [
   { id: "value-benefits",      label: "Benefits & Value: What You Get", level: 2 as const },
   { id: "products-covered",    label: "VISTA Across 3 Product Categories" },
   { id: "product-port",        label: "1. Port (VISTA Premium Included Free)", level: 2 as const },
-  { id: "product-vc",          label: "2. Virtual Connection & DCI Layer 2", level: 2 as const },
+  { id: "product-vc",          label: "2. Cloud Connect & DCI Layer 2", level: 2 as const },
   { id: "product-wave",        label: "3. DCI Wave (Layer 1 Optical)",        level: 2 as const },
   { id: "comparison-matrix",   label: "Metrics & Feature Comparison Matrix" },
   { id: "how-to-access",       label: "Accessing VISTA in the Portal" },
@@ -108,13 +108,13 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         <PageLink label="Read full VISTA for Port guide →" onClick={() => onNavigate?.("vista-port")} />
       </P>
 
-      {/* 2. Virtual Connection & DCI Layer 2 */}
-      <H3 id="product-vc">2. Virtual Connection (VC) & DCI Layer 2</H3>
+      {/* 2. Cloud Connect & DCI Layer 2 */}
+      <H3 id="product-vc">2. Cloud Connect & DCI Layer 2</H3>
       <P>
         VISTA applies across all Point-to-Point Layer 2/3 connections — including <strong>Data Centre to Cloud (Cloud Connect)</strong>, <strong>Cloud to Cloud</strong>, <strong>Data Centre to Data Centre (DC-to-DC)</strong>, and <strong>DCI Layer 2</strong> circuits.
       </P>
       <P>
-        For Virtual Connections, VISTA is available in two packages during service creation or as a post-provisioning add-on:
+        For Cloud Connect connections, VISTA is available in two packages during service creation or as a post-provisioning add-on:
       </P>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, margin: "20px 0" }}>
@@ -125,7 +125,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
             <span style={{ background: "#e2e8f0", color: "#475569", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 12 }}>Free</span>
           </div>
           <p style={{ fontFamily: FONT, fontSize: 13, color: "#64748b", margin: "0 0 12px", lineHeight: 1.5 }}>
-            Included free with every Virtual Connection for fundamental operational visibility.
+            Included free with every Cloud Connect connection for fundamental operational visibility.
           </p>
           <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 12 }}>
             <p style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#0f172a", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 8px" }}>What's Included:</p>
@@ -170,7 +170,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
         Everything above is what those items expand into once you're actually inside the VISTA dashboard.
       </Callout>
       <P>
-        <PageLink label="Read full VISTA for Virtual Connection guide →" onClick={() => onNavigate?.("vista-vc")} />
+        <PageLink label="Read full VISTA for Cloud Connect guide →" onClick={() => onNavigate?.("vista-vc")} />
       </P>
 
       {/* 3. DCI Wave */}
@@ -198,8 +198,8 @@ export function VistaOverviewPage({ onNavigate }: Props) {
             <tr style={{ background: "#f8fafc" }}>
               <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", borderBottom: "1.5px solid #e2e8f0" }}>VISTA Capability / Metric</th>
               <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#166534", borderBottom: "1.5px solid #e2e8f0" }}>Port<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Premium Free)</span></th>
-              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#0369a1", borderBottom: "1.5px solid #e2e8f0" }}>Virtual Connection<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Standard)</span></th>
-              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#7c3aed", borderBottom: "1.5px solid #e2e8f0" }}>Virtual Connection<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Premium)</span></th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#0369a1", borderBottom: "1.5px solid #e2e8f0" }}>Cloud Connect<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Standard)</span></th>
+              <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#7c3aed", borderBottom: "1.5px solid #e2e8f0" }}>Cloud Connect<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Premium)</span></th>
               <th style={{ padding: "11px 12px", textAlign: "center", fontWeight: 700, color: "#b45309", borderBottom: "1.5px solid #e2e8f0" }}>DCI Wave<br /><span style={{ fontSize: 11, fontWeight: 500 }}>(Layer 1)</span></th>
             </tr>
           </thead>
@@ -236,7 +236,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
       </P>
       <Steps>
         <Step num={1} title="Navigate to Services">
-          From the top navigation bar, click <strong>Services</strong> and select your desired category (<strong>Port</strong>, <strong>Virtual Connection</strong>, or <strong>Data Centre Interconnect</strong>).
+          From the top navigation bar, click <strong>Services</strong> and select your desired category (<strong>Port</strong>, <strong>Cloud Connect</strong>, or <strong>Data Centre Interconnect</strong>).
         </Step>
         <Step num={2} title="Select an Active Connection">
           Click on any connection with an active <em>Live</em> status tag (e.g. <code>PPOBOM...</code> or <code>PVCBLR...</code>).
@@ -278,7 +278,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
       {/* ── Rate Limit Scaling ── */}
       <H2 id="rate-limit-scaling">Effective Rate Limit & Dynamic Bandwidth Scaling</H2>
       <P>
-        For Virtual Connections and DCI Layer 2 links, VISTA features direct bandwidth management on demand:
+        For Cloud Connect connections and DCI Layer 2 links, VISTA features direct bandwidth management on demand:
       </P>
 
       <DocImage

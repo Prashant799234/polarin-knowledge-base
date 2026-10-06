@@ -35,7 +35,7 @@ export function BillingProfilePage({ onNavigate }: Props) {
       </P>
 
       <P>
-        Every service you provision on Polarin — whether it is a physical Port, Cloud Connect Virtual Connection, Virtual Router, or Data Centre Interconnect — must be attached to a verified Billing Profile so invoices and tax compliance documents are accurately issued.
+        Every service you provision on Polarin — whether it is a physical Port, Cloud Connect Cloud Connect, Virtual Router, or Data Centre Interconnect — must be attached to a verified Billing Profile so invoices and tax compliance documents are accurately issued.
       </P>
 
       <Callout variant="tip">
@@ -173,7 +173,7 @@ export function BillingProfilePage({ onNavigate }: Props) {
       <UL>
         <LI><strong>Download Certificate</strong>: Click the <em>Download GST Certificate</em> link on any card to view or save the uploaded tax document.</LI>
         <LI><strong>Edit Billing Contact</strong>: Update email addresses and phone numbers as personnel responsibilities change without altering tax registration details.</LI>
-        <LI><strong>Check In-Use Status</strong>: Profiles currently attached to active Ports or Virtual Connections display an <em>In Use</em> tag to prevent accidental deletion.</LI>
+        <LI><strong>Check In-Use Status</strong>: Profiles currently attached to active Ports or Cloud Connect connections display an <em>In Use</em> tag to prevent accidental deletion.</LI>
       </UL>
 
       {/* ── FAQ ── */}
