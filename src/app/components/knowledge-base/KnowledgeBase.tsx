@@ -77,6 +77,7 @@ const FONT = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 interface SubItem {
   id: string;
   label: string;
+  group?: string;
 }
 
 interface NavItem {
@@ -136,21 +137,21 @@ const NAV_GROUPS: NavGroup[] = [
       {
         id: "core-products", label: "Core Products", icon: Boxes,
         children: [
-          { id: "port-overview", label: "Port Overview" },
-          { id: "port-create", label: "Create a Port" },
-          { id: "port-status", label: "Understand Port Status" },
-          { id: "port-lag",    label: "Create a Link Aggregation Group" },
-          { id: "vr-overview", label: "Virtual Router Overview" },
-          { id: "vr-create", label: "Create a Virtual Router" },
-          { id: "vr-status", label: "Understand Virtual Router Status" },
+          { id: "port-overview", label: "Port Overview",      group: "Port" },
+          { id: "port-create", label: "Create a Port",         group: "Port" },
+          { id: "port-status", label: "Understand Port Status", group: "Port" },
+          { id: "port-lag",    label: "Create a Link Aggregation Group", group: "Port" },
+          { id: "vr-overview", label: "Virtual Router Overview",       group: "Virtual Router" },
+          { id: "vr-create", label: "Create a Virtual Router",         group: "Virtual Router" },
+          { id: "vr-status", label: "Understand Virtual Router Status", group: "Virtual Router" },
         ],
       },
       {
         id: "virtual-connection", label: "Cloud Connect", icon: Cloud,
         children: [
           { id: "vc-overview",   label: "Overview" },
-          { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection" },
-          { id: "dc-to-cloud-create",    label: "Create a DC to Cloud Connection" },
+          { id: "dc-to-cloud-create",    label: "Create a DC to Cloud Connection", group: "DC to Cloud" },
+          { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection", group: "Cloud to Cloud" },
         ],
       },
       { id: "cloud-connect", label: "Create a DC to DC Connection", icon: Link2 },
@@ -158,8 +159,8 @@ const NAV_GROUPS: NavGroup[] = [
         id: "dci", label: "Data Centre Interconnect", icon: Server,
         children: [
           { id: "dci-overview", label: "Overview" },
-          { id: "dci-wave-create",   label: "Create a DCI Wave Connection" },
-          { id: "dci-layer2-create", label: "Create a DCI Layer 2 Connection" },
+          { id: "dci-wave-create",   label: "Create a DCI Wave Connection", group: "DCI Wave" },
+          { id: "dci-layer2-create", label: "Create a DCI Layer 2 Connection", group: "DCI Layer 2" },
           { id: "dci-create",   label: "Compare DCI Wave vs Layer 2" },
         ],
       },
@@ -818,18 +819,35 @@ export function KnowledgeBase() {
                       transition={{ duration: prefersReducedMotion ? 0 : 0.18, ease: [0.4, 0, 0.2, 1] }}
                       style={{ overflow: "hidden" }}
                     >
-                      {item.children!.map((child) => {
+                      {item.children!.map((child, ci) => {
                         const isChildActive = child.id === activePage;
+                        const showGroupHeader = !!child.group && child.group !== item.children![ci - 1]?.group;
                         return (
-                          <NavButton
-                            key={child.id}
-                            icon={null}
-                            label={child.label}
-                            isActive={isChildActive}
-                            isParentActive={false}
-                            indent
-                            onClick={() => navigate(child.id)}
-                          />
+                          <div key={child.id}>
+                            {showGroupHeader && (
+                              <div
+                                style={{
+                                  padding: ci === 0 ? "4px 24px 2px 48px" : "10px 24px 2px 48px",
+                                  fontFamily: FONT,
+                                  fontSize: 11,
+                                  fontWeight: 700,
+                                  color: "#aab8cc",
+                                  letterSpacing: "0.05em",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                {child.group}
+                              </div>
+                            )}
+                            <NavButton
+                              icon={null}
+                              label={child.label}
+                              isActive={isChildActive}
+                              isParentActive={false}
+                              indent
+                              onClick={() => navigate(child.id)}
+                            />
+                          </div>
                         );
                       })}
                     </motion.div>
