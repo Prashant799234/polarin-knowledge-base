@@ -122,7 +122,7 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
       <P>
         A <strong>Virtual Connection</strong> gives you a private, point-to-point link - DC to DC, DC to Cloud,
         or Cloud to Cloud - bypassing the public internet for lower latency and more predictable performance
-        than a standard VPN. See <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown, or jump straight to <PageLink label="Create a Virtual Connection" onClick={() => onNavigate("cloud-connect")} />.
+        than a standard VPN. See <PageLink label="What Is a Virtual Connection?" onClick={() => onNavigate("vc-overview")} /> for the full breakdown, or jump straight to <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.
       </P>
       <UL>
         <LI>Three types: DC to DC, DC to Cloud, and Cloud to Cloud.</LI>

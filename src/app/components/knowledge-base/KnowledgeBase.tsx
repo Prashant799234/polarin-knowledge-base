@@ -4,11 +4,11 @@ import { SearchBar } from "./SearchBar";
 import { CopyPageMenu } from "./CopyPageMenu";
 import {
   Home, FileText, Code, UserCircle, Building2,
-  MapPin, Cloud, Server, Plug, Router, CreditCard,
+  MapPin, Cloud, Server, Plug, CreditCard,
   Headphones, ShieldAlert,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
   Info, LayoutDashboard, Bell, Waypoints, ClipboardCheck, Gauge,
-  LineChart, Users, FileBarChart, BellRing, UserCog,
+  LineChart, Users, FileBarChart, BellRing, UserCog, Boxes,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -134,38 +134,33 @@ const NAV_GROUPS: NavGroup[] = [
     title: "PRODUCTS",
     items: [
       {
-        id: "port", label: "Port", icon: Plug,
+        id: "core-products", label: "Core Products", icon: Boxes,
         children: [
-          { id: "port-overview", label: "Overview" },
+          { id: "port-overview", label: "Port Overview" },
           { id: "port-create", label: "Create a Port" },
           { id: "port-status", label: "Understand Port Status" },
           { id: "port-lag",    label: "Create a Link Aggregation Group" },
-        ],
-      },
-      {
-        id: "virtual-router", label: "Virtual Router", icon: Router,
-        children: [
-          { id: "vr-overview", label: "Overview" },
+          { id: "vr-overview", label: "Virtual Router Overview" },
           { id: "vr-create", label: "Create a Virtual Router" },
           { id: "vr-status", label: "Understand Virtual Router Status" },
         ],
       },
       {
-        id: "virtual-connection", label: "Virtual Connection", icon: Cloud,
+        id: "virtual-connection", label: "Cloud Connect", icon: Cloud,
         children: [
           { id: "vc-overview",   label: "Overview" },
-          { id: "cloud-connect", label: "Create a Virtual Connection" },
           { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection" },
           { id: "dc-to-cloud-create",    label: "Create a DC to Cloud Connection" },
+          { id: "cloud-connect", label: "Create a DC to DC Connection" },
         ],
       },
       {
         id: "dci", label: "Data Centre Interconnect", icon: Server,
         children: [
           { id: "dci-overview", label: "Overview" },
-          { id: "dci-create",   label: "Create a Data Centre Interconnect" },
           { id: "dci-wave-create",   label: "Create a DCI Wave Connection" },
           { id: "dci-layer2-create", label: "Create a DCI Layer 2 Connection" },
+          { id: "dci-create",   label: "Compare DCI Wave vs Layer 2" },
         ],
       },
       {
@@ -554,9 +549,9 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "vc-overview": {
-    next: { label: "Create a Virtual Connection", pageId: "cloud-connect" },
+    next: { label: "Create a DC to DC Connection", pageId: "cloud-connect" },
     related: [
-      { label: "Create a Virtual Connection",           pageId: "cloud-connect" },
+      { label: "Create a DC to DC Connection",           pageId: "cloud-connect" },
       { label: "What Is a Port?",                       pageId: "port-overview" },
       { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
     ],
@@ -651,7 +646,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     next: { label: "VISTA for DCI Wave",       pageId: "vista-dci-wave" },
     related: [
       { label: "What Is a Virtual Connection?", pageId: "vc-overview" },
-      { label: "Create a Virtual Connection",   pageId: "cloud-connect" },
+      { label: "Create a DC to DC Connection",   pageId: "cloud-connect" },
       { label: "VISTA Overview",               pageId: "vista-overview" },
       { label: "Manage Alerts",                pageId: "manage-alerts" },
     ],

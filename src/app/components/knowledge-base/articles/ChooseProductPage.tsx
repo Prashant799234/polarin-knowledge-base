@@ -71,7 +71,7 @@ export function ChooseProductPage({ onNavigate }: Props) {
       <UL>
         <LI>Need a Port first? <PageLink label="Create a Port" onClick={() => onNavigate("port-create")} />.</LI>
         <LI>Ready for routing logic? <PageLink label="Create a Virtual Router" onClick={() => onNavigate("vr-create")} />.</LI>
-        <LI>Linking two sites or a cloud? <PageLink label="Create a Virtual Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
+        <LI>Linking two sites or a cloud? <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
         <LI>Need high-bandwidth site interconnect? <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} />.</LI>
       </UL>
     </ArticlePage>

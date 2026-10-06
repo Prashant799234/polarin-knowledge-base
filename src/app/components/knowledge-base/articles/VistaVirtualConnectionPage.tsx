@@ -180,7 +180,7 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       </UL>
 
       <Callout variant="tip">
-        Learn how to provision new connections in <PageLink label="Virtual Connection Overview" onClick={() => onNavigate?.("vc-overview")} /> and <PageLink label="Create a Virtual Connection" onClick={() => onNavigate?.("cloud-connect")} />.
+        Learn how to provision new connections in <PageLink label="Virtual Connection Overview" onClick={() => onNavigate?.("vc-overview")} /> and <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate?.("cloud-connect")} />.
       </Callout>
     </ArticlePage>
   );

@@ -1,10 +1,17 @@
-import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink } from "../ArticlePage";
+import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, FieldTable, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
 const TOC = [
   { id: "overview",   label: "Overview" },
   { id: "usecases",   label: "Why Peer Instead of Transit", level: 2 as const },
+  { id: "models",     label: "Two Ways to Peer",            level: 2 as const },
+  { id: "need",       label: "What You'll Need",            level: 2 as const },
   { id: "next-steps", label: "Next Steps" },
+];
+
+const MODEL_FIELDS = [
+  { field: "Multilateral (route-server) peering", description: "One BGP session to the exchange's route server exchanges routes with every other participant who's also on it. Fastest way to pick up a lot of peers at once — the default most networks start with.", required: false },
+  { field: "Bilateral peering", description: "A direct BGP session to one specific network, negotiated one-to-one. Use it for a peer who doesn't participate in the route server, or when you want to control exactly which routes you exchange with that one network.", required: false },
 ];
 
 interface Props {
@@ -15,16 +22,16 @@ export function InternetExchangeOverviewPage({ onNavigate }: Props) {
   return (
     <ArticlePage toc={TOC}>
       <H1 id="overview">What Is Internet Exchange?</H1>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "8px 0 20px" }}>
-        <ReadTime minutes={2} />
+      <ArticleMeta>
+        <ReadTime minutes={4} />
         <Dot />
-        <Tag label="Products" color="#0aa6c2" />
-      </div>
+        <Tag label="Internet Exchange" color="#0f766e" />
+      </ArticleMeta>
 
       <P>
         <strong>Internet Exchange (IX)</strong> connects your Port to Polarin's peering fabric — a shared point
-        where many networks meet to exchange traffic directly with each other, instead of routing it through an
-        upstream transit provider.
+        where many networks meet to exchange traffic directly with each other over BGP, instead of routing it
+        through an upstream transit provider.
       </P>
 
       <P>
@@ -47,9 +54,22 @@ export function InternetExchangeOverviewPage({ onNavigate }: Props) {
         <PageLink label="Virtual Connection" onClick={() => onNavigate("vc-overview")} /> is for.
       </Callout>
 
+      {/* ── Peering models ── */}
+      <H2 id="models">Two Ways to Peer</H2>
+      <P>Every Internet Exchange, Polarin's included, works one of two ways once you're connected:</P>
+      <FieldTable rows={MODEL_FIELDS} />
       <P>
-        Like every product on Polarin, IX attaches to a <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> — provision that first if you don't already have one at the location you need.
+        Most networks run both at once: route-server peering for broad reach with minimal setup, plus a handful
+        of bilateral sessions for specific peers that matter enough to negotiate directly.
       </P>
+
+      {/* ── What you'll need ── */}
+      <H2 id="need">What You'll Need</H2>
+      <UL>
+        <LI>A <PageLink label="Port" onClick={() => onNavigate("port-overview")} /> already provisioned at a location where Polarin offers Internet Exchange.</LI>
+        <LI>Your own public <strong>ASN (Autonomous System Number)</strong> — the identifier your network uses to speak BGP.</LI>
+        <LI>The IP prefixes you intend to announce, registered against your ASN in a routing registry (IRR) so other networks' filters accept them.</LI>
+      </UL>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
@@ -58,14 +78,4 @@ export function InternetExchangeOverviewPage({ onNavigate }: Props) {
       </UL>
     </ArticlePage>
   );
-}
-
-function ReadTime({ minutes }: { minutes: number }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, color: "#94a3b8" }}>{minutes} min read</span>;
-}
-function Dot() {
-  return <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#cbd5e1", display: "inline-block" }} />;
-}
-function Tag({ label, color }: { label: string; color: string }) {
-  return <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 12, fontWeight: 700, color, background: `${color}18`, border: `1px solid ${color}33`, padding: "2px 10px", borderRadius: 20 }}>{label}</span>;
 }

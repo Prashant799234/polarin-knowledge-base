@@ -77,7 +77,7 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
-        <LI>Linking two of your own sites? <PageLink label="Create a Virtual Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
+        <LI>Linking two of your own sites? <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
         <LI>Reaching a single cloud from a Port? <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.</LI>
         <LI>Linking two clouds to each other? <PageLink label="Create a Cloud to Cloud Connection" onClick={() => onNavigate("cloud-to-cloud-create")} />.</LI>
         <LI>Need something with routing logic instead? <PageLink label="What Is a Virtual Router?" onClick={() => onNavigate("vr-overview")} />.</LI>
