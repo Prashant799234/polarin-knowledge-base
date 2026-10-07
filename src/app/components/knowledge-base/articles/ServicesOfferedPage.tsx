@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Plug, Router, Cloud, Server, MapPin, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
+import { Plug, Router, Cloud, Server, Link2, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -39,18 +39,18 @@ const SERVICE_CARDS: ServiceCardData[] = [
   },
   {
     num: 3, icon: Cloud, color: "#00b345", title: "Cloud Connect",
-    description: "Private, point-to-point links — DC to DC, DC to Cloud, or Cloud to Cloud.",
-    badges: ["DC to DC", "DC to Cloud", "Cloud to Cloud"],
+    description: "Private, point-to-point links to a cloud provider — DC to Cloud or Cloud to Cloud.",
+    badges: ["DC to Cloud", "Cloud to Cloud"],
   },
   {
-    num: 4, icon: Server, color: "#fd5900", title: "Data Centre Interconnect",
+    num: 4, icon: Link2, color: "#0d9488", title: "DC to DC",
+    description: "A private, point-to-point link between two of your own ports — no cloud provider involved.",
+    badges: ["Point to Point"],
+  },
+  {
+    num: 5, icon: Server, color: "#fd5900", title: "Data Centre Interconnect",
     description: "High-bandwidth links between two or more of your data centre sites.",
     badges: ["Layer 2", "Site to Site"],
-  },
-  {
-    num: 5, icon: MapPin, color: "#f40049", title: "Locations",
-    description: "The global footprint of data centres and points of presence you can build from.",
-    badges: ["Multiple Regions", "PoP Search"],
   },
 ];
 

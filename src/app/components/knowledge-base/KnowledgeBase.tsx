@@ -996,9 +996,12 @@ export function KnowledgeBase() {
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={activePage}
-                    initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -4 }}
+                    // Opacity-only: a motion-managed `transform` (even translateY(0)) creates a
+                    // containing block that breaks position:sticky in descendants (e.g. the
+                    // EscalationMatrixPage region tabs).
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.22, ease: [0.4, 0, 0.2, 1] }}
                   >
                     {activePage === "welcome" && (

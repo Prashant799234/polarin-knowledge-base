@@ -251,7 +251,10 @@ export function EscalationMatrixPage({ onNavigate }: Props) {
         data-pdf-exclude="true"
         style={{
           position: "sticky",
-          top: 0,
+          // The outer scroll container has its own 16px top padding; sticking at top:0 would
+          // leave that padding uncovered, letting a sliver of scrolled-past content show through
+          // above the bar. Offsetting by -16px pins it flush against the real scroll edge instead.
+          top: -16,
           zIndex: 30,
           background: "rgba(255, 255, 255, 0.96)",
           backdropFilter: "blur(12px)",

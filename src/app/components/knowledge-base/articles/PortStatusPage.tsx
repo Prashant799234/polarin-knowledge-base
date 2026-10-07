@@ -124,12 +124,12 @@ export function PortStatusPage() {
           { status: "Ready to Patch", note: "Port provisioned; Cross Connect patched in if you ordered it" },
           { status: "Live", note: "Fully active — traffic ready, billing starts" },
         ].map((step, i, arr) => (
-          <div key={step.status} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#1c808d", border: "2px solid #effcfd", boxShadow: "0 0 0 2px #1c808d" }} />
-              {i < arr.length - 1 && <div style={{ width: 2, height: 32, background: "#e2e8f1" }} />}
+          <div key={step.status} style={{ display: "flex", gap: 12 }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", alignSelf: "stretch" }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#1c808d", border: "2px solid #effcfd", boxShadow: "0 0 0 2px #1c808d", flexShrink: 0, marginTop: 4 }} />
+              {i < arr.length - 1 && <div style={{ width: 2, flex: 1, background: "#e2e8f1", marginTop: 4 }} />}
             </div>
-            <div style={{ display: "flex", gap: 10, alignItems: "center", paddingBottom: i < arr.length - 1 ? 0 : 0 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", columnGap: 10, rowGap: 2, alignItems: "baseline", paddingBottom: 20 }}>
               <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 13, fontWeight: 700, color: "#0a3954" }}>{step.status}</span>
               <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 13, color: "#9ca3af" }}>—</span>
               <span style={{ fontFamily: "'Lato', sans-serif", fontSize: 13, color: "#6b7280" }}>{step.note}</span>

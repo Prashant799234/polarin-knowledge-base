@@ -271,6 +271,14 @@ function Skeleton6({ rows = 8 }: { rows?: number }) {
   );
 }
 
+// ── Product filter definitions (order matches OPTS below) ─────────────────────
+
+const PROD_DEFS = [
+  { color: "#1a65fd" }, // L2/L3 Port
+  { color: "#1c808d" }, // DCI Wave
+  { color: "#00a854" }, // Cloud Connect
+];
+
 // ── Filter dropdown ───────────────────────────────────────────────────────────
 
 function FilterDropdown({ options, selected, onToggle, onClear, label }: {
@@ -487,22 +495,6 @@ export function LocationsPage() {
             Browse Polarin's partner data centres. Click any row to see available port, wave and virtual connection products at that location.
           </p>
         </div>
-      </div>
-
-      {/* Stats row */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        {[
-          { label: "Total DCs",             value: DATA.length,                                          color: "#1c808d" },
-          { label: "With L2/L3 Port",        value: DATA.filter(d => d.portProducts.length > 0).length,  color: "#1a65fd" },
-          { label: "With DCI Wave",          value: DATA.filter(d => d.waveProducts.length > 0).length,  color: "#1c808d" },
-          { label: "With Cloud Connect",value: DATA.filter(d => d.vcProducts.length > 0).length,    color: "#00a854" },
-          { label: "Countries",              value: new Set(DATA.map(d => d.country)).size,               color: "#7c3aed" },
-        ].map(s => (
-          <div key={s.label} style={{ background: "#fff", border: "1px solid #e2e8f1", borderRadius: 10, padding: "10px 18px", display: "flex", flexDirection: "column", gap: 2, minWidth: 120 }}>
-            <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 22, fontWeight: 800, color: s.color }}>{s.value}</span>
-            <span style={{ fontFamily: FONT, fontSize: 12, color: "#94a3b8" }}>{s.label}</span>
-          </div>
-        ))}
       </div>
 
       {/* Table container */}
