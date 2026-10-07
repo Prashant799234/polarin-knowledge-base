@@ -123,6 +123,14 @@ const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { id: "create-account", label: "Create a Polarin Account", icon: UserCircle },
+      {
+        id: "org-profile", label: "Organisation Details", icon: Building2,
+        children: [
+          { id: "complete-profile", label: "Complete Your Profile" },
+          { id: "org-kyc", label: "KYC Document Requirements" },
+          { id: "org-settings", label: "Organisation Settings" },
+        ],
+      },
     ],
   },
   {
@@ -189,19 +197,12 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "vista-port", label: "Port", icon: Plug },
       { id: "vista-vc", label: "Connections", icon: Cloud },
       { id: "vista-dci-wave", label: "DCI Wave", icon: Server },
+      { id: "manage-alerts", label: "Manage Alerts", icon: BellRing },
     ],
   },
   {
     title: "ORGANISATION",
     items: [
-      {
-        id: "org-profile", label: "Organisation Details", icon: Building2,
-        children: [
-          { id: "complete-profile", label: "Complete Your Profile" },
-          { id: "org-kyc", label: "KYC Document Requirements" },
-          { id: "org-settings", label: "Organisation Settings" },
-        ],
-      },
       { id: "invite-members", label: "User Management", icon: Users },
       {
         id: "billing", label: "Billing", icon: CreditCard,
@@ -219,7 +220,6 @@ const NAV_GROUPS: NavGroup[] = [
         ],
       },
       { id: "reports", label: "Reports", icon: FileBarChart },
-      { id: "manage-alerts", label: "Manage Alerts", icon: BellRing },
     ],
   },
   {
@@ -786,15 +786,19 @@ export function KnowledgeBase() {
               {group.title}
             </div>
           )}
-          {group.items.map((item) => {
+          {group.items.map((item, ii) => {
             const Icon = item.icon;
             const isActive = item.id === activePage;
             const isParentActive = isActiveOrChild(item) && !isActive;
             const isOpen = expanded.has(item.id);
             const hasChildren = !!item.children?.length;
+            // Extra breathing room when this standalone item immediately follows an
+            // expanded group — otherwise it visually reads as one more row inside that
+            // group's (sub-grouped) children instead of a separate top-level product.
+            const prevExpanded = ii > 0 && !!group.items[ii - 1].children?.length && expanded.has(group.items[ii - 1].id);
 
             return (
-              <div key={item.id}>
+              <div key={item.id} style={prevExpanded ? { marginTop: 10, paddingTop: 10, borderTop: "1px solid #f1f5f9" } : undefined}>
                 <NavButton
                   icon={<Icon size={20} color={isActive || isParentActive ? "#1c808d" : "#7e93b2"} strokeWidth={1.8} />}
                   label={item.label}
@@ -1267,7 +1271,7 @@ export function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => 
           { tier: "VISTA Premium", desc: "50,000 calls/day per circuit + 180-day history. Contact your account manager." },
         ].map(t => (
           <div key={t.tier} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 10 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: C.teal, flexShrink: 0, marginTop: 5 }} />
+            <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#9ca3af", flexShrink: 0, marginTop: 5 }} />
             <div style={{ fontFamily: FONT, fontSize: 13, color: "#475569" }}>
               <strong style={{ color: C.navy, fontFamily: FONT_J, fontWeight: 700 }}>{t.tier}</strong> — {t.desc}
             </div>

@@ -50,7 +50,7 @@ const SERVICE_CARDS: ServiceCardData[] = [
   {
     num: 5, icon: Server, color: "#fd5900", title: "Data Centre Interconnect",
     description: "High-bandwidth links between two or more of your data centre sites.",
-    badges: ["Layer 2", "Site to Site"],
+    badges: ["DCI Wave", "DCI Layer 2"],
   },
   {
     num: 6, icon: Waypoints, color: "#7c3aed", title: "Internet Exchange",
@@ -143,6 +143,10 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
         DCI links two or more of your data centre sites together at high bandwidth - for replication,
         disaster recovery, or simply treating multiple sites as one extended network. See <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> to get started.
       </P>
+      <UL>
+        <LI><strong>DCI Wave</strong>: a dedicated, Layer 1 optical connection — the highest, most predictable throughput, with no port required.</LI>
+        <LI><strong>DCI Layer 2</strong>: an Ethernet-based connection over two of your own ports - the more common choice, since it rides on infrastructure you've likely already provisioned.</LI>
+      </UL>
 
       <H2 id="ix">Internet Exchange</H2>
       <P>

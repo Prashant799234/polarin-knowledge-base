@@ -33,7 +33,7 @@ export function QuickSetupPage({ onNavigate }: Props) {
           { title: "Account", items: [{ icon: <UserCircle size={16} />, label: "Sign Up" }] },
           { title: "Verification", items: [{ icon: <ShieldCheck size={16} />, label: "Org Profile + KYC" }] },
           { title: "Team", items: [{ icon: <UserPlus size={16} />, label: "Invite Members" }] },
-          { title: "Service", items: [{ icon: <Plug size={16} />, label: "Create a Port" }] },
+          { title: "Service", items: [{ icon: <Plug size={16} />, label: "Create a Service", caption: "Port, Virtual Router, Cloud Connect & more" }] },
         ]}
       />
 
@@ -60,8 +60,13 @@ export function QuickSetupPage({ onNavigate }: Props) {
         </Step>
         <Step num={4} title="Order your first service">
           <P>
-            Once your organisation is verified, provision a <PageLink label="Port" onClick={() => onNavigate("port-create")} /> at the location you need. From there,
-            attach a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} /> or set up a cloud connection, depending on what you're connecting to.
+            Once your organisation is verified, you can provision any service — a{" "}
+            <PageLink label="Port" onClick={() => onNavigate("port-create")} /> if you need a physical entry
+            point, a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} /> for routing
+            logic, or go straight to a <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} />,{" "}
+            <PageLink label="DC to DC" onClick={() => onNavigate("cloud-connect")} />, or{" "}
+            <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> connection —
+            whichever matches what you're connecting to.
           </P>
         </Step>
       </Steps>
@@ -73,7 +78,7 @@ export function QuickSetupPage({ onNavigate }: Props) {
 
       <H2 id="next">Next Steps</H2>
       <UL>
-        <LI>Once your first port is live, check its progress under <PageLink label="Understand Port Status" onClick={() => onNavigate("port-status")} />.</LI>
+        <LI>Once your first service is ordered, track its progress from <PageLink label="Understanding Service Status" onClick={() => onNavigate("service-status")} />.</LI>
         <LI>Keep an eye on activity across your account from the <PageLink label="Activity Log" onClick={() => onNavigate("activity-log-overview")} />.</LI>
         <LI>Need help along the way? <PageLink label="Contact Support" onClick={() => onNavigate("contact-support")} /> is always available.</LI>
       </UL>

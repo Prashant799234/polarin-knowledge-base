@@ -107,7 +107,7 @@ export function Step({ num, title, children }: { num: number; title?: string; ch
 
 // ── Field table ───────────────────────────────────────────────────────────────
 
-export function FieldTable({ rows }: { rows: { field: string; description: string; required?: boolean }[] }) {
+export function FieldTable({ rows, showRequired = true }: { rows: { field: string; description: string; required?: boolean }[]; showRequired?: boolean }) {
   return (
     <div className="kb-field-table" style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", margin: "20px 0" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: FONT, fontSize: 14 }}>
@@ -115,7 +115,9 @@ export function FieldTable({ rows }: { rows: { field: string; description: strin
           <tr style={{ background: "#f8fafc" }}>
             <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0", width: "28%" }}>Field</th>
             <th style={{ padding: "11px 16px", textAlign: "left", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0" }}>Description</th>
-            <th style={{ padding: "11px 16px", textAlign: "center", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0", width: "96px" }}>Required</th>
+            {showRequired && (
+              <th style={{ padding: "11px 16px", textAlign: "center", fontWeight: 700, color: "#0f172a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1.5px solid #e2e8f0", width: "96px" }}>Required</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -123,13 +125,15 @@ export function FieldTable({ rows }: { rows: { field: string; description: strin
             <tr key={i} style={{ borderBottom: i < rows.length - 1 ? "1px solid #f1f5f9" : "none" }}>
               <td style={{ padding: "13px 16px", fontWeight: 700, color: "#0d6a78", verticalAlign: "top", fontFamily: FONT_J, fontSize: 13 }}>{r.field}</td>
               <td style={{ padding: "13px 16px", color: "#1e293b", lineHeight: 1.65 }}>{r.description}</td>
-              <td style={{ padding: "13px 16px", textAlign: "center", verticalAlign: "middle" }}>
-                {r.required ? (
-                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#fef2f2", color: "#b91c1c", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid #fecaca", lineHeight: 1 }}>Required</span>
-                ) : (
-                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#f1f5f9", color: "#475569", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, border: "1px solid #e2e8f0", lineHeight: 1 }}>Optional</span>
-                )}
-              </td>
+              {showRequired && (
+                <td style={{ padding: "13px 16px", textAlign: "center", verticalAlign: "middle" }}>
+                  {r.required ? (
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#fef2f2", color: "#b91c1c", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid #fecaca", lineHeight: 1 }}>Required</span>
+                  ) : (
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#f1f5f9", color: "#475569", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, border: "1px solid #e2e8f0", lineHeight: 1 }}>Optional</span>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
@@ -223,9 +227,9 @@ export function UL({ children }: { children: ReactNode }) {
 
 export function LI({ children }: { children: ReactNode }) {
   return (
-    <li style={{ marginBottom: 8, paddingLeft: 16, position: "relative" }}>
-      <span style={{ position: "absolute", left: 0, top: "0.55em", width: 5, height: 5, borderRadius: "50%", background: "#1c808d", display: "block" }} />
-      {children}
+    <li style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+      <span style={{ flexShrink: 0, width: 5, height: 5, marginTop: "0.7em", borderRadius: "50%", background: "#9ca3af" }} />
+      <span style={{ flex: 1, minWidth: 0 }}>{children}</span>
     </li>
   );
 }

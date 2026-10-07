@@ -236,24 +236,6 @@ export function WelcomePage({ onNavigate }: Props) {
             </button>
           </div>
         </div>
-
-        {/* Network icon box */}
-        {!isMobile && (
-          <div
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.1)",
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <LanIcon />
-          </div>
-        )}
       </div>
       </motion.div>{/* end header+hero group */}
 
@@ -682,21 +664,6 @@ function WandStarsGreen() {
       <path d="M15 4V2" /><path d="M15 16v-2" /><path d="M8 9h2" /><path d="M20 9h2" />
       <path d="M17.8 11.8 19 13" /><path d="M15 9h0" /><path d="M17.8 6.2 19 5" />
       <path d="m3 21 9-9" /><path d="M12.2 6.2 11 5" />
-    </svg>
-  );
-}
-
-function LanIcon() {
-  return (
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-      <circle cx="30" cy="30" r="16" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-      <line x1="30" y1="22" x2="30" y2="16" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="34.5" y1="33" x2="42" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="25.5" y1="33" x2="18" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="30" cy="30" r="5.5" fill="rgba(255,255,255,0.85)" />
-      <circle cx="30" cy="13" r="4" fill="rgba(255,255,255,0.55)" />
-      <circle cx="45" cy="41" r="4" fill="rgba(255,255,255,0.55)" />
-      <circle cx="15" cy="41" r="4" fill="rgba(255,255,255,0.55)" />
     </svg>
   );
 }
