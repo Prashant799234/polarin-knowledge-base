@@ -65,7 +65,7 @@ import { NotificationsPage } from "./articles/NotificationsPage";
 import { ManageAlertsPage } from "./articles/ManageAlertsPage";
 import { ContactSupportPage } from "./ContactSupportPage";
 import { EscalationMatrixPage } from "./articles/EscalationMatrixPage";
-import { ArticleFooter, PageToolsProvider, usePageTools } from "./ArticlePage";
+import { ArticleFooter, PageToolsProvider, usePageTools, ArticlePage, H1, H2, P, UL, LI, Callout, Steps, Step, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "./ArticlePage";
 import type { ArticleLink } from "./ArticlePage";
 import { useWindowWidth } from "./useWindowWidth";
 import { prefersReducedMotion, REVEAL_VARIANTS, revealTransition } from "./animations/motionConfig";
@@ -1079,9 +1079,7 @@ export function KnowledgeBase() {
                       <EscalationMatrixPage onNavigate={navigate} />
                     )}
                     {activePage === "api-overview" && (
-                      <div style={{ padding: 24 }}>
-                        <ApiOverviewPage onNavigate={navigate} />
-                      </div>
+                      <ApiOverviewPage onNavigate={navigate} />
                     )}
                     {activePage === "api-onboarding" && (
                       <div style={{ padding: 24 }}>
@@ -1158,227 +1156,66 @@ function PortalCTA() {
 const C = { teal: "#1c808d", navy: "#0a3954", bg: "#f8fafc", border: "#e2e8f1", muted: "#64748b" };
 const FONT_J = "'Plus Jakarta Sans', 'Lato', -apple-system, sans-serif";
 
-const API_PATH_CARDS = [
-  {
-    iconBg: "#1a65fd",
-    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>,
-    title: "Get Access",
-    description: "Register, complete KYC, and receive your API credentials. Active Polarin customers only.",
-    link: "Get Started",
-    pageId: "api-onboarding",
-  },
-  {
-    iconBg: "#00b345",
-    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-    title: "Authenticate",
-    description: "Exchange credentials for a short-lived JWT token. Pass it as the access-token header on every call.",
-    link: "Learn How",
-    pageId: null,
-    href: "/developer",
-  },
-  {
-    iconBg: "#9e27fd",
-    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
-    title: "Call the APIs",
-    description: "Use standard REST calls to provision ports, manage routers, monitor VISTA metrics, and more.",
-    link: "Explore APIs",
-    pageId: null,
-    href: "/developer",
-  },
+const API_OVERVIEW_TOC = [
+  { id: "overview",     label: "Overview" },
+  { id: "how-it-works", label: "How It Works", level: 2 as const },
+  { id: "next-steps",   label: "Next Steps" },
 ];
 
-const API_TOPICS = [
-  { title: "Getting Access", description: "5-step journey from sign-up to your first API call", pageId: "api-onboarding" },
-  { title: "Developer Portal", description: "Full reference docs with live request testing", pageId: null, href: "/developer" },
-  { title: "Staging Environment", description: "Test safely — no real services, no billing", pageId: null, href: "/developer" },
-];
-
+// Deliberately a plain ArticlePage, not a hero/card-grid landing page like WelcomePage —
+// it's a developer reference page, not a second homepage.
 export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => void }) {
-  const apiTools = usePageTools();
-  const width = useWindowWidth();
-  const isMobile = width < 640;
-
-  const go = (pageId: string | null, href?: string) => {
-    if (pageId) { onNavigate(pageId); return; }
-    if (href) window.open(href, "_blank", "noopener,noreferrer");
-  };
-
   return (
-    <div style={{ display: "flex", flexDirection: "column" as const, gap: 40 }}>
+    <ArticlePage toc={API_OVERVIEW_TOC}>
+      <H1 id="overview">Polarin API</H1>
+      <ArticleMeta>
+        <ReadTime minutes={3} />
+        <Dot />
+        <Tag label="Developers" color="#0f766e" />
+      </ArticleMeta>
 
-      {/* ── Page header + hero ── */}
-      <motion.div
-        initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.4, 0, 0.2, 1] }}
-        style={{ display: "flex", flexDirection: "column" as const, gap: 24 }}
-      >
-        {/* Page header */}
-        <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <div style={{ width: 56, height: 56, borderRadius: 12, background: "#effcfd", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1c808d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-            </svg>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" as const, gap: 4, flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", flexWrap: "wrap" as const, alignItems: "center", gap: 24 }}>
-              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 900, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
-                Polarin API
-              </p>
-              {apiTools && <CopyPageMenu contentRef={apiTools.contentRef} pageTitle={apiTools.pageTitle} pageId={apiTools.pageId} />}
-            </div>
-            <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#7e93b2" }}>
-              Automate your network infrastructure through simple REST calls — no portal required.
-            </p>
-          </div>
-        </div>
+      <P>
+        Automate your network infrastructure through simple REST calls — no portal required. Provision
+        services, monitor real-time performance, and integrate Polarin into your own automation workflows
+        over standard HTTP.
+      </P>
 
-        {/* Hero banner — deliberately distinct from WelcomePage's ocean-blue gradient: a darker,
-            code/terminal-toned palette so the API section reads as a developer surface, not a
-            second homepage. */}
-        <div style={{
-          borderRadius: 16,
-          background: "linear-gradient(104.41deg, rgb(15,23,42) 0.86%, rgb(67,56,135) 103.67%)",
-          padding: isMobile ? "28px 24px" : "32px",
-          display: "flex", alignItems: "flex-start", gap: 60,
-          position: "relative", overflow: "hidden",
-        }}>
-          <div style={{ flex: 1, display: "flex", flexDirection: "column" as const, gap: 24 }}>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
-              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 24, lineHeight: "32px", color: "white" }}>
-                Build & Automate with Polarin API
-              </p>
-              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "white" }}>
-                Programmatic access to your entire network. Provision services, monitor real-time performance, and integrate Polarin into your automation workflows — all through standard HTTP.
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" as const }}>
-              <button
-                onClick={() => onNavigate("api-onboarding")}
-                style={{ padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s, transform 0.15s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.28)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.transform = "translateY(0)"; }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-                Get Access
-              </button>
-              <button
-                onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
-                style={{ padding: "7px 17px", height: 40, borderRadius: 16, background: "transparent", color: "white", fontFamily: FONT, fontWeight: 400, fontSize: 16, lineHeight: "24px", border: "1px solid #e2e8f1", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, transition: "background 0.15s, border-color 0.15s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                Explore APIs
-              </button>
-            </div>
-          </div>
-          {!isMobile && (
-            <div style={{ width: 100, height: 100, borderRadius: 8, background: "rgba(255,255,255,0.08)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                <rect x="4" y="4" width="48" height="48" rx="10" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
-                <polyline points="20 20 12 28 20 36" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                <polyline points="36 20 44 28 36 36" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                <line x1="31" y1="16" x2="25" y2="40" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </div>
-          )}
-        </div>
-      </motion.div>
+      <Callout variant="tip">
+        Available to active Polarin customers only. See{" "}
+        <PageLink label="Getting Access" onClick={() => onNavigate("api-onboarding")} /> for the full
+        sign-up-to-first-call journey.
+      </Callout>
 
-      {/* ── How it works (path cards) ── */}
-      <RevealOnScroll>
-        <div style={{ display: "flex", flexDirection: "column" as const, gap: 16 }}>
-          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
-            How it works
-          </p>
-          <RevealGroup style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 24 }}>
-            {API_PATH_CARDS.map((card) => (
-              <RevealItem key={card.title}>
-                <div
-                  role="button" tabIndex={0}
-                  onClick={() => go(card.pageId, card.href)}
-                  onKeyDown={(e) => e.key === "Enter" && go(card.pageId, card.href)}
-                  style={{ background: "#FFFFFF", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column" as const, gap: 16, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", cursor: "pointer", transition: "box-shadow 0.15s" }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.12), 0px 4px 12px rgba(96,97,112,0.2)"; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; }}
-                >
-                  <div style={{ width: 40, height: 40, borderRadius: 12, background: card.iconBg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    {card.icon}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
-                    <div style={{ display: "flex", flexDirection: "column" as const, gap: 4 }}>
-                      <p style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#0a3954" }}>{card.title}</p>
-                      <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#7e93b2" }}>{card.description}</p>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 0" }}>
-                      <span style={{ fontFamily: FONT, fontWeight: 500, fontSize: 14, lineHeight: "22px", color: "#1c808d" }}>{card.link}</span>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1c808d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </div>
-      </RevealOnScroll>
+      <H2 id="how-it-works">How It Works</H2>
+      <Steps>
+        <Step num={1} title="Get Access">
+          Register, complete KYC, and receive your API credentials. See{" "}
+          <PageLink label="Getting Access" onClick={() => onNavigate("api-onboarding")} />.
+        </Step>
+        <Step num={2} title="Authenticate">
+          Exchange your credentials for a short-lived JWT token, then pass it as the{" "}
+          <code>access-token</code> header on every call.
+        </Step>
+        <Step num={3} title="Call the APIs">
+          Use standard REST calls to provision ports, manage routers, monitor VISTA metrics, and more.
+        </Step>
+      </Steps>
 
-      {/* ── Quick topics ── */}
-      <RevealOnScroll>
-        <div style={{ display: "flex", flexDirection: "column" as const, gap: 16 }}>
-          <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#0a3954" }}>
-            Quick Topics
-          </p>
-          <RevealGroup style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 24 }}>
-            {API_TOPICS.map((topic) => (
-              <motion.button
-                key={topic.title}
-                variants={REVEAL_VARIANTS}
-                transition={revealTransition()}
-                onClick={() => go(topic.pageId, topic.href)}
-                style={{ background: "#FFFFFF", border: "0.5px solid #e2e8f1", borderRadius: 16, padding: 24, display: "flex", alignItems: "flex-start", gap: 8, cursor: "pointer", textAlign: "left", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.12), 0px 2px 8px rgba(96,97,112,0.2)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; }}
-              >
-                <div style={{ flex: 1, display: "flex", flexDirection: "column" as const, gap: 4 }}>
-                  <p style={{ margin: 0, fontFamily: FONT, fontWeight: 700, fontSize: 14, lineHeight: "22px", color: "#0a3954" }}>{topic.title}</p>
-                  <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#7e93b2" }}>{topic.description}</p>
-                </div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7e93b2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><polyline points="9 18 15 12 9 6"/></svg>
-              </motion.button>
-            ))}
-          </RevealGroup>
-        </div>
-      </RevealOnScroll>
+      <Callout variant="info">
+        For the full reference with live request testing, open the{" "}
+        <a href="/developer" target="_blank" rel="noopener noreferrer" style={{ color: "#0f766e", fontWeight: 700 }}>
+          Developer Portal
+        </a>
+        . It runs against a staging environment, so you can try real requests without touching live
+        services or billing.
+      </Callout>
 
-      {/* ── Developer Portal callout ── */}
-      <RevealOnScroll delay={0.05}>
-        <div style={{ background: "#effcfd", border: "0.5px solid rgba(28,128,141,0.2)", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column" as const, gap: 16, boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)" }}>
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: "#1c808d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </div>
-            <div>
-              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 500, fontSize: 20, lineHeight: "28px", color: "#434343" }}>Developer Portal</p>
-              <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: 12, lineHeight: "20px", color: "#8c8c8c" }}>Full API reference with live request testing</p>
-            </div>
-          </div>
-          <p style={{ margin: 0, fontFamily: FONT, fontSize: 16, lineHeight: "24px", color: "#434343" }}>
-            <strong style={{ fontWeight: 700 }}>Explore every endpoint</strong>{" in our interactive Developer Portal — try requests live, see real response examples, and test against the staging environment without affecting production."}
-          </p>
-          <button
-            onClick={() => window.open("/developer", "_blank", "noopener,noreferrer")}
-            style={{ alignSelf: "flex-start", display: "flex", alignItems: "center", gap: 8, padding: "7px 17px", height: 40, borderRadius: 12, background: "#FFFFFF", border: "1px solid #e2e8f1", color: "#0a3954", fontFamily: FONT, fontWeight: 600, fontSize: 14, lineHeight: "24px", cursor: "pointer", boxShadow: "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)", transition: "box-shadow 0.15s, border-color 0.15s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.1), 0px 4px 10px rgba(96,97,112,0.24)"; e.currentTarget.style.borderColor = "#c8d4e0"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0px 0px 1px rgba(40,41,61,0.08), 0px 0.5px 2px rgba(96,97,112,0.16)"; e.currentTarget.style.borderColor = "#e2e8f1"; }}
-          >
-            Open Developer Portal
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a3954" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-      </RevealOnScroll>
-
-    </div>
+      <H2 id="next-steps">Next Steps</H2>
+      <UL>
+        <LI>Walk through the full onboarding journey: <PageLink label="Getting Access" onClick={() => onNavigate("api-onboarding")} />.</LI>
+        <LI>Not sure which product to call first? <PageLink label="Choosing the Right Product" onClick={() => onNavigate("choose-product")} />.</LI>
+      </UL>
+    </ArticlePage>
   );
 }
 
