@@ -6,6 +6,10 @@ import { RevealOnScroll, RevealGroup, RevealItem } from "./RevealOnScroll";
 import { REVEAL_VARIANTS, revealTransition, prefersReducedMotion } from "./animations/motionConfig";
 import { usePageTools } from "./ArticlePage";
 import { CopyPageMenu } from "./CopyPageMenu";
+import { LATEST_RELEASE } from "./ReleaseNotesPage";
+
+const LATEST_HEADLINE = LATEST_RELEASE.newFeatures[0] ?? LATEST_RELEASE.improvements[0];
+const LATEST_EXTRA_COUNT = LATEST_RELEASE.newFeatures.length + LATEST_RELEASE.improvements.length - 1;
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const FONT_JAKARTA = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -398,7 +402,7 @@ export function WelcomePage({ onNavigate }: Props) {
                 color: "#8c8c8c",
               }}
             >
-              Released January 15, 2025
+              Released {LATEST_RELEASE.date}
             </p>
           </div>
           <div
@@ -438,8 +442,9 @@ export function WelcomePage({ onNavigate }: Props) {
             color: "#434343",
           }}
         >
-          <strong style={{ fontWeight: 700 }}>Platform Version 4.2</strong>
-          {" is now available with enhanced Wave Analytics Dashboard, multi-cloud integration, and advanced security policies."}
+          <strong style={{ fontWeight: 700 }}>Platform Version {LATEST_RELEASE.version}</strong>
+          {" is now available with "}{LATEST_HEADLINE.title}
+          {LATEST_EXTRA_COUNT > 0 ? `, plus ${LATEST_EXTRA_COUNT} more update${LATEST_EXTRA_COUNT > 1 ? "s" : ""}.` : "."}
         </p>
 
         <button
@@ -684,15 +689,14 @@ function WandStarsGreen() {
 function LanIcon() {
   return (
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-      <rect x="20" y="20" width="20" height="20" rx="3" fill="rgba(255,255,255,0.3)" />
-      <circle cx="12" cy="12" r="6" fill="rgba(255,255,255,0.5)" />
-      <circle cx="48" cy="12" r="6" fill="rgba(255,255,255,0.5)" />
-      <circle cx="12" cy="48" r="6" fill="rgba(255,255,255,0.5)" />
-      <circle cx="48" cy="48" r="6" fill="rgba(255,255,255,0.5)" />
-      <line x1="18" y1="12" x2="20" y2="20" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
-      <line x1="42" y1="12" x2="40" y2="20" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
-      <line x1="18" y1="48" x2="20" y2="40" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
-      <line x1="42" y1="48" x2="40" y2="40" stroke="rgba(255,255,255,0.6)" strokeWidth="2" />
+      <circle cx="30" cy="30" r="16" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
+      <line x1="30" y1="22" x2="30" y2="16" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="34.5" y1="33" x2="42" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="25.5" y1="33" x2="18" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="30" cy="30" r="5.5" fill="rgba(255,255,255,0.85)" />
+      <circle cx="30" cy="13" r="4" fill="rgba(255,255,255,0.55)" />
+      <circle cx="45" cy="41" r="4" fill="rgba(255,255,255,0.55)" />
+      <circle cx="15" cy="41" r="4" fill="rgba(255,255,255,0.55)" />
     </svg>
   );
 }

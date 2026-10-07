@@ -9,8 +9,8 @@ const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
 
 // ── Data ────────────────────────────────────────────────────────────────────
 
-interface ReleaseItem { title: string; description: string; isEmptyState?: boolean }
-interface VersionRelease {
+export interface ReleaseItem { title: string; description: string; isEmptyState?: boolean }
+export interface VersionRelease {
   version: string; date: string; isLatest?: boolean;
   newFeatures: ReleaseItem[]; improvements: ReleaseItem[]; bugFixes: ReleaseItem[];
 }
@@ -610,7 +610,7 @@ const ALL_YEARS = ALL_RELEASE_DATA.map((d) => d.year);
 // sync when the data changes.
 const LATEST_YEAR_DATA = ALL_RELEASE_DATA[0];
 const LATEST_MONTH_DATA = LATEST_YEAR_DATA.months[0];
-const LATEST_RELEASE = LATEST_MONTH_DATA.releases[0];
+export const LATEST_RELEASE = LATEST_MONTH_DATA.releases[0];
 
 // ── Custom Dropdown ──────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Plug, Router, Cloud, Server, Link2, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
+import { Plug, Router, Cloud, Server, Link2, Waypoints, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -8,12 +8,12 @@ const FONT_J = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-ser
 
 const TOC = [
   { id: "overview",   label: "Overview" },
-  { id: "locations",  label: "Locations",                       level: 2 as const },
   { id: "port",       label: "Port",                             level: 2 as const },
   { id: "vr",         label: "Virtual Router",                   level: 2 as const },
   { id: "cloud",      label: "Cloud Connect",               level: 2 as const },
   { id: "dc-to-dc",   label: "DC to DC",                         level: 2 as const },
   { id: "dci",        label: "Data Centre Interconnect",         level: 2 as const },
+  { id: "ix",         label: "Internet Exchange",                level: 2 as const },
   { id: "manage",     label: "Managing What You Order",          level: 1 as const },
 ];
 
@@ -52,6 +52,11 @@ const SERVICE_CARDS: ServiceCardData[] = [
     description: "High-bandwidth links between two or more of your data centre sites.",
     badges: ["Layer 2", "Site to Site"],
   },
+  {
+    num: 6, icon: Waypoints, color: "#7c3aed", title: "Internet Exchange",
+    description: "Peer directly with other networks over BGP instead of paying a transit provider.",
+    badges: ["Multilateral", "Bilateral"],
+  },
 ];
 
 const BENEFITS: { icon: ElementType; title: string; description: string }[] = [
@@ -77,7 +82,10 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
 
       <P>
         Everything you can provision on Polarin falls into a handful of categories. Here's what each one does
-        and when you'd reach for it. New here? Start with <PageLink label="About Polarin" onClick={() => onNavigate("about-polarin")} /> or jump
+        and when you'd reach for it. Every one of them starts from a{" "}
+        <PageLink label="location" onClick={() => onNavigate("locations")} /> — the data centre or point of
+        presence where Polarin has a physical footprint. New here? Start with{" "}
+        <PageLink label="About Polarin" onClick={() => onNavigate("about-polarin")} /> or jump
         straight into <PageLink label="Quick Setup" onClick={() => onNavigate("quick-setup")} />.
       </P>
 
@@ -88,13 +96,6 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
       </div>
 
       <BenefitsBand items={BENEFITS} />
-
-      <H2 id="locations">Locations</H2>
-      <P>
-        Every service starts with a location - the data centre or point of presence where Polarin has a
-        physical footprint. Browse <PageLink label="Locations" onClick={() => onNavigate("locations")} /> to see which sites are close to your infrastructure
-        before ordering a port or connection there.
-      </P>
 
       <H2 id="port">Port</H2>
       <P>
@@ -142,6 +143,17 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
         DCI links two or more of your data centre sites together at high bandwidth - for replication,
         disaster recovery, or simply treating multiple sites as one extended network. See <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> to get started.
       </P>
+
+      <H2 id="ix">Internet Exchange</H2>
+      <P>
+        <strong>Internet Exchange</strong> connects your Port to Polarin's peering fabric, so you exchange
+        traffic directly with other networks over BGP instead of routing it through an upstream transit
+        provider. See <PageLink label="What Is Internet Exchange?" onClick={() => onNavigate("ix-overview")} /> for the full breakdown.
+      </P>
+      <UL>
+        <LI><strong>Multilateral (route-server) peering</strong>: one BGP session picks up every other participant on the exchange at once.</LI>
+        <LI><strong>Bilateral peering</strong>: a direct, one-to-one BGP session with a specific network.</LI>
+      </UL>
 
       <Callout variant="tip">
         Not sure which service you need first? Most organisations start with a <strong>Port</strong>, then add

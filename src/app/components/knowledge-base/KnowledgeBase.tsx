@@ -1233,10 +1233,12 @@ export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => vo
           </div>
         </div>
 
-        {/* Hero banner — same gradient as WelcomePage */}
+        {/* Hero banner — deliberately distinct from WelcomePage's ocean-blue gradient: a darker,
+            code/terminal-toned palette so the API section reads as a developer surface, not a
+            second homepage. */}
         <div style={{
           borderRadius: 16,
-          background: "linear-gradient(104.41deg, rgb(12,60,87) 0.86%, rgb(50,141,168) 103.67%)",
+          background: "linear-gradient(104.41deg, rgb(15,23,42) 0.86%, rgb(67,56,135) 103.67%)",
           padding: isMobile ? "28px 24px" : "32px",
           display: "flex", alignItems: "flex-start", gap: 60,
           position: "relative", overflow: "hidden",
@@ -1272,18 +1274,12 @@ export function ApiOverviewPage({ onNavigate }: { onNavigate: (id: string) => vo
             </div>
           </div>
           {!isMobile && (
-            <div style={{ width: 100, height: 100, borderRadius: 8, background: "rgba(255,255,255,0.1)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-                <rect x="10" y="22" width="40" height="16" rx="4" fill="rgba(255,255,255,0.2)"/>
-                <rect x="10" y="26" width="14" height="2" rx="1" fill="rgba(255,255,255,0.6)"/>
-                <rect x="10" y="30" width="10" height="2" rx="1" fill="rgba(255,255,255,0.4)"/>
-                <rect x="10" y="34" width="18" height="2" rx="1" fill="rgba(255,255,255,0.5)"/>
-                <circle cx="46" cy="14" r="6" fill="rgba(255,255,255,0.3)"/>
-                <circle cx="14" cy="46" r="6" fill="rgba(255,255,255,0.3)"/>
-                <circle cx="46" cy="46" r="6" fill="rgba(255,255,255,0.3)"/>
-                <line x1="46" y1="20" x2="46" y2="22" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
-                <line x1="20" y1="46" x2="22" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
-                <line x1="46" y1="46" x2="46" y2="38" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
+            <div style={{ width: 100, height: 100, borderRadius: 8, background: "rgba(255,255,255,0.08)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                <rect x="4" y="4" width="48" height="48" rx="10" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
+                <polyline points="20 20 12 28 20 36" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <polyline points="36 20 44 28 36 36" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <line x1="31" y1="16" x2="25" y2="40" stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" />
               </svg>
             </div>
           )}
