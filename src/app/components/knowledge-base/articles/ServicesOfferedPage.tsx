@@ -1,5 +1,5 @@
 import type { ElementType } from "react";
-import { Plug, Router, Cloud, Server, Link2, Waypoints, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
+import { Plug, Router, Cloud, Server, Waypoints, Globe, Zap, ShieldCheck, TrendingUp } from "lucide-react";
 import { ArticlePage, H1, H2, P, UL, LI, Callout, PageLink, ArticleMeta, Tag, Dot, ReadTime } from "../ArticlePage";
 import type { KBPage } from "../KnowledgeBase";
 
@@ -11,7 +11,6 @@ const TOC = [
   { id: "port",       label: "Port",                             level: 2 as const },
   { id: "vr",         label: "Virtual Router",                   level: 2 as const },
   { id: "cloud",      label: "Cloud Connect",               level: 2 as const },
-  { id: "dc-to-dc",   label: "DC to DC",                         level: 2 as const },
   { id: "dci",        label: "Data Centre Interconnect",         level: 2 as const },
   { id: "ix",         label: "Internet Exchange",                level: 2 as const },
   { id: "manage",     label: "Managing What You Order",          level: 1 as const },
@@ -43,17 +42,12 @@ const SERVICE_CARDS: ServiceCardData[] = [
     badges: ["DC to Cloud", "Cloud to Cloud"],
   },
   {
-    num: 4, icon: Link2, color: "#0d9488", title: "DC to DC",
-    description: "A private, point-to-point link between two of your own ports — no cloud provider involved.",
-    badges: ["Point to Point"],
-  },
-  {
-    num: 5, icon: Server, color: "#fd5900", title: "Data Centre Interconnect",
+    num: 4, icon: Server, color: "#fd5900", title: "Data Centre Interconnect",
     description: "High-bandwidth links between two or more of your data centre sites.",
     badges: ["DCI Wave", "DCI Layer 2"],
   },
   {
-    num: 6, icon: Waypoints, color: "#7c3aed", title: "Internet Exchange",
+    num: 5, icon: Waypoints, color: "#7c3aed", title: "Internet Exchange",
     description: "Peer directly with other networks over BGP instead of paying a transit provider.",
     badges: ["Multilateral", "Bilateral"],
   },
@@ -131,20 +125,13 @@ export function ServicesOfferedPage({ onNavigate }: Props) {
         <LI>Better suited to steady, high-bandwidth workloads than internet-based connectivity.</LI>
       </UL>
 
-      <H2 id="dc-to-dc">DC to DC</H2>
-      <P>
-        A <strong>DC to DC</strong> connection links two of your own ports at different Polarin data centres -
-        no cloud provider on either end. It's a separate product from Cloud Connect, though it shares the same
-        private, point-to-point model. See <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} /> to get started.
-      </P>
-
       <H2 id="dci">Data Centre Interconnect (DCI)</H2>
       <P>
         DCI links two or more of your data centre sites together at high bandwidth - for replication,
         disaster recovery, or simply treating multiple sites as one extended network. See <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> to get started.
       </P>
       <UL>
-        <LI><strong>DCI Wave</strong>: a dedicated, Layer 1 optical connection — the highest, most predictable throughput, with no port required.</LI>
+        <LI><strong>DCI Wave</strong>: dedicated, point-to-point optical connectivity (Layer 1) between two entire sites — the highest, most predictable throughput, with no port required.</LI>
         <LI><strong>DCI Layer 2</strong>: an Ethernet-based connection over two of your own ports - the more common choice, since it rides on infrastructure you've likely already provisioned.</LI>
       </UL>
 

@@ -32,7 +32,7 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       </ArticleMeta>
 
       <P>
-        Cloud Connect, DC to DC, and DCI Layer 2 connections all deliver dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether linking two on-premise facilities, connecting a data centre to public cloud on-ramps, or bridging multi-cloud environments, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
+        Cloud Connect and DCI Layer 2 connections both deliver dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether connecting a data centre to public cloud on-ramps, bridging multi-cloud environments, or linking two of your own sites over Ethernet, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
       </P>
 
       <P>
@@ -47,7 +47,6 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       <UL>
         <LI><strong>DC to Cloud (Cloud Connect)</strong>: Private, direct interconnection to hyperscalers (AWS Direct Connect, Microsoft Azure ExpressRoute, Google Cloud Interconnect, Oracle FastConnect).</LI>
         <LI><strong>Cloud to Cloud</strong>: Low-latency interconnects linking workloads running across different cloud service providers.</LI>
-        <LI><strong>DC to DC (Data Centre to Data Centre)</strong>: Private point-to-point links connecting customer facilities across metropolitan or interstate regions.</LI>
         <LI><strong>DCI Layer 2</strong>: Dedicated Ethernet LAN extension across data centres for stretched clusters and storage replication.</LI>
       </UL>
 
@@ -180,7 +179,7 @@ export function VistaVirtualConnectionPage({ onNavigate }: Props) {
       </UL>
 
       <Callout variant="tip">
-        Learn how to provision new connections in <PageLink label="Cloud Connect Overview" onClick={() => onNavigate?.("vc-overview")} /> and <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate?.("cloud-connect")} />.
+        Learn how to provision new connections in <PageLink label="Cloud Connect Overview" onClick={() => onNavigate?.("vc-overview")} /> and <PageLink label="Create a DCI Layer 2 Connection" onClick={() => onNavigate?.("dci-layer2-create")} />.
       </Callout>
     </ArticlePage>
   );

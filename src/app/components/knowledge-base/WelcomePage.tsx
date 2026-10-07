@@ -68,7 +68,7 @@ const PATH_CARDS = [
 const POPULAR_TOPICS = [
   { title: "Account Setup & Verification", description: "Complete your profile and verify your organization", pageId: "create-account" },
   { title: "KYC Document Requirements", description: "List of supported documents for verification", pageId: "org-kyc" },
-  { title: "DC to DC Setup", description: "Create a private, point-to-point link between two of your own ports", pageId: "cloud-connect" },
+  { title: "DCI Wave Setup", description: "Create a dedicated, point-to-point optical link between two of your data centre sites", pageId: "dci-wave-create" },
   { title: "Team Member Invitations", description: "Invite colleagues to your Polarin workspace", pageId: "invite-members" },
   { title: "API Documentation", description: "Integrate with Polarin using our APIs", pageId: "api-overview" },
 ];

@@ -63,8 +63,7 @@ export function QuickSetupPage({ onNavigate }: Props) {
             Once your organisation is verified, you can provision any service — a{" "}
             <PageLink label="Port" onClick={() => onNavigate("port-create")} /> if you need a physical entry
             point, a <PageLink label="Virtual Router" onClick={() => onNavigate("vr-create")} /> for routing
-            logic, or go straight to a <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} />,{" "}
-            <PageLink label="DC to DC" onClick={() => onNavigate("cloud-connect")} />, or{" "}
+            logic, or go straight to a <PageLink label="Cloud Connect" onClick={() => onNavigate("vc-overview")} /> or{" "}
             <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-create")} /> connection —
             whichever matches what you're connecting to.
           </P>

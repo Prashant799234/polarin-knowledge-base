@@ -8,7 +8,7 @@ import {
   Headphones, ShieldAlert,
   ExternalLink, Sparkles, Menu, X, ChevronDown, Activity,
   Info, LayoutDashboard, Bell, Waypoints, ClipboardCheck, Gauge,
-  LineChart, Users, FileBarChart, BellRing, UserCog, Boxes, Link2,
+  LineChart, Users, FileBarChart, BellRing, UserCog, Boxes, LogIn,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WelcomePage } from "./WelcomePage";
@@ -24,6 +24,7 @@ import { SupportOverviewPage } from "./articles/SupportOverviewPage";
 import { CreateTicketPage } from "./articles/CreateTicketPage";
 import { MyTicketsPage } from "./articles/MyTicketsPage";
 import { CreateAccountPage } from "./articles/CreateAccountPage";
+import { SignInPage } from "./articles/SignInPage";
 import { CompleteProfilePage } from "./articles/CompleteProfilePage";
 import { PersonalInformationPage } from "./articles/PersonalInformationPage";
 import { UpdatePasswordPage } from "./articles/UpdatePasswordPage";
@@ -44,7 +45,6 @@ import { VirtualRouterStatusPage } from "./articles/VirtualRouterStatusPage";
 import { VirtualRouterOverviewPage } from "./articles/VirtualRouterOverviewPage";
 import { ActivityLogPage } from "./articles/ActivityLogPage";
 import { ActivityLogOverviewPage } from "./articles/ActivityLogOverviewPage";
-import { CloudConnectPage } from "./articles/CloudConnectPage";
 import { CreateCloudToCloudPage } from "./articles/CreateCloudToCloudPage";
 import { CreateDCToCloudPage } from "./articles/CreateDCToCloudPage";
 import { VirtualConnectionOverviewPage } from "./articles/VirtualConnectionOverviewPage";
@@ -131,6 +131,7 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "org-settings", label: "Organisation Settings" },
         ],
       },
+      { id: "sign-in", label: "Sign In", icon: LogIn },
     ],
   },
   {
@@ -163,7 +164,6 @@ const NAV_GROUPS: NavGroup[] = [
           { id: "cloud-to-cloud-create", label: "Create a Cloud to Cloud Connection", group: "Cloud to Cloud" },
         ],
       },
-      { id: "cloud-connect", label: "Create a DC to DC Connection", icon: Link2 },
       {
         id: "dci", label: "Data Centre Interconnect", icon: Server,
         children: [
@@ -201,7 +201,7 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    title: "ORGANISATION",
+    title: "SETTINGS",
     items: [
       { id: "invite-members", label: "User Management", icon: Users },
       {
@@ -318,15 +318,24 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "org-settings": {
     prev: { label: "KYC Document Requirements", pageId: "org-kyc" },
-    next: { label: "User Management",           pageId: "invite-members" },
+    next: { label: "Sign In",                   pageId: "sign-in" },
     related: [
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
       { label: "KYC Document Requirements",     pageId: "org-kyc" },
       { label: "Invoices",                      pageId: "billing-invoices" },
     ],
   },
-  "invite-members": {
+  "sign-in": {
     prev: { label: "Organisation Settings",     pageId: "org-settings" },
+    next: { label: "User Management",           pageId: "invite-members" },
+    related: [
+      { label: "Create a Polarin Account",      pageId: "create-account" },
+      { label: "Update Password",               pageId: "profile-password" },
+      { label: "Two-Factor Authentication",     pageId: "profile-2fa" },
+    ],
+  },
+  "invite-members": {
+    prev: { label: "Sign In",                   pageId: "sign-in" },
     next: { label: "Billing Overview",          pageId: "billing-overview" },
     related: [
       { label: "Complete Organisation Profile", pageId: "complete-profile" },
@@ -560,19 +569,11 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     ],
   },
   "vc-overview": {
-    next: { label: "Create a DC to DC Connection", pageId: "cloud-connect" },
-    related: [
-      { label: "Create a DC to DC Connection",           pageId: "cloud-connect" },
-      { label: "What Is a Port?",                       pageId: "port-overview" },
-      { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
-    ],
-  },
-  "cloud-connect": {
-    prev: { label: "What Is Cloud Connect?",     pageId: "vc-overview" },
+    next: { label: "Create a DC to Cloud Connection", pageId: "dc-to-cloud-create" },
     related: [
       { label: "Create a Cloud to Cloud Connection",    pageId: "cloud-to-cloud-create" },
-      { label: "Create a DC to Cloud Connection",       pageId: "dc-to-cloud-create" },
-      { label: "Create a Port",                        pageId: "port-create" },
+      { label: "What Is a Port?",                       pageId: "port-overview" },
+      { label: "What Is a Virtual Router?",             pageId: "vr-overview" },
     ],
   },
   "dci-overview": {
@@ -657,7 +658,7 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
     next: { label: "VISTA for DCI Wave",       pageId: "vista-dci-wave" },
     related: [
       { label: "What Is Cloud Connect?", pageId: "vc-overview" },
-      { label: "Create a DC to DC Connection",   pageId: "cloud-connect" },
+      { label: "Create a DCI Layer 2 Connection", pageId: "dci-layer2-create" },
       { label: "VISTA Overview",               pageId: "vista-overview" },
       { label: "Manage Alerts",                pageId: "manage-alerts" },
     ],
@@ -737,13 +738,17 @@ export function KnowledgeBase() {
     if (id === activePage) return;
     if (scrollerRef.current) scrollerRef.current.scrollTop = 0;
     setRecentPageHistory(prev => [activePage, ...prev.filter(p => p !== activePage)].slice(0, 8));
+    // Accordion behaviour: only the group containing the destination page stays
+    // expanded — every other expanded group collapses automatically.
+    let destinationParent: string | null = null;
     for (const group of NAV_GROUPS) {
       for (const item of group.items) {
         if (item.children?.some(c => c.id === id)) {
-          setExpanded(prev => new Set(prev).add(item.id));
+          destinationParent = item.id;
         }
       }
     }
+    setExpanded(destinationParent ? new Set([destinationParent]) : new Set());
     setIsNavigating(true);
     setActivePage(id);
     if (isMobile) setSidebarOpen(false);
@@ -914,7 +919,7 @@ export function KnowledgeBase() {
       {!isMobile && (
         <div className="kb-top-header" style={{
           height: 64, flexShrink: 0,
-          background: "#fff", borderBottom: "0.5px solid #e2e8f1",
+          background: "#fff",
           display: "flex", alignItems: "center",
           position: "relative", zIndex: 20,
         }}>
@@ -943,7 +948,7 @@ export function KnowledgeBase() {
 
       {/* ── Mobile top bar ── */}
       {isMobile && (
-        <div className="kb-top-header" style={{ height: 56, background: "#fff", borderBottom: "0.5px solid #e2e8f1", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
+        <div className="kb-top-header" style={{ height: 56, background: "#fff", display: "flex", alignItems: "center", padding: "0 16px", gap: 12, flexShrink: 0, position: "sticky", top: 0, zIndex: 30 }}>
           <button
             onClick={() => setSidebarOpen(true)}
             style={{ background: "none", border: "none", cursor: "pointer", color: "#0a3954", display: "flex", padding: 4, borderRadius: 6, transition: "background 0.12s" }}
@@ -1034,6 +1039,7 @@ export function KnowledgeBase() {
                     {activePage === "quick-setup" && <QuickSetupPage onNavigate={navigate} />}
                     {activePage === "choose-product" && <ChooseProductPage onNavigate={navigate} />}
                     {activePage === "create-account" && <CreateAccountPage onNavigate={navigate} />}
+                    {activePage === "sign-in" && <SignInPage onNavigate={navigate} />}
                     {activePage === "complete-profile" && <CompleteProfilePage onNavigate={navigate} />}
                     {activePage === "profile-personal" && <PersonalInformationPage onNavigate={navigate} />}
                     {activePage === "profile-password" && <UpdatePasswordPage onNavigate={navigate} />}
@@ -1054,7 +1060,6 @@ export function KnowledgeBase() {
                     {activePage === "vc-overview" && <VirtualConnectionOverviewPage onNavigate={navigate} />}
                     {activePage === "dci-overview" && <DCIOverviewPage onNavigate={navigate} />}
                     {activePage === "ix-overview" && <InternetExchangeOverviewPage onNavigate={navigate} />}
-                    {activePage === "cloud-connect" && <CloudConnectPage onNavigate={navigate} />}
                     {activePage === "cloud-to-cloud-create" && <CreateCloudToCloudPage onNavigate={navigate} />}
                     {activePage === "dc-to-cloud-create" && <CreateDCToCloudPage onNavigate={navigate} />}
                     {activePage === "dci-create" && <DCICreatePage onNavigate={navigate} />}
@@ -1258,22 +1263,6 @@ export function ApiOnboardingPage({ onNavigate }: { onNavigate: (id: string) => 
                   <span style={{ fontFamily: FONT_J, fontSize: 12, fontWeight: 700, color: "#16a34a" }}>✓ {step.highlight}</span>
                 </div>
               )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 20 }}>
-        <div style={{ fontFamily: FONT_J, fontSize: 13, fontWeight: 800, color: C.navy, marginBottom: 12 }}>API access tiers</div>
-        {[
-          { tier: "All Customers", desc: "Full access to provisioning, management, and account APIs. No per-call charges." },
-          { tier: "VISTA Free", desc: "10,000 calls/day per circuit for VISTA Performance Monitoring. Included automatically." },
-          { tier: "VISTA Premium", desc: "50,000 calls/day per circuit + 180-day history. Contact your account manager." },
-        ].map(t => (
-          <div key={t.tier} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 10 }}>
-            <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#9ca3af", flexShrink: 0, marginTop: 5 }} />
-            <div style={{ fontFamily: FONT, fontSize: 13, color: "#475569" }}>
-              <strong style={{ color: C.navy, fontFamily: FONT_J, fontWeight: 700 }}>{t.tier}</strong> — {t.desc}
             </div>
           </div>
         ))}

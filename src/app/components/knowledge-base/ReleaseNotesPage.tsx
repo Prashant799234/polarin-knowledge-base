@@ -129,6 +129,14 @@ const ALL_RELEASE_DATA: YearData[] = [
     ],
   },
   {
+    // No source release notes exist for this year (the batch this data is
+    // sourced from flags Oct 2024 – Dec 2025 as not yet gathered) — kept as
+    // a selectable, empty year rather than skipped, so the picker doesn't
+    // silently jump from 2026 to 2024.
+    year: 2025,
+    months: [],
+  },
+  {
     year: 2024,
     months: [
       {
@@ -1000,6 +1008,11 @@ export function ReleaseNotesPage() {
             </div>
           )}
           <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+            {yearData.months.length === 0 && (
+              <div style={{ padding: "32px 0", textAlign: "center", fontFamily: FONT, fontSize: 14, color: "#90a2b9" }}>
+                No releases recorded for {selectedYear}.
+              </div>
+            )}
             {yearData.months.map((monthData) => (
               <div
                 key={monthData.month}

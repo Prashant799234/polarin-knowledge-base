@@ -111,7 +111,7 @@ export function VistaOverviewPage({ onNavigate }: Props) {
       {/* 2. Cloud Connect & DCI Layer 2 */}
       <H3 id="product-vc">2. Cloud Connect & DCI Layer 2</H3>
       <P>
-        VISTA applies across all Point-to-Point Layer 2/3 connections — including <strong>Data Centre to Cloud (Cloud Connect)</strong>, <strong>Cloud to Cloud</strong>, <strong>Data Centre to Data Centre (DC-to-DC)</strong>, and <strong>DCI Layer 2</strong> circuits.
+        VISTA applies across all Point-to-Point Layer 2/3 connections — including <strong>Data Centre to Cloud (Cloud Connect)</strong>, <strong>Cloud to Cloud</strong>, and <strong>DCI Layer 2</strong> circuits.
       </P>
       <P>
         For Cloud Connect connections, VISTA is available in two packages during service creation or as a post-provisioning add-on:

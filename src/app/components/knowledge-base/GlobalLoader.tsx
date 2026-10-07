@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 const FONT = "'Lato', -apple-system, BlinkMacSystemFont, sans-serif";
@@ -11,10 +10,6 @@ if (typeof document !== "undefined" && !document.getElementById("pk-global-loade
     @keyframes pk-shimmer {
       0%   { background-position: -600px 0; }
       100% { background-position: 600px 0; }
-    }
-    @keyframes pk-bar-pulse {
-      0%,100% { opacity: 1; }
-      50%     { opacity: 0.7; }
     }
     .pk-skeleton {
       background: linear-gradient(90deg, #eef2f7 25%, #f5f8fc 50%, #eef2f7 75%);
@@ -34,19 +29,6 @@ interface Props {
 }
 
 export function GlobalLoader({ show }: Props) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (!show) { setProgress(0); return; }
-    const timers = [
-      setTimeout(() => setProgress(20), 60),
-      setTimeout(() => setProgress(50), 250),
-      setTimeout(() => setProgress(75), 500),
-      setTimeout(() => setProgress(90), 750),
-    ];
-    return () => timers.forEach(clearTimeout);
-  }, [show]);
-
   return (
     <AnimatePresence>
       {show && (
@@ -66,29 +48,17 @@ export function GlobalLoader({ show }: Props) {
             gap: 20,
           }}
         >
-          {/* Top progress bar */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "#eef2f7", overflow: "hidden" }}>
-            <div
-              style={{
-                height: "100%",
-                width: `${progress}%`,
-                background: "linear-gradient(90deg, #1c808d 0%, #3ebdcc 50%, #1c808d 100%)",
-                backgroundSize: "200% 100%",
-                animation: "pk-bar-pulse 1.2s ease-in-out infinite",
-                borderRadius: "0 2px 2px 0",
-                boxShadow: "0 0 10px rgba(28,128,141,0.5)",
-                transition: "width 0.5s cubic-bezier(0.4,0,0.2,1)",
-              }}
-            />
-          </div>
-
-          {/* Pulsing logo */}
-          <motion.img
-            src="/polarin-logo.svg"
-            alt="Polarin"
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            style={{ height: 44, width: "auto", display: "block" }}
+          {/* Spinner */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: "3px solid #e2e8f1",
+              borderTopColor: "#1c808d",
+            }}
           />
 
           {/* Label */}

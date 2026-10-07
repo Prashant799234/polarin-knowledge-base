@@ -80,17 +80,19 @@ export function VirtualConnectionOverviewPage({ onNavigate }: Props) {
       {/* ── Not reaching a cloud ── */}
       <H2 id="not-cloud">Not Reaching a Cloud?</H2>
       <P>
-        If you're linking two of your own sites together instead — no cloud provider on either end — that's{" "}
-        <PageLink label="DC to DC" onClick={() => onNavigate("cloud-connect")} />, a separate product. For
-        heavier, steadier replication-grade traffic between two sites, compare it against{" "}
-        <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} />.
+        If you're linking two of your own sites together instead — no cloud provider on either end — that's a{" "}
+        <PageLink label="Data Centre Interconnect" onClick={() => onNavigate("dci-overview")} /> question, not
+        Cloud Connect: <PageLink label="DCI Wave" onClick={() => onNavigate("dci-wave-create")} /> for dedicated,
+        point-to-point optical connectivity between two entire sites, or{" "}
+        <PageLink label="DCI Layer 2" onClick={() => onNavigate("dci-layer2-create")} /> for an Ethernet link
+        over two ports you already own.
       </P>
 
       <H2 id="next-steps">Next Steps</H2>
       <UL>
         <LI>Reaching a single cloud from a Port? <PageLink label="Create a DC to Cloud Connection" onClick={() => onNavigate("dc-to-cloud-create")} />.</LI>
         <LI>Linking two clouds to each other? <PageLink label="Create a Cloud to Cloud Connection" onClick={() => onNavigate("cloud-to-cloud-create")} />.</LI>
-        <LI>Linking two of your own sites instead? <PageLink label="Create a DC to DC Connection" onClick={() => onNavigate("cloud-connect")} />.</LI>
+        <LI>Linking two of your own sites instead? <PageLink label="Create a Data Centre Interconnect" onClick={() => onNavigate("dci-create")} />.</LI>
         <LI>Need something with routing logic instead? <PageLink label="What Is a Virtual Router?" onClick={() => onNavigate("vr-overview")} />.</LI>
       </UL>
     </ArticlePage>

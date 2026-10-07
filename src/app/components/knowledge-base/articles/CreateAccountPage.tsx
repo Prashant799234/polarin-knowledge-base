@@ -5,7 +5,6 @@ const TOC = [
   { id: "overview",        label: "Overview" },
   { id: "signup",          label: "Create Your Account",  level: 2 as const },
   { id: "verify-email",    label: "Verify Your Email",    level: 2 as const },
-  { id: "sign-in",         label: "Sign In",              level: 2 as const },
   { id: "password-policy", label: "Password Policy",      level: 2 as const },
   { id: "next-steps",      label: "Next Steps" },
 ];
@@ -86,26 +85,11 @@ export function CreateAccountPage({ onNavigate }: Props) {
           link is also included underneath in case the button doesn't render.
         </Step>
         <Step num={3} title="Land on the Email Verified confirmation">
-          You'll see a short "Welcome to Polarin" / "See What's Possible!" confirmation — from here you sign in
-          separately, you are not logged in automatically.
+          You'll see a short "Welcome to Polarin" / "See What's Possible!" confirmation — from here you{" "}
+          <PageLink label="sign in" onClick={() => onNavigate("sign-in")} /> separately, you are not logged in
+          automatically.
         </Step>
       </Steps>
-
-      {/* ── Sign in ── */}
-      <H2 id="sign-in">Sign In</H2>
-      <P>
-        Verifying your email takes you to the <strong>"Welcome to Polarin! Sign in to access your platform"</strong>{" "}
-        screen. Enter your email and password and click <strong>Sign In to Polarin</strong>.
-      </P>
-      <DocImage
-        src="/screenshots/signup/03-sign-in.jpg"
-        alt="Sign in screen with email and password fields"
-        caption="Email address blurred here for privacy"
-      />
-      <P>
-        Forgotten your password already? Use <strong>Request Reset Link</strong> right on this screen rather than
-        signing up again.
-      </P>
 
       {/* ── Password policy ── */}
       <H2 id="password-policy">Password Policy</H2>
@@ -125,6 +109,7 @@ export function CreateAccountPage({ onNavigate }: Props) {
       <H2 id="next-steps">Next Steps</H2>
       <P>Right after your first sign-in, Polarin walks you straight into organisation setup:</P>
       <UL>
+        <LI><PageLink label="Sign In" onClick={() => onNavigate("sign-in")} /> — once your email is verified, this is how you get into your account.</LI>
         <LI><PageLink label="Complete Organisation Profile" onClick={() => onNavigate("complete-profile")} /> — this is required before you can order any service.</LI>
         <LI><PageLink label="User Management" onClick={() => onNavigate("invite-members")} /> — add colleagues to your organisation and assign roles.</LI>
         <LI><PageLink label="Locations" onClick={() => onNavigate("locations")} /> — browse Polarin's global network of data centres and PoPs.</LI>
