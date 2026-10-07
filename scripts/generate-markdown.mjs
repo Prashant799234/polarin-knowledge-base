@@ -32,6 +32,7 @@ const PAGES = [
   { id: "invite-members", file: "/src/app/components/knowledge-base/articles/InviteTeamPage.tsx", exportName: "InviteTeamPage", props: { onNavigate: noop } },
   { id: "billing-overview", file: "/src/app/components/knowledge-base/articles/BillingOverviewPage.tsx", exportName: "BillingOverviewPage", props: { onNavigate: noop } },
   { id: "billing-profile", file: "/src/app/components/knowledge-base/articles/BillingProfilePage.tsx", exportName: "BillingProfilePage", props: { onNavigate: noop } },
+  { id: "billing-invoices", file: "/src/app/components/knowledge-base/articles/BillingInvoicesPage.tsx", exportName: "BillingInvoicesPage", props: { onNavigate: noop } },
   { id: "reports", file: "/src/app/components/knowledge-base/articles/ReportsPage.tsx", exportName: "ReportsPage", props: { onNavigate: noop } },
   { id: "profile-personal", file: "/src/app/components/knowledge-base/articles/PersonalInformationPage.tsx", exportName: "PersonalInformationPage", props: { onNavigate: noop } },
   { id: "profile-password", file: "/src/app/components/knowledge-base/articles/UpdatePasswordPage.tsx", exportName: "UpdatePasswordPage", props: { onNavigate: noop } },

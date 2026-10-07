@@ -33,6 +33,7 @@ import { OrgSettingsPage } from "./articles/OrgSettingsPage";
 import { InviteTeamPage } from "./articles/InviteTeamPage";
 import { BillingProfilePage } from "./articles/BillingProfilePage";
 import { BillingOverviewPage } from "./articles/BillingOverviewPage";
+import { BillingInvoicesPage } from "./articles/BillingInvoicesPage";
 import { ReportsPage } from "./articles/ReportsPage";
 import { CreatePortPage } from "./articles/CreatePortPage";
 import { PortStatusPage } from "./articles/PortStatusPage";
@@ -345,10 +346,19 @@ const ARTICLE_META: Record<string, { prev?: ArticleLink; next?: ArticleLink; rel
   },
   "billing-profile": {
     prev: { label: "Billing Overview",         pageId: "billing-overview" },
-    next: { label: "Activity Log Overview",    pageId: "activity-log-overview" },
+    next: { label: "Invoices",                 pageId: "billing-invoices" },
     related: [
       { label: "Billing Overview",              pageId: "billing-overview" },
       { label: "User Management",               pageId: "invite-members" },
+      { label: "Organisation Settings",         pageId: "org-settings" },
+    ],
+  },
+  "billing-invoices": {
+    prev: { label: "Billing Profile",          pageId: "billing-profile" },
+    next: { label: "Activity Log Overview",    pageId: "activity-log-overview" },
+    related: [
+      { label: "Billing Overview",              pageId: "billing-overview" },
+      { label: "Billing Profile",               pageId: "billing-profile" },
       { label: "Organisation Settings",         pageId: "org-settings" },
     ],
   },
@@ -1029,6 +1039,7 @@ export function KnowledgeBase() {
                     {activePage === "invite-members" && <InviteTeamPage onNavigate={navigate} />}
                     {activePage === "billing-overview" && <BillingOverviewPage onNavigate={navigate} />}
                     {activePage === "billing-profile" && <BillingProfilePage onNavigate={navigate} />}
+                    {activePage === "billing-invoices" && <BillingInvoicesPage onNavigate={navigate} />}
                     {activePage === "port-overview" && <PortOverviewPage onNavigate={navigate} />}
                     {activePage === "port-create" && <CreatePortPage onNavigate={navigate} />}
                     {activePage === "port-status" && <PortStatusPage />}
