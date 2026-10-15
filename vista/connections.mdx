@@ -1,0 +1,101 @@
+---
+title: "VISTA for Connections"
+description: "Monitor Cloud Connect and DCI Layer 2 performance with VISTA Standard and Premium packages, plus dynamic bandwidth scaling."
+sidebarTitle: "Connections"
+---
+
+Cloud Connect and DCI Layer 2 connections both deliver dedicated, private point-to-point bandwidth across the Polarin software-defined network. Whether connecting a data Centre to public cloud on-ramps, bridging multi-cloud environments, or linking two of your own sites over Ethernet, VISTA provides end-to-end telemetry on connection performance, packet integrity, and latency.
+
+VISTA for Connections combines continuous performance monitoring with self-service bandwidth scaling through the **Effective Rate Limit** engine.
+
+## Supported Connection Types
+
+VISTA telemetry applies identically across all of Polarin's point-to-point connection products:
+
+- **DC to Cloud (Cloud Connect)**: Private, direct interconnection to hyperscalers (AWS Direct Connect, Microsoft Azure ExpressRoute, Google Cloud Interconnect, Oracle FastConnect).
+- **Cloud to Cloud**: Low-latency interconnects linking workloads running across different cloud service providers.
+- **DCI Layer 2**: Dedicated Ethernet LAN extension across data Centres for stretched clusters and storage replication.
+
+## Standard vs Premium Packages
+
+During connection creation or at any point from the service dashboard, you can choose between two VISTA monitoring packages:
+
+<CardGroup cols={2}>
+  <Card title="Standard Package" icon="shield">
+    Included free with every connection. Provides baseline real-time visibility into your connection throughput.
+
+    **Included Capabilities:**
+
+    - Access from Anywhere: Monitor live link performance from desktop or mobile
+    - Real-time Traffic Analytics: Ingress & egress throughput curves
+    - Packet In/Out Analytics: Total Ethernet packet volume counters
+    - Port-Level Power Monitoring: Baseline transceiver diagnostics
+    - Case Submissions with Tracking: Direct ticketing with telemetry context
+  </Card>
+
+  <Card title="Premium Package" icon="star">
+    Enterprise observability for mission-critical production interconnects, database synchronisation, and strict SLA compliance.
+
+    **Unlocks Everything in Standard Plus:**
+
+    - Service Availability for Last 180 Days: 6 months of historical SLA compliance data
+    - Errors Report: CRC, frame errors, and interface packet drop diagnostics
+    - Packet Loss Analysis (%): Continuous transmission integrity tracking
+    - Jitter Monitoring (ms): Latency variance analysis for voice, video, and API calls
+    - SLA Breach Forecasting: Early warnings when latency drifts from SLA baselines
+  </Card>
+</CardGroup>
+
+<Tip>
+  At order time, the Add Ons step summarises Premium more simply as a checklist: basic network statistics, daily performance reports, 24/7 monitoring support, real-time monitoring, advanced traffic analytics, proactive alert notifications, performance optimisation insights, and custom dashboards & reports. Everything above is what those items expand into once you're inside the VISTA dashboard itself.
+</Tip>
+
+## Effective Rate Limit & Dynamic Bandwidth Scaling
+
+VISTA pairs deep telemetry with instantaneous bandwidth scaling. On any active connection, the **EFFECTIVE RATE LIMIT** card displays your active bandwidth ceiling:
+
+![VISTA Effective Rate Limit and Health KPIs on a point-to-point connection](/images/screenshots/vista/03-vista-telemetry-rate-limit.jpg)
+
+VISTA: (1) Effective Rate Limit with Base + Temp Add-on, (2) Health KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End topology.
+
+- **Base Rate Limit (Badge 1)**: Your contracted monthly baseline subscription (e.g., `1 Mbps @ ₹3,617.50/mo`). Click **Upgrade** to adjust your permanent monthly bandwidth tier.
+- **Temp Add-on (Badge 1)**: On-demand burst capacity added dynamically (e.g., `+22 Mbps`) for seasonal traffic spikes, data migrations, or unexpected workloads. Click **Edit** to increase or decrease temporary bandwidth in seconds.
+- **Total Effective Bandwidth**: The combined throughput enforced across the link (e.g., `23 Mbps`). Rate limit modifications take effect immediately in the data plane without dropping packets or renegotiating BGP sessions.
+
+## Real-Time Telemetry & Health
+
+Beneath the rate limit card, VISTA continuously audits your circuit's SLA health over the last 24 hours:
+
+- **Flaps**: Tracks interface state transitions. A reliable connection maintains `0 flaps`.
+- **Latency RTD (Round Trip Delay)**: Millisecond-level round-trip propagation transit time across endpoints.
+- **Availability (%)**: Uptime percentage evaluated against Polarin's 99.99% SLA commitment (e.g. `100.00%`).
+
+### End-to-End A-End to Z-End Topology
+
+The topology section maps the physical data Centre endpoints anchoring your connection:
+
+- **A-END - PORT**: The originating port and facility (e.g. _NTT Bengaluru DC3, Bidarahalli Hobli_).
+- **Z-END - PORT**: The destination port and facility (e.g. _STT GDC Chennai DC1, VSB Sivananda Salai_).
+- Click **View Details** to inspect physical patch IDs, optical transceivers, and cross-connect patch cords.
+
+## Metrics Reference
+
+| Field | Description |
+| --- | --- |
+| Traffic In & Out (Mbps) | Bidirectional throughput transmitted across the virtual connection in megabits per second. |
+| Packet In & Out | Count of Ethernet frames forwarded across the virtual circuit. |
+| Latency RTD (ms) | Round Trip Delay measured continuously between A-End and Z-End endpoints. |
+| Jitter (ms) | Statistical variance in packet arrival delay (Premium Package). Critical for voice and real-time streaming. |
+| Packet Loss (%) | Percentage of transmitted frames that failed to reach the destination interface (Premium Package). |
+| Errors Report | Detailed breakdown of CRC errors, frame alignment errors, and interface drops (Premium Package). |
+| Availability (180 Days) | Historical uptime percentage across 6 months for SLA compliance verification (Premium Package). |
+| Effective Rate Limit | Active throughput ceiling (Base contracted rate limit + Temporary Add-on bandwidth). |
+
+## Troubleshooting & Support
+
+- **Traffic Drops at Rate Limit**: If traffic graphs plateau at your configured rate limit, your application is saturating capacity. Click **Edit** under Temp Add-on to instantly add bandwidth.
+- **Sudden Latency Spikes**: Check the _Latency RTD_ graph. If latency suddenly doubles, an optical protection switch or reroute may have occurred. Check the _Tickets_ panel for carrier maintenance notices.
+
+<Tip>
+  Learn how to provision new connections in [Cloud Connect Overview](/products/cloud-connect/overview) and [Create a DCI Layer 2 Connection](/products/dci/layer-2).
+</Tip>

@@ -1,0 +1,92 @@
+---
+title: "Two-Factor Authentication"
+description: "Secure your Polarin account with authenticator app or email-based two-factor authentication and backup codes."
+sidebarTitle: "Two-Factor Authentication"
+---
+
+**Two-factor authentication (2FA)** adds a vital second layer of defense beyond your password when logging in to Polarin. Even if your password becomes compromised, unauthorized users cannot access your account without physical access to your authenticator device or your email inbox.
+
+## Choosing a Method
+
+From the **Two-factor authentication** card on your [Profile](/account/personal-information) page, click **Set up Two-Factor Authentication** to open the setup drawer. You can choose between two methods:
+
+<CardGroup cols={2}>
+  <Card title="Authenticator App" icon="shield">
+    Scan a QR code once into an authenticator app (such as Google Authenticator or Duo). Codes generate locally on your device without needing mobile connectivity or email delivery at login.
+  </Card>
+
+  <Card title="Email Code" icon="mail">
+    Receive a time-limited 6-digit one-time passcode sent directly to your registered email address every time you sign in. No mobile app required, but requires active inbox access when logging in.
+  </Card>
+</CardGroup>
+
+<Tip>
+  For the best experience, Polarin recommends using an **Authenticator App** like Google Authenticator or Duo. Time-based one-time passcodes (TOTP) generate instantaneously offline on your phone without waiting for email delivery.
+</Tip>
+
+## Setting Up an Authenticator App
+
+The **Authenticator App** tab **(1)** is selected by default upon opening the drawer:
+
+![Set up Two-Factor Authentication drawer showing QR code and manual setup key](/images/screenshots/profile/04-setup-2fa-app.jpg)
+
+<Steps>
+  <Step title="Click Set up Two-Factor Authentication">
+    Opens the setup drawer with **Authenticator App (1)** active.
+  </Step>
+  <Step title="Scan the QR Code or copy the manual key">
+    Open Google Authenticator, Duo, Microsoft Authenticator, or 1Password on your mobile device and point your camera at the QR code **(2)**. If your device camera is unavailable, copy the 32-character secret key shown under _Or enter the code manually_ and paste it directly into your authenticator app.
+  </Step>
+  <Step title="Enter the generated 6-digit code">
+    Type the 6-digit temporary verification code displayed in your authenticator app into the six entry boxes **(3)**.
+  </Step>
+  <Step title="Click Verify">
+    Click **Verify (3)**. Polarin confirms that your authenticator app is generating synchronized codes and enables 2FA protection for all subsequent sign-ins.
+  </Step>
+</Steps>
+
+<Note>
+  Treat your manual setup key as sensitive confidential data. Keep a secure backup of your authenticator account or export your authenticator credentials so you do not lose account access if you replace your phone.
+</Note>
+
+## Setting Up Email Code
+
+If you prefer receiving verification codes via email, select the **Email Code** tab:
+
+![Set up Two-Factor Authentication drawer showing email code countdown and verification inputs](/images/screenshots/profile/05-setup-2fa-email.jpg)
+
+<Steps>
+  <Step title="Select Email Code">
+    Click the **Email Code** tab **(1)** at the top of the setup drawer.
+  </Step>
+  <Step title="Click Request Verification Code">
+    Click **Request Verification Code** to trigger an email dispatch to your registered login address.
+  </Step>
+  <Step title="Check your inbox before the code expires">
+    The drawer confirms _Email sent successfully!_ **(2)** and starts a **2:00 countdown timer**. Locate the 6-digit verification code sent by Polarin in your email inbox.
+  </Step>
+  <Step title="Enter the 6-digit code and click Verify">
+    Type the received code into the six input boxes **(3)** and click **Verify** to activate email-based 2FA.
+  </Step>
+</Steps>
+
+<Tip>
+  If the timer expires before you enter the code, simply request a fresh code directly from the screen without restarting the process.
+</Tip>
+
+## Backup Codes & Lost Device
+
+When you first set up two-factor authentication, Polarin issues a set of one-time **backup codes** alongside it -- save these somewhere safe outside your authenticator app or inbox. Each code works once, and they exist specifically so a lost phone or an inaccessible inbox doesn't lock you out of your own account.
+
+- **Lost your device or can't receive the email code?** Use a backup code at the login challenge screen instead -- it takes you straight through as if you'd entered the regular code.
+- **Used up your backup codes?** Generate a fresh set from your Two-Factor Authentication settings once you're signed back in.
+- **Want to switch methods or turn 2FA off?** You can deregister your current method (authenticator app or email code) from the same settings screen, then set up a different one -- or leave 2FA off entirely, though we don't recommend it.
+
+<Warning>
+  Treat backup codes like passwords -- anyone with one can use it to get past your second factor. Store them somewhere only you can access, not in the same inbox protected by email-code 2FA.
+</Warning>
+
+## Next Steps
+
+- Review your login credentials: [Update Password](/account/update-password).
+- Keep your personal contact details up to date: [Personal Information](/account/personal-information).

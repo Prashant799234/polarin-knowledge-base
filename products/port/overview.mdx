@@ -1,0 +1,63 @@
+---
+title: "What Is a Port?"
+sidebarTitle: "Overview"
+description: "A Port is the physical cable from your equipment into Polarin's network at a data centre. Learn what you can build on it and how to choose a speed."
+---
+
+A **Port** is the physical cable running from your equipment into Polarin's network, at a data centre of your choosing. It's what most other Port-based services need before they can exist — a [Cloud Connect](/products/cloud-connect/overview) or a [DCI Layer 2](/products/dci/layer-2) link attaches to a Port you've already provisioned. A [Virtual Router](/products/virtual-router/overview) is the one exception — it's deployed directly at a location, with no Port required underneath it.
+
+On its own, a Port doesn't do much — it's a foundation, not a destination. What makes it useful is what you build on top of it.
+
+## What You Build on a Port
+
+- **Data centre to data centre** — attach a [Cloud Connect](/products/cloud-connect/overview) or a [DCI Layer 2](/products/dci/layer-2) link between two of your Ports to link two sites together at high bandwidth, without leasing dark fibre yourself.
+- **Data centre to cloud** — attach a [DC to Cloud connection](/products/cloud-connect/dc-to-cloud) from your Port straight into AWS, Azure, GCP, or Oracle, bypassing the public internet entirely.
+- **Site-to-site interconnection at scale** — a [DCI Layer 2](/products/dci/layer-2) service also attaches to a Port, for Ethernet links purpose-built for replication and DR traffic. (DCI Wave is the one DCI type that connects whole data centre sites instead — no Port needed.)
+
+<Tip>
+  Think of a Port as the socket — Cloud Connect and DCI Layer 2 are what you plug into it. Virtual Router and DCI Wave are the two products on Polarin that _don't_ need one.
+</Tip>
+
+## Choosing a Speed
+
+Ports come in three bandwidth tiers. Pick based on your combined bandwidth need across everything you'll run over it — only the tiers your chosen data centre actually has capacity for will be selectable when you order:
+
+- **1 Gbps** — small workloads, a single low-bandwidth connection, or dev/test environments.
+- **10 Gbps** — the common choice for a production Cloud Connect connection serving moderate traffic.
+- **100 Gbps** — high-throughput workloads, or when several services will share the same Port.
+
+Need more than one Port's worth of bandwidth at a single location? Bundle multiple Ports into a [Link Aggregation Group](/products/port/lag) instead of over-provisioning a single Port.
+
+## Next Steps
+
+- Ready to provision one? [Create a Port](/products/port/create).
+- Already have one? [Understand Port Status](/products/port/status).
+
+A **Port** is the physical cable running from your equipment into Polarin's network, at a data centre of your choosing. It's what most other Port-based services need before they can exist — a [Cloud Connect](/products/cloud-connect/overview) or a [DCI Layer 2](/products/dci/layer-2) link attaches to a Port you've already provisioned. A [Virtual Router](/products/virtual-router/overview) is the one exception — it's deployed directly at a location, with no Port required underneath it.
+
+On its own, a Port doesn't do much — it's a foundation, not a destination. What makes it useful is what you build on top of it.
+
+## What You Build on a Port
+
+- **Data centre to data centre** — attach a [Cloud Connect](/products/cloud-connect/overview) or a [DCI Layer 2](/products/dci/layer-2) link between two of your Ports to link two sites together at high bandwidth, without leasing dark fibre yourself.
+- **Data centre to cloud** — attach a [DC to Cloud connection](/products/cloud-connect/dc-to-cloud) from your Port straight into AWS, Azure, GCP, or Oracle, bypassing the public internet entirely.
+- **Site-to-site interconnection at scale** — a [DCI Layer 2](/products/dci/layer-2) service also attaches to a Port, for Ethernet links purpose-built for replication and DR traffic. (DCI Wave is the one DCI type that connects whole data centre sites instead — no Port needed.)
+
+<Tip>
+  Think of a Port as the socket — Cloud Connect and DCI Layer 2 are what you plug into it. Virtual Router and DCI Wave are the two products on Polarin that _don't_ need one.
+</Tip>
+
+## Choosing a Speed
+
+Ports come in three bandwidth tiers. Pick based on your combined bandwidth need across everything you'll run over it — only the tiers your chosen data centre actually has capacity for will be selectable when you order:
+
+- **1 Gbps** — small workloads, a single low-bandwidth connection, or dev/test environments.
+- **10 Gbps** — the common choice for a production Cloud Connect connection serving moderate traffic.
+- **100 Gbps** — high-throughput workloads, or when several services will share the same Port.
+
+Need more than one Port's worth of bandwidth at a single location? Bundle multiple Ports into a [Link Aggregation Group](/products/port/lag) instead of over-provisioning a single Port.
+
+## Next Steps
+
+- Ready to provision one? [Create a Port](/products/port/create).
+- Already have one? [Understand Port Status](/products/port/status).

@@ -1,0 +1,60 @@
+---
+title: "Create a Cloud to Cloud Connection"
+sidebarTitle: "Cloud to Cloud"
+description: "Set up a Cloud to Cloud connection to link two cloud providers through the Polarin backbone using a Virtual Router in five steps."
+---
+
+A **Cloud to Cloud** connection links two cloud providers directly through the Polarin backbone — useful for multi-cloud replication, or routing between workloads that live in, say, AWS and GCP without that traffic ever touching the public internet. It's the only one of the six creation wizards that routes through a **Virtual Router** as a required middle step. Need a link between a data centre port and a single cloud instead? See [Create a DC to Cloud Connection](/products/cloud-connect/dc-to-cloud).
+
+## Before You Begin
+
+<Warning>
+  You need a [Virtual Router](/products/virtual-router/create) — existing or created inline during this wizard — plus a **Pairing Key** from each cloud provider's own console before you start.
+</Warning>
+
+## 1. Cloud Selection
+
+From **Services**, create a new **Cloud to Cloud** connection. The wizard's progress trail shows five steps — the most of any creation flow on Polarin: **Cloud Selection → Select Virtual Router → Configure Connection → Add Ons → Checkout**.
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Cloud Provider (A-End and Z-End) | Pick one of GCP, AWS, Azure, or Oracle for each end — the two ends don't have to be the same provider. | Yes |
+| Select Interconnect Location | The data centre where Polarin peers with that cloud provider's network, shown with the provider's own interconnect/exchange name. | Yes |
+| Pairing Key | The key your cloud provider's console gives you for this interconnection, entered per end so Polarin can complete the peering handshake on its side. | Yes |
+
+![Cloud Selection step showing A-End and Z-End cloud provider pickers with interconnect location and pairing key](/images/screenshots/cloud-to-cloud/01-cloud-selection.jpg)
+
+## 2. Select Virtual Router
+
+Pick an existing Virtual Router from a searchable list (filterable by data centre, city, state, country, or provider) — each entry shows its status (Live or Design) and, for ones still in Design, its speed and remaining available capacity. Don't have a suitable one yet? Click **Create New Virtual Router** right from this step without leaving the wizard.
+
+![Select Virtual Router step with a searchable list of existing routers](/images/screenshots/cloud-to-cloud/02-select-virtual-router.jpg)
+
+## 3. Configure Connection
+
+Same pattern as every other wizard's Configure step, applied here to the connection itself:
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Connection Name | Must be unique across your organisation. Alphanumeric characters and hyphens only. | Yes |
+| Rate Limit | The bandwidth for this connection, bounded by what the attached Virtual Router has available. | Yes |
+| Subscription Term | PAYG, Short Term (1–11 months), or Long Term (12–60 months, "Better savings"). | Yes |
+| Payment Options | No Upfront, Partial Upfront (+5% discount), or All Upfront (+10% discount). | Yes |
+
+## 4. Add Ons
+
+**VISTA** — Standard (free) or Premium — for real-time monitoring and traffic analytics on the connection. See [VISTA for Connections](/vista/connections).
+
+## 5. Checkout
+
+Because a Cloud to Cloud connection is really two cloud legs riding over one Virtual Router, the Order Summary bills them separately: the **Virtual Router** itself (with its own billing profile), then **Connection Details 1** and **Connection Details 2** — one per leg — each with its own billing profile, plus VISTA if added, priced per circuit.
+
+![Cloud to Cloud checkout screen with Virtual Router and two Connection Details billing profiles](/images/screenshots/cloud-to-cloud/03-checkout.jpg)
+
+Click **Create Connection** to place the order.
+
+## Next Steps
+
+- Connecting a data centre to a single cloud instead? [Create a DC to Cloud Connection](/products/cloud-connect/dc-to-cloud).
+- Need a new Virtual Router first? [Create a Virtual Router](/products/virtual-router/create).
+- Understand the shared service page: [Understanding the Service Detail Page](/service-management/service-detail).

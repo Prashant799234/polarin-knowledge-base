@@ -1,0 +1,38 @@
+---
+title: "What Is Cloud Connect?"
+sidebarTitle: "Overview"
+description: "Cloud Connect gives you a private, point-to-point link to a cloud provider — bypassing the public internet for lower latency and more predictable performance."
+---
+
+Cloud Connect gives you a private, point-to-point link to a cloud provider — bypassing the public internet for lower latency and more predictable performance than a standard VPN. Both types reach a cloud; if you're linking two of your own sites instead, that's a different product — see Not Reaching a Cloud below.
+
+Every Cloud Connect connection is one of two types, depending on what's on each end.
+
+## The Two Types
+
+| Type | Description |
+| --- | --- |
+| DC to Cloud | Links a Port you already own directly into a cloud provider — AWS, GCP, Azure, or Oracle — bypassing the public internet. |
+| Cloud to Cloud | Links two cloud providers to each other through a Virtual Router — no Port required at either end. |
+
+## Which One Do You Need?
+
+- Reaching a cloud provider from your own equipment? **DC to Cloud.**
+- Connecting workloads that already live in two different clouds, or two regions? **Cloud to Cloud.**
+
+<Info>
+  Connecting more than two points, or need real routing logic between them? A single Cloud Connect connection is point-to-point only — reach for a [Virtual Router](/products/virtual-router/overview) instead once the topology grows past a simple link.
+</Info>
+
+DC to Cloud attaches to a [Port](/products/port/overview) you've already provisioned at the Polarin end. Cloud to Cloud is the exception — it has no Port on either end, but it does require an existing (or newly created) [Virtual Router](/products/virtual-router/overview) to route between the two clouds.
+
+## Not Reaching a Cloud?
+
+If you're linking two of your own sites together instead — no cloud provider on either end — that's a [Data Centre Interconnect](/products/dci/overview) question, not Cloud Connect: [DCI Wave](/products/dci/wave) for dedicated, point-to-point optical connectivity between two entire sites, or [DCI Layer 2](/products/dci/layer-2) for an Ethernet link over two ports you already own.
+
+## Next Steps
+
+- Reaching a single cloud from a Port? [Create a DC to Cloud Connection](/products/cloud-connect/dc-to-cloud).
+- Linking two clouds to each other? [Create a Cloud to Cloud Connection](/products/cloud-connect/cloud-to-cloud).
+- Linking two of your own sites instead? [Create a Data Centre Interconnect](/products/dci/compare).
+- Need something with routing logic instead? [What Is a Virtual Router?](/products/virtual-router/overview).

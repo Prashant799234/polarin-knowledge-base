@@ -1,0 +1,65 @@
+---
+title: "Create a DCI Wave Connection"
+sidebarTitle: "Wave"
+description: "Set up a DCI Wave optical connection between two data centre sites with optional cross connect, VISTA, and bit-error-rate testing."
+---
+
+**DCI Wave** is Polarin's optical, Layer 1 form of [Data Centre Interconnect](/products/dci/overview) — dedicated wavelength circuits between two entire data centre sites, built for the highest and most predictable throughput. You may notice the wizard header itself reads _"Create Data Center Interconnect Layer 1"_ — Layer 1 is Wave's internal engineering name for the same product. If you want an Ethernet connection between two ports you already have instead, see [Create a DCI Layer 2 Connection](/products/dci/layer-2).
+
+## Before You Begin
+
+<Warning>
+  Unlike Port, Virtual Router, or DCI Layer 2, DCI Wave connects two **data centre sites** directly — not two ports you provision separately beforehand. Because it's built to order, allow roughly **two weeks** for setup once you place the order.
+</Warning>
+
+## 1. Data Center Selection
+
+From **Services**, create a new **DCI Wave** connection. The wizard's progress trail shows four steps: **Data Center Selection → Configure Connection → Add Ons → Checkout**.
+
+Search for your **A-End Data Center** and **Z-End Data Center** by name, city, state, country, or provider — the country filter shows a live count of available sites per country. Can't find your facility? There's a **"Request to add it"** link right in the picker.
+
+![Data Center Selection step for DCI Wave with country-filtered search](/images/screenshots/dci-wave/01-data-center-selection.jpg)
+
+## 2. Configure Connection
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Connection Name | Must be unique across your organisation. Alphanumeric characters and hyphens only. | Yes |
+| Rate Limit | 10 Gbps, 100 Gbps, or 400 Gbps. Wave circuits are built to order, so each available tier is flagged "Available — setup will take ~2 weeks" rather than provisioning instantly. | Yes |
+| Number of Circuits | ×1 through ×8 — the number of discrete physical circuits at your chosen Rate Limit (e.g. ×3 on a 100 Gbps Rate Limit gives three separate 100 Gbps circuits, shown as 300Gbps of combined capacity). | Yes |
+| Subscription Term | Short Term (1–11 months) or Long Term (12–60 months, "Better savings"). No PAYG — Wave is optical infrastructure built out per order. | Yes |
+
+![Configure Connection step for DCI Wave showing Rate Limit tiers and Number of Circuits](/images/screenshots/dci-wave/02-configure-connection.jpg)
+
+<Tip>
+  Number of Circuits and Rate Limit multiply together: ×1 on a 10 Gbps Rate Limit is a single 10 Gbps circuit; ×8 on the same tier is eight separate 10 Gbps circuits (shown as 80Gbps of combined capacity) — useful for redundancy across physically distinct paths, not just raw throughput.
+</Tip>
+
+## 3. Add Ons
+
+DCI Wave's Add Ons step is the richest of the six creation wizards:
+
+- **Cross Connect** — available for both the A-End and Z-End independently, each "Managed by Lightstorm." A notice on this step flags that cross connect charges are subject to feasibility, and may change if the feasibility scope does.
+- **VISTA** — Standard (free) or Premium (₹5,000/month per circuit), for real-time monitoring and traffic analytics on the circuit.
+- **Bit Error Rate Test (BERT)** — unique to Wave. **24 Hours** is included by default at no extra cost; **48 Hours** is a paid upgrade, billed per circuit, for more rigorous testing. Either way, Polarin runs the test before handover and guarantees a full retest if any criteria aren't met.
+
+![Add Ons step showing VISTA Standard/Premium and the Bit Error Rate Test 24 Hour / 48 Hour options](/images/screenshots/dci-wave/04-add-ons-bert.jpg)
+
+See [VISTA for DCI Wave](/vista/dci-wave) for what the optical-layer telemetry (latency RTD, optical flaps, 99.999% SLA availability) actually tracks.
+
+## 4. Checkout
+
+The Order Summary carries **three separate billing profiles** — one each for the A-End, the Z-End, and VISTA — since each piece can be billed to a different entity in your organisation. Cross Connect, where added, is nested under its end's details and billed against that same end's profile.
+
+![DCI Wave checkout screen with three billing profiles and Cross Connect line items](/images/screenshots/dci-wave/03-checkout.jpg)
+
+Click **Create DCI Wave** to place the order.
+
+## After You Order
+
+Track progress from the service's **Track Order** tab: **Order Details Validated** → **Deployment in Progress** → **Configured**, with LOA generation and patch-in steps visible along the way if you ordered Cross Connect. Expect the full cycle to track close to the ~2 week estimate shown during Rate Limit selection.
+
+## Next Steps
+
+- Need an Ethernet link over existing ports instead? [Create a DCI Layer 2 Connection](/products/dci/layer-2).
+- Understand the shared service page: [Understanding the Service Detail Page](/service-management/service-detail).

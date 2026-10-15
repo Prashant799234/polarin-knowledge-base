@@ -1,0 +1,115 @@
+---
+title: "VISTA for DCI Wave"
+description: "Monitor dedicated Layer 1 optical wave circuits with VISTA telemetry for availability, latency RTD, optical flaps, and bit error rate testing."
+sidebarTitle: "DCI Wave"
+---
+
+**DCI Wave** delivers dedicated, unshared Layer 1 optical wavelength connectivity over Polarin's dense wavelength division multiplexing (DWDM) fiber backbone. Unlike packet-switched circuits, DCI Wave provides dedicated physical photonic channels with deterministic, speed-of-light propagation latency.
+
+VISTA for DCI Wave monitors the physical optical layer directly. It continuously audits optical carrier availability, signal stability, round-trip delay, and automated optical protection switching.
+
+<Tip>
+  Because DCI Wave operates at physical Layer 1 without packet encapsulation, VISTA tracks optical photonic parameters rather than packet-level counters. For packet-switched Ethernet interconnects, see [VISTA for Connections](/vista/connections).
+</Tip>
+
+## What Is DCI Wave?
+
+Enterprises use DCI Wave for high-throughput, latency-critical connectivity between data center sites:
+
+- **Synchronous Storage Replication**: Zero-jitter optical paths for storage area network (SAN) extension and active-active clustering.
+- **Disaster Recovery (DR) Backbones**: High-bandwidth bulk replication pipelines linking primary and failover facilities.
+- **Deterministic Low Latency**: Direct optical paths without intermediate switch queuing delay or packet buffering.
+
+## Optical Layer 1 Telemetry Pillars
+
+VISTA monitors four critical dimensions of physical optical wave health:
+
+<CardGroup cols={2}>
+  <Card title="Optical Availability (99.999%)" icon="shield">
+    Monitors true photonic signal availability evaluated against Polarin's five-nines optical carrier SLA target.
+  </Card>
+
+  <Card title="Deterministic Latency RTD" icon="clock">
+    Continuous Round Trip Delay measurement in milliseconds. Tracks physical fiber route consistency and propagation latency.
+  </Card>
+
+  <Card title="Optical Link Flaps" icon="zap">
+    Detects optical signal interruptions, loss of signal (LOS), or automatic protection switching (APS) events.
+  </Card>
+
+  <Card title="Correlated Incident Tickets" icon="wrench">
+    Maps planned DWDM core maintenance windows and support tickets directly onto circuit telemetry graphs.
+  </Card>
+</CardGroup>
+
+## Optical SLA & Availability (100.00%)
+
+DCI Wave circuits are engineered for mission-critical resiliency. VISTA tracks uptime continuously, calculating the exact percentage of time the optical carrier signal remains locked and forwarding frames.
+
+- **Continuous Verification**: Live availability metrics are calculated over 24-hour, 7-day, and 30-day windows.
+- **SLA Auditing**: Generate compliance audit reports directly via the [Reports Module](/settings/reports) under the _DCI L1_ category.
+
+## Ultra-Low Latency RTD (Round Trip Delay)
+
+Round Trip Delay (RTD) on DCI Wave reflects pure optical transit time through fiber optic glass:
+
+- **Fixed Propagation Delay**: Light travels through optical fiber at approximately 5 microseconds per kilometer (round trip ~10 µs/km). Latency RTD remains virtually flat under normal operation.
+- **Protection Switch Detection**: If an optical fiber path is cut and automatic protection switching (APS) routes traffic onto a secondary geographical path, VISTA instantly flags the change in baseline RTD.
+
+## Optical Flaps & Signal Health
+
+An optical flap occurs when the optical carrier signal momentarily drops below the receiver's sensitivity threshold:
+
+- **Healthy Link Standard**: Under optimal operating conditions, the 24-hour flap counter displays `0 flaps`.
+- **Micro-Bends & Fiber Stress**: Increasing flap counts warn of physical fiber bending, road construction vibrations along long-haul routes, or failing optical amplifiers (EDFA) before total signal collapse occurs.
+
+## Bit Error Rate Test (BERT)
+
+BERT is unique to DCI Wave among every VISTA-monitored product. It's offered as an [Add Ons](/products/dci/wave) step option at order time, not something you turn on after the fact. "Choose how long the bit-error rate test should run — choose 48 hours if you need more rigorous testing."
+
+![Bit Error Rate Test add-on with 24 Hour and 48 Hour options and the What We Verify checklist](/images/screenshots/dci-wave/04-add-ons-bert.jpg)
+
+24 Hours is included by default at no extra cost; 48 Hours is a paid upgrade, billed per circuit.
+
+| Field | Description |
+| --- | --- |
+| 24 Hours | Included by default at no extra cost. |
+| 48 Hours | A paid upgrade, billed per circuit (shown as its own BERT line item at checkout). Choose this for more rigorous testing. |
+
+Expanding **Hide/Show Benefits** reveals exactly what the test verifies:
+
+- Link stability and uptime over the full test window.
+- Traffic switchover within 60 ms on any path failure event.
+- Service availability confirmed from source to destination node.
+- A full 24-hour retest, guaranteed, if any criteria are unmet.
+
+<Tip>
+  That last point matters: if your circuit fails the test, you're not stuck with a bad result. Polarin guarantees a full retest rather than handing over a circuit that didn't pass.
+</Tip>
+
+## Maintenance Windows & Tickets
+
+Unlike standalone monitoring tools that lack carrier context, VISTA integrates planned maintenance schedules directly into your circuit view:
+
+- **Maintenance Overlay**: When Polarin or an underlying optical dark fiber provider performs scheduled nighttime core maintenance, notifications appear in the **Tickets** dimension.
+- **Fast Incident Resolution**: If unexpected optical degradation occurs, click **Raise an Issue** on the service detail page. All photonic diagnostic parameters are automatically attached to the NOC ticket.
+
+## DCI Wave Metrics Reference
+
+| Field | Description |
+| --- | --- |
+| Availability (%) | Uptime percentage of the optical wavelength channel over the measurement window. |
+| Latency RTD (ms) | Round Trip Delay in milliseconds measured across A-End and Z-End optical transponders. |
+| Flaps Counter | Number of optical loss-of-signal (LOS) or carrier protection switching transitions. |
+| Optical Power (Tx/Rx) | Photonic laser transmit and receive power levels in dBm. |
+| Carrier Tickets | Mapped maintenance windows, planned network re-routes, and open support cases. |
+| Bit Error Rate Test | One-time, pre-handover test result (24h or 48h window), if you selected it as an Add On when ordering. |
+
+## Optical Troubleshooting
+
+- **Baseline Latency Shift**: A permanent shift in Latency RTD indicates the optical core has switched over to a longer protection path. Check the Tickets panel to see if a fiber maintenance activity is underway.
+- **Optical Signal Flapping**: Contact the Polarin NOC immediately via the _Raise an Issue_ button or refer to the [Escalation Matrix](/support/escalation-matrix) for 24/7 optical support.
+
+<Tip>
+  Learn how to order optical wavelength circuits in [DCI Overview](/products/dci/overview) and [Create a DCI Wave Connection](/products/dci/wave).
+</Tip>

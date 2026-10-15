@@ -1,0 +1,82 @@
+---
+title: "Create a Port"
+sidebarTitle: "Create"
+description: "Provision a physical Port at a Polarin data centre in four steps: choose location, configure bandwidth and LAG, add ons, then checkout."
+---
+
+A **Port** is the physical point of connection between your equipment and the Polarin network at one of our data centre locations. It's the foundation almost everything else builds on — a [Cloud Connect](/products/cloud-connect/overview), a [Data Centre Interconnect](/products/dci/overview), and a [DC to Cloud connection](/products/cloud-connect/dc-to-cloud) all attach to a Port you've already created. Not sure if a Port is what you need first? See [What Is a Port?](/products/port/overview).
+
+## Before You Begin
+
+<Note>
+  Your **Organisation Profile** must be verified before you can order a Port. If you haven't completed that yet, start at [Complete Organisation Profile](/get-started/organisation/complete-profile).
+</Note>
+
+## Start the Wizard
+
+From **Services**, click **Create** next to Port (or **+Create** → **Create a Port** if you already have services). The wizard runs through four steps shown as a progress trail at the top: **Port Location → Configure Port → Add Ons → Checkout**.
+
+## 1. Port Location
+
+Search for and select the data centre where you want the port physically provisioned — by data centre name, city, state, country, or provider. This choice is permanent and determines which bandwidth tiers are available in the next step, since it depends on actual capacity at that facility.
+
+## 2. Configure Port
+
+This is where most of the decisions happen. Give the port a name, pick its bandwidth, optionally turn it into a LAG, and choose how you want to pay for it.
+
+| Field | Description | Required |
+| --- | --- | --- |
+| **Port Name** | A name for this port. Must be unique across your organisation — alphanumeric characters and hyphens only. | Yes |
+| **Port Bandwidth** | 1 Gbps, 10 Gbps, or 100 Gbps. Only the tiers the selected data centre actually has capacity for are selectable — the rest are shown greyed out and marked "Not Available". | Yes |
+| **LAG (Link Aggregation Group)** | A toggle, off by default. Switch it on to bundle 2–8 physical ports into one logical link for higher aggregate bandwidth and redundancy — see Create a Link Aggregation Group for the full picture. | No |
+| **Subscription Term** | Short Term (pick anywhere from 1–11 months) or Long Term (12–60 months, flagged "Better savings"). There's no pay-as-you-go option for a Port — it's physical infrastructure, so a term is always required. | Yes |
+| **Payment Options** | No Upfront (pay monthly), Partial Upfront (50% now + 50% spread monthly, +5% discount), or All Upfront (pay the full term now, +10% discount). | Yes |
+
+![Configure Port step showing Port Bandwidth, LAG toggle, Subscription Term, and Payment Options](/images/screenshots/ports/01-configure-port.jpg)
+
+Turning **LAG** on reveals a row of ×1 through ×8 tiles — each one is both the number of physical ports bundled together _and_ the resulting aggregate bandwidth at your chosen per-port speed (so ×4 on a 1 Gbps port gives you a 4 Gbps LAG across 4 physical ports). This is the same LAG your device needs to run **IEEE 802.3ad LACP** to use — see [Create a Link Aggregation Group](/products/port/lag) for the full detail on member-port rules.
+
+## 3. Add Ons
+
+Two optional add-ons can attach to a Port at order time:
+
+- **Cross Connect** — "Let Lightstorm set up your physical cross connect" (badged Faster delivery / End-to-end managed). Choose **I have the LOA file** and upload your Letter of Authorization (PDF, JPG, or PNG, up to 5 MB), or **I will enter the details manually** if you'd rather arrange it yourself at your data centre operator. It's billed as part of the port's own billing profile — no separate line item to manage.
+- **VISTA** — Polarin's network intelligence add-on. For a Port, the **VISTA Premium package is included by default at no extra cost** — there's no separate Standard/Premium choice to make here. Click **View Benefits** to expand the full feature list. See [VISTA for Port](/vista/port) for what each metric actually shows you.
+
+![Add Ons step with Cross Connect LOA upload and VISTA included by default](/images/screenshots/ports/02-add-ons.jpg)
+
+## 4. Checkout
+
+| Field | Description | Required |
+| --- | --- | --- |
+| **Billing Cycle** | How often invoices are raised for this port: Monthly, Quarterly (every 3 months), or Half Yearly (every 6 months). This only controls invoice frequency, not the subscription term itself. | Yes |
+| **Purchase Order (Optional)** | Off by default if your organisation hasn't marked POs as mandatory in Organisation Settings. Switch it on to attach a PO number — billing will otherwise be generated from your signed order form. | No |
+| **Billing Profile** | Which of your billing entities this port is billed to. Pick an existing one from the dropdown or click Add Billing Profile to create one without leaving the wizard. | Yes |
+
+![Checkout screen with Billing Cycle, Purchase Order toggle, and Order Summary](/images/screenshots/ports/03-checkout.jpg)
+
+Review the **Order Summary** — it restates the port's location, name, bandwidth, and term next to whichever billing profile you've selected — then click **Create Port**.
+
+## After You Order
+
+Your new port appears on the Services list immediately with a **Deployment in Progress** badge. Open it and go to the **Track Order** tab to watch it move through four milestones:
+
+- **Order Details Validated** — your order information has been reviewed.
+- **Deployment in Progress** — Polarin is setting up the physical infrastructure.
+- **Ready to Patch** — the port is physically ready; if you ordered a Cross Connect, this is when it gets patched in.
+- **Port goes Live** — traffic can now flow.
+
+![Service detail page Track Order tab showing the port lifecycle milestones](/images/screenshots/ports/04-service-lifecycle.jpg)
+
+<Info>
+  For what each status badge means across every product, see [Understand Port Status](/products/port/status) and the shared [Understanding Service Status](/service-management/service-status) reference.
+</Info>
+
+## Next Steps
+
+Once your port is live, you can attach almost anything to it:
+
+- Bundle more ports into it: [Create a Link Aggregation Group](/products/port/lag).
+- Link it to another site: [Create a DCI Layer 2 Connection](/products/dci/layer-2) or [Create a DCI Wave Connection](/products/dci/wave).
+- Reach a cloud provider directly: [Create a DC to Cloud Connection](/products/cloud-connect/dc-to-cloud).
+- Add routing on top: [Create a Virtual Router](/products/virtual-router/create).

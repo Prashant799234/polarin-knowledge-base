@@ -1,0 +1,77 @@
+---
+title: "What Is Internet Exchange?"
+sidebarTitle: "Overview"
+description: "Internet Exchange connects your Port to Polarin's peering fabric so you can exchange traffic directly with other networks over BGP instead of transit."
+---
+
+**Internet Exchange (IX)** connects your Port to Polarin's peering fabric — a shared point where many networks meet to exchange traffic directly with each other over BGP, instead of routing it through an upstream transit provider.
+
+Join once, and you can peer with every other network on the exchange over that single connection — content providers, cloud on-ramps, ISPs — rather than negotiating and provisioning a separate link to each one.
+
+## Why Peer Instead of Transit
+
+- **Lower transit costs** — traffic exchanged directly over IX doesn't run up your paid transit bill.
+- **Lower latency** — a direct hop to the destination network beats a multi-hop path through transit providers.
+- **More resilience** — peering gives you an additional path to reach popular destinations, reducing reliance on any single upstream provider.
+
+<Info>
+  IX is about reaching other networks broadly through shared peering — if you need a dedicated, private link to one specific cloud or site instead, that's what a [Cloud Connect](/products/cloud-connect/overview) is for.
+</Info>
+
+## Two Ways to Peer
+
+Every Internet Exchange, Polarin's included, works one of two ways once you're connected:
+
+| Model | Description |
+| --- | --- |
+| Multilateral (route-server) peering | One BGP session to the exchange's route server exchanges routes with every other participant who's also on it. Fastest way to pick up a lot of peers at once — the default most networks start with. |
+| Bilateral peering | A direct BGP session to one specific network, negotiated one-to-one. Use it for a peer who doesn't participate in the route server, or when you want to control exactly which routes you exchange with that one network. |
+
+Most networks run both at once: route-server peering for broad reach with minimal setup, plus a handful of bilateral sessions for specific peers that matter enough to negotiate directly.
+
+## What You'll Need
+
+- A [Port](/products/port/overview) already provisioned at a location where Polarin offers Internet Exchange.
+- Your own public **ASN (Autonomous System Number)** — the identifier your network uses to speak BGP.
+- The IP prefixes you intend to announce, registered against your ASN in a routing registry (IRR) so other networks' filters accept them.
+
+## Next Steps
+
+- Ready to join? [Set Up Internet Exchange](/products/internet-exchange/setup).
+- Need a private link instead? [What Is Cloud Connect?](/products/cloud-connect/overview).
+
+**Internet Exchange (IX)** connects your Port to Polarin's peering fabric — a shared point where many networks meet to exchange traffic directly with each other over BGP, instead of routing it through an upstream transit provider.
+
+Join once, and you can peer with every other network on the exchange over that single connection — content providers, cloud on-ramps, ISPs — rather than negotiating and provisioning a separate link to each one.
+
+## Why Peer Instead of Transit
+
+- **Lower transit costs** — traffic exchanged directly over IX doesn't run up your paid transit bill.
+- **Lower latency** — a direct hop to the destination network beats a multi-hop path through transit providers.
+- **More resilience** — peering gives you an additional path to reach popular destinations, reducing reliance on any single upstream provider.
+
+<Info>
+  IX is about reaching other networks broadly through shared peering — if you need a dedicated, private link to one specific cloud or site instead, that's what a [Cloud Connect](/products/cloud-connect/overview) is for.
+</Info>
+
+## Two Ways to Peer
+
+Every Internet Exchange, Polarin's included, works one of two ways once you're connected:
+
+| Model | Description |
+| --- | --- |
+| Multilateral (route-server) peering | One BGP session to the exchange's route server exchanges routes with every other participant who's also on it. Fastest way to pick up a lot of peers at once — the default most networks start with. |
+| Bilateral peering | A direct BGP session to one specific network, negotiated one-to-one. Use it for a peer who doesn't participate in the route server, or when you want to control exactly which routes you exchange with that one network. |
+
+Most networks run both at once: route-server peering for broad reach with minimal setup, plus a handful of bilateral sessions for specific peers that matter enough to negotiate directly.
+
+## What You'll Need
+
+- A [Port](/products/port/overview) already provisioned at a location where Polarin offers Internet Exchange.
+- Your own public **ASN (Autonomous System Number)** — the identifier your network uses to speak BGP.
+- The IP prefixes you intend to announce, registered against your ASN in a routing registry (IRR) so other networks' filters accept them.
+
+## Next Steps
+
+- Ready to join? [Set Up Internet Exchange](/products/internet-exchange/setup).
+- Need a private link instead? [What Is Cloud Connect?](/products/cloud-connect/overview).

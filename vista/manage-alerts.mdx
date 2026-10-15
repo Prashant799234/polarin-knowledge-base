@@ -1,0 +1,145 @@
+---
+title: "Manage Alerts"
+description: "Configure threshold-based alert rules for Ports, Cloud Connect, and DCIs with SLA presets, hold durations, and in-app or email notifications."
+sidebarTitle: "Manage Alerts"
+---
+
+**Manage Alerts** puts you in control of automated network monitoring. Rather than waiting for end users to report an issue or manually checking telemetry graphs in VISTA, you can configure threshold rules that continuously monitor your Ports, Cloud Connect connections, and DCIs. When a service breaches your target availability or health metric for a sustained duration, Polarin alerts your team in real time via in-app banners, the top bell icon, and direct standalone email dispatches.
+
+<CardGroup cols={2}>
+  <Card title="Custom Thresholds" icon="sliders-horizontal">
+    Set SLA benchmarks (99.9%, 99.7%) or tailored custom percentages.
+  </Card>
+
+  <Card title="Flap Prevention" icon="clock">
+    Enforce hold durations (15 to 60 min) before firing and clearing.
+  </Card>
+
+  <Card title="No-Login Email Alerts" icon="mail">
+    Dispatch email notifications directly to NOC inboxes without Polarin logins.
+  </Card>
+
+  <Card title="Per-Service Granularity" icon="shield-check">
+    Watch specific ports, connections, or entire multi-cloud fabrics.
+  </Card>
+</CardGroup>
+
+<Info>
+  **SLA Clarification:** These alerts are an internal monitoring and operational mechanism configured by your team to maintain proactive visibility over your network. They operate independently from the contractual, legal SLA commitments defined in your master service agreement with Polarin.
+</Info>
+
+## Alert Rules Dashboard
+
+To access your alert rules, sign in to **polarin.lightstorm.net**, click **Settings** in the top header, and select **Manage Alerts** under the **ORGANISATION** section in the left sidebar.
+
+![Manage Alert Rules dashboard](/images/screenshots/alerts/01-manage-alerts-overview.jpg)
+
+Manage Alert Rules table: review active rules, severity levels, watched services, conditions, and trigger actions.
+
+| Badge | Label | Description |
+| --- | --- | --- |
+| 1 | \+ Create Alert Button | Opens the slide-over drawer to configure a new monitoring rule from scratch. |
+| 2 | Search & Time Filter | Search rules by name, metric, or service, or limit the view to "Last 1 Month" or custom intervals. |
+| 3 | Rule Name & Severity | User-assigned rule name and urgency badge: Critical (red), Warning (amber), or Info (blue). |
+| 4 | Watched Services | The specific connection (e.g. test_vc_live) or count of services monitored by this rule. |
+| 5 | Condition Threshold | Operational expression being evaluated (e.g., AVG Availability \< 100% or AVG Availability \< 99.7%). |
+| 6 | Quick Actions Toolbar | One-click controls on every row to Pause, Edit rule settings, or Delete. |
+
+## Creating an Alert Rule
+
+Clicking the **\+ Create Alert** button opens the rule configuration drawer on the right. Setting up a rule involves defining the target threshold, establishing flapping prevention, attaching the services to monitor, and choosing communication channels.
+
+![Create Alert Rule drawer](/images/screenshots/alerts/02-create-alert-rule.jpg)
+
+Configuring condition presets, custom threshold percentages, hold durations, and attaching watched services.
+
+| Badge | Label | Description |
+| --- | --- | --- |
+| 1 | Condition & SLA Presets | Choose an SLA preset (Expected SLA 99.9%, Standard SLA 99.7%) or enter a Custom percentage threshold. |
+| 2 | Hold For Duration | Select 15 min, 30 min, 45 min, or 60 min to require a continuous breach before the alert triggers. |
+| 3 | Services This Alert Watches | Multi-select dropdown with checkboxes to assign specific active ports and Cloud Connect connections. |
+| 4 | In-App Notification Preview | Preview explaining that in-app alerts are always on across dashboards, service pages, and the top bell. |
+
+## SLA & Threshold Presets
+
+When configuring the alert condition, Polarin provides two one-click presets tuned to common SLA expectations, alongside a custom field:
+
+<Card title="Expected SLA — 99.9%" icon="target">
+  Best for critical production interconnects, primary financial transits, and zero-downtime multi-cloud links. Alerts trigger as soon as availability dips below three nines.
+</Card>
+
+<Card title="Standard SLA — 99.7%" icon="bar-chart">
+  Recommended for general enterprise connectivity, branch interconnects, and non-real-time synchronisation links.
+</Card>
+
+<Card title="Custom Threshold — User Defined" icon="sliders">
+  Enter any percentage (e.g., 95% or 90%) to monitor backup lines, staging environments, or testing circuits without triggering unnecessary high-priority alarms.
+</Card>
+
+## Hold Duration & Flapping Prevention
+
+Transient network blips, route convergence pauses, and sub-second BFD reconvergences should not wake up on-call engineers. Polarin solves this using a strict **Hold Duration** window.
+
+**How Breach Windows and Recovery Work**
+
+- **Breach Persistence:** When performance drops below your condition threshold, Polarin opens an active breach window. The alert will _only_ fire if the breach persists continuously for the selected hold duration (**15 min**, **30 min**, **45 min**, or **60 min**).
+- **Recovery Symmetry:** Once an alert has fired, it will not clear prematurely. The monitored service must sustain clean metrics above your threshold for the entire hold duration before the alert automatically resolves and notifies subscribers.
+- **Evaluation Frequency:** Rules are evaluated every 15 minutes by Polarin's background telemetry engine.
+
+## Watched Services
+
+Alert rules are decoupled from individual services. A single rule can monitor one connection, several ports, or an entire regional fabric. Clicking any rule on the dashboard opens its detail drawer with the **Services** tab.
+
+![Watched Services tab in alert drawer](/images/screenshots/alerts/04-alert-watched-services.jpg)
+
+Reviewing watched services, real-time breach status ("No Alerts Yet"), deep-links, and service detach options.
+
+| Badge | Label | Description |
+| --- | --- | --- |
+| 1 | Watched Service & Status | Lists the service name, type (e.g. Cloud Connect), and live health indicator ("No Alerts Yet" or active breach). |
+| 2 | View Service Details Link | Directly opens the full telemetry and configuration page for the affected service in a single click. |
+| 3 | Detach Service (Trash Icon) | Remove an individual service from this rule without deleting the rule itself. Removing a service immediately clears any active breach window. |
+
+<Tip>
+  Need to inspect live interface utilisation or latency before detaching a service? Click **View Service Details** to open the service telemetry page, or explore [Understanding the Service Detail Page](/service-management/service-detail).
+</Tip>
+
+## In-App & Email Alerts
+
+The **Notifications** tab in the alert drawer controls who receives notifications and through which channels.
+
+![Alert notifications drawer and recipients](/images/screenshots/alerts/03-alert-notifications-drawer.jpg)
+
+Delivery channels (In-App & In-Mail) and recipient subscription list with subscriber status.
+
+| Badge | Label | Description |
+| --- | --- | --- |
+| 1 | Rule Actions Toolbar | Edit Rule, Delete, or Pause buttons accessible at all times at the top of the slide-over drawer. |
+| 2 | Drawer Tabs | Switch between Watched Services, Alert History (past breaches), and Notifications. |
+| 3 | Delivery Channels | Shows In-App (always on across platform) and In-Mail (email dispatch). |
+| 4 | Recipient Subscriber List | List of email addresses subscribed to this alert with their Active status badge and timestamp. |
+
+### Comparing Delivery Channels
+
+| Channel | Availability | Login Required? | Where It Appears |
+| --- | --- | --- | --- |
+| In-App | Always On | Yes (logged-in user) | Top bell icon, Dashboard alert banner, and affected Service Detail header. |
+| In-Mail (Email) | Configurable | No Polarin login needed | Delivered directly to any specified email inbox (NOC distribution lists, pager gateways, team leads). |
+
+<Tip>
+  **NOC Integration Tip:** Because email alerts do not require recipients to have an active Polarin account, you can add shared distribution lists like `noc-alerts@yourcompany.com` or pager service webhooks directly into the Recipients field.
+</Tip>
+
+## Pause, Edit & Delete Rules
+
+Network maintenance windows and scheduled upgrades often cause intentional downtime. Polarin gives you full lifecycle controls over rules to prevent alert noise during scheduled work:
+
+- **Pause / Resume:** Temporarily suspend rule evaluation during maintenance. Pausing a rule stops all background checks and will not trigger in-app or email alerts while maintenance is underway. When work finishes, click Resume to reactivate the rule without reconfiguring settings.
+- **Edit Rule:** Update the rule name, condition threshold, hold duration, watched services, or email recipient list at any time. When saved, Polarin displays a confirmation toast (e.g. _"Rule updated"_) and updates evaluation parameters immediately.
+- **Delete Rule:** Permanently delete obsolete rules. If any watched services are currently experiencing an active breach under that rule, the breach window is automatically discarded.
+
+## Next Steps
+
+- Review active operational alerts in the top bell drawer at [Alerts & Notifications](/getting-around/notifications).
+- Track all administrative rule creation, pauses, and updates in the [Using Activity Log](/settings/activity-logs/using-activity-log).
+- Explore network-wide performance metrics and telemetry graphs in [VISTA](/vista/overview).

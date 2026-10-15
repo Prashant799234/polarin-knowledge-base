@@ -1,0 +1,183 @@
+---
+title: "VISTA Network Performance Monitoring"
+description: "Explore VISTA, Polarin's real-time network telemetry engine for traffic analytics, SLA auditing, optical health, and dynamic bandwidth scaling."
+sidebarTitle: "Overview"
+---
+
+**VISTA** is Polarin's real-time network observability and telemetry engine. Built directly into the platform, VISTA transforms traditional black-box carrier connections into fully transparent, software-defined circuits with live telemetry, automated SLA auditing, and dynamic bandwidth elasticity.
+
+Instead of relying on fragmented third-party SNMP monitoring or waiting for end-of-month carrier tickets, VISTA provides unified second-by-second visibility into your live traffic, optical health, link flaps, round-trip latency, jitter, and packet loss.
+
+<Tip>
+  VISTA monitoring starts automatically the moment your circuit reaches **Live** status — no hardware agents, external software probes, or complex configurations are needed.
+</Tip>
+
+## Benefits & Value: What You Get
+
+VISTA equips network architects, DevOps engineers, and IT leadership with actionable network intelligence:
+
+<CardGroup cols={2}>
+  <Card title="Proactive Anomaly Detection" icon="zap">
+    Identify link micro-flaps, jitter fluctuations, and packet loss before they impact end-user cloud applications or voice/video traffic.
+  </Card>
+
+  <Card title="Autonomous SLA Verification" icon="bar-chart-3">
+    Track uptime availability (99.99%+ SLA) and exact round-trip propagation delay (Latency RTD in ms) with tamper-proof historical telemetry.
+  </Card>
+
+  <Card title="Dynamic Bandwidth Scaling" icon="rocket">
+    Link live utilisation insights directly to your Effective Rate Limit. Burst temporary add-on bandwidth in seconds without circuit teardown.
+  </Card>
+
+  <Card title="End-to-End Fault Isolation" icon="search">
+    Pinpoint whether latency or errors originate at your A-End port, the carrier optical core, or the Z-End cloud provider edge.
+  </Card>
+</CardGroup>
+
+## VISTA Across 3 Product Categories
+
+VISTA telemetry is purpose-built for three core Polarin network infrastructure categories.
+
+### 1. Port (Physical Core Infrastructure)
+
+<Card title="Port: VISTA Premium Included Completely Free" icon="plug">
+  For every physical **Port** provisioned on the Polarin network (1 Gbps, 10 Gbps, 100 Gbps), **VISTA Premium is provided by default at no additional charge**. You receive full enterprise-tier visibility without any add-on subscription fees.
+</Card>
+
+**What you get with Port VISTA:**
+
+- **Traffic In & Out Analytics**: Live interface utilisation measured in Mbps and Gbps.
+- **Packets In & Out Analytics**: Real-time Ethernet frame counts for burst and capacity profiling.
+- **Port-Level Optical Power Monitoring**: Transmit (Tx) and Receive (Rx) optical power levels measured in dBm to identify fiber patch attenuation and dirty optical transceivers.
+- **Direct Case Submissions & Tracking**: One-click support ticket creation pre-populated with port serial, facility, and telemetry state.
+- **Physical Link Stability & Errors**: Port status, line protocol, and optical layer flap detection.
+
+[Read full VISTA for Port guide →](/vista/port)
+
+### 2. Cloud Connect & DCI Layer 2
+
+VISTA applies across all Point-to-Point Layer 2/3 connections — including **Data Centre to Cloud (Cloud Connect)**, **Cloud to Cloud**, and **DCI Layer 2** circuits.
+
+For Cloud Connect connections, VISTA is available in two packages during service creation or as a post-provisioning add-on:
+
+<CardGroup cols={2}>
+  <Card title="Standard Package" icon="shield">
+    Included free with every Cloud Connect connection for fundamental operational visibility.
+
+    **What's Included:**
+
+    - Access from Anywhere: Monitor performance on the go via portal and mobile
+    - Traffic In/Out Analytics: Ingress & egress throughput graphs
+    - Packet In/Out Analytics: Packet volume tracking
+    - Port-Level Power Monitoring: Baseline transceiver health
+    - Case Submissions with Tracking: Linked incident tickets
+  </Card>
+
+  <Card title="Premium Package" icon="star">
+    Enterprise deep-dive telemetry designed for production workloads, database replication, and strict SLA compliance.
+
+    **Unlocks Everything in Standard Plus:**
+
+    - Service Availability for Last 180 Days: Extended 6-month uptime auditing
+    - Errors Report: CRC, frame errors, and interface drops analysis
+    - Packet Loss Analysis: Granular transmission integrity telemetry
+    - Jitter Monitoring: Latency variance analytics for VoIP & streaming
+    - Advanced SLA Insights: Proactive SLA breach forecasting
+  </Card>
+</CardGroup>
+
+<Tip>
+  At order time, the Add Ons step summarises Premium more simply as a checklist: basic network statistics, daily performance reports, 24/7 monitoring support, real-time monitoring, advanced traffic analytics, proactive alert notifications, performance optimisation insights, and custom dashboards & reports. Everything above is what those items expand into once you're actually inside the VISTA dashboard.
+</Tip>
+
+[Read full VISTA for Connections guide →](/vista/connections)
+
+### 3. DCI Wave (Optical Layer 1 Interconnect)
+
+For enterprise data Centre interconnects running over dedicated optical wavelengths (DWDM / Wave), VISTA provides physical-layer optical telemetry:
+
+- **Optical Availability (%)**: Verifies 99.999% optical carrier SLA performance.
+- **Latency RTD (Round Trip Delay)**: Accurate nanosecond/millisecond transit propagation delay across metropolitan and long-haul fiber paths.
+- **Optical Flaps Counter**: Tracks optical signal interruptions, loss of signal (LOS), or automatic protection switching (APS) events.
+- **Mapped Maintenance & Incident Tickets**: Correlates scheduled carrier maintenance windows directly against your circuit performance.
+
+[Read full VISTA for DCI Wave guide →](/vista/dci-wave)
+
+## Metrics & Feature Comparison Matrix
+
+Overview of metrics across products and packages:
+
+| VISTA Capability / Metric | Port (Premium Free) | Cloud Connect (Standard) | Cloud Connect (Premium) | DCI Wave (Layer 1) |
+| --- | --- | --- | --- | --- |
+| Traffic In & Out (Mbps) | Yes | Yes | Yes | N/A (L1 Optical) |
+| Packets In & Out Analytics | Yes | Yes | Yes | N/A (L1 Optical) |
+| Port Level Optical Power (dBm) | Yes | Yes | Yes | Yes |
+| Case Submissions with Tracking | Yes | Yes | Yes | Yes |
+| Flaps Monitoring | Yes | Yes | Yes | Yes |
+| Latency RTD (ms) | Yes | Baseline | Real-time | Real-time |
+| 180-Day Historical Availability | Yes | No (30-day) | Yes (180-day) | Yes |
+| Errors Report (CRC / Drops) | Yes | No | Yes | Yes |
+| Packet Loss Analysis (%) | Yes | No | Yes | N/A (L1 Bit Error) |
+| Jitter Variance (ms) | Yes | No | Yes | N/A (L1) |
+| Dynamic Rate Limit Scaling | N/A | Yes | Yes | N/A |
+
+## Accessing VISTA in the Portal
+
+VISTA telemetry is integrated directly into the **Service Detail** view:
+
+<Steps>
+  <Step title="Navigate to Services">
+    From the top navigation bar, click **Services** and select your desired category (**Port**, **Cloud Connect**, or **Data Centre Interconnect**).
+  </Step>
+  <Step title="Select an Active Connection">
+    Click on any connection with an active _Live_ status tag (e.g. `PPOBOM...` or `PVCBLR...`).
+  </Step>
+  <Step title="Open the Performance Tab">
+    In the service sub-navigation (alongside Overview, Connections, Subscription, Invoices & Payments), click the **Performance** tab to open the VISTA monitoring dashboard.
+  </Step>
+</Steps>
+
+## Interactive Traffic Analytics
+
+VISTA provides both visual time-series charts and granular numeric data tables:
+
+![VISTA Traffic Graph View](/images/screenshots/vista/01-vista-traffic-graph.jpg)
+
+VISTA Traffic Graph: (1) Service header & Performance tab, (2) Granular time interval selector, (3) Bidirectional throughput chart, (4) Ingress/Egress legend.
+
+- **Badge 1 — Service Context**: Displays Service ID (e.g. `PPOBOM1302588`), provisioned interface bandwidth (e.g. 10 Gbps), data Centre location (e.g. _Equinix MB1_), and quick actions (_\+ Add Connection_, _Raise an Issue_).
+- **Badge 2 — Time Windows**: Inspect metrics across _Last 24 hours_, _Last 7 days_, _Last 30 days_, or custom intervals with 15-minute resolution.
+- **Badge 3 — Ingress & Egress Curves**: Real-time throughput in Mbps/Gbps. Hover over data points to inspect exact instantaneous rates.
+- **Badge 4 — Visual Legend**: **Purple** represents Traffic Out (Egress), while **Cyan / Blue** represents Traffic In (Ingress).
+
+Click the **Table View** icon to switch from the graph to discrete numeric records:
+
+![VISTA Numeric Table View](/images/screenshots/vista/02-vista-traffic-table.jpg)
+
+VISTA Table View: (1) Time interval and last update timestamp, (2) Timestamped rows with Traffic Out and Traffic In megabits per second.
+
+## Effective Rate Limit & Dynamic Bandwidth Scaling
+
+For Cloud Connect connections and DCI Layer 2 links, VISTA features direct bandwidth management on demand:
+
+![VISTA Effective Rate Limit and Health KPIs](/images/screenshots/vista/03-vista-telemetry-rate-limit.jpg)
+
+VISTA Telemetry & Controls: (1) Effective Rate Limit with Base + Temp Add-on, (2) Real-time Health KPIs (Flaps, Latency, Availability 100%), (3) End-to-End A-End to Z-End circuit topology.
+
+- **Base Rate Limit (Badge 1)**: Your contracted monthly baseline bandwidth (e.g., `1 Mbps @ ₹3,617.50/mo`). Click **Upgrade** to adjust your baseline tier.
+- **Temp Add-on (Badge 1)**: On-demand burst capacity (e.g., `+22 Mbps`) for seasonal spikes, migrations, or temporary workloads. Click **Edit** to add or remove capacity instantly.
+- **Total Effective Bandwidth**: Combined active throughput (e.g., `23 Mbps`) enforced across the link in seconds without renegotiating BGP or re-cabling.
+- **Health KPIs (Badge 2)**: Continuous 24-hour tracking of **Flaps** (0 flaps = healthy link), **Latency RTD**, and **Availability** (100.00% target).
+- **A-End & Z-End Topology (Badge 3)**: Originating facility (e.g. _NTT Bengaluru DC3_) and destination facility (e.g. _STT GDC Chennai DC1_) with _View Details_ to inspect physical optics.
+
+## Troubleshooting "No Data Found"
+
+If VISTA displays a _"No Data Found"_ state:
+
+- **Connection Not Yet Live**: Telemetry collection begins only after a service transitions from _Design_ or _Ordered_ to **Live**.
+- **No Active IP Traffic**: If connected routers or cross-connects are idle and no IP packets are being transmitted, throughput counters show zero.
+- **Time Filter Mismatch**: Ensure your date range filter aligns with when the circuit was actively passing traffic.
+
+<Info>
+  To configure automated email and in-app alerts when latency spikes or flaps occur, visit [Manage Alerts](/vista/manage-alerts).
+</Info>

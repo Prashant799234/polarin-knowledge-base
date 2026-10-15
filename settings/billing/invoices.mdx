@@ -1,0 +1,61 @@
+---
+title: "Invoices"
+description: "View, search, filter, and download your organisation's invoices from Polarin's top navigation billing section."
+sidebarTitle: "Invoices"
+---
+
+**Invoices** lives in the top navigation bar alongside Dashboard, Services, Settings, and Help -- not under Settings like most other billing screens. It lists every invoice generated for your organisation, with search, date filtering, and one-click PDF downloads.
+
+## Before Your First Invoice
+
+If nothing has been billed yet, the page shows an empty state instead of a table:
+
+![Invoices page empty state showing 'No Invoice Generated Yet!'](/images/screenshots/billing/01-invoices-empty.jpg)
+
+Invoices are generated once your [Billing Cycle](/settings/billing/overview) runs its first cycle against a **Live** service -- see [Invoice Lifecycle](/settings/billing/overview) for how that timing works.
+
+## The Invoices List
+
+Once invoices exist, the page lists them in a table:
+
+![Invoices list with Invoice No, Invoice Date, Invoice Total Amount, PO Number, Billing Profile, and Actions columns](/images/screenshots/billing/02-invoices-list.jpg)
+
+- **Invoice No** and **Invoice Date** identify and timestamp the invoice -- dates currently display as a raw timestamp rather than a formatted date.
+- **Invoice Total Amount** and **PO Number** are both sortable -- click the arrows in either column header to reorder the list.
+- **Billing Profile** can be filtered via the funnel icon in its column header, useful if your organisation bills against more than one [Billing Profile](/settings/billing/profile).
+
+## Search & Date Filter
+
+- **Search by Invoice ID** -- type or paste an invoice number to jump straight to it.
+- **Start Date / End Date** -- click either field to open a dual-month calendar. Pick a start day, then an end day; the range between them highlights automatically. The swap icon between the two fields flips start and end.
+
+![Date range calendar picker open over the invoices list, showing a selected range from October 1 to November 29](/images/screenshots/billing/03-invoices-date-filter.jpg)
+
+<Info>
+  **Apply** only lights up once a full range is selected -- picking just a start date isn't enough to filter.
+</Info>
+
+## Downloading an Invoice
+
+Click the download icon in the **Actions** column to save that invoice as a PDF. The file downloads with a long, system-generated filename rather than the invoice number.
+
+<Warning>
+  If your browser reports something like _"Insecure download blocked"_ instead of saving the file, try again or use a different browser -- this is a browser-side download-security check, not a sign that anything is wrong with your invoice. If it keeps happening, raise it via [Create a Ticket](/support/create-ticket).
+</Warning>
+
+## Field Reference
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Invoice No | The unique invoice number, formatted like a short reference code (e.g. 26-27LTCKAP01004). | No |
+| Invoice Date | When the invoice was generated, shown as a full timestamp with timezone offset. | No |
+| Invoice Total Amount | The total billed amount in your billing currency. Sortable -- click the column header to toggle ascending/descending. | No |
+| PO Number | The purchase order reference for that invoice, if your organisation issues one. Sortable. | No |
+| Billing Profile | The billing profile the invoice was issued against, shown by its internal ID. Filterable via the funnel icon in the column header. | No |
+| Actions | A download icon that saves the invoice as a PDF. | No |
+
+## Next Steps
+
+- Understand how invoices are generated: [Billing Overview](/settings/billing/overview).
+- Manage the legal entity and tax details invoices are issued against: [Billing Profile](/settings/billing/profile).
+- Set whether your organisation requires a Purchase Order on every order: [Organisation Settings](/get-started/organisation/settings).

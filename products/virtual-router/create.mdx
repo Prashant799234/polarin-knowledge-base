@@ -1,0 +1,58 @@
+---
+title: "Create a Virtual Router"
+sidebarTitle: "Create"
+description: "Deploy a software-defined Virtual Router on Polarin in three steps: choose a location, configure name and term, then checkout. No physical Port required."
+---
+
+A **Virtual Router** is Polarin's software-defined Layer 3 gateway — it routes traffic between clouds, data centres, and other connections without you deploying any physical hardware. Of the six creation wizards on Polarin, this is the simplest: just three steps, and the quickest to provision since there's no physical infrastructure to wait on. Not sure a Virtual Router is what you need? See [What Is a Virtual Router?](/products/virtual-router/overview) first.
+
+## Before You Begin
+
+<Note>
+  Your **Organisation Profile** must be verified before you can order a Virtual Router. See [Complete Organisation Profile](/get-started/organisation/complete-profile) if you haven't done that yet.
+</Note>
+
+## 1. Router Location
+
+From **Services**, click **Create** next to Virtual Router. The wizard's progress trail shows three steps: **Router Location → Configure Router → Checkout**.
+
+Search for and select the data centre where you want the router deployed — the list is filterable by country, with a live count of available locations per country. This becomes the router's Point of Presence (PoP); connections you attach later route through it from here.
+
+## 2. Configure Router
+
+| Field | Description | Required |
+| --- | --- | --- |
+| **Router Name** | A name for this router. Must be unique across your organisation — alphanumeric characters and hyphens only. | Yes |
+| **Subscription Term** | PAYG (Pay as you Go, no fixed term), Short Term (1–11 months), or Long Term (12–60 months, flagged "Better savings"). Unlike a Port, a Virtual Router is software-defined, so PAYG is available. | Yes |
+| **Payment Options** | No Upfront (pay monthly), Partial Upfront (50% now + 50% spread monthly, +5% discount), or All Upfront (pay the full term now, +10% discount). | Yes |
+
+![Configure Router step showing Router Name, Subscription Term, and Payment Options](/images/screenshots/virtual-router/01-configure-router.jpg)
+
+## 3. Checkout
+
+Pick a **Billing Cycle** (Monthly, Quarterly, or Half Yearly), optionally switch on **Purchase Order** if you want to attach a PO number, then review the **Order Summary** and choose a **Billing Profile**.
+
+![Virtual Router checkout screen with billing cycle, purchase order toggle, and order summary](/images/screenshots/virtual-router/02-checkout.jpg)
+
+Click **Create Virtual Router** to place the order.
+
+## After You Order
+
+Because a Virtual Router has no physical build-out, it moves through its lifecycle faster than a Port or DCI service. Track it from the service's **Track Order** tab:
+
+- **Order Details Validated** — your order information has been reviewed.
+- **Deployment in Progress** — the router instance is being provisioned.
+- **Configured** — base configuration is applied.
+- **Router goes Live** — ready to attach connections.
+
+<Info>
+  For a full breakdown of every provisioning state, see [Understand Virtual Router Status](/products/virtual-router/status).
+</Info>
+
+## Next Steps
+
+Once your Virtual Router is live, it's ready to act as the hub for other connections:
+
+- Attach a cloud-to-cloud link to it: [Create a Cloud to Cloud Connection](/products/cloud-connect/cloud-to-cloud) — it's selected as a required step in that wizard.
+- Pair it with a port for L3 reach: [Create a Port](/products/port/create).
+- Monitor it: see [Alerts & Notifications](/getting-around/notifications).

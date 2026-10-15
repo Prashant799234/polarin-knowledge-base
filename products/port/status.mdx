@@ -1,0 +1,67 @@
+---
+title: "Understand Port Status"
+sidebarTitle: "Status"
+description: "Learn what each Port status means, from Design and Deployment in Progress through Ready to Patch and Live, and how to troubleshoot common issues."
+---
+
+After you order a port, Polarin moves it through a small number of real statuses — from Design to Live. This page lists exactly what each one means, using the same six statuses you'll see in the Services page's own **Advance Filter** panel.
+
+You can check the current status of any port on the **Services** page. The status badge updates automatically as the port progresses through each stage.
+
+## Port Status Reference
+
+![Advance Filter panel showing the full real status list: Live, Down, Design, Deployment in Progress, Configured, Deleted](/images/screenshots/services/06-advance-filter.jpg)
+
+| Status | Description |
+| --- | --- |
+| **Design** | The port has been started but not fully ordered yet. A separate "Setup Incomplete" tag next to it means a required step in the wizard was never finished — open the port and complete Checkout to submit it. |
+| **Deployment in Progress** | The order has been submitted and Polarin is setting up the physical infrastructure. If your organisation requires a Purchase Order, you'll also see a "Purchase Order Required" step here with a deadline — provisioning won't continue past it until you add PO details. |
+| **Ready to Patch** | The port itself is provisioned. If you ordered Cross Connect, this is when Lightstorm patches it in at the data centre — shown as its own "In process" step. |
+| **Live** | The port is fully deployed and active. Traffic can flow, and billing starts from this point. |
+| **Down** | A previously live port has lost its network connection. This may indicate a physical or network issue. |
+| **Deleted** | The port has been permanently removed and moved to Archived Services — it no longer appears in your main services list. |
+
+<Info>
+  **Configured** is also in the filter list, but it's a Virtual Router status, not a Port one — see **Understand Virtual Router Status** for that. A Port never shows "Configured"; it goes straight from Deployment in Progress to Ready to Patch to Live.
+</Info>
+
+## Normal Port Lifecycle
+
+Under normal circumstances, a port moves through the following progression after you place an order — exactly matching the **Track Order** tab on the port's own detail page:
+
+<Steps>
+  <Step title="Order Details Validated">
+    Your order information has been reviewed and approved.
+  </Step>
+  <Step title="Deployment in Progress">
+    Polarin is setting up the physical infrastructure (Purchase Order Required step inserts here if your organisation issues POs).
+  </Step>
+  <Step title="Ready to Patch">
+    Port provisioned; Cross Connect patched in if you ordered it.
+  </Step>
+  <Step title="Live">
+    Fully active — traffic ready, billing starts.
+  </Step>
+</Steps>
+
+<Tip>
+  Each completed step on the Track Order tab shows the exact date and time it happened — handy context to have ready if you end up raising a ticket about a delay.
+</Tip>
+
+### Port shows "Setup Incomplete" next to Design
+
+This just means the order wizard was started but never submitted — nothing has been ordered or billed yet. Open the port and pick up where you left off in Checkout.
+
+### Port is stuck on "Deployment in Progress"
+
+If there's an outstanding **Purchase Order Required** step shown on the Track Order tab, provisioning won't continue until you add PO details — do that first. Otherwise, if the status hasn't changed after 24 hours, raise a support ticket with the port's Service ID.
+
+## Troubleshooting
+
+### Port shows "Down"
+
+A **Down** status indicates a live port has lost its network connection. Check your physical cross-connect and patch panel. If the physical layer is healthy, open a support ticket with your port ID.
+
+- Check the **Services** page for any error detail alongside the port.
+- Use **VISTA** to view real-time port health and traffic metrics.
+- Contact **Polarin Support** from Help & Support → Contact Support.

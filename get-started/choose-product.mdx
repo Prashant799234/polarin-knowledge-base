@@ -1,0 +1,40 @@
+---
+title: "Choosing the Right Product"
+sidebarTitle: "Choose Product"
+description: "Find the right Polarin connectivity product for your needs using our decision guide comparing Ports, Virtual Routers, Cloud Connect, DCI and Internet Exchange."
+---
+
+Polarin has five ways to order connectivity, across three product families. If you already know which one you need, jump straight to its creation guide from the sidebar. If not, this page is the fast way to find the right starting point before you read the detailed guide for it.
+
+## Which Product Do I Need?
+
+| Field | Description |
+| --- | --- |
+| Port | You have equipment at (or access to) a data centre and need a physical cable into Polarin's network. Everything Port-based builds on top of this. |
+| Virtual Router | You need real Layer 3 routing logic between multiple clouds, data centres, or partner networks - not just one link, but several managed from one place. No Port required. |
+| Cloud Connect - DC to Cloud | You own a port and want to reach a single cloud provider (AWS, GCP, Azure, Oracle) directly, bypassing the public internet. |
+| Cloud Connect - Cloud to Cloud | You need two cloud providers linked to each other, with no port on either end - routed through a Virtual Router instead. |
+| DCI Layer 2 | You own ports at two sites and need an Ethernet link purpose-built for steady, heavy traffic - replication or disaster recovery - rather than general connectivity. |
+| DCI Wave | You need dedicated, point-to-point optical connectivity between two entire data centre sites (not ports), with very high throughput, and can accept a short, scheduled build-out. |
+| Internet Exchange | You want to peer directly with other networks at a Polarin location instead of paying a transit provider for that traffic. |
+
+<Tip>
+  Rule of thumb: if you're connecting more than two things, or need routing decisions made between them, it's a [Virtual Router](/products/virtual-router/overview) question. If you're linking exactly two things together and at least one end is a cloud provider, it's a [Cloud Connect](/products/cloud-connect/overview) question. If both ends are Polarin ports with no cloud involved, it's a [Data Centre Interconnect](/products/dci/overview) question - [DCI Wave](/products/dci/wave) for dedicated, point-to-point optical connectivity between two entire sites, or [DCI Layer 2](/products/dci/layer-2) for an Ethernet link over two ports you already own.
+</Tip>
+
+## Do I Need a Port First?
+
+Most products on Polarin attach to a [Port](/products/port/overview) you've already provisioned - but two don't:
+
+- **Virtual Router** is software-defined and deployed directly at a location - no Port needed underneath it.
+- **DCI Wave** connects two entire data centre sites directly - also no Port needed.
+- **Cloud to Cloud** needs a Virtual Router instead of a Port on either end.
+
+Everything else - DCI Layer 2, DC to Cloud, and Internet Exchange - needs a Port already live at the Polarin end before you start.
+
+## Next Steps
+
+- Need a Port first? [Create a Port](/products/port/create).
+- Ready for routing logic? [Create a Virtual Router](/products/virtual-router/create).
+- Linking two sites or a cloud? [What Is Cloud Connect?](/products/cloud-connect/overview).
+- Need high-bandwidth site interconnect? [Create a Data Centre Interconnect](/products/dci/compare).

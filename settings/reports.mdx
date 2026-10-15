@@ -1,0 +1,111 @@
+---
+title: "Reports"
+description: "Generate on-demand and scheduled telemetry reports across Ports, Cloud Connect, and DCI services in Polarin."
+sidebarTitle: "Reports"
+---
+
+The **Reports** module provides central reporting, telemetry analytics, and SLA compliance auditing across your Polarin networking infrastructure.
+
+Whether your engineering team needs an immediate CSV export of port traffic for bandwidth capacity planning or your operations team requires automated weekly SLA availability reports emailed to management, the Reports module handles both on-demand and recurring reporting workflows.
+
+<Tip>
+  Reports can be scheduled to run automatically on a **Daily**, **Weekly**, or **Monthly** cadence, delivering fresh telemetry directly to your engineering mailing lists.
+</Tip>
+
+## Supported Service Categories
+
+Polarin organizes network reports into three dedicated product categories:
+
+- **DCI L1 (Data Centre Interconnect)**: Covers Layer 1 dark fiber and DWDM optical wave connections. Monitors optical circuit flaps, round-trip latency, incident tickets, and circuit availability percentages.
+- **Port**: Covers physical cross-connect interfaces (1 Gbps, 10 Gbps, 100 Gbps). Reports on total ingress/egress data volume (_Traffic In and Out_) and raw packet counts (_Packets In and Out_).
+- **Cloud Connect**: Covers Point-to-Point Layer 2/3 connections across Data Centre to Cloud, Cloud to Cloud, and Data Centre to Data Centre paths. Tracks latency, packet loss, jitter, and link status.
+
+## Reports Dashboard Walkthrough
+
+To access the Reports module, click **Settings** from the top navigation bar, then select **Reports** from the left sidebar under _ORGANISATION_.
+
+![Polarin Reports Main Dashboard](/images/screenshots/reports/01-reports-main-dashboard.jpg)
+
+The dashboard includes the following key areas:
+
+- **Badge 1 -- Service Category Tabs**: Switch seamlessly between _DCI L1_, _Port_, and _Cloud Connect_ reporting domains.
+- **Badge 2 -- Metric Filter Pills**: Filter telemetry records by specific health dimensions, such as _Flaps_, _Latency_, _Tickets_, or _Availability_.
+- **Badge 3 -- Action Buttons**: Click **Download Report** for an instant export, or click **Schedule Report** to set up automated recurring email delivery.
+- **Badge 4 -- Telemetry Data Table**: Displays individual circuit records including Circuit Name, Service ID, telemetry measurement values, and exact timestamps.
+
+## Downloading On-Demand Reports
+
+Follow these steps to generate and download an immediate report:
+
+<Steps>
+  <Step title="Select Service Category">
+    Click the tab corresponding to the product you want to inspect (e.g., **DCI L1** or **Port**).
+  </Step>
+  <Step title="Apply Metric & Date Filters">
+    Select your target metric pill (such as _Latency_ or _Availability_) and choose a time window (e.g., _Last 24 hours_, _Last 7 days_, or a custom date range).
+  </Step>
+  <Step title="Click Download Report">
+    Click the **Download Report** button located in the upper-right corner.
+  </Step>
+  <Step title="Configure Export Parameters">
+    In the drawer that opens, enter a report name, confirm the metric type, optionally filter to specific Service IDs, and choose your preferred file format (**CSV** or **PDF**).
+  </Step>
+  <Step title="Generate & Download">
+    Click **Download**. The file is generated immediately and downloaded directly by your browser.
+  </Step>
+</Steps>
+
+## Scheduling Automated Reports
+
+You can configure Polarin to automatically run reports in the background and email them to stakeholders on a recurring schedule.
+
+### Configuring Schedule Settings
+
+Click the **Schedule Report** button on the dashboard to open the scheduling drawer.
+
+![Polarin Schedule Report Drawer](/images/screenshots/reports/02-reports-schedule-modal.jpg)
+
+<Steps>
+  <Step title="Name Your Report & Select Metric Type">
+    In the drawer header (**Badge 1**), enter a distinctive title for your report (e.g., _Weekly Executive SLA Report_) and select the metric category from the **Report Type** dropdown (**Badge 2**).
+  </Step>
+  <Step title="Define Service Scope (Optional)">
+    By default, the report aggregates all services in the chosen category. To restrict reporting to critical production circuits, select specific **Service IDs** from the multi-select dropdown (**Badge 3**).
+  </Step>
+  <Step title="Set Date Range & Repeat Cadence">
+    Choose a start date and optional end date. In the **Repeat** dropdown (**Badge 4**), choose the cadence:
+
+    - **Daily**: Dispatches every morning covering the previous 24 hours.
+    - **Weekly**: Dispatches every Monday covering the preceding week.
+    - **Monthly**: Dispatches on the 1st of every calendar month covering the previous month.
+  </Step>
+  <Step title="Set Delivery Time & Email Schedule">
+    Specify the delivery time (e.g., `12:00 AM` or `08:00 AM +05:30`) when the email dispatch should trigger. Enter email addresses or distribution lists to receive the report.
+  </Step>
+  <Step title="Confirm & Schedule">
+    Click the **Schedule** button (**Badge 5**). The recurring report is activated immediately.
+  </Step>
+</Steps>
+
+## Managing Active Schedules
+
+To inspect or modify recurring schedules, click the **View Scheduled Reports** link next to the Schedule Report button on the dashboard.
+
+- **Review Frequencies**: View all active automated reports along with their delivery times, recipients, and attached metrics.
+- **Edit Delivery Lists**: Add or remove email addresses as team responsibilities change.
+- **Pause or Delete**: Deactivate automated schedules that are no longer needed without affecting past report history.
+
+## Telemetry & SLA Metrics Reference
+
+| Field | Description |
+| --- | --- |
+| Availability (%) | Percentage of time the circuit maintained active frame forwarding during the measurement window. Evaluated against the 99.99% Polarin SLA target. |
+| Latency RTD (ms) | Round Trip Delay measured in milliseconds across originating and terminating port endpoints. Essential for latency-sensitive applications. |
+| Flaps | Count of physical link up/down transitions. A non-zero flap count indicates physical layer instability, optical attenuation, or fiber disturbances. |
+| Traffic In & Out (Mbps) | Total ingress and egress throughput transmitted through the interface, sampled at granular 15-minute or 4-hour intervals. |
+| Packets In & Out | Raw count of Ethernet frames processed by the port hardware. Useful for packet size distribution and traffic burst analysis. |
+| Tickets | Support tickets and maintenance notifications mapped against the circuit during the reporting period. |
+
+<Info>
+  For live, real-time performance graphs and dynamic bandwidth adjustment on individual connections, visit [VISTA Performance Monitoring](/vista/overview).
+</Info>

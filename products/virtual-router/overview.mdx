@@ -1,0 +1,26 @@
+---
+title: "What Is a Virtual Router?"
+sidebarTitle: "Overview"
+description: "A Virtual Router is a software-based Layer 3 router on Polarin's network. Use it for multi-cloud, hub-and-spoke, and traffic engineering without physical hardware."
+---
+
+A **Virtual Router** is a software-based Layer 3 router that sits on Polarin's network, giving you real routing logic between multiple clouds, data centres, and partner networks — without buying, racking, or maintaining physical routing hardware yourself.
+
+A single [Cloud Connect](/products/cloud-connect/overview) only ever links two points together. A Virtual Router is what you reach for once you need more than that — multiple endpoints, route-based traffic decisions, and one place to manage all of it.
+
+## When You Need One
+
+- **Multi-cloud connectivity** — route between AWS, Azure, and GCP from a single logical router, instead of managing separate point-to-point links for each.
+- **Hub-and-spoke architectures** — connect several data centres or offices through one central routing point rather than a full mesh of individual connections.
+- **Traffic engineering** — apply route preferences and policies across your connections instead of relying on whatever path a simple connection happens to take.
+
+<Tip>
+  Still just connecting two points, like one data centre to one cloud region? A plain [Cloud Connect](/products/cloud-connect/overview) is simpler and usually all you need — reach for a Virtual Router when the topology genuinely needs routing logic.
+</Tip>
+
+Unlike a Cloud Connect connection or DCI Layer 2, a Virtual Router doesn't attach to an existing [Port](/products/port/overview) — it's software-defined, deployed directly at the data centre location you choose. No pre-provisioned Port is required before you start.
+
+## Next Steps
+
+- Ready to provision one? [Create a Virtual Router](/products/virtual-router/create).
+- Already have one? [Understand Virtual Router Status](/products/virtual-router/status).

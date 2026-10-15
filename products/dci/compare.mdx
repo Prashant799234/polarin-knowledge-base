@@ -1,0 +1,24 @@
+---
+title: "Create a Data Centre Interconnect"
+sidebarTitle: "Compare"
+description: "Compare DCI Wave and DCI Layer 2 to choose the right interconnect type for linking your data centre sites at high bandwidth."
+---
+
+**Data Centre Interconnect (DCI)** links two of your sites together at high bandwidth — useful for replication, disaster recovery, or treating multiple sites as one extended network. On Polarin, it comes in two distinct forms with their own dedicated wizards. Not sure DCI is what you need at all? See [What Is Data Centre Interconnect?](/products/dci/overview) first.
+
+## DCI Wave vs. DCI Layer 2
+
+| Option | Description |
+| --- | --- |
+| DCI Layer 2 | Ethernet connection between two of your existing Ports. Faster to provision since it reuses infrastructure you already have. Supports MACSec encryption, VLAN tagging (Tagged / Untagged / Trunk), and a lighter-weight "DCI Lite" class for non-critical apps. |
+| DCI Wave | Dedicated optical (Layer 1) wavelength circuits between two entire data centre sites — not ports. Built to order (~2 weeks setup), with Rate Limit tiers up to 400 Gbps, multiple circuits per order, and an optional Bit Error Rate Test before handover. |
+
+<Tip>
+  Rule of thumb: if you already have ports at both ends and want an Ethernet link between them, use **DCI Layer 2**. If you need dedicated, very high-throughput optical capacity between two sites — and you're fine with a short, scheduled build-out — use **DCI Wave**.
+</Tip>
+
+## Next Steps
+
+- [Create a DCI Layer 2 Connection](/products/dci/layer-2) — Ethernet, port-to-port.
+- [Create a DCI Wave Connection](/products/dci/wave) — optical, site-to-site.
+- Already have a port at both ends? Confirm with [Create a Port](/products/port/create).

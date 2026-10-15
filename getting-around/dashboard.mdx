@@ -1,0 +1,58 @@
+---
+title: "Dashboard"
+sidebarTitle: "Dashboard"
+description: "Understand the Polarin Dashboard — your service summary, interactive global map, and quick links to common next actions."
+---
+
+The **Dashboard** is what you land on after signing in — your service count at a glance on the left, and an interactive global map on the right showing exactly where your network actually sits.
+
+## Total Services
+
+**①** is your running total across the account, broken down into what's **live and kicking** versus what **needs your attention** — anything sitting in Design, pending an order, or in a Down state. **View all services** jumps straight to the full list. Below it, **②** holds three shortcuts for the most common next actions.
+
+![Dashboard total services count and quick action cards](/images/screenshots/dashboard/01-total-services.jpg)
+
+## The Global Map
+
+Every location relevant to your account shows up on the map. **①** is the toolbar on the right edge — the top two icons switch between a rotating **globe** and a flat **map** view, below that sit zoom in/out, search, and the gear icon for View Settings. **②** is the legend, which distinguishes:
+
+- **Live** — the service at this location is active.
+- **Down** — a live service here has lost connectivity.
+- **Design** — a service here is configured but not yet ordered.
+- **Polarin PoPs** — Polarin-owned data centres that make up the backbone infrastructure.
+- **Active Service PoP** — specifically where _you_ have a service deployed, distinct from Polarin's full footprint.
+
+![Dashboard map toolbar and legend](/images/screenshots/dashboard/02-map-toolbar.jpg)
+
+When several locations sit close together, the map groups them into a numbered **cluster** — click it to zoom in and split it back into individual points. A cluster's ring colour tells you its aggregate status at a glance: green for all-live, mixed colours when some services are down, and a small badge if anything in that cluster has an active alert.
+
+<Tip>
+  Click the **ⓘ** icon next to the legend for a full breakdown of every marker and cluster style — handy the first few times you're reading the map.
+</Tip>
+
+## Interacting With the Map
+
+**Hover a connection line** between two points to see a quick card **①**: the service name, its parent product, and the A-End and Z-End ports with the bandwidth between them. Click the card for full service details.
+
+![Hovering a connection line shows a service tooltip card](/images/screenshots/dashboard/03-hover-tooltip.jpg)
+
+**Click a PoP marker** to open a side panel listing every service at that location, split into **Ordered Services** (what you've already provisioned there) and **Available to Order** (what you could add) — search or filter by Live/Down right from that panel, and each result shows its speed and Service ID.
+
+Zoom, search, and reset using the toolbar on the right edge of the map — the search icon jumps straight to a named location instead of panning manually.
+
+## View Settings
+
+The gear icon on the map toolbar opens **View Settings**, with two groups of controls:
+
+- **Primary View** — switch between **Show All Locations** (Polarin's full footprint plus yours) and **Customer Locations** (just where you're deployed).
+- **Display Options** — toggle **Cable System View** (the connection paths between locations), **Show PoP Names** (label every point of presence), and **Auto Spin Globe** (a slow automatic rotation, useful if you're leaving the dashboard up on a screen).
+
+![Dashboard View Settings panel with Primary View and Display Options](/images/screenshots/dashboard/05-view-settings.jpg)
+
+## Quick Links
+
+The same three shortcuts from the top of the page, in more detail:
+
+- **Add a service** — jumps to the services catalogue. See the ordering guide for the specific product you need under **Products** in the sidebar.
+- **Invite Your Teammates** — bring colleagues onto the account. See [User Management](/settings/user-management).
+- **Developer Portal** — generate API keys and explore the API reference directly. See [Polarin API](/api/overview) for how to get access.

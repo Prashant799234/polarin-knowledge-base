@@ -1,0 +1,90 @@
+---
+title: "Services Offered"
+sidebarTitle: "Services"
+description: "A complete breakdown of Polarin's connectivity services including Ports, Virtual Routers, Cloud Connect, DCI and Internet Exchange with deployment guidance."
+---
+
+Everything you can provision on Polarin falls into a handful of categories. Here's what each one does and when you'd reach for it. Every one of them starts from a [location](/products/locations) - the data centre or point of presence where Polarin has a physical footprint. New here? Start with [About Polarin](/get-started/about-polarin) or jump straight into [Quick Setup](/get-started/quick-setup).
+
+<CardGroup cols={2}>
+  <Card title="Port" icon="plug">
+    Your organisation's physical entry point into the Polarin network. <br />**1GE · 10GE · 100GE**
+  </Card>
+
+  <Card title="Virtual Router" icon="router">
+    Software-based L3 routing between clouds, data centres, and partners. <br />**High Performance · Scalable · Secure**
+  </Card>
+
+  <Card title="Cloud Connect" icon="cloud">
+    Private, point-to-point links to a cloud provider - DC to Cloud or Cloud to Cloud. <br />**DC to Cloud · Cloud to Cloud**
+  </Card>
+
+  <Card title="Data Centre Interconnect" icon="server">
+    High-bandwidth links between two or more of your data centre sites. <br />**DCI Wave · DCI Layer 2**
+  </Card>
+
+  <Card title="Internet Exchange" icon="waypoints">
+    Peer directly with other networks over BGP instead of paying a transit provider. <br />**Multilateral · Bilateral**
+  </Card>
+</CardGroup>
+
+<CardGroup cols={4}>
+  <Card title="Global Footprint" icon="globe">
+    Reach data centres and clouds across regions.
+  </Card>
+
+  <Card title="Self-Service" icon="zap">
+    Order and configure without waiting on a ticket.
+  </Card>
+
+  <Card title="Secure by Default" icon="shield-check">
+    Enterprise-grade access control on every service.
+  </Card>
+
+  <Card title="Built to Scale" icon="trending-up">
+    Grow bandwidth and add locations as you need them.
+  </Card>
+</CardGroup>
+
+## Port
+
+A **Port** is your organisation's physical entry point into the Polarin network, available at 1GE, 10GE, or 100GE. It's the first thing you order at a new location - everything else (virtual connections, routers, cloud links) attaches to a port. See [Create a Port](/products/port/create) for the full walkthrough.
+
+- Choose a speed that matches your current and near-term bandwidth needs.
+- Group multiple ports into a [Link Aggregation Group](/products/port/lag) for higher throughput and failover.
+
+## Virtual Router
+
+A **Virtual Router** is your L3 gateway for routing traffic between clouds, data centres, and partner networks, without deploying and maintaining physical routing hardware yourself. See [Create a Virtual Router](/products/virtual-router/create) to get started.
+
+- Useful once you're connecting more than two endpoints and need real routing logic between them.
+- Sits on top of a port - provision the port first, then attach a virtual router.
+
+## Cloud Connect
+
+A **Cloud Connect** gives you a private, point-to-point link to a cloud provider - DC to Cloud or Cloud to Cloud - bypassing the public internet for lower latency and more predictable performance than a standard VPN. See [What Is Cloud Connect?](/products/cloud-connect/overview) for the full breakdown.
+
+- Two types: DC to Cloud (a port you own reaching a cloud provider) and Cloud to Cloud (two cloud providers linked via a Virtual Router).
+- Better suited to steady, high-bandwidth workloads than internet-based connectivity.
+
+## Data Centre Interconnect (DCI)
+
+DCI links two or more of your data centre sites together at high bandwidth - for replication, disaster recovery, or simply treating multiple sites as one extended network. See [Create a Data Centre Interconnect](/products/dci/compare) to get started.
+
+- **DCI Wave**: dedicated, point-to-point optical connectivity (Layer 1) between two entire sites - the highest, most predictable throughput, with no port required.
+- **DCI Layer 2**: an Ethernet-based connection over two of your own ports - the more common choice, since it rides on infrastructure you've likely already provisioned.
+
+## Internet Exchange
+
+**Internet Exchange** connects your Port to Polarin's peering fabric, so you exchange traffic directly with other networks over BGP instead of routing it through an upstream transit provider. See [What Is Internet Exchange?](/products/internet-exchange/overview) for the full breakdown.
+
+- **Multilateral (route-server) peering**: one BGP session picks up every other participant on the exchange at once.
+- **Bilateral peering**: a direct, one-to-one BGP session with a specific network.
+
+<Tip>
+  Not sure which service you need first? Most organisations start with a **Port**, then add a **Virtual Router** or **Cloud Connect** once they know what they're connecting to. [Quick Setup](/get-started/quick-setup) walks through the order.
+</Tip>
+
+## Managing What You Order
+
+Once a service is ordered, its progress - from design through to live - shows up on the Services page, so you always know what's ready to use and what's still provisioning. All of it also feeds into the **SPOG dashboard** for a single view of usage and performance across every service you run.

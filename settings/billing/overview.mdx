@@ -1,0 +1,57 @@
+---
+title: "Billing Overview"
+description: "Understand Polarin's billing architecture, metering models, and invoice lifecycle for cloud connectivity and optical networking services."
+sidebarTitle: "Overview"
+---
+
+Polarin provides transparent, flexible enterprise billing for cloud connectivity and optical networking. Whether you provision predictable fixed monthly circuits or dynamically burst capacity using temporary rate limit add-ons, your costs are tracked in real time.
+
+<Tip>
+  All billing activities are tied to your verified legal entities. Before ordering services, ensure you have configured at least one [Billing Profile](/settings/billing/profile) with valid tax registration details.
+</Tip>
+
+## Billing Architecture
+
+Polarin billing is built around three foundational pillars:
+
+### 1. Billing Profiles
+
+Binds legal entities, GSTIN/tax identification numbers, registered business addresses, and primary billing notification contacts to network services.
+
+### 2. Real-Time Metering
+
+Accurately tracks active circuit durations, baseline contracted bandwidth, and temporary rate limit upgrade bursts second-by-second.
+
+### 3. Central Invoicing
+
+Consolidates recurring subscriptions and dynamic usage into itemized monthly tax invoices, complete with downloadable PDF copies and payment receipts.
+
+## How Metering Works
+
+Polarin supports two complementary pricing models designed for modern enterprise connectivity:
+
+- **Fixed Base Subscriptions**: Physical Ports and baseline Cloud Connect connections are billed on a predictable monthly recurring subscription (e.g., a 10 Gbps port or 1 Gbps base VC rate limit). Billing commences only once the circuit transitions to _Live_ status.
+- **Dynamic Temporary Add-ons**: Need extra bandwidth for unexpected workload spikes, database replication, or seasonal traffic? Scale up your Effective Rate Limit directly via VISTA or the Service Detail page. Temporary add-on bandwidth is metered on an hourly basis and prorated onto your monthly bill.
+
+<Note>
+  Subscription charges apply only when your service status is **Live**. While your connection is in _Design_ or _Deployment in Progress_, no billing charges accrue.
+</Note>
+
+## Invoice Lifecycle
+
+Invoicing follows a predictable monthly schedule, with one setting you choose per order -- your **Billing Cycle** -- controlling how often it happens:
+
+- **Billing Cycle**: chosen at checkout on every order -- Monthly, Quarterly (every 3 months), or Half Yearly (every 6 months) -- covering active subscriptions and prorated add-ons.
+- **Direct Delivery**: Generated invoices are emailed automatically to the designated billing contact registered on your Billing Profile.
+- **Portal Access**: Admins and finance users can view, filter, and download historical invoices at any time from the **Invoices** item in the top navigation.
+- **Tax Credits**: Each invoice contains a state-compliant GST breakdown (CGST, SGST, IGST) ensuring seamless Input Tax Credit (ITC) reconciliation.
+
+<Info>
+  Issue a Purchase Order for every invoice? That's set once, for your whole organisation, in [Organisation Settings](/get-started/organisation/settings) ("Does your organisation issue a Purchase Order for Invoicing?"). If it's set to Yes, every order's checkout screen shows a **Purchase Order (Optional)** toggle, and the Track Order timeline inserts a **Purchase Order Required** step with a deadline before provisioning continues.
+</Info>
+
+## Explore Billing Features
+
+- Learn how to add and verify legal entity tax profiles: [Billing Profile Guide](/settings/billing/profile).
+- Learn how dynamic rate limits and bandwidth scaling affect billing: [VISTA Performance & Rate Limits](/vista/overview).
+- Review organization profile and authorized signatory requirements: [Organisation Settings](/get-started/organisation/settings).

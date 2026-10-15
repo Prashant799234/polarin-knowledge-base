@@ -1,0 +1,138 @@
+---
+title: "Billing Profile"
+description: "Add and verify legal entity tax profiles, set billing contacts, and manage multiple billing entities across your Polarin organisation."
+sidebarTitle: "Profile"
+---
+
+A **Billing Profile** in Polarin connects your legal entity, official tax identification (such as GSTIN in India or regional tax registration numbers globally), registered office address, and designated billing contact to your network services.
+
+Every service you provision on Polarin -- whether it is a physical Port, Cloud Connect Cloud Connect, Virtual Router, or Data Centre Interconnect -- must be attached to a verified Billing Profile so invoices and tax compliance documents are accurately issued.
+
+<Tip>
+  Organisations with multiple operating branches or operating across state lines can register multiple Billing Profiles. When ordering a connection, you can choose which state or legal entity will be billed.
+</Tip>
+
+## Why Billing Profiles Matter
+
+Polarin provides on-demand enterprise networking infrastructure. Setting up your Billing Profile correctly ensures:
+
+- **Instant Tax Compliance**: Automatic verification of your GST number against official government tax registries eliminates manual document review delays.
+- **Input Tax Credit (ITC) Protection**: Accurate legal entity names and state-specific GSTINs ensure your finance department can claim eligible tax credits seamlessly.
+- **Direct Invoice Delivery**: Monthly invoices, dynamic bandwidth usage summaries, and credit memos are dispatched automatically to your designated billing team.
+
+## Viewing Your Billing Profiles
+
+To access your billing profiles, click **Settings** from the top navigation bar, then select **Billing Profile** from the left sidebar under the _ORGANISATION_ section.
+
+![Polarin Billing Profiles List View](/images/screenshots/billing/01-billing-profiles-list.jpg)
+
+The main screen presents all billing entities registered to your organisation:
+
+- **Badge 1 -- + Add Billing Profile**: Opens the step-by-step setup drawer to register a new legal entity or state tax profile.
+- **Badge 2 -- Search & Filters**: Quickly locate existing billing profiles by typing the legal company name or GST number, or filter by Country and State.
+- **Badge 3 -- Profile Cards**: Displays legal entity name, operating country, registered state, verified GST/Tax registration number, active status tag (such as _In Use_), and an instant link to download uploaded certificates.
+
+## Step-by-Step: Adding a New Billing Profile
+
+Adding a billing profile is a two-step guided workflow with automated verification. Follow the steps below:
+
+### Step 1: Tax & Business Details Verification
+
+Click the **\+ Add Billing Profile** button in the upper-right corner of the screen.
+
+![Step 1 - Billing Details and GST Verification](/images/screenshots/billing/02-billing-add-step1-details.jpg)
+
+<Steps>
+  <Step title="Select Country">
+    Choose the country where your legal entity is incorporated (e.g., **India**, **United States**, or regional APAC/EMEA countries).
+  </Step>
+  <Step title="Enter GST / Tax Registration Number & Verify">
+    Type your official 15-digit GSTIN (or country tax identifier) and click **Verify**. Polarin instantly validates the number against the central tax database. A green checkmark reading _GST Number verified_ appears (**Badge 1**).
+  </Step>
+  <Step title="Review Auto-Procured Business Details">
+    Upon verification, Polarin automatically extracts and populates your official registered data (**Badge 2**):
+
+    - **Legal Entity Name**: Official company name registered with the tax authority.
+    - **State / Province**: State code and jurisdiction (e.g., Maharashtra, Karnataka).
+    - **City & Postal Code**: Registered city and PIN/postal code.
+    - **Registered Address**: Official headquarters or local branch premise address.
+  </Step>
+  <Step title="Choose Billing Currency">
+    Select your organisation's preferred billing currency (**Badge 3**). Available options include **INR** (Indian Rupee) and **USD** (United States Dollar).
+  </Step>
+  <Step title="Upload Tax Registration / GST Certificate">
+    Upload a clear copy of your GST registration certificate or regional tax exemption certificate in PDF, JPG, or PNG format (up to 10 MB) via the upload box (**Badge 4**).
+  </Step>
+  <Step title="Proceed to Contact Details">
+    Click **Next - Billing Contact →** (**Badge 5**) to proceed to the contact details step.
+  </Step>
+</Steps>
+
+### Step 2: Primary Billing Contact
+
+In Step 2, designate the primary contact officer responsible for invoice payments, accounts payable, and billing notices.
+
+![Step 2 - Billing Contact Details](/images/screenshots/billing/03-billing-add-step2-contact.jpg)
+
+<Steps>
+  <Step title="Enter Billing Contact Name">
+    Enter the full name of the finance representative, accounts payable manager, or commercial owner (**Badge 1**).
+  </Step>
+  <Step title="Enter Invoicing Email Address">
+    Specify the corporate email address where recurring monthly invoices, dynamic add-on charges, and payment receipts must be sent (**Badge 2**).
+
+    <Tip>
+      We recommend using a centralized accounts payable distribution list (e.g., `ap@company.com` or `finance@company.com`) so your team receives billing alerts without disruption.
+    </Tip>
+  </Step>
+  <Step title="Enter Contact Phone Number">
+    Provide a valid direct phone number including country code (e.g., `+91`) for billing queries and urgent credit communications (**Badge 3**).
+  </Step>
+  <Step title="Save & Activate Profile">
+    Click **Save**. The billing profile is instantly created, verified, and ready to be linked to new and active services.
+  </Step>
+</Steps>
+
+## Field Reference Table
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Country | The country where the legal business entity is registered. | Yes |
+| GST / Tax Number | Official tax registration identifier validated live with government tax authorities. | Yes |
+| Legal Entity Name | Auto-procured from tax registry upon successful validation of the tax number. | Yes |
+| State / Province | State or province jurisdiction associated with the registered tax entity. | Yes |
+| City & Postal Code | City and PIN/postal code of the registered tax address. | Yes |
+| Registered Address | Official business premise address printed on generated tax invoices. | Yes |
+| Billing Currency | Currency for recurring billing and rate limits (INR or USD). | Yes |
+| Tax Certificate | Official certificate document (PDF, PNG, JPG, max 10 MB) verifying tax registration status. | Yes |
+| Billing Contact Name | Name of the commercial or accounts payable contact. | Yes |
+| Email Address | Primary email address receiving tax invoices, credit receipts, and billing notifications. | Yes |
+| Phone Number | Direct contact telephone number with international dialing prefix. | Yes |
+
+## Managing & Editing Billing Profiles
+
+From the main Billing Profile dashboard, you can perform administrative actions on each profile:
+
+- **Download Certificate**: Click the _Download GST Certificate_ link on any card to view or save the uploaded tax document.
+- **Edit Billing Contact**: Update email addresses and phone numbers as personnel responsibilities change without altering tax registration details.
+- **Check In-Use Status**: Profiles currently attached to active Ports or Cloud Connect connections display an _In Use_ tag to prevent accidental deletion.
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if GST verification fails during setup?">
+    Check that the 15-digit GSTIN is entered accurately without spaces or hyphens. If the tax portal is temporarily unavailable, double-check your active GST status on the GSTN portal or reach out to Polarin Support.
+  </Accordion>
+
+  <Accordion title="Can our organisation have different billing profiles for different regions?">
+    Yes. Polarin fully supports multi-state GST and international legal entities. You can create distinct profiles for each state branch (e.g., Maharashtra, Karnataka, Tamil Nadu) or international subsidiary, and select the relevant profile during service provisioning.
+  </Accordion>
+
+  <Accordion title="Can I change the Billing Profile on a live service?">
+    Yes. System Admins and Finance Admins can modify the assigned Billing Profile from the Service Detail page under the Subscription tab, provided the new billing profile has been verified.
+  </Accordion>
+
+  <Accordion title="Does a Billing Profile control whether we need a Purchase Order?">
+    No -- those are separate settings. Whether your organisation issues a PO for every invoice is set once, organisation-wide, in Organisation Settings. A Billing Profile only controls which legal entity and tax details an order is billed against; you pick both independently at checkout.
+  </Accordion>
+</AccordionGroup>

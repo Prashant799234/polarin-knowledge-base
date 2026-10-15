@@ -1,0 +1,50 @@
+---
+title: "Create a DC to Cloud Connection"
+sidebarTitle: "DC to Cloud"
+description: "Set up a DC to Cloud connection to link an existing Polarin port directly to a cloud provider in four steps: End Selection, Configure, Add Ons, and Checkout."
+---
+
+A **DC to Cloud** connection links a port you already have at a Polarin data centre directly to a single cloud provider — AWS, GCP, Azure, or Oracle — bypassing the public internet. It's the simplest cloud-facing wizard on Polarin: four steps, no Virtual Router required. Connecting two clouds to each other instead? See [Create a Cloud to Cloud Connection](/products/cloud-connect/cloud-to-cloud).
+
+## Before You Begin
+
+<Warning>
+  You need an active [Port](/products/port/create) with spare capacity before starting — DC to Cloud attaches to an existing port, it doesn't create one.
+</Warning>
+
+## 1. End Selection
+
+From **Services**, create a new **DC to Cloud** connection. The wizard's progress trail shows four steps: **End Selection → Configure Connection → Add Ons → Checkout**.
+
+Pick your **A-End Port** from a searchable list of your existing ports — each row shows its status, remaining available capacity, and data centre. No suitable port yet? Click **Create New Port** right from this step. Then pick the **Z-End Cloud Provider** and search for the interconnect location where Polarin peers with it.
+
+![End Selection step showing A-End Port list and Z-End Cloud Provider](/images/screenshots/dc-to-cloud/01-end-selection.jpg)
+
+## 2. Configure Connection
+
+| Field | Description | Required |
+| --- | --- | --- |
+| Virtual Connection Name | Must be unique across your organisation. Alphanumeric characters and hyphens only. | Yes |
+| Select Rate Limit | Pick from a list of bandwidth tiers up to your A-End port's available capacity — the dropdown shows exactly how much headroom that port has left. | Yes |
+| Subscription Term | PAYG, Short Term (1–11 months), or Long Term (12–60 months, "Better savings"). | Yes |
+| Payment Options | No Upfront, Partial Upfront (+5% discount), or All Upfront (+10% discount). | Yes |
+
+![Configure Connection step with rate limit dropdown bounded by available port capacity](/images/screenshots/dc-to-cloud/02-configure-connection.jpg)
+
+## 3. Add Ons
+
+**VISTA** — Standard (free) or Premium — for real-time monitoring and traffic analytics on the connection. See [VISTA for Connections](/vista/connections).
+
+## 4. Checkout
+
+Review the **Order Summary**: the A-End port's details, then the Connection Details (name, rate limit, term) with its own billing profile, plus VISTA if added.
+
+![DC to Cloud checkout screen with A-End port details and connection billing profile](/images/screenshots/dc-to-cloud/03-checkout.jpg)
+
+Click **Create Connection** to place the order.
+
+## Next Steps
+
+- Need two clouds linked to each other instead? [Create a Cloud to Cloud Connection](/products/cloud-connect/cloud-to-cloud).
+- Don't have a port yet? [Create a Port](/products/port/create).
+- Understand the shared service page: [Understanding the Service Detail Page](/service-management/service-detail).

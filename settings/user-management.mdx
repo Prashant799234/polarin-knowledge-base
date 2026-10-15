@@ -1,0 +1,145 @@
+---
+title: "User Management"
+description: "Invite team members, assign RBAC roles, and manage access across your Polarin organisation with enterprise-grade user controls."
+sidebarTitle: "User Management"
+---
+
+Polarin offers comprehensive **User Management** with enterprise Role-Based Access Control (RBAC). Organisation administrators can invite team members, assign targeted roles matching engineering or financial responsibilities, and adjust privileges at any time.
+
+Role segmentation ensures that network engineers have the autonomy to configure connections without gaining exposure to sensitive corporate billing data, while finance managers can oversee invoices and tax profiles without risking accidental infrastructure changes.
+
+<Note>
+  Only users with the **System Admin** role can invite new team members or alter existing user privileges.
+</Note>
+
+## Role-Based Access Control (RBAC)
+
+Polarin defines five distinct user roles tailored to enterprise organisational structures:
+
+### System Admin
+
+**Badge: Full Access**
+
+System admin users have complete unrestricted access across all platform modules, including Services, Network Topology, Organisation Profile, KYC, User Management, Billing Profiles, Invoices, and Support.
+
+### Network Admin
+
+**Badge: Engineering Lead**
+
+Network admins have Read/Write permission for Services (Ports, Cloud Connect connections, Routers, DCI) and Support Tickets only. They have strict Read-only permission for everything else.
+
+### Network Viewer
+
+**Badge: Read Only Ops**
+
+Network viewers have Read permission for all Services and Read/Write permission for Support Tickets. They can monitor circuits and raise incidents without altering configurations.
+
+### Finance Admin
+
+**Badge: Accounts Payable**
+
+Finance admins have Read/Write permission for Organisation Profile, Billing Profiles, and Support Tickets. They have Read-only permission for networking services and Invoices.
+
+### Finance Viewer
+
+**Badge: Billing Auditor**
+
+Finance viewers have Read/Write permission for Support Tickets only, and Read-only permission for Organisation Profile, Billing Profile, Subscriptions, and Invoices.
+
+## Role Permission Matrix
+
+Compare module access levels across each role:
+
+| Platform Module | System Admin | Network Admin | Network Viewer | Finance Admin | Finance Viewer |
+| --- | --- | --- | --- | --- | --- |
+| Services (Port, VC, Router, DCI) | Read / Write | Read / Write | Read Only | Read Only | No Access |
+| VISTA Telemetry & Monitoring | Read / Write | Read / Write | Read Only | Read Only | No Access |
+| Support Tickets | Read / Write | Read / Write | Read / Write | Read / Write | Read / Write |
+| User Management (Invites & Roles) | Read / Write | Read Only | No Access | Read Only | No Access |
+| Billing Profiles & Tax Entities | Read / Write | Read Only | No Access | Read / Write | Read Only |
+| Invoices & Payment Receipts | Read / Write | Read Only | No Access | Read / Write | Read Only |
+| Organisation KYC & Legal Terms | Read / Write | Read Only | No Access | Read / Write | Read Only |
+
+## User Management Dashboard
+
+To access team administration, navigate to **Settings → User Management** under the _ORGANISATION_ menu.
+
+![Polarin User Management Dashboard](/images/screenshots/users/01-user-management-list.jpg)
+
+The table presents an overview of all active and pending colleagues:
+
+- **Badge 1 — User Information**: Displays the user's name, corporate email address, and verification state (e.g., _Email Verified_ or _Invited_).
+- **Badge 2 — Role Assignment**: Shows the current RBAC role controlling the user's platform access.
+- **Badge 3 — Actions Menu (•••)**: Allows System Admins to edit roles, resend activation emails for pending invites, or revoke platform access.
+
+## How to Invite a New User
+
+To add a colleague to your organisation's Polarin workspace, click the **Invite User** button in the upper-right corner.
+
+![Invite User Drawer in Polarin](/images/screenshots/users/02-user-invite-drawer.jpg)
+
+<Steps>
+  <Step title="Enter Corporate Email Address">
+    Type your colleague's professional email address (**Badge 1**). An automated verification link will be sent to this inbox.
+  </Step>
+  <Step title="Select Role">
+    Review the roles and choose the one that aligns with their job responsibilities:
+
+    - Select **System Admin** (**Badge 2**) for complete administrative control.
+    - Select **Network Admin** (**Badge 3**) for engineers provisioning Ports and Cloud Connect connections.
+    - Select **Network Viewer**, **Finance Admin**, or **Finance Viewer** (**Badge 4**) for specialized operational or billing functions.
+  </Step>
+  <Step title="Send Invitation">
+    Click the **Invite User** button. A secure activation email is dispatched immediately, and the user appears in the User Management list with a _Pending_ tag.
+  </Step>
+</Steps>
+
+## Accepting an Invitation (Invitee Flow)
+
+When a colleague receives the invitation email, they complete a straightforward onboarding setup:
+
+<Steps>
+  <Step title="Open Invitation Email">
+    Locate the email sent from `no-reply@polarin.lightstorm.net` with the subject _"You've been invited to join Polarin"_. Click the secure **Verify Your Email** button.
+
+    <Warning>
+      Invitation links expire after **24 hours** for security reasons. If the invite expires, a System Admin can click _Resend Invitation_ from the Actions menu.
+    </Warning>
+  </Step>
+  <Step title="Complete Account Setup">
+    On the setup screen:
+
+    - Enter full name as it should appear in audit logs.
+    - Create a strong password (minimum 8 characters, with uppercase, lowercase, numbers, and symbols).
+    - Optionally upload an avatar photo.
+    - Accept Polarin's Terms of Service and Privacy Policy.
+  </Step>
+  <Step title="Sign In">
+    Click **Continue to Login**. The user's status transitions from _Invited_ to _Active_ on the admin dashboard.
+  </Step>
+</Steps>
+
+## Modifying User Roles & Access
+
+As team members take on new responsibilities, System Admins can adjust their roles without deleting their account history.
+
+![Edit User Role Drawer](/images/screenshots/users/03-user-edit-drawer.jpg)
+
+<Steps>
+  <Step title="Open Edit User Drawer">
+    In the User Management table, click the **•••** menu on the user's row and select **Edit**.
+  </Step>
+  <Step title="Select New Role">
+    The email address is permanently locked to preserve audit integrity (**Badge 1**). Choose the updated role from the role options (**Badge 2**).
+  </Step>
+  <Step title="Save Changes">
+    Click **Update →** (**Badge 3**). The new permissions take effect immediately upon the user's next request or page refresh.
+  </Step>
+</Steps>
+
+## Security & Best Practices
+
+- **Principle of Least Privilege**: Assign _Network Admin_ or _Viewer_ roles by default, reserving _System Admin_ for primary infrastructure managers.
+- **Enforce Two-Factor Authentication**: Ensure all administrators configure 2FA under their profile settings. See [Two-Factor Authentication Guide](/account/two-factor-authentication).
+- **Immediate Offboarding**: When a team member departs your organisation, delete their user account immediately via the Actions menu to revoke all portal access.
+- **Audit Trails**: All user invitations, role changes, and sign-in activities are logged in the [Activity Log](/settings/activity-logs/using-activity-log).

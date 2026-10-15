@@ -1,0 +1,129 @@
+---
+title: "Set Up Internet Exchange"
+sidebarTitle: "Setup"
+description: "Join Polarin's Internet Exchange to peer directly with other networks over BGP using multilateral or bilateral peering models."
+---
+
+**Internet Exchange (IX)** connects you to a shared peering fabric at a Polarin location, so you can exchange traffic directly with other networks present at that exchange over BGP — instead of routing it through a transit provider. Not sure IX is what you need? See [What Is Internet Exchange?](/products/internet-exchange/overview) first.
+
+## Before You Begin
+
+- An active [Port](/products/port/create) at a location where Polarin offers Internet Exchange.
+- Your own public **ASN** — IX peering only works between networks that each run their own autonomous system; you can't peer using someone else's.
+- The IP prefixes you plan to announce, registered against your ASN in a routing registry (IRR). Most peers' route filters silently drop anything that isn't registered, so this is worth doing before you join, not after.
+
+## Choose a Peering Model
+
+Decide this before you configure anything — it shapes how your side needs to be set up:
+
+- **Multilateral (route-server) peering** — a single BGP session to the exchange's route server exchanges routes with every other member on it. The fastest way to pick up broad reach, and where most networks start.
+- **Bilateral peering** — a direct BGP session to one specific network, negotiated one-to-one. Reach for this with a peer who doesn't use the route server, or when you want fine control over exactly what you exchange with that one network.
+
+<Tip>
+  You're not locked into one — most established networks run route-server peering for breadth, plus a handful of bilateral sessions for specific peers worth negotiating directly.
+</Tip>
+
+## Join the Exchange
+
+<Steps>
+  <Step title="Go to Services → Internet Exchange">
+    From the left sidebar under **Internet Exchange**, click **Create**.
+  </Step>
+  <Step title="Fill in the connection details">
+    | Field | Description | Required |
+    | --- | --- | --- |
+    | Service Name | A unique, identifiable name for this Internet Exchange connection. | Yes |
+    | Port | The Polarin port this IX connection attaches to. | Yes |
+    | Bandwidth | The rate limit for peering traffic. | Yes |
+    | ASN | Your public Autonomous System Number — the identifier other networks use to recognise and peer with you over BGP. | Yes |
+  </Step>
+  <Step title="Review and place the order">
+    Check the summary and pricing, accept the terms, and submit.
+  </Step>
+</Steps>
+
+## After You Order
+
+Your IX connection follows the same lifecycle every Polarin service does — **Design → Deployment in Progress → Live** — see [Understanding Service Status](/service-management/service-status) for what each stage means. Once it's Live, the physical and logical path to the exchange is up — you still need to configure and bring up the BGP session itself from your side (below) before you're actually exchanging routes with anyone.
+
+## Verifying Your Session
+
+Once you've configured BGP on your router, confirm the session is actually working:
+
+- Check BGP session state on your own router — it should read **Established**, not stuck in Idle, Connect, or Active.
+- Confirm you're both sending and receiving prefixes — an Established session with zero received routes usually means a filter somewhere is rejecting everything.
+- If the exchange offers a **looking glass** tool, use it to see what the route server or a specific peer actually sees from you — the fastest way to confirm your announcements look right from the outside.
+
+## Troubleshooting
+
+- **Session won't come up at all** — double-check the peer IP and your ASN are entered correctly on both sides, and that any BGP MD5 password matches exactly if one's in use.
+- **Session is Established but no routes received** — your prefixes are likely missing from the routing registry (IRR) the route server or peer filters against. Register them and wait for the filter to refresh.
+- **Session flaps repeatedly** — check for a BGP hold-timer mismatch between your router and the other side, or an underlying link issue on the Port carrying the connection.
+- Still stuck? [Create a Ticket](/support/create-ticket) with your ASN and the peer or route server you're trying to reach.
+
+## Next Steps
+
+- Understand the service page itself: [Understanding the Service Detail Page](/service-management/service-detail).
+- Track what each status means: [Understanding Service Status](/service-management/service-status).
+
+**Internet Exchange (IX)** connects you to a shared peering fabric at a Polarin location, so you can exchange traffic directly with other networks present at that exchange over BGP — instead of routing it through a transit provider. Not sure IX is what you need? See [What Is Internet Exchange?](/products/internet-exchange/overview) first.
+
+## Before You Begin
+
+- An active [Port](/products/port/create) at a location where Polarin offers Internet Exchange.
+- Your own public **ASN** — IX peering only works between networks that each run their own autonomous system; you can't peer using someone else's.
+- The IP prefixes you plan to announce, registered against your ASN in a routing registry (IRR). Most peers' route filters silently drop anything that isn't registered, so this is worth doing before you join, not after.
+
+## Choose a Peering Model
+
+Decide this before you configure anything — it shapes how your side needs to be set up:
+
+- **Multilateral (route-server) peering** — a single BGP session to the exchange's route server exchanges routes with every other member on it. The fastest way to pick up broad reach, and where most networks start.
+- **Bilateral peering** — a direct BGP session to one specific network, negotiated one-to-one. Reach for this with a peer who doesn't use the route server, or when you want fine control over exactly what you exchange with that one network.
+
+<Tip>
+  You're not locked into one — most established networks run route-server peering for breadth, plus a handful of bilateral sessions for specific peers worth negotiating directly.
+</Tip>
+
+## Join the Exchange
+
+<Steps>
+  <Step title="Go to Services → Internet Exchange">
+    From the left sidebar under **Internet Exchange**, click **Create**.
+  </Step>
+  <Step title="Fill in the connection details">
+    | Field | Description | Required |
+    | --- | --- | --- |
+    | Service Name | A unique, identifiable name for this Internet Exchange connection. | Yes |
+    | Port | The Polarin port this IX connection attaches to. | Yes |
+    | Bandwidth | The rate limit for peering traffic. | Yes |
+    | ASN | Your public Autonomous System Number — the identifier other networks use to recognise and peer with you over BGP. | Yes |
+  </Step>
+  <Step title="Review and place the order">
+    Check the summary and pricing, accept the terms, and submit.
+  </Step>
+</Steps>
+
+## After You Order
+
+Your IX connection follows the same lifecycle every Polarin service does — **Design → Deployment in Progress → Live** — see [Understanding Service Status](/service-management/service-status) for what each stage means. Once it's Live, the physical and logical path to the exchange is up — you still need to configure and bring up the BGP session itself from your side (below) before you're actually exchanging routes with anyone.
+
+## Verifying Your Session
+
+Once you've configured BGP on your router, confirm the session is actually working:
+
+- Check BGP session state on your own router — it should read **Established**, not stuck in Idle, Connect, or Active.
+- Confirm you're both sending and receiving prefixes — an Established session with zero received routes usually means a filter somewhere is rejecting everything.
+- If the exchange offers a **looking glass** tool, use it to see what the route server or a specific peer actually sees from you — the fastest way to confirm your announcements look right from the outside.
+
+## Troubleshooting
+
+- **Session won't come up at all** — double-check the peer IP and your ASN are entered correctly on both sides, and that any BGP MD5 password matches exactly if one's in use.
+- **Session is Established but no routes received** — your prefixes are likely missing from the routing registry (IRR) the route server or peer filters against. Register them and wait for the filter to refresh.
+- **Session flaps repeatedly** — check for a BGP hold-timer mismatch between your router and the other side, or an underlying link issue on the Port carrying the connection.
+- Still stuck? [Create a Ticket](/support/create-ticket) with your ASN and the peer or route server you're trying to reach.
+
+## Next Steps
+
+- Understand the service page itself: [Understanding the Service Detail Page](/service-management/service-detail).
+- Track what each status means: [Understanding Service Status](/service-management/service-status).

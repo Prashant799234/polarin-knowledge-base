@@ -1,0 +1,190 @@
+{
+  "theme": "maple",
+  "name": "Polarin Knowledge Base",
+  "colors": {
+    "primary": "#1C808D",
+    "light": "#3FB8C4",
+    "dark": "#1C808D"
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ],
+    "display": "header"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Welcome",
+            "pages": [
+              "index",
+              "release-notes"
+            ]
+          },
+          {
+            "group": "Polarin API",
+            "pages": [
+              "api/overview",
+              "api/getting-access"
+            ]
+          },
+          {
+            "group": "Get Started",
+            "pages": [
+              "get-started/about-polarin",
+              "get-started/services-offered",
+              "get-started/quick-setup",
+              "get-started/choose-product",
+              "get-started/create-account",
+              {
+                "group": "Organisation Details",
+                "pages": [
+                  "get-started/organisation/complete-profile",
+                  "get-started/organisation/kyc-documents",
+                  "get-started/organisation/settings"
+                ]
+              },
+              "get-started/sign-in"
+            ]
+          },
+          {
+            "group": "Getting Around",
+            "pages": [
+              "getting-around/dashboard",
+              "getting-around/notifications"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Products",
+        "groups": [
+          {
+            "group": "Core Products",
+            "pages": [
+              {
+                "group": "Port",
+                "pages": [
+                  "products/port/overview",
+                  "products/port/create",
+                  "products/port/status",
+                  "products/port/lag"
+                ]
+              },
+              {
+                "group": "Virtual Router",
+                "pages": [
+                  "products/virtual-router/overview",
+                  "products/virtual-router/create",
+                  "products/virtual-router/status"
+                ]
+              },
+              {
+                "group": "Cloud Connect",
+                "pages": [
+                  "products/cloud-connect/overview",
+                  "products/cloud-connect/dc-to-cloud",
+                  "products/cloud-connect/cloud-to-cloud"
+                ]
+              },
+              {
+                "group": "Data Centre Interconnect",
+                "pages": [
+                  "products/dci/overview",
+                  "products/dci/wave",
+                  "products/dci/layer-2",
+                  "products/dci/compare"
+                ]
+              },
+              {
+                "group": "Internet Exchange",
+                "pages": [
+                  "products/internet-exchange/overview",
+                  "products/internet-exchange/setup"
+                ]
+              },
+              "products/locations"
+            ]
+          },
+          {
+            "group": "Service Management",
+            "pages": [
+              "service-management/service-detail",
+              "service-management/service-status"
+            ]
+          },
+          {
+            "group": "VISTA",
+            "pages": [
+              "vista/overview",
+              "vista/port",
+              "vista/connections",
+              "vista/dci-wave",
+              "vista/manage-alerts"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Account & Support",
+        "groups": [
+          {
+            "group": "Settings",
+            "pages": [
+              "settings/user-management",
+              {
+                "group": "Billing",
+                "pages": [
+                  "settings/billing/overview",
+                  "settings/billing/profile",
+                  "settings/billing/invoices"
+                ]
+              },
+              {
+                "group": "Activity Logs",
+                "pages": [
+                  "settings/activity-logs/overview",
+                  "settings/activity-logs/using-activity-log"
+                ]
+              },
+              "settings/reports"
+            ]
+          },
+          {
+            "group": "My Account",
+            "pages": [
+              "account/personal-information",
+              "account/update-password",
+              "account/two-factor-authentication"
+            ]
+          },
+          {
+            "group": "Help & Support",
+            "pages": [
+              "support/overview",
+              "support/create-ticket",
+              "support/my-tickets",
+              "support/contact-support",
+              "support/escalation-matrix"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

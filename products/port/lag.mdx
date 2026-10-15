@@ -1,0 +1,41 @@
+---
+title: "Create a Link Aggregation Group"
+sidebarTitle: "LAG"
+description: "Bundle 2–8 physical Polarin Ports into a single LAG for higher bandwidth and redundancy. Enable the toggle during Port creation and pick your member count."
+---
+
+A **Link Aggregation Group (LAG)** bundles multiple physical ports into a single logical connection, giving you higher aggregate bandwidth and built-in redundancy — if one member port fails, traffic redistributes across the rest. On Polarin, LAG isn't a separate product with its own wizard: it's a toggle inside the [Create a Port](/products/port/create) flow itself.
+
+## What is a LAG?
+
+LAG (also known as port channel, or IEEE 802.3ad link aggregation) combines up to 8 physical ports into one logical interface. The result is:
+
+- **Higher bandwidth** — aggregate speeds across multiple ports (e.g. ×4 on a 10 Gbps port gives a 40 Gbps LAG).
+- **Built-in redundancy** — traffic fails over to surviving ports if one goes down.
+
+## Before You Begin
+
+- Your **Organisation Profile** must be verified.
+- Your edge device must support **IEEE 802.3ad LACP** to actually use the bundled link.
+- Decide how many member ports you want up front — all of them share the same bandwidth tier and the same physical location.
+
+<Note>
+  The LAG toggle is only available while configuring a port, not after it's already been ordered. Decide on your LAG size before you reach the Configure Port step.
+</Note>
+
+## Enable LAG on a Port
+
+Start a port order exactly as described in [Create a Port](/products/port/create): choose a location, then on the **Configure Port** step, pick the port's name and bandwidth as usual. Below that sits the **LAG (Link Aggregation Group)** toggle — switch it on and a row of ×1–×8 tiles appears.
+
+| Field | Description | Required |
+| --- | --- | --- |
+| **LAG (Link Aggregation Group)** | A toggle inside the Configure Port step. Off by default — switch it on to turn this port order into a LAG. | Yes |
+| **Member Count & Bandwidth** | Once LAG is on, pick from ×1 through ×8 tiles. Each tile is both the number of physical ports bundled and the resulting aggregate bandwidth at the per-port speed you picked (e.g. ×4 on a 1 Gbps port = a 4 Gbps LAG across 4 ports). | Yes |
+| **Port Bandwidth** | Set once, before the LAG toggle — all member ports in the LAG share this same speed (1, 10, or 100 Gbps). | Yes |
+
+Everything after that — Add Ons (Cross Connect, VISTA), Subscription Term, Payment Options, and Checkout — works exactly the same as a standalone port order. The only difference is the price, which scales with the number of member ports.
+
+## Next Steps
+
+- Not sure if you need a LAG at all? Start from [Create a Port](/products/port/create).
+- Track the LAG through provisioning the same way as any port: [Understand Port Status](/products/port/status).
