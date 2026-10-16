@@ -25,137 +25,167 @@
     "display": "header"
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Welcome",
-        "icon": "house",
-        "pages": [
-          "index",
-          "release-notes",
-          "api/overview",
-          "api/getting-access"
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Welcome",
+            "icon": "house",
+            "pages": [
+              "index",
+              "release-notes",
+              "api/overview",
+              "api/getting-access"
+            ]
+          },
+          {
+            "group": "Get Started",
+            "icon": "rocket",
+            "pages": [
+              "get-started/about-polarin",
+              "get-started/services-offered",
+              "get-started/quick-setup",
+              "get-started/choose-product",
+              "get-started/create-account",
+              {
+                "group": "Organisation",
+                "pages": [
+                  "get-started/organisation/complete-profile",
+                  "get-started/organisation/kyc-documents",
+                  "get-started/organisation/settings"
+                ]
+              },
+              "get-started/sign-in"
+            ]
+          },
+          {
+            "group": "Getting Around",
+            "icon": "compass",
+            "pages": [
+              "getting-around/dashboard",
+              "getting-around/notifications"
+            ]
+          }
         ]
       },
       {
-        "group": "Get Started",
-        "icon": "rocket",
-        "pages": [
-          "get-started/about-polarin",
-          "get-started/services-offered",
-          "get-started/quick-setup",
-          "get-started/choose-product",
-          "get-started/create-account",
-          "get-started/organisation/complete-profile",
-          "get-started/organisation/kyc-documents",
-          "get-started/organisation/settings",
-          "get-started/sign-in"
+        "tab": "Products",
+        "groups": [
+          {
+            "group": "Port",
+            "icon": "plug",
+            "pages": [
+              "products/port/overview",
+              "products/port/create",
+              "products/port/status",
+              "products/port/lag"
+            ]
+          },
+          {
+            "group": "Virtual Router",
+            "icon": "router",
+            "pages": [
+              "products/virtual-router/overview",
+              "products/virtual-router/create",
+              "products/virtual-router/status"
+            ]
+          },
+          {
+            "group": "Cloud Connect",
+            "icon": "cloud",
+            "pages": [
+              "products/cloud-connect/overview",
+              "products/cloud-connect/dc-to-cloud",
+              "products/cloud-connect/cloud-to-cloud"
+            ]
+          },
+          {
+            "group": "Data Centre Interconnect",
+            "icon": "server",
+            "pages": [
+              "products/dci/overview",
+              "products/dci/wave",
+              "products/dci/layer-2",
+              "products/dci/compare"
+            ]
+          },
+          {
+            "group": "Internet Exchange",
+            "icon": "map-pin",
+            "pages": [
+              "products/internet-exchange/overview",
+              "products/internet-exchange/setup",
+              "products/locations"
+            ]
+          },
+          {
+            "group": "Service Management",
+            "icon": "sliders",
+            "pages": [
+              "service-management/service-detail",
+              "service-management/service-status"
+            ]
+          },
+          {
+            "group": "VISTA",
+            "icon": "chart-column",
+            "pages": [
+              "vista/overview",
+              "vista/port",
+              "vista/connections",
+              "vista/dci-wave",
+              "vista/manage-alerts"
+            ]
+          }
         ]
       },
       {
-        "group": "Getting Around",
-        "icon": "compass",
-        "pages": [
-          "getting-around/dashboard",
-          "getting-around/notifications"
-        ]
-      },
-      {
-        "group": "Port",
-        "icon": "plug",
-        "pages": [
-          "products/port/overview",
-          "products/port/create",
-          "products/port/status",
-          "products/port/lag"
-        ]
-      },
-      {
-        "group": "Virtual Router",
-        "icon": "router",
-        "pages": [
-          "products/virtual-router/overview",
-          "products/virtual-router/create",
-          "products/virtual-router/status"
-        ]
-      },
-      {
-        "group": "Cloud Connect",
-        "icon": "cloud",
-        "pages": [
-          "products/cloud-connect/overview",
-          "products/cloud-connect/dc-to-cloud",
-          "products/cloud-connect/cloud-to-cloud"
-        ]
-      },
-      {
-        "group": "Data Centre Interconnect",
-        "icon": "server",
-        "pages": [
-          "products/dci/overview",
-          "products/dci/wave",
-          "products/dci/layer-2",
-          "products/dci/compare"
-        ]
-      },
-      {
-        "group": "Internet Exchange",
-        "icon": "map-pin",
-        "pages": [
-          "products/internet-exchange/overview",
-          "products/internet-exchange/setup",
-          "products/locations"
-        ]
-      },
-      {
-        "group": "Service Management",
-        "icon": "sliders",
-        "pages": [
-          "service-management/service-detail",
-          "service-management/service-status"
-        ]
-      },
-      {
-        "group": "VISTA",
-        "icon": "chart-column",
-        "pages": [
-          "vista/overview",
-          "vista/port",
-          "vista/connections",
-          "vista/dci-wave",
-          "vista/manage-alerts"
-        ]
-      },
-      {
-        "group": "Settings",
-        "icon": "gear",
-        "pages": [
-          "settings/user-management",
-          "settings/billing/overview",
-          "settings/billing/profile",
-          "settings/billing/invoices",
-          "settings/activity-logs/overview",
-          "settings/activity-logs/using-activity-log",
-          "settings/reports"
-        ]
-      },
-      {
-        "group": "My Account",
-        "icon": "user",
-        "pages": [
-          "account/personal-information",
-          "account/update-password",
-          "account/two-factor-authentication"
-        ]
-      },
-      {
-        "group": "Help & Support",
-        "icon": "headset",
-        "pages": [
-          "support/overview",
-          "support/create-ticket",
-          "support/my-tickets",
-          "support/contact-support",
-          "support/escalation-matrix"
+        "tab": "Help & Support",
+        "groups": [
+          {
+            "group": "Settings",
+            "icon": "gear",
+            "pages": [
+              "settings/user-management",
+              {
+                "group": "Billing",
+                "pages": [
+                  "settings/billing/overview",
+                  "settings/billing/profile",
+                  "settings/billing/invoices"
+                ]
+              },
+              {
+                "group": "Activity Logs",
+                "pages": [
+                  "settings/activity-logs/overview",
+                  "settings/activity-logs/using-activity-log"
+                ]
+              },
+              "settings/reports"
+            ]
+          },
+          {
+            "group": "My Account",
+            "icon": "user",
+            "pages": [
+              "account/personal-information",
+              "account/update-password",
+              "account/two-factor-authentication"
+            ]
+          },
+          {
+            "group": "Help & Support",
+            "icon": "headset",
+            "pages": [
+              "support/overview",
+              "support/create-ticket",
+              "support/my-tickets",
+              "support/contact-support",
+              "support/escalation-matrix"
+            ]
+          }
         ]
       }
     ]
