@@ -1,0 +1,39 @@
+/* Polarin brand styles */
+:root {
+  --polarin-navy: #0A3954;
+  --polarin-teal: #1C808D;
+  --polarin-muted: #64748B;
+}
+
+/* Headings in Polarin navy (light mode) */
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4 {
+  color: var(--polarin-navy);
+}
+
+/* Page description under the title */
+html:not(.dark) #header .prose,
+html:not(.dark) .description {
+  color: var(--polarin-muted);
+}
+
+/* Sidebar section headings: uppercase, muted, spaced */
+#sidebar-content h5,
+#sidebar-group h5 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: #90A2B9;
+}
+
+/* Cards: rounded white tiles like the original KB */
+html:not(.dark) .card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border-color: #E2E8F0;
+}
+html:not(.dark) .card:hover {
+  border-color: var(--polarin-teal);
+}
