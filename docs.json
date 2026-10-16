@@ -7,10 +7,13 @@
     "dark": "#0A3954"
   },
   "logo": {
-    "light": "/public/polarin-logo.svg",
-    "dark": "/public/polarin-logo.svg"
+    "light": "/images/Poalrindocslogo.png",
+    "dark": "/images/DarkPoalrinDocs.svg"
   },
-  "favicon": "/public/polarin-logo.svg",
+  "favicon": {
+    "light": "/images/ForLight.svg",
+    "dark": "/images/ForDark.svg"
+  },
   "contextual": {
     "options": [
       "copy",
@@ -211,8 +214,8 @@
   },
   "fonts": {
     "heading": {
-      "family": "Plus Jakarta Sans",
-      "weight": 700
+      "family": "Lato",
+      "weight": 600
     },
     "body": {
       "family": "Lato"
